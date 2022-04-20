@@ -167,6 +167,7 @@ export default {
             if(!newValue) {
                 return;
             }
+            alert("Timer done!");
             await presale.getContractData();
         });
 
