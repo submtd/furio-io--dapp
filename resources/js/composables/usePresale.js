@@ -19,7 +19,6 @@ export default () => {
         try {
             const contract = getContract();
             const presaleNft = {};
-            presaleNft.updated = true;
             const startData = await contract.methods.getStarts().call();
             presaleNft.presaleOneStart = startData[0];
             presaleNft.presaleTwoStart = startData[1];

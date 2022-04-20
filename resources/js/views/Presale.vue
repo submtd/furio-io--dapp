@@ -139,37 +139,41 @@ export default {
         });
 
         const update = async () => {
-            if(!store.state.wallet.loggedIn) {
-                return;
-            }
-            email.value = store.state.wallet.email;
-            await presale.getContractData();
-            quantity.value = store.state.presaleNft.max;
-            if(store.state.presaleNft.claimStart > Date.now() / 1000) {
-                if(store.state.settings.showClaimTimer) {
-                    showTimer.value = true;
+            try {
+                if(!store.state.wallet.loggedIn) {
+                    return;
                 }
-                countdown.value.restart(store.state.presaleNft.claimStart * 1000 + 30);
-            }
-            if(store.state.presaleNft.presaleThreeStart > Date.now() / 1000) {
-                if(store.state.settings.showPresaleThreeTimer) {
-                    showTimer.value = true;
+                email.value = store.state.wallet.email;
+                await presale.getContractData();
+                quantity.value = store.state.presaleNft.max;
+                if(store.state.presaleNft.claimStart > Date.now() / 1000) {
+                    if(store.state.settings.showClaimTimer) {
+                        showTimer.value = true;
+                    }
+                    countdown.value.restart(store.state.presaleNft.claimStart * 1000 + 30);
                 }
-                countdown.value.restart(store.state.presaleNft.presaleThreeStart * 1000 + 30);
-            }
-            if(store.state.presaleNft.presaleTwoStart > Date.now() / 1000) {
-                if(store.state.settings.showPresaleTwoTimer) {
-                    showTimer.value = true;
+                if(store.state.presaleNft.presaleThreeStart > Date.now() / 1000) {
+                    if(store.state.settings.showPresaleThreeTimer) {
+                        showTimer.value = true;
+                    }
+                    countdown.value.restart(store.state.presaleNft.presaleThreeStart * 1000 + 30);
                 }
-                countdown.value.restart(store.state.presaleNft.presaleTwoStart * 1000 + 30);
-            }
-            if(store.state.presaleNft.presaleOneStart > Date.now() / 1000) {
-                if(store.state.settings.showPresaleOneTimer) {
-                    showTimer.value = true;
+                if(store.state.presaleNft.presaleTwoStart > Date.now() / 1000) {
+                    if(store.state.settings.showPresaleTwoTimer) {
+                        showTimer.value = true;
+                    }
+                    countdown.value.restart(store.state.presaleNft.presaleTwoStart * 1000 + 30);
                 }
-                countdown.value.restart(store.state.presaleNft.presaleOneStart * 1000 + 10);
+                if(store.state.presaleNft.presaleOneStart > Date.now() / 1000) {
+                    if(store.state.settings.showPresaleOneTimer) {
+                        showTimer.value = true;
+                    }
+                    countdown.value.restart(store.state.presaleNft.presaleOneStart * 1000 + 10);
+                }
+                alerts.clear();
+            } catch (error) {
+                alert(JSON.stringify(error));
             }
-            alerts.clear();
         }
 
         const submitEmail = async () => {
