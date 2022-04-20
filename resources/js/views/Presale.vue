@@ -34,7 +34,7 @@
                     <p>No presales are available at this time.</p>
                 </div>
             </div>
-            <p><a href="#" @click="presale.getContractData">refresh contract data</a></p>
+            <p class="text-center mt-5"><a href="#" @click="presale.getContractData">refresh contract data</a></p>
         </div>
         <div class="col-lg-6">
             <div class="row">
