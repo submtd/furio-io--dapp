@@ -117,6 +117,12 @@ export default {
         });
         const countdown = ref(useTimer(0));
         const showTimer = ref(false);
+        const timerDone = computed(() => {
+            return  countdown.value.days == 0 &&
+                    countdown.value.hours == 0 &&
+                    countdown.value.minutes == 0 &&
+                    countdown.value.seconds == 0;
+        });
 
         onMounted(async () => {
             if(!store.state.wallet.loggedIn) {
@@ -154,10 +160,14 @@ export default {
             }
         });
 
-        watch(countdown, async (newValue, oldValue) => {
-            if(countdown.value.days == 0 && countdown.value.hours == 0 && countdown.value.minutes == 0 && countdown.value.seconds == 0) {
-                await presale.getContractData();
+        watch(timerDone, async (newValue, oldValue) => {
+            if(oldValue) {
+                return;
             }
+            if(!newValue) {
+                return;
+            }
+            await presale.getContractData();
         });
 
         const submitEmail = async () => {
