@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
 import { useTimer } from "vue-timer-hook";
 import useAlerts from "../composables/useAlerts";
@@ -148,6 +148,12 @@ export default {
                     showTimer.value = true;
                 }
                 countdown.value.restart(store.state.presaleNft.presaleOneStart * 1000);
+            }
+        });
+
+        watch(countdown.value.seconds, async (newValue, oldValue) => {
+            if(countdown.value.days == 0 && countdown.value.hours == 0 && countdown.value.minutes == 0 && countdown.value.seconds == 0) {
+                await presale.getContractData();
             }
         });
 
