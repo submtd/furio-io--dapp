@@ -25,7 +25,7 @@
                 <div v-show="store.state.presaleNft.max > 0">
                     <h4>Purchase Presale NFTs</h4>
                     <input v-show="store.state.presaleNft.max > 1" v-model="quantity" :disabled="!buyButtonEnabled" :max="store.state.presaleNft.max" min="1" type="number" class="form-control mb-2" id="quantity">
-                    <button @click="purchase" :disabled="!buyButtonEnabled" class="btn btn-lg btn-primary col-12">Purchase ({{ totalPrice / 1000000 }} USDC)</button>
+                    <button @click="purchase" :disabled="!buyButtonEnabled" class="btn btn-lg btn-primary col-12 text-light">Purchase ({{ totalPrice / 1000000 }} USDC)</button>
                 </div>
                 <div v-show="store.state.presaleNft.max == 0">
                     <div v-show="showTimer">
