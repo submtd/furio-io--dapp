@@ -136,14 +136,11 @@ export default {
                 return;
             }
             await update();
-            alert("Done!");
         });
 
         const update = async () => {
+            alerts.info("Updating contract information");
             if(!store.state.wallet.loggedIn) {
-                return;
-            }
-            if(store.state.presaleNft.updated) {
                 return;
             }
             email.value = store.state.wallet.email;
@@ -173,6 +170,7 @@ export default {
                 }
                 countdown.value.restart(store.state.presaleNft.presaleOneStart * 1000);
             }
+            alerts.clear();
         }
 
         const submitEmail = async () => {
