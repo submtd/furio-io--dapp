@@ -168,7 +168,6 @@ export default {
                 return;
             }
             await presale.getContractData();
-            alert("Timer done");
         });
 
         const submitEmail = async () => {
