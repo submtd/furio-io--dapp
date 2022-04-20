@@ -27,7 +27,7 @@ class UpdateAddress extends Controller
             'address' => $request->get('address'),
         ]);
         if ($email = $request->get('email')) {
-            if (!$address->email) {
+            if ($address->email != $email) {
                 $address->email = $email;
                 $address->email_verification_code = strtoupper(Str::random(8));
                 // SEND VERIFICATION EMAIL
