@@ -2,6 +2,7 @@ import { useStore } from "vuex";
 import useAlerts from "./useAlerts";
 import useSettings from "./useSettings";
 import router from "../router";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 export default () => {
     const store = useStore();
     const alerts = useAlerts();
