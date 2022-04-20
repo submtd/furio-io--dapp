@@ -89,6 +89,8 @@
                     </div>
                 </div>
             </div>
+            <p>USDC Address: {{ store.state.settings.usdcAddress }}</p>
+            <p>NFT Address: {{ store.state.settings.presaleNftAddress }}</p>
         </div>
     </div>
 </template>
