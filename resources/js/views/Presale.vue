@@ -34,7 +34,7 @@
                     <p>No presales are available at this time.</p>
                 </div>
             </div>
-            <p class="text-center mt-5"><a href="#" @click="presale.getContractData">refresh contract data</a></p>
+            <p class="text-center mt-5"><a href="#" @click="update">refresh contract data</a></p>
         </div>
         <div class="col-lg-6">
             <div class="row">
@@ -125,6 +125,21 @@ export default {
         });
 
         onMounted(async () => {
+            await update();
+        });
+
+        watch(timerDone, async (newValue, oldValue) => {
+            if(oldValue) {
+                return;
+            }
+            if(!newValue) {
+                return;
+            }
+            await update();
+            alert("Done!");
+        });
+
+        const update = async () => {
             if(!store.state.wallet.loggedIn) {
                 return;
             }
@@ -158,17 +173,7 @@ export default {
                 }
                 countdown.value.restart(store.state.presaleNft.presaleOneStart * 1000);
             }
-        });
-
-        watch(timerDone, async (newValue, oldValue) => {
-            if(oldValue) {
-                return;
-            }
-            if(!newValue) {
-                return;
-            }
-            await presale.getContractData();
-        });
+        }
 
         const submitEmail = async () => {
             emailButtonEnabled.value = false;
@@ -215,13 +220,13 @@ export default {
                 const usdc = presale.getPaymentContract();
                 const nft = presale.getContract();
                 const gasPrice = Math.round(await web3.eth.getGasPrice());
-                const price = quantity.value * store.state.presaleNft.price;
-                const allowance = await usdc.methods.allowance(store.state.wallet.address, store.state.settings.presaleNftAddress);
-                let gas = null;
-                gas = Math.round(await usdc.methods.approve(store.state.settings.presaleNftAddress, quantity.value * store.state.presaleNft.price).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * 2);
-                await usdc.methods.approve(store.state.settings.presaleNftAddress, quantity.value * store.state.presaleNft.price).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
-                gas = Math.round(await nft.methods.buy(quantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice}) * 2);
-                const result = await nft.methods.buy(quantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                const allowance = await usdc.methods.allowance(store.state.wallet.address, store.state.settings.presaleNftAddress).call();
+                if(allowance < quantity.value * store.state.presaleNft.price) {
+                    const approveGas = Math.round(await usdc.methods.approve(store.state.settings.presaleNftAddress, quantity.value * store.state.presaleNft.price).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * 2);
+                    await usdc.methods.approve(store.state.settings.presaleNftAddress, quantity.value * store.state.presaleNft.price).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
+                }
+                const buyGas = Math.round(await nft.methods.buy(quantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice}) * 2);
+                const result = await nft.methods.buy(quantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: buyGas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
                 await presale.getContractData();
             } catch (error) {
@@ -246,6 +251,7 @@ export default {
             purchase,
             showTimer,
             countdown,
+            update,
         }
     }
 }

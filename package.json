@@ -29,6 +29,7 @@
         "vue-timer-hook": "^1.0.0",
         "vuex": "^4.0.2",
         "walletlink": "^2.5.0",
-        "web3": "^1.7.1"
+        "web3": "^1.7.1",
+        "web3-batch-request": "^1.0.1"
     }
 }
