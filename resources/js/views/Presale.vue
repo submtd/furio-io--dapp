@@ -167,8 +167,8 @@ export default {
             if(!newValue) {
                 return;
             }
-            alert("Timer done!");
             await presale.getContractData();
+            alert("Timer done");
         });
 
         const submitEmail = async () => {
@@ -216,12 +216,11 @@ export default {
                 const usdc = presale.getPaymentContract();
                 const nft = presale.getContract();
                 const gasPrice = Math.round(await web3.eth.getGasPrice());
-                let gas = null;
+                const price = quantity.value * store.state.presaleNft.price;
                 const allowance = await usdc.methods.allowance(store.state.wallet.address, store.state.settings.presaleNftAddress);
-                if(allowance < quantity.value * store.state.presaleNft.price) {
-                    gas = Math.round(await usdc.methods.approve(store.state.settings.presaleNftAddress, quantity.value * store.state.presaleNft.price).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * 2);
-                    await usdc.methods.approve(store.state.settings.presaleNftAddress, quantity.value * store.state.presaleNft.price).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
-                }
+                let gas = null;
+                gas = Math.round(await usdc.methods.approve(store.state.settings.presaleNftAddress, quantity.value * store.state.presaleNft.price).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * 2);
+                await usdc.methods.approve(store.state.settings.presaleNftAddress, quantity.value * store.state.presaleNft.price).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 gas = Math.round(await nft.methods.buy(quantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice}) * 2);
                 const result = await nft.methods.buy(quantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
