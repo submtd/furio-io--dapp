@@ -124,18 +124,18 @@ export default {
                     countdown.value.seconds == 0;
         });
 
-        onMounted(async () => {
-            await update();
+        onMounted(() => {
+            update();
         });
 
-        watch(timerDone, async (newValue, oldValue) => {
+        watch(timerDone, (newValue, oldValue) => {
             if(oldValue) {
                 return;
             }
             if(!newValue) {
                 return;
             }
-            await update();
+            update();
         });
 
         const update = async () => {
@@ -143,10 +143,10 @@ export default {
                 if(!store.state.wallet.loggedIn) {
                     return;
                 }
-                email.value = store.state.wallet.email;
                 await presale.getContractData();
+                email.value = store.state.wallet.email;
                 quantity.value = store.state.presaleNft.max;
-                if(store.state.presaleNft.claimStart > Date.now() / 1000) {
+                if(store.state.presaleNft.claimStart > Date.now() / 1000 + 30) {
                     if(store.state.settings.showClaimTimer) {
                         showTimer.value = true;
                     }
@@ -168,7 +168,7 @@ export default {
                     if(store.state.settings.showPresaleOneTimer) {
                         showTimer.value = true;
                     }
-                    countdown.value.restart(store.state.presaleNft.presaleOneStart * 1000 + 10);
+                    countdown.value.restart(store.state.presaleNft.presaleOneStart * 1000 + 30);
                 }
                 alerts.clear();
             } catch (error) {
