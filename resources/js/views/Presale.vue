@@ -139,7 +139,6 @@ export default {
         });
 
         const update = async () => {
-            alerts.info("Updating contract information");
             if(!store.state.wallet.loggedIn) {
                 return;
             }
@@ -190,7 +189,6 @@ export default {
 
         const submitEmailVerification = async () => {
             emailVerificationButtonEnabled.value = false;
-            alert(emailVerification.value);
             const wallet = store.state.wallet;
             await axios.post("/api/v1/address", {
                 address: wallet.address,
