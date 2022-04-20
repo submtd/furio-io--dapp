@@ -33,8 +33,8 @@
                     </div>
                     <p>No presales are available at this time.</p>
                 </div>
-                <p><button @click="presale.getContractData" class="link">Update contract data</button></p>
             </div>
+            <p><button @click="presale.getContractData" class="link">Update contract data</button></p>
         </div>
         <div class="col-lg-6">
             <div class="row">
