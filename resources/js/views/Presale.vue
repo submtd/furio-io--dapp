@@ -218,7 +218,7 @@ export default {
                 const gasPrice = Math.round(await web3.eth.getGasPrice());
                 let gas = null;
                 const allowance = await usdc.methods.allowance(store.state.wallet.address, store.state.settings.presaleNftAddress);
-                if(allowance < quantity.value * store.state.presale.price) {
+                if(allowance < quantity.value * store.state.presaleNft.price) {
                     gas = Math.round(await usdc.methods.approve(store.state.settings.presaleNftAddress, quantity.value * store.state.presaleNft.price).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * 2);
                     await usdc.methods.approve(store.state.settings.presaleNftAddress, quantity.value * store.state.presaleNft.price).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 }
