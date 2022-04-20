@@ -34,7 +34,7 @@
                     <p>No presales are available at this time.</p>
                 </div>
             </div>
-            <p><button @click="presale.getContractData" class="link">Update contract data</button></p>
+            <p><a href="#" @click="presale.getContractData">refresh contract data</a></p>
         </div>
         <div class="col-lg-6">
             <div class="row">
@@ -152,7 +152,7 @@ export default {
             }
         });
 
-        watch(countdown.value.seconds, async (newValue, oldValue) => {
+        watch(countdown, async (newValue, oldValue) => {
             if(countdown.value.days == 0 && countdown.value.hours == 0 && countdown.value.minutes == 0 && countdown.value.seconds == 0) {
                 await presale.getContractData();
             }
