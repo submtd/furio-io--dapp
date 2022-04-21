@@ -18,5 +18,6 @@ return [
     'showPresaleOneTimer' => env('SHOW_PRESALE_ONE_TIMER'),
     'showPresaleTwoTimer' => env('SHOW_PRESALE_TWO_TIMER'),
     'showPresaleThreeTimer' => env('SHOW_PRESALE_THREE_TIMER'),
-    'showClaimTimer' => env('SHOW_CLAIM_TIMER')
+    'showClaimTimer' => env('SHOW_CLAIM_TIMER'),
+    'infuraId' => env('INFURA_ID'),
 ];

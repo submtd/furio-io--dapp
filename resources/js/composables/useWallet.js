@@ -19,9 +19,7 @@ export default () => {
 
     const walletconnect = () => {
         const provider = new WalletConnectProvider({
-            rpc: {
-                [parseInt(store.state.settings.networkId)]: store.state.settings.rpcUrl,
-            }
+            infuraId: store.state.settings.infuraId,
         });
         web3.setProvider(provider);
         connect();

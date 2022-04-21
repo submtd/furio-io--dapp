@@ -24,6 +24,7 @@ export default createStore({
                 showPresaleTwoTimer: true,
                 showPresaleThreeTimer: true,
                 showClaimTimer: true,
+                infuraId: null,
             },
             wallet: {
                 address: null,
