@@ -35,7 +35,7 @@ class UpdateAddress extends Controller
             }
         }
         if ($code = $request->get('email_verification_code')) {
-            if ($code == $address->email_verification_code) {
+            if (strtoupper($code) == strtoupper($address->email_verification_code)) {
                 $address->email_verified_at = Carbon::now();
             }
         }
