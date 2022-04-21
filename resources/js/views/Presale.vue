@@ -147,10 +147,10 @@ export default {
             if(!store.state.wallet.loggedIn) {
                 return;
             }
-            alerts.info("Refreshing contract data");
             console.log("Refreshing contract data");
+            await new Promise(r => setTimeout(r, 5));
+            alerts.info("Refreshing contract data");
             await presale.getContractData();
-            await new Promise(r => setTimeout(r, 3000));
             email.value = store.state.wallet.email;
             quantity.value = store.state.presaleNft.max;
             if(store.state.presaleNft.claimStart > Date.now() / 1000) {
