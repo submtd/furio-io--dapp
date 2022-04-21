@@ -70,6 +70,12 @@ export default () => {
     }
 
     const disconnect = async () => {
+        try {
+            web3.currentProvider.disconnect();
+        } catch(error) {}
+        try {
+            web3.currentProvider.close();
+        } catch(error) {}
         await axios.get("/api/v1/logout");
         const wallet = {
             address: null,
@@ -81,10 +87,6 @@ export default () => {
             emailVerificationCode: null,
             emailVerifiedAt: null,
         };
-        try {
-            web3.currentProvider.close();
-            web3.currentProvider.disconnect();
-        } catch(error) {}
         store.commit("wallet", wallet);
     }
 
