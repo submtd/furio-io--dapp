@@ -63,7 +63,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Price per NFT</p>
-                            <p class="card-text"><strong>{{ store.state.presaleNft.price / 1000000 }} USDT</strong></p>
+                            <p class="card-text"><strong>{{ store.state.presaleNft.price / 1000000 }} USDC</strong></p>
                         </div>
                     </div>
                 </div>
