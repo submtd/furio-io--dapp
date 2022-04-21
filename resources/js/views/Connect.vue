@@ -20,12 +20,20 @@
 </template>
 
 <script>
+import { onMounted } from "vue";
 import { useStore } from "vuex";
+import useSettings from "../composables/useSettings";
 import useWallet from "../composables/useWallet";
 export default {
     setup () {
         const store = useStore();
+        const settings = useSettings();
         const wallet = useWallet();
+
+        onMounted(async () => {
+            await settings.update();
+        })
+
         return {
             store,
             wallet,

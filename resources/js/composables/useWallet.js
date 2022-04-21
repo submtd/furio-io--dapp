@@ -8,8 +8,7 @@ export default () => {
     const alerts = useAlerts();
     const settings = useSettings();
 
-    const metamask = async () => {
-        await settings.update();
+    const metamask = () => {
         if (typeof window.ethereum == 'undefined') {
             window.location.href = 'https://metamask.app.link/dapp/' + location.hostname;
             return false;
@@ -18,8 +17,7 @@ export default () => {
         connect();
     }
 
-    const walletconnect = async () => {
-        await settings.update();
+    const walletconnect = () => {
         const provider = new WalletConnectProvider({
             infuraId: store.state.settings.infuraId,
         });
