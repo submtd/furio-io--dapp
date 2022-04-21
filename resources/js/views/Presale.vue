@@ -139,41 +139,37 @@ export default {
         });
 
         const update = async () => {
-            try {
-                if(!store.state.wallet.loggedIn) {
-                    return;
-                }
-                await presale.getContractData();
-                email.value = store.state.wallet.email;
-                quantity.value = store.state.presaleNft.max;
-                if(store.state.presaleNft.claimStart > Date.now() / 1000) {
-                    if(store.state.settings.showClaimTimer) {
-                        showTimer.value = true;
-                    }
-                    countdown.value.restart((parseInt(store.state.presaleNft.claimStart) + 30) * 1000);
-                }
-                if(store.state.presaleNft.presaleThreeStart > Date.now() / 1000) {
-                    if(store.state.settings.showPresaleThreeTimer) {
-                        showTimer.value = true;
-                    }
-                    countdown.value.restart((parseInt(store.state.presaleNft.presaleThreeStart) + 30) * 1000);
-                }
-                if(store.state.presaleNft.presaleTwoStart > Date.now() / 1000) {
-                    if(store.state.settings.showPresaleTwoTimer) {
-                        showTimer.value = true;
-                    }
-                    countdown.value.restart((parseInt(store.state.presaleNft.presaleTwoStart) + 30) * 1000);
-                }
-                if(store.state.presaleNft.presaleOneStart > Date.now() / 1000) {
-                    if(store.state.settings.showPresaleOneTimer) {
-                        showTimer.value = true;
-                    }
-                    countdown.value.restart((parseInt(store.state.presaleNft.presaleOneStart) + 30) * 1000);
-                }
-                alerts.clear();
-            } catch (error) {
-                alert(JSON.stringify(error));
+            if(!store.state.wallet.loggedIn) {
+                return;
             }
+            await presale.getContractData();
+            email.value = store.state.wallet.email;
+            quantity.value = store.state.presaleNft.max;
+            if(store.state.presaleNft.claimStart > Date.now() / 1000) {
+                if(store.state.settings.showClaimTimer) {
+                    showTimer.value = true;
+                }
+                countdown.value.restart((parseInt(store.state.presaleNft.claimStart) + 30) * 1000);
+            }
+            if(store.state.presaleNft.presaleThreeStart > Date.now() / 1000) {
+                if(store.state.settings.showPresaleThreeTimer) {
+                    showTimer.value = true;
+                }
+                countdown.value.restart((parseInt(store.state.presaleNft.presaleThreeStart) + 30) * 1000);
+            }
+            if(store.state.presaleNft.presaleTwoStart > Date.now() / 1000) {
+                if(store.state.settings.showPresaleTwoTimer) {
+                    showTimer.value = true;
+                }
+                countdown.value.restart((parseInt(store.state.presaleNft.presaleTwoStart) + 30) * 1000);
+            }
+            if(store.state.presaleNft.presaleOneStart > Date.now() / 1000) {
+                if(store.state.settings.showPresaleOneTimer) {
+                    showTimer.value = true;
+                }
+                countdown.value.restart((parseInt(store.state.presaleNft.presaleOneStart) + 30) * 1000);
+            }
+            alerts.clear();
         }
 
         const submitEmail = async () => {
@@ -217,12 +213,6 @@ export default {
             buyButtonEnabled.value = false;
             if(quantity.value > store.state.presaleNft.max) {
                 alerts.danger("Quantity is too high. Must be " + store.state.presaleNft.max + " or less.");
-                buyButtonEnabled.value = true;
-                return false;
-            }
-            const usdcBalance = await usdc.methods.balanceOf(store.state.wallet.address).call();
-            if(usdcBalance < quantity.value * store.state.presaleNft.price) {
-                alerts.danger("USDC balance is too low.");
                 buyButtonEnabled.value = true;
                 return false;
             }
