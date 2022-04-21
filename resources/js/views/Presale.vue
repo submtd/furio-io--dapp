@@ -147,6 +147,7 @@ export default {
             if(!store.state.wallet.loggedIn) {
                 return;
             }
+            alerts.info("Updating contract data");
             await presale.getContractData();
             email.value = store.state.wallet.email;
             quantity.value = store.state.presaleNft.max;
@@ -154,25 +155,25 @@ export default {
                 if(store.state.settings.showClaimTimer) {
                     showTimer.value = true;
                 }
-                countdown.value.restart((parseInt(store.state.presaleNft.claimStart) + 30) * 1000);
+                countdown.value.restart((parseInt(store.state.presaleNft.claimStart) + 60) * 1000);
             }
             if(store.state.presaleNft.presaleThreeStart > Date.now() / 1000) {
                 if(store.state.settings.showPresaleThreeTimer) {
                     showTimer.value = true;
                 }
-                countdown.value.restart((parseInt(store.state.presaleNft.presaleThreeStart) + 30) * 1000);
+                countdown.value.restart((parseInt(store.state.presaleNft.presaleThreeStart) + 60) * 1000);
             }
             if(store.state.presaleNft.presaleTwoStart > Date.now() / 1000) {
                 if(store.state.settings.showPresaleTwoTimer) {
                     showTimer.value = true;
                 }
-                countdown.value.restart((parseInt(store.state.presaleNft.presaleTwoStart) + 30) * 1000);
+                countdown.value.restart((parseInt(store.state.presaleNft.presaleTwoStart) + 60) * 1000);
             }
             if(store.state.presaleNft.presaleOneStart > Date.now() / 1000) {
                 if(store.state.settings.showPresaleOneTimer) {
                     showTimer.value = true;
                 }
-                countdown.value.restart((parseInt(store.state.presaleNft.presaleOneStart) + 30) * 1000);
+                countdown.value.restart((parseInt(store.state.presaleNft.presaleOneStart) + 60) * 1000);
             }
             alerts.clear();
         }
@@ -234,7 +235,7 @@ export default {
                 const buyGas = Math.round(await nft.methods.buy(quantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice}) * 2);
                 const result = await nft.methods.buy(quantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: buyGas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
-                await presale.getContractData();
+                await update();
             } catch (error) {
                 alerts.danger(error.message);
             }
