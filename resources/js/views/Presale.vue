@@ -94,8 +94,8 @@
                     </div>
                 </div>
             </div>
-            <p>USDC Address: <a href="https://polygonscan/address/{{ store.state.settings.usdcAddress }}" target="_blank">{{ store.state.settings.usdcAddress }}</a></p>
-            <p>Presale NFT Address: <a href="https://polygonscan/address/{{ store.state.settings.presaleNftAddress }}" target="_blank">{{ store.state.settings.presaleNftAddress }}</a></p>
+            <p>USDC Address: {{ store.state.settings.usdcAddress }}</p>
+            <p>Presale NFT Address: {{ store.state.settings.presaleNftAddress }}</p>
         </div>
     </div>
 </template>
