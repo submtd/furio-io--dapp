@@ -4,10 +4,10 @@
             <div class="row">
                 <div class="col-md-3 pe-5">
                     <img src="../../images/furio-logo.svg" alt="Furio Logo" class="img-fluid">
-                    <p class="mt-4 text-center">Decentralised Finance</p>
+                    <p class="mt-4 text-left">Decentralised Finance</p>
                 </div>
                 <div class="col-md-3">
-                    <h5 class="border-bottom border-primary pb-3">Contact Us</h5>
+                    <h5 class="border-bottom border-primary pb-3">Contact Us1</h5>
                     <ul class="nav flex-column">
                         <li class="nav-item"><a class="nav-link" href="mailto:info@furio.io"><i class="fa-solid fa-envelope"></i> info@furio.io</a></li>
                         <li class="nav-item"><a class="nav-link" href="mailto:partners@furio.io"><i class="fa-solid fa-envelope"></i> partners@furio.io</a></li>
