@@ -228,13 +228,13 @@ export default {
             try {
                 const usdc = presale.getPaymentContract();
                 const nft = presale.getContract();
-                const gasPrice = Math.round(await web3.eth.getGasPrice());
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * 2);
                 const allowance = await usdc.methods.allowance(store.state.wallet.address, store.state.settings.presaleNftAddress).call();
                 if(allowance < quantity.value * store.state.presaleNft.price) {
-                    const approveGas = Math.round(await usdc.methods.approve(store.state.settings.presaleNftAddress, quantity.value * store.state.presaleNft.price).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * 2);
+                    const approveGas = Math.round(await usdc.methods.approve(store.state.settings.presaleNftAddress, quantity.value * store.state.presaleNft.price).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * 3);
                     await usdc.methods.approve(store.state.settings.presaleNftAddress, quantity.value * store.state.presaleNft.price).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
                 }
-                const buyGas = Math.round(await nft.methods.buy(quantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice}) * 2);
+                const buyGas = Math.round(await nft.methods.buy(quantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice}) * 3);
                 const result = await nft.methods.buy(quantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: buyGas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
                 await update();
