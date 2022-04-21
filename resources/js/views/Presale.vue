@@ -147,7 +147,8 @@ export default {
             if(!store.state.wallet.loggedIn) {
                 return;
             }
-            alerts.info("Updating contract data");
+            alerts.info("Refreshing contract data");
+            console.log("Refreshing contract data");
             await presale.getContractData();
             email.value = store.state.wallet.email;
             quantity.value = store.state.presaleNft.max;
@@ -176,6 +177,7 @@ export default {
                 countdown.value.restart((parseInt(store.state.presaleNft.presaleOneStart) + 60) * 1000);
             }
             alerts.clear();
+            console.log("Contract refreshed");
         }
 
         const submitEmail = async () => {
