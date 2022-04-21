@@ -31,7 +31,12 @@
                     <div v-show="showTimer">
                         <p class="mb-3">{{ store.state.presaleNft.nextRound }} starts in <strong>{{ countdown.days }}</strong> days, <strong>{{ countdown.hours }}</strong> hours, <strong>{{ countdown.minutes }}</strong> minutes, <strong>{{ countdown.seconds }}</strong> seconds.</p>
                     </div>
-                    <p>No presales are available at this time.</p>
+                    <div v-show="!showTimer && store.state.presaleNft.nextRound && store.state.presaleNft.nextRound != 'Claim'">
+                        <strong>Check back soon for the next presale!</strong>
+                    </div>
+                    <div v-show="!showTimer && store.state.presaleNft.nextRound == 'Claim'">
+                        <strong>Come back on the launch date to claim your presale NFTs!</strong>
+                    </div>
                 </div>
             </div>
             <p class="text-center mt-5"><a href="#" @click="update">refresh contract data</a></p>
