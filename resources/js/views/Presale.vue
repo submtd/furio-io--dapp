@@ -215,6 +215,17 @@ export default {
 
         const purchase = async () => {
             buyButtonEnabled.value = false;
+            if(quantity.value > store.state.presaleNft.max) {
+                alerts.danger("Quantity is too high. Must be " + store.state.presaleNft.max + " or less.");
+                buyButtonEnabled.value = true;
+                return false;
+            }
+            const usdcBalance = await usdc.methods.balanceOf(store.state.wallet.address).call();
+            if(usdcBalance < quantity.value * store.state.presaleNft.price) {
+                alerts.danger("USDC balance is too low.");
+                buyButtonEnabled.value = true;
+                return false;
+            }
             alerts.info("Waiting on response from wallet");
             try {
                 const usdc = presale.getPaymentContract();
