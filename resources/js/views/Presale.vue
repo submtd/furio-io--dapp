@@ -148,7 +148,7 @@ export default {
                 return;
             }
             console.log("Refreshing contract data");
-            await new Promise(r => setTimeout(r, 5));
+            await new Promise(r => setTimeout(r, 5000));
             alerts.info("Refreshing contract data");
             await presale.getContractData();
             email.value = store.state.wallet.email;
