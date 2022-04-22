@@ -106,13 +106,13 @@ import { useStore } from "vuex";
 import { useTimer } from "vue-timer-hook";
 import useAlerts from "../composables/useAlerts";
 import usePresale from "../composables/usePresale";
-import usePresaleWss from "../composables/usePresaleWss";
+import usePresaleSocket from "../composables/usePresaleSocket";
 export default {
     setup () {
+        usePresaleSocket();
         const store = useStore();
         const alerts = useAlerts();
         const presale = usePresale();
-        const presaleWss = usePresaleWss();
         const email = ref(null);
         const emailButtonEnabled = ref(true);
         const emailVerification = ref(null);
