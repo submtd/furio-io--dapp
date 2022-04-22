@@ -4,6 +4,7 @@ return [
     'networkId' => env('NETWORK_ID'),
     'networkName' => env('NETWORK_NAME'),
     'rpcurl' => env('RPC_URL'),
+    'wssUrl' => env('WSS_URL'),
     'recaptcha' => env('RECAPTCHA'),
     'usdcAddress' => env('USDC_ADDRESS'),
     'usdcAbi' => env('USDC_ABI'),
