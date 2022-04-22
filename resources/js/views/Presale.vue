@@ -150,7 +150,7 @@ export default {
             console.log("Refreshing contract data");
             await new Promise(r => setTimeout(r, 5000));
             alerts.info("Refreshing contract data");
-            await new Promise(r => setTimeout(r, 5000));
+            await new Promise(r => setTimeout(r, 15000));
             await presale.getContractData();
             email.value = store.state.wallet.email;
             quantity.value = store.state.presaleNft.max;
