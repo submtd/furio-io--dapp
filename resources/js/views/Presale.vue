@@ -148,9 +148,9 @@ export default {
                 return;
             }
             console.log("Refreshing contract data");
-            await new Promise(r => setTimeout(r, 5000));
+            await new Promise(r => setTimeout(r, 1000));
             alerts.info("Refreshing contract data");
-            await new Promise(r => setTimeout(r, 15000));
+            await new Promise(r => setTimeout(r, 4000));
             await presale.getContractData();
             email.value = store.state.wallet.email;
             quantity.value = store.state.presaleNft.max;
@@ -158,25 +158,25 @@ export default {
                 if(store.state.settings.showClaimTimer) {
                     showTimer.value = true;
                 }
-                countdown.value.restart((parseInt(store.state.presaleNft.claimStart) + 30) * 1000);
+                countdown.value.restart((parseInt(store.state.presaleNft.claimStart) + 0) * 1000);
             }
             if(store.state.presaleNft.presaleThreeStart > Date.now() / 1000) {
                 if(store.state.settings.showPresaleThreeTimer) {
                     showTimer.value = true;
                 }
-                countdown.value.restart((parseInt(store.state.presaleNft.presaleThreeStart) + 30) * 1000);
+                countdown.value.restart((parseInt(store.state.presaleNft.presaleThreeStart) + 0) * 1000);
             }
             if(store.state.presaleNft.presaleTwoStart > Date.now() / 1000) {
                 if(store.state.settings.showPresaleTwoTimer) {
                     showTimer.value = true;
                 }
-                countdown.value.restart((parseInt(store.state.presaleNft.presaleTwoStart) + 30) * 1000);
+                countdown.value.restart((parseInt(store.state.presaleNft.presaleTwoStart) + 0) * 1000);
             }
             if(store.state.presaleNft.presaleOneStart > Date.now() / 1000) {
                 if(store.state.settings.showPresaleOneTimer) {
                     showTimer.value = true;
                 }
-                countdown.value.restart((parseInt(store.state.presaleNft.presaleOneStart) + 30) * 1000);
+                countdown.value.restart((parseInt(store.state.presaleNft.presaleOneStart) + 0) * 1000);
             }
             alerts.clear();
             console.log("Contract refreshed");
