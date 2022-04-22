@@ -4,7 +4,7 @@ import useAlerts from "./useAlerts";
 export default () => {
     const alerts = useAlerts();
     const store = useStore();
-    const web3wss = new Web3(store.state.settings.wssUrl);
+    const web3wss = new Web3(new Web3.providers.WebsocketProvider(store.state.settings.wssUrl));
     var options = {
         address: store.state.settings.presaleNftAddress,
         topics: [
