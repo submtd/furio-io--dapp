@@ -22,19 +22,19 @@
                 <button @click="updateEmail" :disabled="!emailVerificationButtonEnabled" class="ms-2 btn btn-lg btn-secondary text-light">Update Email Address</button>
             </div>
             <div v-show="store.state.wallet.email && store.state.wallet.emailVerifiedAt">
-                <div v-show="store.state.presaleNft.max > 0">
+                <div v-show="available > 0">
                     <h4>Purchase Presale NFTs</h4>
-                    <input v-show="store.state.presaleNft.max > 1" v-model="quantity" :disabled="!buyButtonEnabled" :max="store.state.presaleNft.max" min="1" type="number" class="form-control mb-2" id="quantity">
-                    <button @click="purchase" :disabled="!buyButtonEnabled" class="btn btn-lg btn-primary col-12 text-light">Purchase ({{ totalPrice / 1000000 }} USDC)</button>
+                    <input v-show="available > 1" v-model="quantity" :disabled="!buyButtonEnabled" :max="max" min="1" type="number" class="form-control mb-2" id="quantity">
+                    <button @click="purchase" :disabled="!buyButtonEnabled" class="btn btn-lg btn-primary col-12 text-light">Purchase ({{ totalPrice }} USDC)</button>
                 </div>
                 <div v-show="store.state.presaleNft.max == 0">
-                    <div v-show="showTimer">
-                        <h1 class="text-center">{{ timer }}</h1>
+                    <div v-show="showTimer && !available">
+                        <h3 class="text-center">{{ nextState }} starts in</h3><h1 class="text-center">{{ timer }}</h1>
                     </div>
-                    <div v-show="!showTimer && store.state.presaleNft.nextRound && store.state.presaleNft.nextRound != 'Claim'">
+                    <div v-show="!showTimer && !available && nextState">
                         <strong>Check back soon for the next presale!</strong>
                     </div>
-                    <div v-show="!showTimer && store.state.presaleNft.nextRound == 'Claim'">
+                    <div v-show="!showTimer && !avialable && !nextState">
                         <strong>Come back on the launch date to claim your presale NFTs!</strong>
                     </div>
                 </div>
@@ -84,6 +84,8 @@ export default {
         const store = useStore();
         const alerts = useAlerts();
         const state = ref(null);
+        const nextState = ref(null);
+        const purchased = ref(0);
         const max = ref(0);
         const price = ref(0);
         const value = ref(0);
@@ -102,7 +104,10 @@ export default {
             return String(countdown.value.days * 24 + countdown.value.hours).padStart(2, '0') + ":" + String(countdown.value.minutes).padStart(2, "0") + ":" + String(countdown.value.seconds).padStart(2, "0");
         });
         const timerDone = computed(() => {
-            return timer == "00:00:00";
+            return countdown.value.days == 0 && countdown.value.hours == 0 && countdown.value.minutes == 0 && countdown.value.seconds == 0;
+        });
+        const available = computed(() => {
+            return max.value - purchased.value;
         });
 
         onMounted(() => {
@@ -123,8 +128,10 @@ export default {
             const currentTime = Date.now() / 1000;
             if(store.state.settings.presale_one_start > currentTime) {
                 state.value = "Presale Coming Soon";
+                nextState.value = "Presale One";
                 countdown.value.restart((parseInt(store.state.settings.presale_one_start)) * 1000);
-                max.value = store.state.settings.presale_one_max;
+                purchased.value = 0;
+                max.value = 0;
                 price.value = store.state.settings.presale_one_price;
                 value.value = store.state.settings.presale_one_value;
                 if(store.state.settings.show_presale_one_timer == 1) {
@@ -133,8 +140,10 @@ export default {
             }
             if(store.state.settings.presale_one_start <= currentTime) {
                 state.value = "Presale One";
+                nextState.value = "Presale Two";
                 countdown.value.restart((parseInt(store.state.settings.presale_two_start)) * 1000);
                 quantity.value = store.state.settings.presale_one_max;
+                purchased.value = 0;
                 max.value = store.state.settings.presale_one_max;
                 price.value = store.state.settings.presale_one_price;
                 value.value = store.state.settings.presale_one_value;
@@ -144,8 +153,10 @@ export default {
             }
             if(store.state.settings.presale_two_start <= currentTime) {
                 state.value = "Presale Two";
+                nextState.value = "Presale Three";
                 countdown.value.restart((parseInt(store.state.settings.presale_three_start)) * 1000);
                 quantity.value = store.state.settings.presale_two_max;
+                purchased.value = 0;
                 max.value = store.state.settings.presale_two_max;
                 price.value = store.state.settings.presale_two_price;
                 value.value = store.state.settings.presale_two_value;
@@ -155,11 +166,14 @@ export default {
             }
             if(store.state.settings.presale_three_start <= currentTime) {
                 state.value = "Presale Three";
+                nextState.value = null;
                 countdown.value.restart((parseInt(store.state.settings.claim_start)) * 1000);
                 quantity.value = store.state.settings.presale_three_max;
+                purchased.value = 0;
                 max.value = store.state.settings.presale_three_max;
                 price.value = store.state.settings.presale_three_price;
                 value.value = store.state.settings.presale_three_value;
+                showTimer.value = false;
             }
             email.value = store.state.wallet.email;
         }
@@ -201,9 +215,14 @@ export default {
             store.commit("wallet", wallet);
         }
 
+        const purchase = () => {
+            purchased.value ++;
+        }
+
         return {
             store,
             state,
+            nextState,
             max,
             price,
             value,
@@ -222,6 +241,9 @@ export default {
             submitEmail,
             submitEmailVerification,
             updateEmail,
+            purchase,
+            purchased,
+            available,
         }
     }
 }
