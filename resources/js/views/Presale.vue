@@ -83,10 +83,12 @@ export default {
     setup () {
         const store = useStore();
         const alerts = useAlerts();
+        const presale = usePresale();
         const state = ref(null);
         const nextState = ref(null);
         const purchased = ref(0);
         const max = ref(0);
+        const available = ref(0);
         const price = ref(0);
         const value = ref(0);
         const email = ref(null);
@@ -106,9 +108,6 @@ export default {
         const timerDone = computed(() => {
             return countdown.value.days == 0 && countdown.value.hours == 0 && countdown.value.minutes == 0 && countdown.value.seconds == 0;
         });
-        const available = computed(() => {
-            return max.value - purchased.value;
-        });
 
         onMounted(() => {
             update();
@@ -124,14 +123,14 @@ export default {
             update();
         });
 
-        const update = () => {
+        const update = async () => {
             const currentTime = Date.now() / 1000;
             if(store.state.settings.presale_one_start > currentTime) {
                 state.value = "Presale Coming Soon";
                 nextState.value = "Presale One";
                 countdown.value.restart((parseInt(store.state.settings.presale_one_start)) * 1000);
                 purchased.value = 0;
-                max.value = 0;
+                max.value = store.state.settings.presale_one_max;
                 price.value = store.state.settings.presale_one_price;
                 value.value = store.state.settings.presale_one_value;
                 if(store.state.settings.show_presale_one_timer == 1) {
@@ -139,6 +138,7 @@ export default {
                 }
             }
             if(store.state.settings.presale_one_start <= currentTime) {
+                available.value = presale.getAvailable(store.state.settings.presale_one_max, store.state.settings.presale_one_price, store.state.settings.presale_one_value);
                 state.value = "Presale One";
                 nextState.value = "Presale Two";
                 countdown.value.restart((parseInt(store.state.settings.presale_two_start)) * 1000);
@@ -152,6 +152,7 @@ export default {
                 }
             }
             if(store.state.settings.presale_two_start <= currentTime) {
+                available.value = presale.getAvailable(store.state.settings.presale_two_max, store.state.settings.presale_two_price, store.state.settings.presale_two_value);
                 state.value = "Presale Two";
                 nextState.value = "Presale Three";
                 countdown.value.restart((parseInt(store.state.settings.presale_three_start)) * 1000);
@@ -165,6 +166,7 @@ export default {
                 }
             }
             if(store.state.settings.presale_three_start <= currentTime) {
+                available.value = presale.getAvailable(store.state.settings.presale_three_max, store.state.settings.presale_three_price, store.state.settings.presale_three_value);
                 state.value = "Presale Three";
                 nextState.value = null;
                 countdown.value.restart((parseInt(store.state.settings.claim_start)) * 1000);
@@ -215,8 +217,19 @@ export default {
             store.commit("wallet", wallet);
         }
 
-        const purchase = () => {
-            purchased.value ++;
+        const purchase = async () => {
+            buyButtonEnabled.value = false;
+            const wallet = store.state.wallet;
+            await axios.post("/api/v1/address", {
+                address: wallet.address,
+                email: email.value,
+            }).then(response => {
+                wallet.email = response.data.email;
+                store.commit("wallet", wallet);
+            }).catch(error => {
+                alerts.danger(error.message);
+            });
+            buyButtonEnabled.value = true;
         }
 
         return {

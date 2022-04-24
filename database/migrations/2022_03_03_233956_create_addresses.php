@@ -22,9 +22,6 @@ class CreateAddresses extends Migration
             $table->string('email')->nullable()->index();
             $table->timestamp('email_verified_at')->nullable();
             $table->text('email_verification_code')->nullable();
-            $table->integer('presale_one_purchased')->default(0);
-            $table->integer('presale_two_purchased')->default(0);
-            $table->integer('presale_three_purchased')->default(0);
             $table->boolean('admin')->default(false);
             $table->timestamps();
         });

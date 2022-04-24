@@ -1,4 +1,3 @@
-import { ref } from "vue";
 import { useStore } from "vuex";
 import useAlerts from "./useAlerts";
 export default () => {
@@ -13,14 +12,24 @@ export default () => {
         return new web3.eth.Contract(JSON.parse(store.state.settings.presale_abi), store.state.settings.presale_address);
     }
 
-    const buy = async () => {
+    const getAvailable = async (max, price, value) => {
+        try {
+            alerts.info("Getting available NFTs from contract");
+            const available = await getContract().methods.available(store.state.wallet.address, max, price, value).call();
+            alerts.clear();
+            return available;
+        } catch (error) {
+            alerts.danger(error.message);
+        }
+    }
 
+    const buy = async () => {
     }
 
     return {
-        locked,
         getPaymentContract,
         getContract,
-        getContractData,
+        getAvailable,
+        buy,
     }
 }
