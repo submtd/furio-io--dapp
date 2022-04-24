@@ -138,7 +138,6 @@ export default {
                 }
             }
             if(store.state.settings.presale_one_start <= currentTime) {
-                available.value = presale.getAvailable(store.state.settings.presale_one_max, store.state.settings.presale_one_price, store.state.settings.presale_one_value);
                 state.value = "Presale One";
                 nextState.value = "Presale Two";
                 countdown.value.restart((parseInt(store.state.settings.presale_two_start)) * 1000);
@@ -152,7 +151,6 @@ export default {
                 }
             }
             if(store.state.settings.presale_two_start <= currentTime) {
-                available.value = presale.getAvailable(store.state.settings.presale_two_max, store.state.settings.presale_two_price, store.state.settings.presale_two_value);
                 state.value = "Presale Two";
                 nextState.value = "Presale Three";
                 countdown.value.restart((parseInt(store.state.settings.presale_three_start)) * 1000);
@@ -166,7 +164,6 @@ export default {
                 }
             }
             if(store.state.settings.presale_three_start <= currentTime) {
-                available.value = presale.getAvailable(store.state.settings.presale_three_max, store.state.settings.presale_three_price, store.state.settings.presale_three_value);
                 state.value = "Presale Three";
                 nextState.value = null;
                 countdown.value.restart((parseInt(store.state.settings.claim_start)) * 1000);
@@ -178,6 +175,9 @@ export default {
                 showTimer.value = false;
             }
             email.value = store.state.wallet.email;
+            if(state.value && state.value != "Presale Coming Soon") {
+                available.value = await presale.getAvailable(max.value, price.value, value.value);
+            }
         }
 
         const submitEmail = async () => {
@@ -219,16 +219,7 @@ export default {
 
         const purchase = async () => {
             buyButtonEnabled.value = false;
-            const wallet = store.state.wallet;
-            await axios.post("/api/v1/address", {
-                address: wallet.address,
-                email: email.value,
-            }).then(response => {
-                wallet.email = response.data.email;
-                store.commit("wallet", wallet);
-            }).catch(error => {
-                alerts.danger(error.message);
-            });
+            available.value -= quantity.value;
             buyButtonEnabled.value = true;
         }
 

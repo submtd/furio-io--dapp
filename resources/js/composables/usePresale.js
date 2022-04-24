@@ -15,7 +15,8 @@ export default () => {
     const getAvailable = async (max, price, value) => {
         try {
             alerts.info("Getting available NFTs from contract");
-            const available = await getContract().methods.available(store.state.wallet.address, max, price, value).call();
+            const contract = getContract();
+            const available = await contract.methods.available(store.state.wallet.address, max, price, value).call();
             alerts.clear();
             return available;
         } catch (error) {
