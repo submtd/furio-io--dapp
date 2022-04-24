@@ -28,8 +28,8 @@
                     <button @click="purchase" :disabled="!buyButtonEnabled" class="btn btn-lg btn-primary col-12 text-light">Purchase ({{ totalPrice }} USDC)</button>
                 </div>
                 <div v-show="store.state.presaleNft.max == 0">
-                    <div v-show="showTimer && !available">
-                        <h3 class="text-center">{{ nextState }} starts in</h3><h1 class="text-center">{{ timer }}</h1>
+                    <div v-show="showTimer && !available" class="text-center">
+                        <strong>{{ nextState }} starts in</strong><h1 class="text-center">{{ timer }}</h1>
                     </div>
                     <div v-show="!showTimer && !available && nextState">
                         <strong>Check back soon for the next presale!</strong>
