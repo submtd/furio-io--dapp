@@ -1,5 +1,5 @@
 <template>
-    <h1>Presale</h1>
+    <h1>{{ state }}</h1>
     <div v-show="!store.state.wallet.loggedIn" class="bg-light text-dark rounded p-5">
         <p>Please connect your wallet to get presale information</p>
         <router-link :to="{ name: 'Connect' }" class="btn btn-lg text-light btn-primary" active-class="active">CONNECT</router-link>
@@ -29,7 +29,7 @@
                 </div>
                 <div v-show="store.state.presaleNft.max == 0">
                     <div v-show="showTimer">
-                        <p class="mb-3">{{ store.state.presaleNft.nextRound }} starts in <strong>{{ countdown.days }}</strong> days, <strong>{{ countdown.hours }}</strong> hours, <strong>{{ countdown.minutes }}</strong> minutes, <strong>{{ countdown.seconds }}</strong> seconds.</p>
+                        <h1 class="text-center">{{ timer }}</h1>
                     </div>
                     <div v-show="!showTimer && store.state.presaleNft.nextRound && store.state.presaleNft.nextRound != 'Claim'">
                         <strong>Check back soon for the next presale!</strong>
@@ -39,15 +39,14 @@
                     </div>
                 </div>
             </div>
-            <p class="text-center mt-5"><a href="#" @click="update">refresh contract data</a></p>
         </div>
         <div class="col-lg-6">
             <div class="row">
                 <div class="col-lg-4 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <p class="card-title">Remaining Supply</p>
-                            <p class="card-text"><strong>{{ store.state.presaleNft.supply }}</strong></p>
+                            <p class="card-title">Max Per Wallet</p>
+                            <p class="card-text"><strong>{{ max }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -55,7 +54,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Value per NFT</p>
-                            <p class="card-text"><strong>{{ store.state.presaleNft.value / 1000000000000000000 }} $FUR</strong></p>
+                            <p class="card-text"><strong>{{ value }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -63,39 +62,13 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Price per NFT</p>
-                            <p class="card-text"><strong>{{ store.state.presaleNft.price / 1000000 }} USDC</strong></p>
+                            <p class="card-text"><strong>{{ price }} USDC</strong></p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <p class="card-title">Max Available</p>
-                            <p class="card-text"><strong>{{ store.state.presaleNft.max }}</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <p class="card-title">Owned Value</p>
-                            <p class="card-text"><strong>{{ store.state.presaleNft.ownedValue / 1000000000000000000 }} $FUR</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <p class="card-title">Balance</p>
-                            <p class="card-text"><strong>{{ store.state.presaleNft.balance }}</strong></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <p>USDC Address: {{ store.state.settings.usdcAddress }}</p>
-            <p>Presale NFT Address: {{ store.state.settings.presaleNftAddress }}</p>
+            <p>USDC Address: {{ store.state.settings.payment_address }}</p>
+            <p>Presale NFT Address: {{ store.state.settings.presale_address }}</p>
         </div>
     </div>
 </template>
@@ -106,13 +79,14 @@ import { useStore } from "vuex";
 import { useTimer } from "vue-timer-hook";
 import useAlerts from "../composables/useAlerts";
 import usePresale from "../composables/usePresale";
-import usePresaleSocket from "../composables/usePresaleSocket";
 export default {
     setup () {
-        usePresaleSocket();
         const store = useStore();
         const alerts = useAlerts();
-        const presale = usePresale();
+        const state = ref(null);
+        const max = ref(0);
+        const price = ref(0);
+        const value = ref(0);
         const email = ref(null);
         const emailButtonEnabled = ref(true);
         const emailVerification = ref(null);
@@ -120,15 +94,15 @@ export default {
         const quantity = ref(1);
         const buyButtonEnabled = ref(true);
         const totalPrice = computed(() => {
-            return quantity.value * store.state.presaleNft.price;
+            return quantity.value * price.value;
         });
         const countdown = ref(useTimer(0));
         const showTimer = ref(false);
+        const timer = computed(() => {
+            return String(countdown.value.days * 24 + countdown.value.hours).padStart(2, '0') + ":" + String(countdown.value.minutes).padStart(2, "0") + ":" + String(countdown.value.seconds).padStart(2, "0");
+        });
         const timerDone = computed(() => {
-            return  countdown.value.days == 0 &&
-                    countdown.value.hours == 0 &&
-                    countdown.value.minutes == 0 &&
-                    countdown.value.seconds == 0;
+            return timer == "00:00:00";
         });
 
         onMounted(() => {
@@ -145,43 +119,49 @@ export default {
             update();
         });
 
-        const update = async () => {
-            if(!store.state.wallet.loggedIn) {
-                return;
+        const update = () => {
+            const currentTime = Date.now() / 1000;
+            if(store.state.settings.presale_one_start > currentTime) {
+                state.value = "Presale Coming Soon";
+                countdown.value.restart((parseInt(store.state.settings.presale_one_start)) * 1000);
+                max.value = store.state.settings.presale_one_max;
+                price.value = store.state.settings.presale_one_price;
+                value.value = store.state.settings.presale_one_value;
+                if(store.state.settings.show_presale_one_timer == 1) {
+                    showTimer.value = true;
+                }
             }
-            console.log("Refreshing contract data");
-            await new Promise(r => setTimeout(r, 1000));
-            alerts.info("Refreshing contract data");
-            await new Promise(r => setTimeout(r, 4000));
-            await presale.getContractData();
+            if(store.state.settings.presale_one_start <= currentTime) {
+                state.value = "Presale One";
+                countdown.value.restart((parseInt(store.state.settings.presale_two_start)) * 1000);
+                quantity.value = store.state.settings.presale_one_max;
+                max.value = store.state.settings.presale_one_max;
+                price.value = store.state.settings.presale_one_price;
+                value.value = store.state.settings.presale_one_value;
+                if(store.state.settings.show_presale_two_timer == 1) {
+                    showTimer.value = true;
+                }
+            }
+            if(store.state.settings.presale_two_start <= currentTime) {
+                state.value = "Presale Two";
+                countdown.value.restart((parseInt(store.state.settings.presale_three_start)) * 1000);
+                quantity.value = store.state.settings.presale_two_max;
+                max.value = store.state.settings.presale_two_max;
+                price.value = store.state.settings.presale_two_price;
+                value.value = store.state.settings.presale_two_value;
+                if(store.state.settings.show_presale_three_timer == 1) {
+                    showTimer.value = true;
+                }
+            }
+            if(store.state.settings.presale_three_start <= currentTime) {
+                state.value = "Presale Three";
+                countdown.value.restart((parseInt(store.state.settings.claim_start)) * 1000);
+                quantity.value = store.state.settings.presale_three_max;
+                max.value = store.state.settings.presale_three_max;
+                price.value = store.state.settings.presale_three_price;
+                value.value = store.state.settings.presale_three_value;
+            }
             email.value = store.state.wallet.email;
-            quantity.value = store.state.presaleNft.max;
-            if(store.state.presaleNft.claimStart > Date.now() / 1000) {
-                if(store.state.settings.showClaimTimer) {
-                    showTimer.value = true;
-                }
-                countdown.value.restart((parseInt(store.state.presaleNft.claimStart) + 0) * 1000);
-            }
-            if(store.state.presaleNft.presaleThreeStart > Date.now() / 1000) {
-                if(store.state.settings.showPresaleThreeTimer) {
-                    showTimer.value = true;
-                }
-                countdown.value.restart((parseInt(store.state.presaleNft.presaleThreeStart) + 0) * 1000);
-            }
-            if(store.state.presaleNft.presaleTwoStart > Date.now() / 1000) {
-                if(store.state.settings.showPresaleTwoTimer) {
-                    showTimer.value = true;
-                }
-                countdown.value.restart((parseInt(store.state.presaleNft.presaleTwoStart) + 0) * 1000);
-            }
-            if(store.state.presaleNft.presaleOneStart > Date.now() / 1000) {
-                if(store.state.settings.showPresaleOneTimer) {
-                    showTimer.value = true;
-                }
-                countdown.value.restart((parseInt(store.state.presaleNft.presaleOneStart) + 0) * 1000);
-            }
-            alerts.clear();
-            console.log("Contract refreshed");
         }
 
         const submitEmail = async () => {
@@ -221,50 +201,27 @@ export default {
             store.commit("wallet", wallet);
         }
 
-        const purchase = async () => {
-            buyButtonEnabled.value = false;
-            if(quantity.value > store.state.presaleNft.max) {
-                alerts.danger("Quantity is too high. Must be " + store.state.presaleNft.max + " or less.");
-                buyButtonEnabled.value = true;
-                return false;
-            }
-            alerts.info("Waiting on response from wallet");
-            try {
-                const usdc = presale.getPaymentContract();
-                const nft = presale.getContract();
-                const gasPrice = Math.round(await web3.eth.getGasPrice() * 2);
-                const allowance = await usdc.methods.allowance(store.state.wallet.address, store.state.settings.presaleNftAddress).call();
-                if(allowance < quantity.value * store.state.presaleNft.price) {
-                    const approveGas = Math.round(await usdc.methods.approve(store.state.settings.presaleNftAddress, quantity.value * store.state.presaleNft.price).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * 3);
-                    await usdc.methods.approve(store.state.settings.presaleNftAddress, quantity.value * store.state.presaleNft.price).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
-                }
-                const buyGas = Math.round(await nft.methods.buy(quantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice}) * 3);
-                const result = await nft.methods.buy(quantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: buyGas });
-                alerts.info("Transaction successful! TXID: " + result.blockHash);
-                await update();
-            } catch (error) {
-                alerts.danger(error.message);
-            }
-            buyButtonEnabled.value = true;
-        }
-
         return {
             store,
-            presale,
+            state,
+            max,
+            price,
+            value,
             email,
             emailButtonEnabled,
             emailVerification,
             emailVerificationButtonEnabled,
-            submitEmail,
-            submitEmailVerification,
-            updateEmail,
             quantity,
             buyButtonEnabled,
             totalPrice,
-            purchase,
-            showTimer,
             countdown,
+            timer,
+            showTimer,
+            timerDone,
             update,
+            submitEmail,
+            submitEmailVerification,
+            updateEmail,
         }
     }
 }

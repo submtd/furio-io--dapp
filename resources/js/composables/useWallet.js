@@ -19,10 +19,10 @@ export default () => {
 
     const walletconnect = () => {
         const provider = new WalletConnectProvider({
-            infuraId: store.state.settings.infuraId,
-            //rpc: {
-                //[parseInt(store.state.settings.networkId)]: store.state.settings.rpcUrl,
-            //}
+            //infuraId: store.state.settings.infuraId,
+            rpc: {
+                [parseInt(store.state.settings.network_id)]: store.state.settings.rpc_url,
+            }
         });
         web3.setProvider(provider);
         connect();
@@ -35,8 +35,8 @@ export default () => {
         try {
             const wallet = {};
             await web3.currentProvider.enable();
-            if(parseInt(await web3.eth.net.getId()) != parseInt(store.state.settings.networkId)) {
-                alerts.danger("Incorrect network. Please connect to " + store.state.settings.networkName);
+            if(parseInt(await web3.eth.net.getId()) != parseInt(store.state.settings.network_id)) {
+                alerts.danger("Incorrect network. Please connect to " + store.state.settings.network_name);
                 return disconnect();
             }
             const accounts = await web3.eth.getAccounts();

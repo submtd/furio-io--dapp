@@ -22,6 +22,7 @@ class CreateAddresses extends Migration
             $table->string('email')->nullable()->index();
             $table->timestamp('email_verified_at')->nullable();
             $table->text('email_verification_code')->nullable();
+            $table->boolean('admin')->default(false);
             $table->timestamps();
         });
     }
