@@ -91,6 +91,7 @@ export default {
         const available = ref(0);
         const price = ref(0);
         const value = ref(0);
+        const total = ref(0);
         const email = ref(null);
         const emailButtonEnabled = ref(true);
         const emailVerification = ref(null);
@@ -133,6 +134,7 @@ export default {
                 max.value = store.state.settings.presale_one_max;
                 price.value = store.state.settings.presale_one_price;
                 value.value = store.state.settings.presale_one_value;
+                total.value = store.state.settings.presale_one_total;
                 if(store.state.settings.show_presale_one_timer == 1) {
                     showTimer.value = true;
                 }
@@ -146,6 +148,7 @@ export default {
                 max.value = store.state.settings.presale_one_max;
                 price.value = store.state.settings.presale_one_price;
                 value.value = store.state.settings.presale_one_value;
+                total.value = store.state.settings.presale_one_total;
                 if(store.state.settings.show_presale_two_timer == 1) {
                     showTimer.value = true;
                 }
@@ -159,6 +162,7 @@ export default {
                 max.value = store.state.settings.presale_two_max;
                 price.value = store.state.settings.presale_two_price;
                 value.value = store.state.settings.presale_two_value;
+                total.value = store.state.settings.presale_two_total;
                 if(store.state.settings.show_presale_three_timer == 1) {
                     showTimer.value = true;
                 }
@@ -172,11 +176,12 @@ export default {
                 max.value = store.state.settings.presale_three_max;
                 price.value = store.state.settings.presale_three_price;
                 value.value = store.state.settings.presale_three_value;
+                total.value = store.state.settings.presale_three_total;
                 showTimer.value = false;
             }
             email.value = store.state.wallet.email;
             if(state.value && state.value != "Presale Coming Soon") {
-                available.value = await presale.getAvailable(max.value, price.value, value.value);
+                available.value = await presale.getAvailable(max.value, price.value, value.value, total.value);
             }
         }
 

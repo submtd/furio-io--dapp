@@ -12,11 +12,11 @@ export default () => {
         return new web3.eth.Contract(JSON.parse(store.state.settings.presale_abi), store.state.settings.presale_address);
     }
 
-    const getAvailable = async (max, price, value) => {
+    const getAvailable = async (max, price, value, total) => {
         try {
             alerts.info("Getting available NFTs from contract");
             const contract = getContract();
-            const available = await contract.methods.available(store.state.wallet.address, max, price, value).call();
+            const available = await contract.methods.available(store.state.wallet.address, max, price, value, total).call();
             alerts.clear();
             return available;
         } catch (error) {
