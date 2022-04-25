@@ -93,9 +93,6 @@ export default {
             if(max.value) {
                 available.value = await presale.getAvailable(max.value, price.value, value.value, total.value);
                 quantity.value = available.value;
-                if(available.value == 0) {
-                    alerts.warning("You do not have any promos available at this time");
-                }
             }
         }
 

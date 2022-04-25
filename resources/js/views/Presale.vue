@@ -203,9 +203,6 @@ export default {
             if(state.value && state.value != "Presale Coming Soon") {
                 available.value = await presale.getAvailable(max.value, price.value, value.value, total.value);
                 quantity.value = available.value;
-                if(available.value == 0) {
-                    alerts.warning("You do not have any presales available at this time");
-                }
             }
         }
 
