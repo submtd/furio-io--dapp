@@ -24,7 +24,7 @@
             <div v-show="store.state.wallet.email && store.state.wallet.emailVerifiedAt">
                 <div v-show="available > 0">
                     <h4>Purchase Presale NFTs</h4>
-                    <input v-show="available > 1" v-model="quantity" :disabled="!buyButtonEnabled" :max="max" min="1" type="number" class="form-control mb-2" id="quantity">
+                    <input v-show="available > 1" v-model="quantity" :disabled="!buyButtonEnabled" :max="available" min="1" type="number" class="form-control mb-2" id="quantity">
                     <button @click="purchase" :disabled="!buyButtonEnabled" class="btn btn-lg btn-primary col-12 text-light">Purchase ({{ totalPrice }} USDC)</button>
                     <div class="row mt-2">
                         <div v-show="available && reservedTimer == '00:00'">
@@ -34,15 +34,18 @@
                             You have <strong>{{ reservedTimer }}</strong> to complete this transaction.
                         </div>
                     </div>
+                    <div v-show="showTimer" class="mt-5 text-center">
+                        {{ nextState }} starts in <strong>{{ timer }}</strong>
+                    </div>
                 </div>
-                <div v-show="store.state.presaleNft.max == 0">
-                    <div v-show="showTimer && !available" class="text-center">
+                <div v-show="available == 0">
+                    <div v-show="showTimer && nextState" class="text-center">
                         <strong>{{ nextState }} starts in</strong><h1 class="text-center">{{ timer }}</h1>
                     </div>
-                    <div v-show="!showTimer && !available && nextState">
+                    <div v-show="!showTimer && nextState">
                         <strong>Check back soon for the next presale!</strong>
                     </div>
-                    <div v-show="!showTimer && !available && !nextState">
+                    <div v-show="!showTimer && !nextState">
                         <strong>Come back on the launch date to claim your presale NFTs!</strong>
                     </div>
                 </div>
@@ -199,6 +202,10 @@ export default {
             email.value = store.state.wallet.email;
             if(state.value && state.value != "Presale Coming Soon") {
                 available.value = await presale.getAvailable(max.value, price.value, value.value, total.value);
+                quantity.value = available.value;
+                if(available.value == 0) {
+                    alerts.warning("You do not have any presales available at this time");
+                }
             }
         }
 
