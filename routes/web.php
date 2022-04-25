@@ -11,6 +11,7 @@ Route::group([
     Route::post('address', 'UpdateAddress');
     Route::post('login', 'Login');
     Route::get('logout', 'Logout');
+    Route::get('presalesignature', 'PresaleSignature');
 });
 
 // SPA route catchall.

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\PresaleService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Presale facade
+        $this->app->bind('presale-service', function () {
+            return new PresaleService();
+        });
     }
 
     /**

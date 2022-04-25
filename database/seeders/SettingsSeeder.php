@@ -31,7 +31,7 @@ class SettingsSeeder extends Seeder
             ],
             [
                 'name' => 'presale_one_start',
-                'value' => Carbon::now()->addMinutes(5)->timestamp,
+                'value' => Carbon::now()->addMinutes(1)->timestamp,
             ],
             [
                 'name' => 'presale_one_max',
