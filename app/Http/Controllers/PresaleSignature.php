@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Facades\Presale;
+use App\Models\PresaleReservation;
 use App\Services\SignerService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,9 +24,17 @@ class PresaleSignature extends Controller
         if (!$salt = Presale::getPresaleSalt()) {
             abort(404, "Not found");
         }
+        if (Presale::getPresaleTotal() <= PresaleReservation::where('salt', $salt)->where('updated_at', '>', Carbon::now()->addMinutes(10))->sum('quantity')) {
+            abort(422, "No presales available at the moment");
+        }
         $expiration = Carbon::now()->addMinutes(10)->timestamp;
         $signature = SignerService::sign($address->address, $salt, $expiration);
-        Cache::increment($salt.'_reservations', $request->query('quantity'));
+        $presaleReservation = PresaleReservation::firstOrCreate([
+            'address' => $address,
+            'salt' => $salt,
+        ]);
+        $presaleReservation->quantity = $request->query('quantity');
+        $presaleReservation->save();
         return response()->json([
             'salt' => $salt,
             'expiration' => $expiration,

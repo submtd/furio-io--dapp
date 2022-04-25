@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useStore } from "vuex";
 import useAlerts from "./useAlerts";
 export default () => {
@@ -39,8 +40,10 @@ export default () => {
             const buyGas = Math.round(await nft.methods.buy(signature, quantity, max, price, value, total, expiration).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultipler);
             const result = await nft.methods.buy(signature, quantity, max, price, value, total, expiration).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: buyGas });
             alerts.info("Transaction successful! TXID: " + result.blockHash);
+            await axios.get("/api/v1/updatepresale?quantity=" + quantity + "&max=" + max + "&price=" + price + "&value=" + value + "&total=" + total + "&success=1");
         } catch (error) {
             alerts.danger(error.message);
+            await axios.get("/api/v1/updatepresale?quantity=" + quantity + "&max=" + max + "&price=" + price + "&value=" + value + "&total=" + total + "&success=0");
         }
     }
 
