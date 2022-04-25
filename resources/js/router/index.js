@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import Connect from "../views/Connect.vue";
 import Presale from "../views/Presale.vue";
+import Promo from "../views/Promo.vue";
 import NotFound from "../views/NotFound.vue";
 
 const routes = [
@@ -9,6 +10,11 @@ const routes = [
         path: "/",
         name: "Presale",
         component: Presale,
+    },
+    {
+        path: "/promo",
+        name: "Promo",
+        component: Promo,
     },
     {
         path: "/connect",

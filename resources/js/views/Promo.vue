@@ -1,7 +1,7 @@
 <template>
-    <h1>{{ state }}</h1>
+    <h1>Promo</h1>
     <div v-show="!store.state.wallet.loggedIn" class="bg-light text-dark rounded p-5">
-        <p>Please connect your wallet to get presale information</p>
+        <p>Please connect your wallet to see if you have any promos available</p>
         <router-link :to="{ name: 'Connect' }" class="btn btn-lg text-light btn-primary" active-class="active">CONNECT</router-link>
     </div>
     <div v-show="store.state.wallet.loggedIn" class="row flex-row-reverse gx-5">
