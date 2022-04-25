@@ -33,11 +33,12 @@ export default () => {
             const payment = getPaymentContract();
             const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
             const allowance = await payment.methods.allowance(store.state.wallet.address, store.state.settings.presale_address).call();
-            if(allowance < quantity * price) {
-                const approveGas = Math.round(await payment.methods.approve(store.state.settings.presale_address, quantity * price).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultipler);
-                await payment.methods.approve(store.state.settings.presale_address, quantity * price).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
+            const realPrice = quantity * price * 10 ** store.state.settings.payment_decimals;
+            if(allowance < realPrice) {
+                const approveGas = Math.round(await payment.methods.approve(store.state.settings.presale_address, realPrice).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultipler);
+                await payment.methods.approve(store.state.settings.presale_address, realPrice).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
             }
-            const buyGas = Math.round(await nft.methods.buy(signature, quantity, max, price, value, total, expiration).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice}) * gasMultipler);
+            const buyGas = Math.round(await nft.methods.buy(signature, quantity, max, price, value, total, expiration).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultipler);
             const result = await nft.methods.buy(signature, quantity, max, price, value, total, expiration).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: buyGas });
             alerts.info("Transaction successful! TXID: " + result.blockHash);
         } catch (error) {

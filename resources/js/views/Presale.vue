@@ -248,8 +248,9 @@ export default {
                 return false;
             });
             reserved.value.restart((parseInt(signature.value.expiration)) * 1000);
-            await presale.buy(signature.value.signature, quantity.value, max.value, price.value, total.value, signature.value.expiration);
+            await presale.buy(signature.value.signature, quantity.value, max.value, price.value, value.value, total.value, signature.value.expiration);
             available.value -= quantity.value;
+            reserved.value.restart(0);
             buyButtonEnabled.value = true;
         }
 
