@@ -24,7 +24,7 @@ class SettingsSeeder extends Seeder
             'presale_one_max' => 1,
             'presale_one_price' => 250,
             'presale_one_value' => 500,
-            'presale_one_total' => 300,
+            'presale_one_total' => 2,
             'show_presale_one_timer' => true,
             'presale_two_start' => Carbon::now()->addMinutes(60)->timestamp,
             'presale_two_max' => 10,
