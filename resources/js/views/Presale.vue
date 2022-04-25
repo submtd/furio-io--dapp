@@ -258,6 +258,7 @@ export default {
             await presale.buy(signature.value.signature, quantity.value, max.value, price.value, value.value, total.value, signature.value.expiration);
             available.value -= quantity.value;
             reserved.value.restart(0);
+            update();
             buyButtonEnabled.value = true;
         }
 
