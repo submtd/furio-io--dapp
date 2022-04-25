@@ -95,6 +95,14 @@ export default {
         }
 
         const purchase = async () => {
+            if(quantity.value > available.value) {
+                alerts.danger("Quantity is too high");
+                return false;
+            }
+            if(quantity.value < 1) {
+                alerts.danger("Quantity is too low");
+                return false;
+            }
             buyButtonEnabled.value = false;
             await presale.buy(signature.value, quantity.value, max.value, price.value, value.value, total.value, expiration.value);
             available.value -= quantity.value;

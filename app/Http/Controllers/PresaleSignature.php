@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class PresaleSignature extends Controller
 {
@@ -24,6 +25,7 @@ class PresaleSignature extends Controller
         }
         $expiration = Carbon::now()->addMinutes(10)->timestamp;
         $signature = SignerService::sign($address->address, $salt, $expiration);
+        Cache::increment($salt.'_reservations', $request->query('quantity'));
         return response()->json([
             'salt' => $salt,
             'expiration' => $expiration,

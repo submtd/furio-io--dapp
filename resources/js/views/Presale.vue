@@ -244,8 +244,16 @@ export default {
         }
 
         const purchase = async () => {
+            if(quantity.value > available.value) {
+                alerts.danger("Quantity is too high");
+                return false;
+            }
+            if(quantity.value < 1) {
+                alerts.danger("Quantity is too low");
+                return false;
+            }
             buyButtonEnabled.value = false;
-            await axios.get("/api/v1/presalesignature").then(response => {
+            await axios.get("/api/v1/presalesignature?quantity=" + quantity.value).then(response => {
                 signature.value = response.data;
             }).catch(error => {
                 alerts.danger(error.message);
