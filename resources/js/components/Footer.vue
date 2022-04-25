@@ -21,6 +21,8 @@
                         <li class="nav-item"><a class="nav-link" href="https://furio.io/variable-rewards"><i class="fa-solid fa-link"></i> Variable Rewards</a></li>
                         <li class="nav-item"><a class="nav-link" href="https://furio.io/taxes"><i class="fa-solid fa-link"></i> Taxes</a></li>
                         <li class="nav-item"><a class="nav-link" href="https://furio.io/whale-tax"><i class="fa-solid fa-link"></i> Whale Tax</a></li>
+                        <li v-show="store.state.wallet.loggedIn" class="nav-item"><router-link :to="{ name: 'Presale' }" class="nav-link"><i class="fa-solid fa-link"></i> Presale</router-link></li>
+                        <li v-show="store.state.wallet.loggedIn" class="nav-item"><router-link :to="{ name: 'Promo' }" class="nav-link"><i class="fa-solid fa-link"></i> Check for Promos</router-link></li>
                     </ul>
                 </div>
                 <div class="col-md-3">
@@ -39,7 +41,14 @@
 </template>
 
 <script>
+import { useStore } from "vuex";
 export default {
-    setup () {}
+    setup () {
+        const store = useStore();
+
+        return {
+            store,
+        }
+    }
 }
 </script>

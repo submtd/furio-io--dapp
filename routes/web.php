@@ -12,6 +12,7 @@ Route::group([
     Route::post('login', 'Login');
     Route::get('logout', 'Logout');
     Route::get('presalesignature', 'PresaleSignature');
+    Route::get('getpromo', 'GetPromo');
 });
 
 // SPA route catchall.
