@@ -87,8 +87,6 @@ export default {
                     expiration.value = response.data.expiration;
                     signature.value = response.data.signature;
                 }
-            }).catch(error => {
-                alerts.danger(error.message);
             });
             if(max.value) {
                 available.value = await presale.getAvailable(max.value, price.value, value.value, total.value);
