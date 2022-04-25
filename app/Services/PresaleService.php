@@ -137,6 +137,36 @@ class PresaleService
     }
 
     /**
+     * Get presale total.
+     *
+     * @return int
+     */
+    public function getPresaleTotal(): int
+    {
+        $total = 0;
+        $settings = $this->getSettings();
+        switch ($this->getPresaleType()) {
+            case self::NOT_STARTED_TYPE:
+                $total = 0;
+                break;
+            case self::PRESALE_ONE_TYPE:
+                $total = $settings['presale_one_total'] ?? 0;
+                break;
+            case self::PRESALE_TWO_TYPE:
+                $total = $settings['presale_two_total'] ?? 0;
+                break;
+            case self::PRESALE_THREE_TYPE:
+                $total = $settings['presale_three_total'] ?? 0;
+                break;
+            case self::CLAIM_TYPE:
+                $total = 0;
+                break;
+        }
+
+        return $total;
+    }
+
+    /**
      * Get presale salt.
      *
      * @return string|null
@@ -154,6 +184,7 @@ class PresaleService
             'max', $this->getPresaleMax(),
             'price', $this->getPresalePrice(),
             'value', $this->getPresaleValue(),
+            'total', $this->getPresaleTotal(),
         ]);
     }
 

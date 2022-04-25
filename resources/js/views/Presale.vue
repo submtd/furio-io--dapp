@@ -26,6 +26,14 @@
                     <h4>Purchase Presale NFTs</h4>
                     <input v-show="available > 1" v-model="quantity" :disabled="!buyButtonEnabled" :max="max" min="1" type="number" class="form-control mb-2" id="quantity">
                     <button @click="purchase" :disabled="!buyButtonEnabled" class="btn btn-lg btn-primary col-12 text-light">Purchase ({{ totalPrice }} USDC)</button>
+                    <div class="row mt-2">
+                        <div v-show="available && reservedTimer == '00:00'">
+                            You have <strong>{{ available }}</strong> available for purchase.
+                        </div>
+                        <div v-show="reservedTimer != '00:00'">
+                            You have <strong>{{ reservedTimer }}</strong> to complete this transaction.
+                        </div>
+                    </div>
                 </div>
                 <div v-show="store.state.presaleNft.max == 0">
                     <div v-show="showTimer && !available" class="text-center">
@@ -34,7 +42,7 @@
                     <div v-show="!showTimer && !available && nextState">
                         <strong>Check back soon for the next presale!</strong>
                     </div>
-                    <div v-show="!showTimer && !avialable && !nextState">
+                    <div v-show="!showTimer && !available && !nextState">
                         <strong>Come back on the launch date to claim your presale NFTs!</strong>
                     </div>
                 </div>
@@ -92,6 +100,7 @@ export default {
         const price = ref(0);
         const value = ref(0);
         const total = ref(0);
+        const signature = ref(null);
         const email = ref(null);
         const emailButtonEnabled = ref(true);
         const emailVerification = ref(null);
@@ -102,9 +111,13 @@ export default {
             return quantity.value * price.value;
         });
         const countdown = ref(useTimer(0));
+        const reserved = ref(useTimer(0));
         const showTimer = ref(false);
         const timer = computed(() => {
             return String(countdown.value.days * 24 + countdown.value.hours).padStart(2, '0') + ":" + String(countdown.value.minutes).padStart(2, "0") + ":" + String(countdown.value.seconds).padStart(2, "0");
+        });
+        const reservedTimer = computed(() => {
+            return String((reserved.value.days * 24 * 60) + (reserved.value.hours * 60) + reserved.value.minutes).padStart(2, "0") + ":" + String(reserved.value.seconds).padStart(2, "0");
         });
         const timerDone = computed(() => {
             return countdown.value.days == 0 && countdown.value.hours == 0 && countdown.value.minutes == 0 && countdown.value.seconds == 0;
@@ -130,6 +143,7 @@ export default {
                 state.value = "Presale Coming Soon";
                 nextState.value = "Presale One";
                 countdown.value.restart((parseInt(store.state.settings.presale_one_start)) * 1000);
+                reserved.value.restart(0);
                 purchased.value = 0;
                 max.value = store.state.settings.presale_one_max;
                 price.value = store.state.settings.presale_one_price;
@@ -143,6 +157,7 @@ export default {
                 state.value = "Presale One";
                 nextState.value = "Presale Two";
                 countdown.value.restart((parseInt(store.state.settings.presale_two_start)) * 1000);
+                reserved.value.restart(0);
                 quantity.value = store.state.settings.presale_one_max;
                 purchased.value = 0;
                 max.value = store.state.settings.presale_one_max;
@@ -157,6 +172,7 @@ export default {
                 state.value = "Presale Two";
                 nextState.value = "Presale Three";
                 countdown.value.restart((parseInt(store.state.settings.presale_three_start)) * 1000);
+                reserved.value.restart(0);
                 quantity.value = store.state.settings.presale_two_max;
                 purchased.value = 0;
                 max.value = store.state.settings.presale_two_max;
@@ -171,6 +187,7 @@ export default {
                 state.value = "Presale Three";
                 nextState.value = null;
                 countdown.value.restart((parseInt(store.state.settings.claim_start)) * 1000);
+                reserved.value.restart(0);
                 quantity.value = store.state.settings.presale_three_max;
                 purchased.value = 0;
                 max.value = store.state.settings.presale_three_max;
@@ -224,6 +241,14 @@ export default {
 
         const purchase = async () => {
             buyButtonEnabled.value = false;
+            await axios.get("/api/v1/presalesignature").then(response => {
+                signature.value = response.data;
+            }).catch(error => {
+                alerts.danger(error.message);
+                return false;
+            });
+            reserved.value.restart((parseInt(signature.value.expiration)) * 1000);
+            await presale.buy(signature.value.signature, quantity.value, max.value, price.value, total.value, signature.value.expiration);
             available.value -= quantity.value;
             buyButtonEnabled.value = true;
         }
@@ -244,6 +269,7 @@ export default {
             totalPrice,
             countdown,
             timer,
+            reservedTimer,
             showTimer,
             timerDone,
             update,
