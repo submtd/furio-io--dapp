@@ -23,6 +23,16 @@ export default () => {
         }
     }
 
+    const getSold = async (max, price, value, total) => {
+        try {
+            const contract = getContract();
+            const sold = await contract.methods.sold(max, price, value, total).call();
+            return sold;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const buy = async (signature, quantity, max, price, value, total, expiration) => {
         try {
             alerts.info("Waiting on response from wallet");
@@ -51,6 +61,7 @@ export default () => {
         getPaymentContract,
         getContract,
         getAvailable,
+        getSold,
         buy,
     }
 }

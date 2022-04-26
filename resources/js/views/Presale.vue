@@ -100,6 +100,7 @@ export default {
         const purchased = ref(0);
         const max = ref(0);
         const available = ref(0);
+        const sold = ref(0);
         const price = ref(0);
         const value = ref(0);
         const total = ref(0);
@@ -202,6 +203,7 @@ export default {
             email.value = store.state.wallet.email;
             if(state.value && state.value != "Presale Coming Soon") {
                 available.value = await presale.getAvailable(max.value, price.value, value.value, total.value);
+                sold.value = await presale.getSold(max.value, price.value, value.value, total.value);
                 quantity.value = available.value;
             }
         }
@@ -253,7 +255,7 @@ export default {
                 return false;
             }
             buyButtonEnabled.value = false;
-            await axios.get("/api/v1/presalesignature?quantity=" + quantity.value).then(response => {
+            await axios.get("/api/v1/presalesignature?quantity=" + quantity.value + "&sold=" + sold.value).then(response => {
                 signature.value = response.data;
             }).catch(error => {
                 alerts.danger(error.message);
@@ -293,6 +295,7 @@ export default {
             purchase,
             purchased,
             available,
+            sold,
         }
     }
 }
