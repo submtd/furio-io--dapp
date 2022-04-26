@@ -30,7 +30,7 @@ class PresaleSignature extends Controller
         $expiration = Carbon::now()->addMinutes(10)->timestamp;
         $signature = SignerService::sign($address->address, $salt, $expiration);
         $presaleReservation = PresaleReservation::firstOrCreate([
-            'address' => $address,
+            'address' => $address->address,
             'salt' => $salt,
         ]);
         $presaleReservation->quantity = $request->query('quantity');
