@@ -146,7 +146,7 @@ export default {
             if(store.state.settings.presale_one_start > currentTime) {
                 state.value = "Presale Coming Soon";
                 nextState.value = "Presale One";
-                countdown.value.restart((parseInt(store.state.settings.presale_one_start)) * 1000);
+                countdown.value.restart((parseInt(store.state.settings.presale_one_start) + 5) * 1000);
                 reserved.value.restart(Date.now() / 1000);
                 purchased.value = 0;
                 max.value = store.state.settings.presale_one_max;
@@ -160,7 +160,7 @@ export default {
             if(store.state.settings.presale_one_start <= currentTime) {
                 state.value = "Presale One";
                 nextState.value = "Presale Two";
-                countdown.value.restart((parseInt(store.state.settings.presale_two_start)) * 1000);
+                countdown.value.restart((parseInt(store.state.settings.presale_two_start) + 5) * 1000);
                 reserved.value.restart(Date.now() / 1000);
                 quantity.value = store.state.settings.presale_one_max;
                 purchased.value = 0;
@@ -175,7 +175,7 @@ export default {
             if(store.state.settings.presale_two_start <= currentTime) {
                 state.value = "Presale Two";
                 nextState.value = "Presale Three";
-                countdown.value.restart((parseInt(store.state.settings.presale_three_start)) * 1000);
+                countdown.value.restart((parseInt(store.state.settings.presale_three_start) + 5) * 1000);
                 reserved.value.restart(Date.now() / 1000);
                 quantity.value = store.state.settings.presale_two_max;
                 purchased.value = 0;
@@ -190,7 +190,7 @@ export default {
             if(store.state.settings.presale_three_start <= currentTime) {
                 state.value = "Presale Three";
                 nextState.value = null;
-                countdown.value.restart((parseInt(store.state.settings.claim_start)) * 1000);
+                countdown.value.restart((parseInt(store.state.settings.claim_start) + 5) * 1000);
                 reserved.value.restart(Date.now() / 1000);
                 quantity.value = store.state.settings.presale_three_max;
                 purchased.value = 0;
@@ -258,7 +258,7 @@ export default {
             await axios.get("/api/v1/presalesignature?quantity=" + quantity.value + "&sold=" + sold.value).then(response => {
                 if(response.data.available == 0) {
                     alerts.danger("No presales are currently available. Please check back shortly");
-                    buyButtonEnabled = true;
+                    buyButtonEnabled.value = true;
                     return false;
                 }
                 signature.value = response.data;
