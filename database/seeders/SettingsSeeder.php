@@ -22,7 +22,7 @@ class SettingsSeeder extends Seeder
             'recaptcha' => '6LdxfMweAAAAACFtJU-1PDJCYqtRhYpWDZxq1nMJ',
             'presale_one_start' => Carbon::now()->addMinutes(1)->timestamp,
             'presale_one_max' => 1,
-            'presale_one_price' => 250,
+            'presale_one_price' => 200,
             'presale_one_value' => 500,
             'presale_one_total' => 2,
             'show_presale_one_timer' => true,
