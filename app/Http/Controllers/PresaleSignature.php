@@ -25,6 +25,7 @@ class PresaleSignature extends Controller
             abort(404, "Not found");
         }
         if (Presale::getPresaleTotal() <= $request->query('sold') + PresaleReservation::where('salt', $salt)->where('updated_at', '>', Carbon::now()->subMinutes(10))->sum('quantity')) {
+            return 'hello';
             abort(422, "No presales available at the moment");
         }
         $expiration = Carbon::now()->addMinutes(10)->timestamp;
