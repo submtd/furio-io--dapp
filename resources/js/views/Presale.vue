@@ -258,6 +258,7 @@ export default {
             await axios.get("/api/v1/presalesignature?quantity=" + quantity.value + "&sold=" + sold.value).then(response => {
                 if(response.data.available == 0) {
                     alerts.danger("No presales are currently available. Please check back shortly");
+                    buyButtonEnabled = true;
                     return false;
                 }
                 signature.value = response.data;
