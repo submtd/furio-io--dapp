@@ -7,6 +7,14 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="{{ mix('css/app.css') }}" rel="stylesheet">
         <title>{{ config('app.name') }}</title>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZRMHZNBSNS"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-ZRMHZNBSNS');
+        </script>
     </head>
     <body class="bg-dark text-light">
         <div id="app">
