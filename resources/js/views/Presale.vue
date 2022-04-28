@@ -215,6 +215,11 @@ export default {
                 address: wallet.address,
                 email: email.value,
             }).then(response => {
+                if(response.data.error) {
+                    alerts.danger(response.data.message);
+                    emailButtonEnabled.value = true;
+                    return false;
+                }
                 wallet.email = response.data.email;
                 store.commit("wallet", wallet);
             }).catch(error => {

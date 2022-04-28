@@ -28,6 +28,12 @@ class UpdateAddress extends Controller
         ]);
         if ($email = $request->get('email')) {
             if ($address->email != $email) {
+                if (Address::where('email', $email)->count() != 0) {
+                    return response()->json([
+                        'error' => true,
+                        'message' => 'Email has already been registered',
+                    ]);
+                }
                 $address->email = $email;
                 $address->email_verification_code = strtoupper(Str::random(8));
                 // SEND VERIFICATION EMAIL
