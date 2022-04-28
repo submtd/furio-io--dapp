@@ -42,7 +42,7 @@ export default () => {
             const payment = getPaymentContract();
             const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
             const allowance = await payment.methods.allowance(store.state.wallet.address, store.state.settings.presale_address).call();
-            const realPrice = quantity * price * 10 ** store.state.settings.payment_decimals;
+            const realPrice = BigInt(quantity * price * 10 ** store.state.settings.payment_decimals);
             if(allowance < realPrice) {
                 const approveGas = Math.round(await payment.methods.approve(store.state.settings.presale_address, realPrice).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultipler);
                 await payment.methods.approve(store.state.settings.presale_address, realPrice).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
