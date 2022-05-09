@@ -171,6 +171,12 @@ export default {
                 if(store.state.settings.show_presale_two_timer == 1) {
                     showTimer.value = true;
                 }
+                if(store.state.settings.presale_one_closed == 1) {
+                    state.value = "Presale Two";
+                    max.value = store.state.settings.presale_two_max;
+                    price.value = store.state.settings.presale_two_price;
+                    value.value = store.state.settings.presale_two_value;
+                }
             }
             if(store.state.settings.presale_two_start <= currentTime) {
                 state.value = "Presale Two";
@@ -185,6 +191,12 @@ export default {
                 total.value = store.state.settings.presale_two_total;
                 if(store.state.settings.show_presale_three_timer == 1) {
                     showTimer.value = true;
+                }
+                if(store.state.settings.presale_two_closed == 1) {
+                    state.value = "Presale Three";
+                    max.value = store.state.settings.presale_three_max;
+                    price.value = store.state.settings.presale_three_price;
+                    value.value = store.state.settings.presale_three_value;
                 }
             }
             if(store.state.settings.presale_three_start <= currentTime) {
