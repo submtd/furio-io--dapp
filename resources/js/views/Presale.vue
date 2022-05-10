@@ -57,7 +57,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Max Per Wallet</p>
-                            <p class="card-text"><strong>{{ maxDisplay }}</strong></p>
+                            <p class="card-text"><strong>10</strong></p>
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Value per NFT</p>
-                            <p class="card-text"><strong>{{ valueDisplay }} $FUR</strong></p>
+                            <p class="card-text"><strong>100 $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Price per NFT</p>
-                            <p class="card-text"><strong>{{ priceDisplay }} USDC</strong></p>
+                            <p class="card-text"><strong>150 USDC</strong></p>
                         </div>
                     </div>
                 </div>
@@ -99,13 +99,10 @@ export default {
         const nextState = ref(null);
         const purchased = ref(0);
         const max = ref(0);
-        const maxDisplay = ref(0);
         const available = ref(0);
         const sold = ref(0);
         const price = ref(0);
-        const priceDisplay = ref(0);
         const value = ref(0);
-        const valueDisplay = ref(0);
         const total = ref(0);
         const signature = ref(null);
         const email = ref(null);
@@ -174,12 +171,6 @@ export default {
                 if(store.state.settings.show_presale_two_timer == 1) {
                     showTimer.value = true;
                 }
-                if(store.state.settings.presale_one_closed == 1) {
-                    state.value = "Presale Two";
-                    maxDisplay.value = store.state.settings.presale_two_max;
-                    priceDisplay.value = store.state.settings.presale_two_price;
-                    valueDisplay.value = store.state.settings.presale_two_value;
-                }
             }
             if(store.state.settings.presale_two_start <= currentTime) {
                 state.value = "Presale Two";
@@ -189,20 +180,11 @@ export default {
                 quantity.value = store.state.settings.presale_two_max;
                 purchased.value = 0;
                 max.value = store.state.settings.presale_two_max;
-                maxDisplay.value = max.value;
                 price.value = store.state.settings.presale_two_price;
-                priceDisplay.value = price.value;
                 value.value = store.state.settings.presale_two_value;
-                valueDisplay.value = value.value;
                 total.value = store.state.settings.presale_two_total;
                 if(store.state.settings.show_presale_three_timer == 1) {
                     showTimer.value = true;
-                }
-                if(store.state.settings.presale_two_closed == 1) {
-                    state.value = "Presale Three";
-                    maxDisplay.value = store.state.settings.presale_three_max;
-                    priceDisplay.value = store.state.settings.presale_three_price;
-                    valueDisplay.value = store.state.settings.presale_three_value;
                 }
             }
             if(store.state.settings.presale_three_start <= currentTime) {
@@ -213,11 +195,8 @@ export default {
                 quantity.value = store.state.settings.presale_three_max;
                 purchased.value = 0;
                 max.value = store.state.settings.presale_three_max;
-                maxDisplay.value = max.value;
                 price.value = store.state.settings.presale_three_price;
-                priceDisplay.value = price.value;
                 value.value = store.state.settings.presale_three_value;
-                valueDisplay.value = value.value;
                 total.value = store.state.settings.presale_three_total;
                 showTimer.value = false;
             }
@@ -327,9 +306,6 @@ export default {
             purchased,
             available,
             sold,
-            maxDisplay,
-            priceDisplay,
-            valueDisplay,
         }
     }
 }
