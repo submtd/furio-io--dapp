@@ -1,5 +1,5 @@
 <template>
-    <h1>Presale Two</h1>
+    <h1>Presale Three</h1>
     <div v-show="!store.state.wallet.loggedIn" class="bg-light text-dark rounded p-5">
         <p>Please connect your wallet to get presale information</p>
         <router-link :to="{ name: 'Connect' }" class="btn btn-lg text-light btn-primary" active-class="active">CONNECT</router-link>
@@ -57,7 +57,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Max Per Wallet</p>
-                            <p class="card-text"><strong>10</strong></p>
+                            <p class="card-text"><strong>5</strong></p>
                         </div>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Price per NFT</p>
-                            <p class="card-text"><strong>150 USDC</strong></p>
+                            <p class="card-text"><strong>175 USDC</strong></p>
                         </div>
                     </div>
                 </div>
