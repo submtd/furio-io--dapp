@@ -114,7 +114,7 @@ export default {
         const totalPrice = computed(() => {
             return quantity.value * price.value;
         });
-        const countdown = ref(useTimer(Date.now() / 1000));
+        const countdown = ref(useTimer((Date.now() + store.state.settings.time_offset) / 1000));
         const reserved = ref(useTimer(Date.now() / 1000));
         const showTimer = ref(false);
         const timer = computed(() => {
@@ -142,7 +142,7 @@ export default {
         });
 
         const update = async () => {
-            const currentTime = Date.now() / 1000;
+            const currentTime = (Date.now() + store.state.settings.time_offset) / 1000;
             if(store.state.settings.presale_one_start > currentTime) {
                 state.value = "Presale Coming Soon";
                 nextState.value = "Presale One";

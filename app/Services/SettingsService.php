@@ -18,6 +18,7 @@ class SettingsService
             $settings[$setting->name] = $setting->value;
         }
         $settings = array_merge($settings, config('settings', []));
+        $settings['server_time'] = now()->timestamp;
 
         return $settings;
     }
