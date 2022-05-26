@@ -198,7 +198,9 @@ export default {
                 price.value = store.state.settings.presale_three_price;
                 value.value = store.state.settings.presale_three_value;
                 total.value = store.state.settings.presale_three_total;
-                showTimer.value = false;
+                if(store.state.settings.show_presale_four_timer == 1) {
+                    showTimer.value = true;
+                }
             }
             if(store.state.settings.presale_four_start <= currentTime) {
                 state.value = "Presale Four";
