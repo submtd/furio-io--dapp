@@ -1,5 +1,5 @@
 <template>
-    <h1>Presale Three</h1>
+    <h1>Presale Four</h1>
     <div v-show="!store.state.wallet.loggedIn" class="bg-light text-dark rounded p-5">
         <p>Please connect your wallet to get presale information</p>
         <router-link :to="{ name: 'Connect' }" class="btn btn-lg text-light btn-primary" active-class="active">CONNECT</router-link>
@@ -73,7 +73,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Price per NFT</p>
-                            <p class="card-text"><strong>175 USDC</strong></p>
+                            <p class="card-text"><strong>250 USDC</strong></p>
                         </div>
                     </div>
                 </div>
@@ -189,8 +189,8 @@ export default {
             }
             if(store.state.settings.presale_three_start <= currentTime) {
                 state.value = "Presale Three";
-                nextState.value = null;
-                countdown.value.restart((parseInt(store.state.settings.claim_start) + 5) * 1000);
+                nextState.value = "Presale Four";
+                countdown.value.restart((parseInt(store.state.settings.presale_four_start) + 5) * 1000);
                 reserved.value.restart(Date.now() / 1000);
                 quantity.value = store.state.settings.presale_three_max;
                 purchased.value = 0;
@@ -198,6 +198,19 @@ export default {
                 price.value = store.state.settings.presale_three_price;
                 value.value = store.state.settings.presale_three_value;
                 total.value = store.state.settings.presale_three_total;
+                showTimer.value = false;
+            }
+            if(store.state.settings.presale_four_start <= currentTime) {
+                state.value = "Presale Four";
+                nextState.value = null;
+                countdown.value.restart((parseInt(store.state.settings.claim_start) + 5) * 1000);
+                reserved.value.restart(Date.now() / 1000);
+                quantity.value = store.state.settings.presale_four_max;
+                purchased.value = 0;
+                max.value = store.state.settings.presale_four_max;
+                price.value = store.state.settings.presale_four_price;
+                value.value = store.state.settings.presale_four_value;
+                total.value = store.state.settings.presale_four_total;
                 showTimer.value = false;
             }
             email.value = store.state.wallet.email;

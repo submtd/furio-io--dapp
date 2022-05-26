@@ -10,6 +10,7 @@ class PresaleService
     const PRESALE_ONE_TYPE = 1;
     const PRESALE_TWO_TYPE = 2;
     const PRESALE_THREE_TYPE = 3;
+    const PRESALE_FOUR_TYPE = 4;
     const CLAIM_TYPE = 99;
 
     /**
@@ -39,6 +40,9 @@ class PresaleService
         if ($currentDate > $settings['presale_three_start'] ?? $fallbackDate) {
             $type = self::PRESALE_THREE_TYPE;
         }
+        if ($currentDate > $settings['presale_four_start'] ?? $fallbackDate) {
+            $type = self::PRESALE_FOUR_TYPE;
+        }
         if ($currentDate > $settings['claim_start'] ?? $fallbackDate) {
             $type = self::CLAIM_TYPE;
         }
@@ -67,6 +71,9 @@ class PresaleService
                 break;
             case self::PRESALE_THREE_TYPE:
                 $max = $settings['presale_three_max'] ?? 0;
+                break;
+            case self::PRESALE_FOUR_TYPE:
+                $max = $settings['presale_four_max'] ?? 0;
                 break;
             case self::CLAIM_TYPE:
                 $max = 0;
@@ -98,6 +105,9 @@ class PresaleService
             case self::PRESALE_THREE_TYPE:
                 $price = $settings['presale_three_price'] ?? 0;
                 break;
+            case self::PRESALE_FOUR_TYPE:
+                $price = $settings['presale_four_price'] ?? 0;
+                break;
             case self::CLAIM_TYPE:
                 $price = 0;
                 break;
@@ -128,6 +138,9 @@ class PresaleService
             case self::PRESALE_THREE_TYPE:
                 $value = $settings['presale_three_value'] ?? 0;
                 break;
+            case self::PRESALE_FOUR_TYPE:
+                $value = $settings['presale_four_value'] ?? 0;
+                break;
             case self::CLAIM_TYPE:
                 $value = 0;
                 break;
@@ -157,6 +170,9 @@ class PresaleService
                 break;
             case self::PRESALE_THREE_TYPE:
                 $total = $settings['presale_three_total'] ?? 0;
+                break;
+            case self::PRESALE_FOUR_TYPE:
+                $total = $settings['presale_four_total'] ?? 0;
                 break;
             case self::CLAIM_TYPE:
                 $total = 0;
