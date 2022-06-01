@@ -8,19 +8,19 @@
         <div v-show="store.state.wallet.loggedIn">
             <dl class="row">
                 <dt class="col-sm-3">Claim Contract</dt>
-                <dd class="col-sm-9"><a :href="claimLink">{{ store.state.settings.claim_address }}</a></dd>
+                <dd class="col-sm-9"><a target="_new" :href="claimLink">{{ store.state.settings.claim_address }}</a></dd>
                 <dt class="col-sm-3">Downline NFT Contract</dt>
-                <dd class="col-sm-9"><a :href="downlineLink">{{ store.state.settings.downline_address }}</a></dd>
+                <dd class="col-sm-9"><a target="_new" :href="downlineLink">{{ store.state.settings.downline_address }}</a></dd>
                 <dt class="col-sm-3">Presale NFT Contract</dt>
-                <dd class="col-sm-9"><a :href="presaleLink">{{ store.state.settings.presale_address }}</a></dd>
+                <dd class="col-sm-9"><a target="_new" :href="presaleLink">{{ store.state.settings.presale_address }}</a></dd>
                 <dt class="col-sm-3">Swap Contract</dt>
-                <dd class="col-sm-9"><a :href="swapLink">{{ store.state.settings.swap_address }}</a></dd>
+                <dd class="col-sm-9"><a target="_new" :href="swapLink">{{ store.state.settings.swap_address }}</a></dd>
                 <dt class="col-sm-3">Token Contract</dt>
-                <dd class="col-sm-9"><a :href="tokenLink">{{ store.state.settings.token_address }}</a></dd>
+                <dd class="col-sm-9"><a target="_new" :href="tokenLink">{{ store.state.settings.token_address }}</a></dd>
                 <dt class="col-sm-3">Payment Contract</dt>
-                <dd class="col-sm-9"><a :href="paymentLink">{{ store.state.settings.payment_address }}</a></dd>
+                <dd class="col-sm-9"><a target="_new" :href="paymentLink">{{ store.state.settings.payment_address }}</a></dd>
                 <dt class="col-sm-3">Vault Contract</dt>
-                <dd class="col-sm-9"><a :href="vaultLink">{{ store.state.settings.vault_address }}</a></dd>
+                <dd class="col-sm-9"><a target="_new" :href="vaultLink">{{ store.state.settings.vault_address }}</a></dd>
             </dl>
         </div>
     </div>
