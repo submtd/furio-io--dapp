@@ -1,6 +1,12 @@
 <template>
     <div class="bg-light text-dark rounded p-5">
         <h1>Claim</h1>
+        <h2>NFTs</h2>
+        <ul>
+            <li v-for="nft in nfts">
+                {{ nft }}
+            </li>
+        </ul>
         <p>Please come back on June 14th for the project launch!</p>
     </div>
 </template>
@@ -15,6 +21,8 @@ export default {
         const alerts = useAlerts();
         const store = useStore();
 
+        const nfts = ref([]);
+
         onMounted(async () => {
             await getNfts();
         });
@@ -22,14 +30,14 @@ export default {
         const getNfts = async () => {
             try {
                 const contract = new web3.eth.Contract(JSON.parse(store.state.settings.claim_abi), store.state.settings.claim_address);
-                const nfts = await contract.methods.owned(store.state.wallet.address).call();
+                nfts.value = await contract.methods.owned(store.state.wallet.address).call();
                 console.log(nfts);
             } catch (error) {
                 alerts.danger(error.message);
             }
         }
         return {
-            getNfts,
+            nfts,
         }
     }
 }
