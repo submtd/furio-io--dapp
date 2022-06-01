@@ -16,7 +16,7 @@ export default () => {
             // get time offset
             settings.time_offset = settings.server_time - (Date.now() / 1000);
             // get addresses
-            if(store.state.wallet.loggedIn && typeof store.state.settings.claim_address == "undefined") {
+            if(store.state.wallet.loggedIn && store.state.settings.presale_address == "") {
                 settings.claim_address = await addressBook.getAddress("claim");
                 settings.downline_address = await addressBook.getAddress("downline");
                 settings.presale_address = await addressBook.getAddress("presale");
