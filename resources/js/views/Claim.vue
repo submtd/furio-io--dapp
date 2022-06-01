@@ -8,7 +8,7 @@
 <script>
 import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
-import useAlerts from "./useAlerts";
+import useAlerts from "../composables/useAlerts";
 
 export default {
     setup () {
