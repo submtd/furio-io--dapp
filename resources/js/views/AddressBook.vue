@@ -12,10 +12,17 @@
 </template>
 
 <script>
+import { onMounted } from "vue";
 import { useStore } from "vuex";
+import useSettings from "../composables/useSettings";
 export default {
     setup () {
         const store = useStore();
+        const settings = useSettings();
+
+        onMounted(async () => {
+            settings.update();
+        });
 
         return {
             store,
