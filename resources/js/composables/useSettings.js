@@ -8,7 +8,7 @@ export default () => {
     const store = useStore();
 
     const update = async () => {
-        response = await axios.get("/api/v1/settings");
+        const response = await axios.get("/api/v1/settings");
             const settings = store.state.settings;
             for(const property in response.data) {
                 settings[property] = response.data[property];
