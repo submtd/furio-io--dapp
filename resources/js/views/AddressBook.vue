@@ -6,7 +6,22 @@
             <router-link :to="{ name: 'Connect' }" class="btn btn-lg text-light btn-primary" active-class="active">CONNECT</router-link>
         </div>
         <div v-show="store.state.wallet.loggedIn">
-            {{ store.state.settings.claim_address }}
+            <dl class="row">
+                <dt class="col-sm-3">Claim Contract</dt>
+                <dd class="col-sm-9">{{ store.state.settings.claim_address }}</dd>
+                <dt class="col-sm-3">Downline NFT Contract</dt>
+                <dd class="col-sm-9">{{ store.state.settings.downline_address }}</dd>
+                <dt class="col-sm-3">Presale NFT Contract</dt>
+                <dd class="col-sm-9">{{ store.state.settings.presale_address }}</dd>
+                <dt class="col-sm-3">Swap Contract</dt>
+                <dd class="col-sm-9">{{ store.state.settings.swap_address }}</dd>
+                <dt class="col-sm-3">Token Contract</dt>
+                <dd class="col-sm-9">{{ store.state.settings.token_address }}</dd>
+                <dt class="col-sm-3">Payment Contract</dt>
+                <dd class="col-sm-9">{{ store.state.settings.payment_address }}</dd>
+                <dt class="col-sm-3">Vault Contract</dt>
+                <dd class="col-sm-9">{{ store.state.settings.vault_address }}</dd>
+            </dl>
         </div>
     </div>
 </template>
