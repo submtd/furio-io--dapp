@@ -8,19 +8,19 @@
         <div v-show="store.state.wallet.loggedIn">
             <dl class="row">
                 <dt class="col-sm-3">Claim Contract</dt>
-                <dd class="col-sm-9">{{ store.state.settings.claim_address }}</dd>
+                <dd class="col-sm-9"><a href="{{ store.state.settings.block_explorer_url }}/address/{{ store.state.settings.claim_address }}">{{ store.state.settings.claim_address }}</a></dd>
                 <dt class="col-sm-3">Downline NFT Contract</dt>
-                <dd class="col-sm-9">{{ store.state.settings.downline_address }}</dd>
+                <dd class="col-sm-9"><a href="{{ store.state.settings.block_explorer_url }}/address/{{ store.state.settings.downline_address }}">{{ store.state.settings.downline_address }}</a></dd>
                 <dt class="col-sm-3">Presale NFT Contract</dt>
-                <dd class="col-sm-9">{{ store.state.settings.presale_address }}</dd>
+                <dd class="col-sm-9"><a href="{{ store.state.settings.block_explorer_url }}/address/{{ store.state.settings.presale_address }}">{{ store.state.settings.presale_address }}</a></dd>
                 <dt class="col-sm-3">Swap Contract</dt>
-                <dd class="col-sm-9">{{ store.state.settings.swap_address }}</dd>
+                <dd class="col-sm-9"><a href="{{ store.state.settings.block_explorer_url }}/address/{{ store.state.settings.swap_address }}">{{ store.state.settings.swap_address }}</a></dd>
                 <dt class="col-sm-3">Token Contract</dt>
-                <dd class="col-sm-9">{{ store.state.settings.token_address }}</dd>
+                <dd class="col-sm-9"><a href="{{ store.state.settings.block_explorer_url }}/address/{{ store.state.settings.token_address }}">{{ store.state.settings.token_address }}</a></dd>
                 <dt class="col-sm-3">Payment Contract</dt>
-                <dd class="col-sm-9">{{ store.state.settings.payment_address }}</dd>
+                <dd class="col-sm-9"><a href="{{ store.state.settings.block_explorer_url }}/address/{{ store.state.settings.payment_address }}">{{ store.state.settings.payment_address }}</a></dd>
                 <dt class="col-sm-3">Vault Contract</dt>
-                <dd class="col-sm-9">{{ store.state.settings.vault_address }}</dd>
+                <dd class="col-sm-9"><a href="{{ store.state.settings.block_explorer_url }}/address/{{ store.state.settings.vault_address }}">{{ store.state.settings.vault_address }}</a></dd>
             </dl>
         </div>
     </div>
