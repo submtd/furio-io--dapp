@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { rel, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import useSettings from "../composables/useSettings";
 export default {
@@ -35,13 +35,13 @@ export default {
         const store = useStore();
         const settings = useSettings();
 
-        const claimLink = rel(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
-        const downlineLink = rel(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
-        const presaleLink = rel(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
-        const swapLink = rel(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
-        const tokenLink = rel(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
-        const paymentLink = rel(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
-        const vaultLink = rel(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
+        const claimLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
+        const downlineLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
+        const presaleLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
+        const swapLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
+        const tokenLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
+        const paymentLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
+        const vaultLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
 
         onMounted(async () => {
             settings.update();
