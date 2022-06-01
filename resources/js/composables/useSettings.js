@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useStore } from "vuex";
 import useAddressBook from "./useAddressBook";
 import useAlerts from "./useAlerts";
@@ -7,7 +8,7 @@ export default () => {
     const store = useStore();
 
     const update = async () => {
-        await axios.get("/api/v1/settings").then(response = async () => {
+        response = await axios.get("/api/v1/settings");
             const settings = store.state.settings;
             for(const property in response.data) {
                 settings[property] = response.data[property];
@@ -24,9 +25,6 @@ export default () => {
             settings.vault_address = await addressBook.getAddress("vault");
             // commit settings
             store.commit("settings", settings);
-        }).catch(error => {
-            alerts.danger(error.message);
-        });
     }
 
     return {
