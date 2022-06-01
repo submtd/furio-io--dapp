@@ -10,10 +10,10 @@ abstract class Abi
      * Invoke.
      *   Returns the abi string for a smart contract.
      *
-     * @return string
+     * @return array
      */
-    public function __invoke(): stdClass
+    public function __invoke(): array
     {
-        return json_decode($this->abi ?? '');
+        return json_decode($this->abi ?? '[]');
     }
 }
