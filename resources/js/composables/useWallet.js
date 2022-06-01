@@ -67,6 +67,7 @@ export default () => {
             });
             store.commit("wallet", wallet);
             alerts.clear();
+            await settings.update();
             router.push("/");
         } catch (error) {
             alerts.danger(error.message);
