@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Abis\AddressBook;
 use App\Models\Setting;
 
 class SettingsService
@@ -19,6 +20,7 @@ class SettingsService
         }
         $settings = array_merge($settings, config('settings', []));
         $settings['server_time'] = now()->timestamp;
+        $settings['addressbook_abi'] = AddressBook::toString();
 
         return $settings;
     }

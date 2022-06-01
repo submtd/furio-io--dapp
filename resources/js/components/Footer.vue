@@ -22,6 +22,7 @@
                         <li class="nav-item"><a class="nav-link" href="https://furio.io/taxes"><i class="fa-solid fa-link"></i> Taxes</a></li>
                         <li class="nav-item"><a class="nav-link" href="https://furio.io/whale-tax"><i class="fa-solid fa-link"></i> Whale Tax</a></li>
                         <li v-show="store.state.wallet.loggedIn" class="nav-item"><router-link :to="{ name: 'Promo' }" class="nav-link"><i class="fa-solid fa-link"></i> Check for Promos</router-link></li>
+                        <li v-show="store.state.wallet.loggedIn" class="nav-item"><router-link :to="{ name: 'AddressBook' }" class="nav-link"><i class="fa-solid fa-link"></i> Address Book</router-link></li>
                     </ul>
                 </div>
                 <div class="col-md-3">

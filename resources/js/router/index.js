@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import AddressBook from "../views/AddressBook.vue";
 import Claim from "../views/Claim.vue";
 import Connect from "../views/Connect.vue";
 import Downline from "../views/Downline.vue";
@@ -39,6 +40,11 @@ const routes = [
         path: "/promo",
         name: "Promo",
         component: Promo,
+    },
+    {
+        path: "/addressbook",
+        name: "AddressBook",
+        component: AddressBook,
     },
     {
         path: "/connect",
