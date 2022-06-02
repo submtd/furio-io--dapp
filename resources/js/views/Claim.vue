@@ -2,11 +2,16 @@
     <div class="bg-light text-dark rounded p-5">
         <h1>Claim</h1>
         <div class="row">
-            <div class="col-md-6">
-                <p>You have <strong>{{ available }}</strong> $FUR tokens available to claim.</p>
+            <div v-show="!available">
+                <p>You do not have any $FUR tokens available to claim.</p>
             </div>
-            <div class="col-md-6">
-                Claim!
+            <div v-show="available">
+                <div class="col-md-6">
+                    <p>You have <strong>{{ available }}</strong> $FUR tokens available to claim.</p>
+                </div>
+                <div class="col-md-6">
+                    <input v-model="quantity" :max="available" min="0" type="number" class="form-control mb-2" id="quantity"/>
+                </div>
             </div>
         </div>
     </div>
@@ -23,9 +28,11 @@ export default {
         const store = useStore();
 
         const available = ref(0);
+        const quantity = ref(0);
 
         onMounted(async () => {
             await getAvailable();
+            quantity.value = available.value;
         });
 
         const getAvailable = async () => {
