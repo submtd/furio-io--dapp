@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <label for="from">From</label>
                         <div class="input-group">
-                            <div class="input-group-prepend">
+                            <div class="input-group-append">
                                 <div class="input-group-text">USDC</div>
                             </div>
                             <input v-model="from" class="form-control" id="from"/>
