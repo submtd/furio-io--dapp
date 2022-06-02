@@ -15,6 +15,15 @@
                     </li>
                 </ul>
                 <div v-show="swapActive == 'active'">
+                    <div class="form-group">
+                        <label for="from">From</label>
+                        <input v-model="from" class="form-control" id="from"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="to">To</label>
+                        <input v-model="to" class="form-control" id="to"/>
+                    </div>
+                    <button @click="swap" class="btn btn-lg btn-primary btn-block mb-2">Swap</button>
                 </div>
                 <div v-show="buyActive == 'active'">
                 </div>
