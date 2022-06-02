@@ -6,7 +6,7 @@
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo similique hic corporis laudantium provident numquam culpa autem libero maxime veritatis, nulla dignissimos necessitatibus itaque dicta beatae quos repellat asperiores quas.</p>
             </div>
             <div class="col-md-7 mb-2">
-                <ul class="nav nav-pills mb-2">
+                <ul class="nav nav-pills mb-3">
                     <li class="nav-item">
                         <a @click="activateSwap" class="nav-link" :class="swapActive" href="#">Swap</a>
                     </li>
@@ -24,8 +24,8 @@
                             <input v-model="from" class="form-control" id="from"/>
                         </div>
                     </div>
-                    <div class="">
-                        <button class="btn btn-sm btn-secondary mx-auto"><i class="fa-light fa-retweet"></i></button>
+                    <div class="text-center">
+                        <button class="btn btn-sm btn-secondary"><i class="bi bi-arrow-down-up"></i></button>
                     </div>
                     <div class="form-group">
                         <label for="to">To</label>
