@@ -4,45 +4,62 @@
         <div v-show="available < 1" class="row">
             <p>You do not have any $FUR tokens available to claim.</p>
         </div>
-        <div v-show="available > 0" class="row">
-            <div class="col-md-5 mb-2">
-                <p>You have <strong>{{ available }}</strong> $FUR tokens available to claim.</p>
-            </div>
-            <div class="col-md-7 mb-2">
-                <div v-show="!showConfirm">
-                    <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input v-model="quantity" :max="available" min="0" type="number" class="form-control" id="quantity"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Address</label>
-                        <input v-model="address" class="form-control" id="address"/>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input v-model="vault" class="form-check-input" type="checkbox" id="vault"/>
-                            <label for="vault" class="form-check-label">Deposit directly into the <router-link :to="{ name: 'Vault' }"><strong>Vault</strong></router-link></label>
-                        </div>
-                    </div>
-                    <button @click="confirm" class="btn btn-lg btn-primary btn-block mb-2">Claim</button>
+    </div>
+    <div v-show="available > 0" class="row flex-row-reverse gx-5">
+        <div class="col-lg-6 bg-light text-dark rounded p-5 mb-4">
+            <div v-show="!showConfirm">
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input v-model="quantity" :max="available" min="0" type="number" class="form-control" id="quantity"/>
                 </div>
-                <div v-show="showConfirm">
-                    <div v-show="vault">
-                        <p>
-                            You are about to send <strong>{{ quantity }}</strong> $FUR tokens to the vault on behalf of address <strong>{{ address }}</strong>.
-                        </p>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input v-model="address" class="form-control" id="address"/>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input v-model="vault" class="form-check-input" type="checkbox" id="vault"/>
+                        <label for="vault" class="form-check-label">Deposit directly into the <router-link :to="{ name: 'Vault' }"><strong>Vault</strong></router-link></label>
                     </div>
-                    <div v-show="!vault">
-                        <p>
-                            You are about to send <strong>{{ quantity }}</strong> $FUR tokens to the address <strong>{{ address }}</strong>.
-                        </p>
+                </div>
+                <button @click="confirm" class="btn btn-lg btn-primary btn-block mb-2">Claim</button>
+            </div>
+            <div v-show="showConfirm">
+                <div v-show="vault">
+                    <p>
+                        You are about to send <strong>{{ quantity }}</strong> $FUR tokens to the vault on behalf of address <strong>{{ address }}</strong>.
+                    </p>
+                </div>
+                <div v-show="!vault">
+                    <p>
+                        You are about to send <strong>{{ quantity }}</strong> $FUR tokens to the address <strong>{{ address }}</strong>.
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button @click="cancel" class="btn btn-lg btn-secondary btn-block mb-2">Cancel</button>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <button @click="cancel" class="btn btn-lg btn-secondary btn-block mb-2">Cancel</button>
+                    <div class="col-sm-6">
+                        <button @click="claim" class="btn btn-lg btn-primary btn-block mb-2">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Available</p>
+                            <p class="card-text"><strong>{{ available }}</strong></p>
                         </div>
-                        <div class="col-sm-6">
-                            <button @click="claim" class="btn btn-lg btn-primary btn-block mb-2">Confirm</button>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Claimed</p>
+                            <p class="card-text"><strong>{{ claimed }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -62,6 +79,7 @@ export default {
         const store = useStore();
 
         const available = ref(0);
+        const claimed = ref(0);
         const quantity = ref(0);
         const address = ref(0);
         const vault = ref(true);
