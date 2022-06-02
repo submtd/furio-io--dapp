@@ -30,6 +30,7 @@
                     </li>
                 </ul>
                 <form class="d-flex">
+                    <router-link :to="{ name: 'Profile' }" class="nav-link" active-class="active">Profile</router-link>
                     <button @click="wallet.disconnect" class="btn btn-sm btn-secondary">Disconnect {{ store.state.wallet.shortAddress }}</button>
                 </form>
             </div>
