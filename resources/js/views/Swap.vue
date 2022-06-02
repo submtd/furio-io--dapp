@@ -19,7 +19,7 @@
                         <label for="from">From</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <div class="input-group-text">{{ fromCurrency }}</div>
+                                <div class="input-group-text"><strong>{{ fromCurrency }}</strong></div>
                             </div>
                             <input v-model="from" class="form-control" id="from"/>
                         </div>
@@ -32,12 +32,12 @@
                         <label for="to">To</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <div class="input-group-text">{{ toCurrency }}</div>
+                                <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
                             </div>
                             <input v-model="to" class="form-control" id="to"/>
                         </div>
                     </div>
-                    <button @click="swap" class="btn btn-lg btn-success btn-block mb-2">Swap</button>
+                    <button @click="swap" class="btn btn-lg btn-info btn-block mb-2">Swap</button>
                 </div>
                 <div v-show="buyActive == 'active'">
                 </div>
