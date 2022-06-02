@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import AddressBook from "../views/AddressBook.vue";
+import Airdrop from "../views/Airdrop.vue";
 import Claim from "../views/Claim.vue";
 import Connect from "../views/Connect.vue";
 import Downline from "../views/Downline.vue";
@@ -30,6 +31,11 @@ const routes = [
         path: "/vault",
         name: "Vault",
         component: Vault,
+    },
+    {
+        path: "/airdrop",
+        name: "Airdrop",
+        component: Airdrop,
     },
     {
         path: "/downline",

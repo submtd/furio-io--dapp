@@ -23,6 +23,9 @@
                         <router-link :to="{ name: 'Vault' }" class="nav-link" active-class="active">Vault</router-link>
                     </li>
                     <li class="nav-item">
+                        <router-link :to="{ name: 'Airdrop' }" class="nav-link" active-class="active">Airdrop</router-link>
+                    </li>
+                    <li class="nav-item">
                         <router-link :to="{ name: 'Downline' }" class="nav-link" active-class="active">Downline</router-link>
                     </li>
                 </ul>
