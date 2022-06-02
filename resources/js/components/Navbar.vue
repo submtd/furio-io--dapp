@@ -30,7 +30,7 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <ul class="nav flex-column">
+                    <ul class="nav flex-column text-right">
                         <li class="nav-item">
                             <router-link :to="{ name: 'Profile' }" class="nav-link" active-class="active">Profile</router-link>
                         </li>
