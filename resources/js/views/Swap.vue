@@ -70,6 +70,8 @@ export default {
         const buyActive = ref("");
         const fromCurrency = ref("USDC");
         const toCurrency = ref("$FUR");
+        const to = ref(null);
+        const from = ref(null);
         const usdcBalance = ref(0);
         const furBalance = ref(0);
 
@@ -94,6 +96,8 @@ export default {
             buyActive,
             fromCurrency,
             toCurrency,
+            to,
+            from,
             usdcBalance,
             furBalance,
             activateSwap,
