@@ -1,10 +1,9 @@
 <template>
     <div class="bg-light text-dark rounded p-5">
         <h1>Claim</h1>
-        <h2>NFTs</h2>
         <div class="row rows-cols-1 rows-cols-md-4">
             <div class="col mb-4">
-                <p>You have {{ available }} $FUR tokens available to claim.</p>
+                <p>You have <strong>{{ available }}</strong> $FUR tokens available to claim.</p>
             </div>
         </div>
     </div>
