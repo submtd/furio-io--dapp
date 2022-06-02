@@ -8,13 +8,41 @@
             <div class="col-md-7 mb-2">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Swap</a>
+                        <a @clidk="activateSwap" class="nav-link" :class="swapActive" href="#">Swap</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Buy</a>
+                        <a @click="activateBuy" class="nav-link" :class="buyActive" href="#">Buy</a>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+import { ref } from "vue";
+
+export default {
+    setup () {
+        const swapActive = ref("active");
+        const buyActive = ref("");
+
+        const activateSwap = () => {
+            swapActive.value = "active";
+            buyActive.value = "";
+        }
+
+        const activateBuy = () => {
+            buyActive.value = "active";
+            swapActive.value = "";
+        }
+
+        return {
+            swapActive,
+            buyActive,
+            activateSwap,
+            activateBuy,
+        }
+    }
+}
+</script>
