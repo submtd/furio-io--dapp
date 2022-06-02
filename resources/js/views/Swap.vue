@@ -6,19 +6,17 @@
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo similique hic corporis laudantium provident numquam culpa autem libero maxime veritatis, nulla dignissimos necessitatibus itaque dicta beatae quos repellat asperiores quas.</p>
             </div>
             <div class="col-md-7 mb-2">
-                <ul class="nav nav-tabs">
+                <ul class="nav nav-pills">
                     <li class="nav-item">
                         <a @click="activateSwap" class="nav-link" :class="swapActive" href="#">Swap</a>
                     </li>
                     <li class="nav-item">
-                        <a @click="activateBuy" class="nav-link" :class="buyActive" href="#">Buy</a>
+                        <a @click="activateBuy" class="nav-link" :class="buyActive" href="#">Buy USDC</a>
                     </li>
                 </ul>
                 <div v-show="swapActive == 'active'">
-                    <h2>Swap</h2>
                 </div>
                 <div v-show="buyActive == 'active'">
-                    <h2>Buy</h2>
                 </div>
             </div>
         </div>
