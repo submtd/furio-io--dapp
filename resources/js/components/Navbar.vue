@@ -29,10 +29,16 @@
                         <router-link :to="{ name: 'Downline' }" class="nav-link" active-class="active">Downline</router-link>
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <router-link :to="{ name: 'Profile' }" class="nav-link" active-class="active">Profile</router-link>
-                    <button @click="wallet.disconnect" class="btn btn-sm btn-secondary">Disconnect {{ store.state.wallet.shortAddress }}</button>
-                </form>
+                <div class="d-flex">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <router-link :to="{ name: 'Profile' }" class="nav-link" active-class="active">Profile</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <button @click="wallet.disconnect" class="btn btn-sm btn-secondary">Disconnect {{ store.state.wallet.shortAddress }}</button>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
