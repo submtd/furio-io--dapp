@@ -5,10 +5,10 @@
             <p>You do not have any $FUR tokens available to claim.</p>
         </div>
         <div v-show="available > 0" class="row">
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <p>You have <strong>{{ available }}</strong> $FUR tokens available to claim.</p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <div v-show="!showConfirm">
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
