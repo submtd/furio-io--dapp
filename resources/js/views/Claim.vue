@@ -1,9 +1,12 @@
 <template>
     <div class="bg-light text-dark rounded p-5">
         <h1>Claim</h1>
-        <div class="row rows-cols-1 rows-cols-md-4">
-            <div class="col mb-4">
+        <div class="row">
+            <div class="col-md-6">
                 <p>You have <strong>{{ available }}</strong> $FUR tokens available to claim.</p>
+            </div>
+            <div class="col-md-6">
+                Claim!
             </div>
         </div>
     </div>
