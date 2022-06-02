@@ -23,7 +23,7 @@
                         <label for="vault" class="form-check-label">Send to Vault</label>
                     </div>
                 </div>
-                <button class="btn btn-lg btn-primary">Claim</button>
+                <button class="btn btn-lg btn-primary btn-block">Claim</button>
             </div>
         </div>
     </div>
