@@ -20,6 +20,10 @@
                         <label for="vault" class="form-check-label">Deposit directly into the <router-link :to="{ name: 'Vault' }"><strong>Vault</strong></router-link></label>
                     </div>
                 </div>
+                <div v-show="vault && !referrer" class="form-group">
+                    <label for="referrer">Referrer</label>
+                    <input v-model="referrer" class="form-control" id="referrer"/>
+                </div>
                 <button @click="confirm" class="btn btn-lg btn-info btn-block mb-2">Claim</button>
             </div>
             <div v-show="showConfirm">
@@ -81,6 +85,7 @@ export default {
         const quantity = ref(0);
         const address = ref(0);
         const vault = ref(true);
+        const referrer = ref(null);
         const showConfirm = ref(false);
 
         onMounted(async () => {
@@ -122,6 +127,7 @@ export default {
             quantity,
             address,
             vault,
+            referrer,
             showConfirm,
             confirm,
             cancel,
