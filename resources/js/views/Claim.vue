@@ -85,6 +85,7 @@ export default {
         const confirm = () => {
             if(quantity.value < 1 || quantity > available.value) {
                 alerts.danger("Invalid quantity");
+                return;
             }
             showConfirm.value = true;
         }
