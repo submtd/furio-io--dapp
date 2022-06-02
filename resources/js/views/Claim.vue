@@ -21,7 +21,7 @@
                     <div class="form-group">
                         <div class="form-check">
                             <input v-model="vault" class="form-check-input" type="checkbox" id="vault"/>
-                            <label for="vault" class="form-check-label">Deposit directly into vault</label>
+                            <label for="vault" class="form-check-label">Deposit directly into <strong>the Vault</strong></label>
                         </div>
                     </div>
                     <button @click="confirm" class="btn btn-lg btn-primary btn-block mb-2">Claim</button>
