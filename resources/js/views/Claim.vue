@@ -35,9 +35,9 @@
                     You are about to send <strong>{{ quantity }}</strong> $FUR tokens to the address <strong>{{ address }}</strong>.
                 </p>
             </div>
-            <div class="row">
+            <div v-show="showConfirm" class="row">
                 <div class="col-sm-6">
-                    <button @click="cancel" class="btn btn-lg btn-danger btn-block">Cancel</button>
+                    <button @click="cancel" class="btn btn-lg btn-secondary btn-block">Cancel</button>
                 </div>
                 <div class="col-sm-6">
                     <button @click="claim" class="btn btn-lg btn-primary btn-block">Confirm</button>
