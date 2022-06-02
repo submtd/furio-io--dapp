@@ -33,18 +33,8 @@
                 </div>
             </div>
             <div v-show="!store.state.wallet.loggedIn">
-                <router-link :to="{ name: 'Connect' }" class="navbar-brand">
-                    <img class="d-none d-lg-block" src="../../images/furio-logo.svg" alt="Furio Logo" height="60"/>
-                    <img class="d-lg-none" src="../../images/furio-icon.svg" alt="Furio Icon" height="60"/>
-                </router-link>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbar">
-                    <form class="d-flex">
-                        <router-link :to="{ name: 'Connect' }" class="btn btn-lg text-light btn-primary col-12" active-class="active">CONNECT</router-link>
-                    </form>
-                </div>
+                <img class="d-none d-lg-block" src="../../images/furio-logo.svg" alt="Furio Logo" height="60"/>
+                <img class="d-lg-none" src="../../images/furio-icon.svg" alt="Furio Icon" height="60"/>
             </div>
         </div>
     </nav>
