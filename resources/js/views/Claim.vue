@@ -49,7 +49,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Available</p>
-                            <p class="card-text"><strong>{{ available }}</strong></p>
+                            <p class="card-text"><strong>{{ available }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -118,6 +118,7 @@ export default {
 
         return {
             available,
+            claimed,
             quantity,
             address,
             vault,
