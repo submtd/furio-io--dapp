@@ -30,14 +30,12 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'Profile' }" class="nav-link" active-class="active">Profile</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <button @click="wallet.disconnect" class="btn btn-sm btn-secondary">Disconnect {{ store.state.wallet.shortAddress }}</button>
-                        </li>
-                    </ul>
+                    <div class="nav-item">
+                        <router-link :to="{ name: 'Profile' }" class="nav-link" active-class="active">Profile</router-link>
+                    </div>
+                    <div class="nav-item">
+                        <button @click="wallet.disconnect" class="btn btn-sm btn-secondary">Disconnect {{ store.state.wallet.shortAddress }}</button>
+                    </div>
                 </div>
             </div>
         </div>
