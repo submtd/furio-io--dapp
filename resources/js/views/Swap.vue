@@ -24,8 +24,8 @@
                             <input v-model="from" class="form-control" id="from"/>
                         </div>
                     </div>
-                    <div>
-                        <i class="fa-solid fa-arrow-up-arrow-down"></i>
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-secondary"><i class="fa-solid fa-arrow-up-arrow-down"></i></button>
                     </div>
                     <div class="form-group">
                         <label for="to">To</label>
