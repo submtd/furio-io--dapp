@@ -14,6 +14,12 @@
                         <a @click="activateBuy" class="nav-link" :class="buyActive" href="#">Buy</a>
                     </li>
                 </ul>
+                <div v-show="swapActive == 'active'">
+                    <h2>Swap</h2>
+                </div>
+                <div v-show="buyActive == 'active'">
+                    <h2>Buy</h2>
+                </div>
             </div>
         </div>
     </div>
