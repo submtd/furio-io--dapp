@@ -22,7 +22,7 @@
                         <label for="vault" class="form-check-label">Deposit directly into the <router-link :to="{ name: 'Vault' }"><strong>Vault</strong></router-link></label>
                     </div>
                 </div>
-                <button @click="confirm" class="btn btn-lg btn-primary btn-block mb-2">Claim</button>
+                <button @click="confirm" class="btn btn-lg btn-info btn-block mb-2">Claim</button>
             </div>
             <div v-show="showConfirm">
                 <div v-show="vault">
@@ -40,7 +40,7 @@
                         <button @click="cancel" class="btn btn-lg btn-secondary btn-block mb-2">Cancel</button>
                     </div>
                     <div class="col-sm-6">
-                        <button @click="claim" class="btn btn-lg btn-primary btn-block mb-2">Confirm</button>
+                        <button @click="claim" class="btn btn-lg btn-info btn-block mb-2">Confirm</button>
                     </div>
                 </div>
             </div>
