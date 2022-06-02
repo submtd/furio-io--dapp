@@ -22,6 +22,10 @@
 import Alerts from "./components/Alerts.vue";
 import Footer from "./components/Footer.vue";
 import Navbar from "./components/Navbar.vue";
+import { onMounted } from "vue";
+import { useRoute } from "vue-router";
+import { useStore } from "vuex";
+import router from "./router";
 
 export default {
     components: {
@@ -29,6 +33,14 @@ export default {
         Footer,
         Navbar,
     },
-    setup() {}
+    setup() {
+        const store = useStore();
+
+        onMounted(() => {
+            if(!store.state.wallet.loggedIn && useRoute().name != 'Connect') {
+                router.push("/connect");
+            }
+        });
+    }
 }
 </script>
