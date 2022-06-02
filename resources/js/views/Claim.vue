@@ -2,8 +2,8 @@
     <div class="bg-light text-dark rounded p-5">
         <h1>Claim</h1>
         <h2>NFTs</h2>
-        <div class="card-deck">
-            <div v-for="nft in nfts" class="card" style="width: 18rem;">
+        <div class="row">
+            <div v-for="nft in nfts" class="card col-sm-3" style="width: 18rem;">
                 <img src="../../images/furio-presale.png" class="card-img-top" alt="presale"/>
                 <div class="card-body">
                     {{ nft }}
