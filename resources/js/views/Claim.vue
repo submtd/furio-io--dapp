@@ -1,10 +1,10 @@
 <template>
     <div class="bg-light text-dark rounded p-5">
         <h1>Claim</h1>
-        <div v-show="!available" class="row">
+        <div v-show="available < 1" class="row">
             <p>You do not have any $FUR tokens available to claim.</p>
         </div>
-        <div v-show="available" class="row">
+        <div v-show="available > 0" class="row">
             <div class="col-md-6">
                 <p>You have <strong>{{ available }}</strong> $FUR tokens available to claim.</p>
             </div>
