@@ -1,45 +1,60 @@
 <template>
     <h1>Swap</h1>
-    <div class="bg-light text-dark rounded p-5">
-        <div class="row">
-            <div class="col-md-5 mb-2">
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo similique hic corporis laudantium provident numquam culpa autem libero maxime veritatis, nulla dignissimos necessitatibus itaque dicta beatae quos repellat asperiores quas.</p>
-            </div>
-            <div class="col-md-7 mb-2">
-                <ul class="nav nav-pills mb-3">
-                    <li class="nav-item">
-                        <a @click="activateSwap" class="nav-link" :class="swapActive" href="#">Swap</a>
-                    </li>
-                    <li class="nav-item">
-                        <a @click="activateBuy" class="nav-link" :class="buyActive" href="#">Buy USDC</a>
-                    </li>
-                </ul>
-                <div v-show="swapActive == 'active'">
-                    <div class="form-group">
-                        <label for="from">From</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text"><strong>{{ fromCurrency }}</strong></div>
-                            </div>
-                            <input v-model="from" class="form-control" id="from"/>
+    <div class="row flex-row-reverse gx-5">
+        <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
+            <ul class="nav nav-pills mb-3">
+                <li class="nav-item">
+                    <a @click="activateSwap" class="nav-link" :class="swapActive" href="#">Swap</a>
+                </li>
+                <li class="nav-item">
+                    <a @click="activateBuy" class="nav-link" :class="buyActive" href="#">Buy USDC</a>
+                </li>
+            </ul>
+            <div v-show="swapActive == 'active'">
+                <div class="form-group">
+                    <label for="from">From</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><strong>{{ fromCurrency }}</strong></div>
                         </div>
-                        <small class="form-text text-muted text-right"><a href="#">max</a></small>
+                        <input v-model="from" class="form-control" id="from"/>
                     </div>
-                    <div class="text-center">
-                        <button @click="swapToFrom" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-down-up"></i></button>
-                    </div>
-                    <div class="form-group">
-                        <label for="to">To</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
-                            </div>
-                            <input v-model="to" class="form-control" id="to"/>
-                        </div>
-                    </div>
-                    <button @click="swap" class="btn btn-lg btn-info btn-block mb-2">Swap</button>
+                    <small class="form-text text-muted text-right"><a href="#">max</a></small>
                 </div>
-                <div v-show="buyActive == 'active'">
+                <div class="text-center">
+                    <button @click="swapToFrom" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-down-up"></i></button>
+                </div>
+                <div class="form-group">
+                    <label for="to">To</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
+                        </div>
+                        <input v-model="to" class="form-control" id="to"/>
+                    </div>
+                </div>
+                <button @click="swap" class="btn btn-lg btn-info btn-block mb-2">Swap</button>
+            </div>
+            <div v-show="buyActive == 'active'">
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">USDC Balance</p>
+                            <p class="card-text"><strong>{{ usdcBalance }} USDC</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">$FUR Balance</p>
+                            <p class="card-text"><strong>{{ furBalance }} $FUR</strong></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,6 +70,8 @@ export default {
         const buyActive = ref("");
         const fromCurrency = ref("USDC");
         const toCurrency = ref("$FUR");
+        const usdcBalance = ref(0);
+        const furBalance = ref(0);
 
         const activateSwap = () => {
             swapActive.value = "active";
@@ -77,6 +94,8 @@ export default {
             buyActive,
             fromCurrency,
             toCurrency,
+            usdcBalance,
+            furBalance,
             activateSwap,
             activateBuy,
             swapToFrom,
