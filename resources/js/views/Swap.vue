@@ -8,7 +8,7 @@
             <div class="col-md-7 mb-2">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a @clidk="activateSwap" class="nav-link" :class="swapActive" href="#">Swap</a>
+                        <a @click="activateSwap" class="nav-link" :class="swapActive" href="#">Swap</a>
                     </li>
                     <li class="nav-item">
                         <a @click="activateBuy" class="nav-link" :class="buyActive" href="#">Buy</a>
