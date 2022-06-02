@@ -1,6 +1,6 @@
 <template>
+    <h1>Claim</h1>
     <div class="bg-light text-dark rounded p-5">
-        <h1>Claim</h1>
         <div v-show="available < 1" class="row">
             <p>You do not have any $FUR tokens available to claim.</p>
         </div>
@@ -11,12 +11,19 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="quantity">Quantity</label>
-                    <input v-model="quantity" :max="available" min="0" type="number" class="form-control mb-2" id="quantity"/>
+                    <input v-model="quantity" :max="available" min="0" type="number" class="form-control" id="quantity"/>
                 </div>
                 <div class="form-group">
                     <label for="address">Address</label>
-                    <input v-model="address" class="form-control mb-2" id="address"/>
+                    <input v-model="address" class="form-control" id="address"/>
                 </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input v-model="vault" class="form-check-input" type="checkbox" id="vault"/>
+                        <label for="vault" class="form-check-label">Send to Vault</label>
+                    </div>
+                </div>
+                <button class="btn btn-lg btn-primary">Claim</button>
             </div>
         </div>
     </div>
