@@ -9,7 +9,14 @@
                 <p>You have <strong>{{ available }}</strong> $FUR tokens available to claim.</p>
             </div>
             <div class="col-md-6">
-                <input v-model="quantity" :max="available" min="0" type="number" class="form-control mb-2" id="quantity"/>
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input v-model="quantity" :max="available" min="0" type="number" class="form-control mb-2" id="quantity"/>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input v-model="address" class="form-control mb-2" id="address"/>
+                </div>
             </div>
         </div>
     </div>
@@ -27,10 +34,13 @@ export default {
 
         const available = ref(0);
         const quantity = ref(0);
+        const address = ref(0);
+        const vault = ref(true);
 
         onMounted(async () => {
             await getAvailable();
             quantity.value = available.value;
+            address.value = store.state.wallet.address;
         });
 
         const getAvailable = async () => {
@@ -45,6 +55,8 @@ export default {
         return {
             available,
             quantity,
+            address,
+            vault,
         }
     }
 }
