@@ -22,6 +22,7 @@
                                 <div class="input-group-text">{{ fromCurrency }}</div>
                             </div>
                             <input v-model="from" class="form-control" id="from"/>
+                            <small class="form-text text-muted text-right"><a href="#">max</a></small>
                         </div>
                     </div>
                     <div class="text-center">
