@@ -4,12 +4,7 @@
         <h2>NFTs</h2>
         <div class="row rows-cols-1 rows-cols-md-4">
             <div class="col mb-4">
-                <div v-for="nft in nfts" class="card col-sm-3" style="width: 18rem;">
-                    <img src="../../images/furio-presale.png" class="card-img-top" alt="presale"/>
-                    <div class="card-body">
-                        {{ nft }}
-                    </div>
-                </div>
+                <p>You have {{ available }} $FUR tokens available to claim.</p>
             </div>
         </div>
     </div>
@@ -25,7 +20,7 @@ export default {
         const alerts = useAlerts();
         const store = useStore();
 
-        const nfts = ref([]);
+        const available = ref(0);
 
         onMounted(async () => {
             await getNfts();
@@ -34,14 +29,14 @@ export default {
         const getNfts = async () => {
             try {
                 const contract = new web3.eth.Contract(JSON.parse(store.state.settings.claim_abi), store.state.settings.claim_address);
-                nfts.value = await contract.methods.owned(store.state.wallet.address).call();
-                console.log(nfts);
+                available.value = await contract.methods.getOwnerValue(store.state.wallet.address).call();
             } catch (error) {
                 alerts.danger(error.message);
             }
         }
+
         return {
-            nfts,
+            available,
         }
     }
 }
