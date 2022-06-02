@@ -30,7 +30,7 @@
                     </li>
                 </ul>
                 <form class="d-flex">
-                    <button @click="wallet.disconnect" class="btn btn-danger">DISCONNECT {{ store.state.wallet.shortAddress }}</button>
+                    <button @click="wallet.disconnect" class="btn btn-sm btn-secondary">Disconnect {{ store.state.wallet.shortAddress }}</button>
                 </form>
             </div>
         </div>

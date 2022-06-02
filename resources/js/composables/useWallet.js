@@ -41,7 +41,7 @@ export default () => {
             }
             const accounts = await web3.eth.getAccounts();
             wallet.address = accounts[0];
-            wallet.shortAddress = wallet.address.substr(0, 10) + "..." + wallet.address.substr(-4);
+            wallet.shortAddress = wallet.address.substr(0, 4) + "..." + wallet.address.substr(-4);
             await axios.post("/api/v1/address", {
                 address: wallet.address,
             }).then(response => {
