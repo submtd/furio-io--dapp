@@ -13,7 +13,6 @@
 import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import useAlerts from "../composables/useAlerts";
-import router from "../router";
 
 export default {
     setup () {
@@ -23,13 +22,10 @@ export default {
         const available = ref(0);
 
         onMounted(async () => {
-            if(!store.state.wallet.loggedIn) {
-                router.push("/connect");
-            }
-            await getNfts();
+            await getAvailable();
         });
 
-        const getNfts = async () => {
+        const getAvailable = async () => {
             try {
                 const contract = new web3.eth.Contract(JSON.parse(store.state.settings.claim_abi), store.state.settings.claim_address);
                 available.value = await contract.methods.getOwnerValue(store.state.wallet.address).call();
