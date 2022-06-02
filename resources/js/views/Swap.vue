@@ -11,9 +11,11 @@
                 </li>
             </ul>
             <div v-show="swapActive == 'active'">
-                <div class="form-group">
-                    <label for="from">From</label>
-                    <div class="input-group">
+                <div class="form-group row">
+                    <div class="col-xs-4">
+                        <label for="from">From</label>
+                    </div>
+                    <div class="input-group col-xs-8">
                         <div class="input-group-prepend">
                             <div class="input-group-text"><strong>{{ fromCurrency }}</strong></div>
                         </div>
