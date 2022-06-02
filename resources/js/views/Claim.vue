@@ -24,7 +24,7 @@
                             <label for="vault" class="form-check-label">Send to Vault</label>
                         </div>
                     </div>
-                    <button @click="confirm" class="btn btn-lg btn-primary btn-block">Claim</button>
+                    <button @click="confirm" class="btn btn-lg btn-primary btn-block mb-2">Claim</button>
                 </div>
                 <div v-show="showConfirm">
                     <div v-show="vault">
@@ -39,10 +39,10 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <button @click="cancel" class="btn btn-lg btn-secondary btn-block">Cancel</button>
+                            <button @click="cancel" class="btn btn-lg btn-secondary btn-block mb-2">Cancel</button>
                         </div>
                         <div class="col-sm-6">
-                            <button @click="claim" class="btn btn-lg btn-primary btn-block">Confirm</button>
+                            <button @click="claim" class="btn btn-lg btn-primary btn-block mb-2">Confirm</button>
                         </div>
                     </div>
                 </div>
@@ -83,6 +83,9 @@ export default {
         }
 
         const confirm = () => {
+            if(quantity.value < 1 || quantity > available.value) {
+                alerts.danger("Invalid quantity");
+            }
             showConfirm.value = true;
         }
 
