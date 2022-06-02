@@ -5,46 +5,42 @@
             <p>You do not have any $FUR tokens available to claim.</p>
         </div>
         <div v-show="available > 0" class="row">
-            <div v-show="!showConfirm">
-                <div class="col-md-6">
-                    <p>You have <strong>{{ available }}</strong> $FUR tokens available to claim.</p>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input v-model="quantity" :max="available" min="0" type="number" class="form-control" id="quantity"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Address</label>
-                        <input v-model="address" class="form-control" id="address"/>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input v-model="vault" class="form-check-input" type="checkbox" id="vault"/>
-                            <label for="vault" class="form-check-label">Send to Vault</label>
-                        </div>
-                    </div>
-                    <button @click="confirm" class="btn btn-lg btn-primary btn-block">Claim</button>
-                </div>
+            <div v-show="!showConfirm" class="col-md-6">
+                <p>You have <strong>{{ available }}</strong> $FUR tokens available to claim.</p>
             </div>
-            <div v-show="showConfirm">
-                <div v-show="vault">
-                    <p>
-                        You are about to send <strong>{{ quantity }}</strong> $FUR tokens to the vault on behalf of address <strong>{{ address }}</strong>.
-                    </p>
+            <div v-show="!showConfirm" class="col-md-6">
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input v-model="quantity" :max="available" min="0" type="number" class="form-control" id="quantity"/>
                 </div>
-                <div v-show="!vault">
-                    <p>
-                        You are about to send <strong>{{ quantity }}</strong> $FUR tokens to the address <strong>{{ address }}</strong>.
-                    </p>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input v-model="address" class="form-control" id="address"/>
                 </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <button @click="cancel" class="btn btn-lg btn-danger btn-block">Cancel</button>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input v-model="vault" class="form-check-input" type="checkbox" id="vault"/>
+                        <label for="vault" class="form-check-label">Send to Vault</label>
                     </div>
-                    <div class="col-sm-6">
-                        <button @click="claim" class="btn btn-lg btn-primary btn-block">Confirm</button>
-                    </div>
+                </div>
+                <button @click="confirm" class="btn btn-lg btn-primary btn-block">Claim</button>
+            </div>
+            <div v-show="showConfirm && vault">
+                <p>
+                    You are about to send <strong>{{ quantity }}</strong> $FUR tokens to the vault on behalf of address <strong>{{ address }}</strong>.
+                </p>
+            </div>
+            <div v-show="showConfirm && !vault">
+                <p>
+                    You are about to send <strong>{{ quantity }}</strong> $FUR tokens to the address <strong>{{ address }}</strong>.
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <button @click="cancel" class="btn btn-lg btn-danger btn-block">Cancel</button>
+                </div>
+                <div class="col-sm-6">
+                    <button @click="claim" class="btn btn-lg btn-primary btn-block">Confirm</button>
                 </div>
             </div>
         </div>
