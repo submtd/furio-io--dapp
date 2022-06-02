@@ -19,19 +19,19 @@
                         <label for="from">From</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <div class="input-group-text">USDC</div>
+                                <div class="input-group-text">{{ fromCurrency }}</div>
                             </div>
                             <input v-model="from" class="form-control" id="from"/>
                         </div>
                     </div>
                     <div class="text-center">
-                        <button class="btn btn-sm btn-secondary"><i class="bi bi-arrow-down-up"></i></button>
+                        <button @click="swapToFrom" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-down-up"></i></button>
                     </div>
                     <div class="form-group">
                         <label for="to">To</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <div class="input-group-text">$FUR</div>
+                                <div class="input-group-text">{{ toCurrency }}</div>
                             </div>
                             <input v-model="to" class="form-control" id="to"/>
                         </div>
@@ -52,6 +52,8 @@ export default {
     setup () {
         const swapActive = ref("active");
         const buyActive = ref("");
+        const fromCurrency = ref("USDC");
+        const toCurrency = ref("$FUR");
 
         const activateSwap = () => {
             swapActive.value = "active";
@@ -63,11 +65,20 @@ export default {
             swapActive.value = "";
         }
 
+        const swapToFrom = () => {
+            const tmp = fromCurrency.value;
+            fromCurrency.value = toCurrency.value;
+            toCurrency.value = tmp;
+        }
+
         return {
             swapActive,
             buyActive,
+            fromCurrency,
+            toCurrency,
             activateSwap,
             activateBuy,
+            swapToFrom,
         }
     }
 }
