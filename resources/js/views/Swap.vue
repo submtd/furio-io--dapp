@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-sm btn-secondary"><i class="fa-solid fa-arrow-up-arrow-down"></i></button>
+                        <button class="btn btn-sm btn-secondary"><i class="fa-light fa-retweet"></i></button>
                     </div>
                     <div class="form-group">
                         <label for="to">To</label>
