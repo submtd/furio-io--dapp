@@ -30,7 +30,7 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
                         </div>
-                        <input v-model="to" class="form-control" id="to"/>
+                        <input v-model="to" class="form-control" id="to" disabled/>
                     </div>
                 </div>
                 <button @click="swap" class="btn btn-lg btn-info btn-block mb-2">Swap</button>
