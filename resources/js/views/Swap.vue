@@ -24,7 +24,7 @@
                             <input v-model="from" class="form-control" id="from"/>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mx-auto">
                         <button class="btn btn-sm btn-secondary"><i class="fa-light fa-retweet"></i></button>
                     </div>
                     <div class="form-group">
