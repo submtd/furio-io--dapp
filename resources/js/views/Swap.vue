@@ -18,11 +18,14 @@
                     <div class="form-group">
                         <label for="from">From</label>
                         <div class="input-group">
-                            <div class="input-group-append">
+                            <div class="input-group-prepend">
                                 <div class="input-group-text">USDC</div>
                             </div>
                             <input v-model="from" class="form-control" id="from"/>
                         </div>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-arrow-up-arrow-down"></i>
                     </div>
                     <div class="form-group">
                         <label for="to">To</label>
