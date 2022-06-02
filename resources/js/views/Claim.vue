@@ -1,12 +1,10 @@
 <template>
     <h1>Claim</h1>
-    <div class="bg-light text-dark rounded p-5">
-        <div v-show="available < 1" class="row">
-            <p>You do not have any $FUR tokens available to claim.</p>
-        </div>
+    <div v-show="available < 1" class="bg-light text-dark rounded p-5">
+        <p>You do not have any $FUR tokens available to claim.</p>
     </div>
     <div v-show="available > 0" class="row flex-row-reverse gx-5">
-        <div class="col-lg-6 bg-light text-dark rounded p-5 mb-4">
+        <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
             <div v-show="!showConfirm">
                 <div class="form-group">
                     <label for="quantity">Quantity</label>
@@ -45,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-5">
             <div class="row">
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
