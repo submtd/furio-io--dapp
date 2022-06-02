@@ -5,10 +5,10 @@
             <p>You do not have any $FUR tokens available to claim.</p>
         </div>
         <div v-show="available > 0" class="row">
-            <div class="col-md-5">
+            <div class="col-md-5 mb-2">
                 <p>You have <strong>{{ available }}</strong> $FUR tokens available to claim.</p>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-7 mb-2">
                 <div v-show="!showConfirm">
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
@@ -85,6 +85,7 @@ export default {
         const confirm = () => {
             if(quantity.value < 1 || quantity.value > available.value) {
                 alerts.danger("Invalid quantity");
+                quantity.value = available.value;
                 return;
             }
             showConfirm.value = true;
