@@ -13,6 +13,7 @@
 import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import useAlerts from "../composables/useAlerts";
+import router from "../router";
 
 export default {
     setup () {
@@ -22,6 +23,9 @@ export default {
         const available = ref(0);
 
         onMounted(async () => {
+            if(!store.state.wallet.loggedIn) {
+                router.push("/connect");
+            }
             await getNfts();
         });
 
