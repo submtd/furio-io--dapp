@@ -6,7 +6,7 @@
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo similique hic corporis laudantium provident numquam culpa autem libero maxime veritatis, nulla dignissimos necessitatibus itaque dicta beatae quos repellat asperiores quas.</p>
             </div>
             <div class="col-md-7 mb-2">
-                <ul class="nav nav-pills">
+                <ul class="nav nav-pills mb-2">
                     <li class="nav-item">
                         <a @click="activateSwap" class="nav-link" :class="swapActive" href="#">Swap</a>
                     </li>
