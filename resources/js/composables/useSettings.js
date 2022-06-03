@@ -1,10 +1,8 @@
 import axios from "axios";
 import { useStore } from "vuex";
 import useAddressBook from "./useAddressBook";
-import useAlerts from "./useAlerts";
 export default () => {
     const addressBook = useAddressBook();
-    const alerts = useAlerts();
     const store = useStore();
 
     const update = async () => {
