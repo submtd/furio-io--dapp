@@ -17,18 +17,20 @@
                     <button @click="swapToFrom" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-down-square-fill"></i></button>
                 </div>
             </div>
-            <div class="form-group mb-3 row">
-                <div class="col-xs-9">
-                    <label for="to">To</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
+            <div class="form-group mb-3">
+                <div class="row">
+                    <div class="col-xs-9">
+                        <label for="to">To</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
+                            </div>
+                            <input v-model="to" class="form-control" id="to" disabled/>
                         </div>
-                        <input v-model="to" class="form-control" id="to" disabled/>
                     </div>
-                </div>
-                <div class="col-xs-3">
-                    <button @click="swapToFrom" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-down-square-fill"></i></button>
+                    <div class="col-xs-3">
+                        <button @click="swapToFrom" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-down-square-fill"></i></button>
+                    </div>
                 </div>
             </div>
             <button @click="swap" class="btn btn-lg btn-info btn-block mb-2">Swap</button>
