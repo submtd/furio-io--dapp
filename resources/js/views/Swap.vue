@@ -27,7 +27,7 @@
                     <label for="vault" class="form-check-label">Deposit directly into the <router-link :to="{ name: 'Vault' }"><strong>Vault</strong></router-link></label>
                 </div>
             </div>
-            <div v-show="showVault && !referrer" class="form-group">
+            <div v-show="showVault && vault && !referrer" class="form-group">
                 <label for="referrer">Referrer</label>
                 <input v-model="referrer" class="form-control" id="referrer"/>
             </div>
@@ -80,7 +80,7 @@ export default {
         const referrer = ref(null);
 
         const showVault = computed(() => {
-            return fromCurrency.value == "$FUR";
+            return toCurrency.value == "$FUR";
         });
 
         const activateSwap = () => {
