@@ -7,6 +7,20 @@
                 <input v-model="quantity" type="number" class="form-control" id="quantity"/>
             </div>
             <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2">Deposit</button>
+            <div class="card-group mt-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Compound</h5>
+                        <button @click="compound" class="btn btn-sm btn-info btn-block">Compound</button>
+                    </div>
+                </div>
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Claim</h5>
+                        <button @click="claim" class="btn btn-sm btn-secondary btn-block">Claim</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-lg-5">
             <div class="row">
@@ -58,9 +72,19 @@ export default {
 
         }
 
+        const compound = async () => {
+
+        }
+
+        const claim = async () => {
+
+        }
+
         return {
             quantity,
             deposit,
+            compound,
+            claim,
         }
     }
 }
