@@ -23,10 +23,10 @@ class UpdateAddress extends Controller
             'address' => $request->get('address'),
         ]);
         $address->nonce = 'FURIO-MESSAGE-VALIDATION-' . Str::random(8);
-        $address->save();
         if (Auth::user() && $name = $request->get('name')) {
             $address->name = $name;
         }
+        $address->save();
 
         return response()->json([
             'nonce' => $address->nonce,
