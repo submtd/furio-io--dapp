@@ -20,13 +20,12 @@
                     </div>
                     <input v-model="to" class="form-control" id="to" disabled/>
                 </div>
-                <button @click="swapToFrom" class="btn btn-sm btn-secondary ml-1"><i class="bi bi-arrow-up-square-fill"></i></button>
             </div>
             <div class="row">
-                <div class="col-xs-10">
+                <div class="col-sm-10">
                     <button @click="swap" class="btn btn-lg btn-info btn-block mb-2">Swap</button>
                 </div>
-                <div class="col-xs-2">
+                <div class="col-sm-2">
                     <button @click="swapToFrom" class="btn btn-sm btn-secondary ml-1"><i class="bi bi-arrow-down-up"></i></button>
                 </div>
             </div>
