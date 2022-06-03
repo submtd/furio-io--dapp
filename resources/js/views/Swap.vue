@@ -5,7 +5,7 @@
             <div class="form-group">
                 <label for="from">From</label>
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col-11">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><strong>{{ fromCurrency }}</strong></div>
@@ -14,7 +14,7 @@
                         </div>
                         <small class="form-text text-muted text-right"><a href="#">max</a></small>
                     </div>
-                    <div class="col-2">
+                    <div class="col-1 text-right">
                         <button @click="swapToFrom" class="btn btn-sm btn-secondary ml-1"><i class="bi bi-arrow-down-square-fill"></i></button>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
             <div class="form-group mb-3">
                 <label for="to">To</label>
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col-11">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
@@ -30,7 +30,7 @@
                             <input v-model="to" class="form-control" id="to" disabled/>
                         </div>
                     </div>
-                    <div class="col-2">
+                    <div class="col-1 text-right">
                         <button @click="swapToFrom" class="btn btn-sm btn-secondary ml-1"><i class="bi bi-arrow-up-square-fill"></i></button>
                     </div>
                 </div>
