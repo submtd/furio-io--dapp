@@ -30,7 +30,7 @@ export default {
                 store.commit("wallet", wallet);
                 alerts.success("Profile updated");
             }).catch(error => {
-                console.log(error);
+                console.log(error.response);
                 alerts.danger(error.message);
             });
         }
