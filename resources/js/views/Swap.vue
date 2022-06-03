@@ -27,6 +27,10 @@
                     <label for="vault" class="form-check-label">Deposit directly into the <router-link :to="{ name: 'Vault' }"><strong>Vault</strong></router-link></label>
                 </div>
             </div>
+            <div v-show="showVault && !referrer" class="form-group">
+                <label for="referrer">Referrer</label>
+                <input v-model="referrer" class="form-control" id="referrer"/>
+            </div>
             <div class="row mt-3">
                 <div class="col-10">
                     <button @click="swap" class="btn btn-lg btn-info btn-block">Swap</button>
@@ -73,6 +77,7 @@ export default {
         const vault = ref(true);
         const usdcBalance = ref(0);
         const furBalance = ref(0);
+        const referrer = ref(null);
 
         const showVault = computed(() => {
             return fromCurrency.value == "$FUR";
@@ -108,6 +113,7 @@ export default {
             activateSwap,
             activateBuy,
             swapToFrom,
+            referrer,
         }
     }
 }
