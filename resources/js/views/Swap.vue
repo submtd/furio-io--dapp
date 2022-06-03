@@ -25,8 +25,11 @@
                 <div class="col-sm-10">
                     <button @click="swap" class="btn btn-lg btn-info btn-block">Swap</button>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-1">
                     <button @click="swapToFrom" class="btn btn-lg btn-secondary btn-block"><i class="bi bi-arrow-down-up"></i></button>
+                </div>
+                <div class="col-sm-1">
+                    <button class="btn btn-lg btn-secondary btn-block"><i class="bi bi-gear-fill"></i></button>
                 </div>
             </div>
         </div>
