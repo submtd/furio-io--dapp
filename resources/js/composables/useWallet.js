@@ -47,8 +47,6 @@ export default () => {
             }).then(response => {
                 wallet.nonce = response.data.nonce;
                 wallet.name = response.data.name;
-                wallet.email = response.data.email;
-                wallet.emailVerifiedAt = response.data.email_verified_at;
             }).catch(error => {
                 alerts.danger(error.message);
                 return disconnect();
@@ -88,9 +86,6 @@ export default () => {
             nonce: null,
             loggedIn: false,
             name: null,
-            email: null,
-            emailVerificationCode: null,
-            emailVerifiedAt: null,
         };
         store.commit("wallet", wallet);
     }

@@ -21,9 +21,11 @@ export default {
         const name = ref(store.state.wallet.name);
 
         const update = async () => {
-            await axios.post("/api/v1/updateaddress", {
+            await axios.post("/api/v1/address", {
                 address: store.state.wallet.address,
                 name: name.value,
+            }).then(response => {
+                console.log(response);
             }).catch(error => {
                 alerts.danger(error.message);
             });

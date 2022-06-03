@@ -12,9 +12,6 @@ export default createStore({
                 nonce: null,
                 loggedIn: false,
                 name: null,
-                email: null,
-                emailVerificationCode: null,
-                emailVerifiedAt: null,
             },
             presaleNft: {
                 updated: false,
