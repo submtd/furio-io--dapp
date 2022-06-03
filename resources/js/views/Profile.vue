@@ -28,7 +28,9 @@ export default {
                 const wallet = store.state.wallet;
                 wallet.name = name.value;
                 store.commit("wallet", wallet);
+                alerts.success("Profile updated");
             }).catch(error => {
+                console.log(error);
                 alerts.danger(error.message);
             });
         }
