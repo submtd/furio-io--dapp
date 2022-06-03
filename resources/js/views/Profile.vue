@@ -25,7 +25,9 @@ export default {
                 address: store.state.wallet.address,
                 name: name.value,
             }).then(response => {
-                console.log(response);
+                const wallet = store.state.wallet;
+                wallet.name = name.value;
+                store.commit("wallet", wallet);
             }).catch(error => {
                 alerts.danger(error.message);
             });
