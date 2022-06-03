@@ -20,7 +20,7 @@
             <div class="form-group mb-3">
                 <label for="to">To</label>
                 <div class="row">
-                    <div class="col-xs-9">
+                    <div class="col-9">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
@@ -28,8 +28,8 @@
                             <input v-model="to" class="form-control" id="to" disabled/>
                         </div>
                     </div>
-                    <div class="col-xs-3">
-                        <button @click="swapToFrom" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-down-square-fill"></i></button>
+                    <div class="col-3">
+                        <button @click="swapToFrom" class="btn btn-sm btn-secondary ml-1"><i class="bi bi-arrow-up-square-fill"></i></button>
                     </div>
                 </div>
             </div>
