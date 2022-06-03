@@ -75,7 +75,7 @@ export default {
         const furBalance = ref(0);
 
         const showVault = computed(() => {
-            return to.value == "$FUR";
+            return fromCurrency.value == "$FUR";
         });
 
         const activateSwap = () => {
