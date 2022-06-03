@@ -2,16 +2,8 @@
     <h1>Swap</h1>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
-            <ul class="nav nav-pills mb-3">
-                <li class="nav-item">
-                    <a @click="activateSwap" class="nav-link" :class="swapActive" href="#">Swap</a>
-                </li>
-                <li class="nav-item">
-                    <a @click="activateBuy" class="nav-link" :class="buyActive" href="#">Buy USDC</a>
-                </li>
-            </ul>
-            <div v-show="swapActive == 'active'">
-                <div class="form-group">
+            <div class="form-group">
+                <div class="col-xs-9">
                     <label for="from">From</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -21,22 +13,23 @@
                     </div>
                     <small class="form-text text-muted text-right"><a href="#">max</a></small>
                 </div>
-                <div class="text-center">
-                    <button @click="swapToFrom" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-down-up"></i></button>
+                <div class="col-xs-3">
+                    <button @click="swapToFrom" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-down-square-fill"></i></button>
                 </div>
-                <div class="form-group mb-3">
-                    <label for="to">To</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
-                        </div>
-                        <input v-model="to" class="form-control" id="to" disabled/>
+            </div>
+            <div class="text-center">
+                <button @click="swapToFrom" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-down-up"></i></button>
+            </div>
+            <div class="form-group mb-3">
+                <label for="to">To</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
                     </div>
+                    <input v-model="to" class="form-control" id="to" disabled/>
                 </div>
-                <button @click="swap" class="btn btn-lg btn-info btn-block mb-2">Swap</button>
             </div>
-            <div v-show="buyActive == 'active'">
-            </div>
+            <button @click="swap" class="btn btn-lg btn-info btn-block mb-2">Swap</button>
         </div>
         <div class="col-lg-5">
             <div class="row">
