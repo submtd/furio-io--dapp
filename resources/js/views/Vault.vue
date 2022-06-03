@@ -2,6 +2,11 @@
     <h1>Vault</h1>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
+            <div class="form-group">
+                <label for="quantity">Deposit $FUR</label>
+                <input v-model="quantity" type="number" class="form-control" id="quantity"/>
+            </div>
+            <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2">Deposit</button>
         </div>
         <div class="col-lg-5">
             <div class="row">
@@ -43,5 +48,20 @@
 </template>
 
 <script>
-export default {}
+import { ref } from 'vue'
+
+export default {
+    setup () {
+        const quantity = ref(0);
+
+        const deposit = async () => {
+
+        }
+
+        return {
+            quantity,
+            deposit,
+        }
+    }
+}
 </script>
