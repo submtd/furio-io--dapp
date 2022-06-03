@@ -18,9 +18,9 @@
                 </div>
             </div>
             <div class="form-group mb-3">
+                <label for="to">To</label>
                 <div class="row">
                     <div class="col-xs-9">
-                        <label for="to">To</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
