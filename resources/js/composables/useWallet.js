@@ -88,6 +88,7 @@ export default () => {
             name: null,
         };
         store.commit("wallet", wallet);
+        router.push("/connect");
     }
 
     return {
