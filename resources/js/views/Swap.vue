@@ -21,15 +21,18 @@
                     <input v-model="to" class="form-control" id="to" disabled/>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input v-model="vault" class="form-check-input" type="checkbox" id="vault"/>
+                    <label for="vault" class="form-check-label">Deposit directly into the <router-link :to="{ name: 'Vault' }"><strong>Vault</strong></router-link></label>
+                </div>
+            </div>
             <div class="row mt-3">
-                <div class="col-8">
+                <div class="col-10">
                     <button @click="swap" class="btn btn-lg btn-info btn-block">Swap</button>
                 </div>
                 <div class="col-2">
                     <button @click="swapToFrom" class="btn btn-lg btn-secondary btn-block"><i class="bi bi-arrow-down-up"></i></button>
-                </div>
-                <div class="col-2">
-                    <button class="btn btn-lg btn-secondary btn-block"><i class="bi bi-gear-fill"></i></button>
                 </div>
             </div>
         </div>
@@ -67,6 +70,7 @@ export default {
         const toCurrency = ref("$FUR");
         const to = ref(null);
         const from = ref(null);
+        const vault = ref(true);
         const usdcBalance = ref(0);
         const furBalance = ref(0);
 
@@ -93,6 +97,7 @@ export default {
             toCurrency,
             to,
             from,
+            vault,
             usdcBalance,
             furBalance,
             activateSwap,
