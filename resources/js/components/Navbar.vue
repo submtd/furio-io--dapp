@@ -32,7 +32,7 @@
                 <div class="d-flex">
                     <ul class="navbar-nav flex-column text-right">
                         <li class="nav-item">
-                            <router-link :to="{ name: 'Profile' }" class="nav-link" active-class="active">Profile</router-link>
+                            <router-link :to="{ name: 'Profile' }" class="nav-link" active-class="active">{{ name }}</router-link>
                         </li>
                         <li class="nav-item">
                             <button @click="wallet.disconnect" class="btn btn-sm btn-secondary">Disconnect {{ store.state.wallet.shortAddress }}</button>
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { ref } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import router from "../router";
@@ -54,6 +55,7 @@ export default {
     setup () {
         const store = useStore();
         const wallet = useWallet();
+        const name = ref(store.state.wallet.name ?? 'Profile');
 
         if(!store.state.wallet.loggedIn && useRoute().name != 'Connect') {
             router.push("/connect");
@@ -62,6 +64,7 @@ export default {
         return {
             store,
             wallet,
+            name,
         }
     }
 }
