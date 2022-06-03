@@ -46,22 +46,22 @@
 
 <script>
 import { useStore } from "vuex";
-import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import router from "../router";
+import useWallet from "../composables/useWallet";
 
 export default {
     setup () {
         const store = useStore();
+        const wallet = useWallet();
 
-        //onMounted(() => {
-            if(!store.state.wallet.loggedIn && useRoute().name != 'Connect') {
-                router.push("/connect");
-            }
-        //});
+        if(!store.state.wallet.loggedIn && useRoute().name != 'Connect') {
+            router.push("/connect");
+        }
 
         return {
             store,
+            wallet,
         }
     }
 }
