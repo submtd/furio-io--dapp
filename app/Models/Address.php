@@ -20,24 +20,5 @@ class Address extends Model implements AuthenticatableContract
     protected $fillable = [
         'address',
         'name',
-        'email',
-    ];
-
-    /**
-     * Casted attributes.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    /**
-     * Encryptable attributes.
-     *
-     * @var array
-     */
-    protected $encryptable = [
-        'email_verification_code',
     ];
 }
