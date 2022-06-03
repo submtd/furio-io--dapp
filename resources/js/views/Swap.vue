@@ -4,38 +4,32 @@
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
             <div class="form-group">
                 <label for="from">From</label>
-                <div class="row">
-                    <div class="col-11">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text"><strong>{{ fromCurrency }}</strong></div>
-                            </div>
-                            <input v-model="from" class="form-control" id="from"/>
-                        </div>
-                        <small class="form-text text-muted text-right"><a href="#">max</a></small>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><strong>{{ fromCurrency }}</strong></div>
                     </div>
-                    <div class="col-1 text-right">
-                        <button @click="swapToFrom" class="btn btn-sm btn-secondary ml-1"><i class="bi bi-arrow-down-square-fill"></i></button>
-                    </div>
+                    <input v-model="from" class="form-control" id="from"/>
                 </div>
+                <small class="form-text text-muted text-right"><a href="#">max</a></small>
             </div>
             <div class="form-group mb-3">
                 <label for="to">To</label>
-                <div class="row">
-                    <div class="col-11">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
-                            </div>
-                            <input v-model="to" class="form-control" id="to" disabled/>
-                        </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
                     </div>
-                    <div class="col-1 text-right">
-                        <button @click="swapToFrom" class="btn btn-sm btn-secondary ml-1"><i class="bi bi-arrow-up-square-fill"></i></button>
-                    </div>
+                    <input v-model="to" class="form-control" id="to" disabled/>
+                </div>
+                <button @click="swapToFrom" class="btn btn-sm btn-secondary ml-1"><i class="bi bi-arrow-up-square-fill"></i></button>
+            </div>
+            <div class="row">
+                <div class="col-xs-10">
+                    <button @click="swap" class="btn btn-lg btn-info btn-block mb-2">Swap</button>
+                </div>
+                <div class="col-xs-2">
+                    <button @click="swapToFrom" class="btn btn-sm btn-secondary ml-1"><i class="bi bi-arrow-down-up"></i></button>
                 </div>
             </div>
-            <button @click="swap" class="btn btn-lg btn-info btn-block mb-2">Swap</button>
         </div>
         <div class="col-lg-5">
             <div class="row">
