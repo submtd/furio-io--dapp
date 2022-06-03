@@ -31,7 +31,7 @@ export default {
                 alerts.success("Profile updated");
             }).catch(error => {
                 console.log(error.response);
-                alerts.danger(error.message);
+                alerts.danger(error.response.data.message);
             });
         }
 
