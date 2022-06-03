@@ -23,10 +23,10 @@
             </div>
             <div class="row">
                 <div class="col-sm-10">
-                    <button @click="swap" class="btn btn-lg btn-info btn-block mb-2">Swap</button>
+                    <button @click="swap" class="btn btn-lg btn-info btn-block">Swap</button>
                 </div>
                 <div class="col-sm-2">
-                    <button @click="swapToFrom" class="btn btn-sm btn-secondary ml-1"><i class="bi bi-arrow-down-up"></i></button>
+                    <button @click="swapToFrom" class="btn btn-lg btn-secondary btn-block"><i class="bi bi-arrow-down-up"></i></button>
                 </div>
             </div>
         </div>
