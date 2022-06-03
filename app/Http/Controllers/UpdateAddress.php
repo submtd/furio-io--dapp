@@ -17,7 +17,7 @@ class UpdateAddress extends Controller
     {
         $request->validate([
             'address' => 'required',
-            'name' => 'nullable|max:255|unique:addresses,name',
+            'name' => 'nullable|max:255|unique:addresses,name,'.$request->get('address').',address',
         ]);
         $address = Address::firstOrNew([
             'address' => $request->get('address'),
