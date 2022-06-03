@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import router from "../router";
@@ -55,7 +55,10 @@ export default {
     setup () {
         const store = useStore();
         const wallet = useWallet();
-        const name = ref(store.state.wallet.name ?? 'Profile');
+
+        const name = computed(() => {
+            return store.state.wallet.name ?? 'Profile';
+        });
 
         if(!store.state.wallet.loggedIn && useRoute().name != 'Connect') {
             router.push("/connect");
