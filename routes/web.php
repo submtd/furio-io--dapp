@@ -11,10 +11,10 @@ Route::group([
     Route::post('address', 'UpdateAddress');
     Route::post('login', 'Login');
     Route::get('logout', 'Logout');
-    Route::get('presalesignature', 'PresaleSignature');
-    Route::get('updatepresale', 'UpdatePresale');
     Route::get('getpromo', 'GetPromo');
 });
+
+
 
 // SPA route catchall.
 Route::get('{any}', function () {
