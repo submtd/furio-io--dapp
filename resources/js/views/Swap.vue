@@ -21,7 +21,7 @@
                     <input v-model="to" class="form-control" id="to" disabled/>
                 </div>
             </div>
-            <div v-show="to == '$FUR'" class="form-group">
+            <div v-show="showVault" class="form-group">
                 <div class="form-check">
                     <input v-model="vault" class="form-check-input" type="checkbox" id="vault"/>
                     <label for="vault" class="form-check-label">Deposit directly into the <router-link :to="{ name: 'Vault' }"><strong>Vault</strong></router-link></label>
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 export default {
     setup () {
@@ -73,6 +73,10 @@ export default {
         const vault = ref(true);
         const usdcBalance = ref(0);
         const furBalance = ref(0);
+
+        const showVault = computed(() => {
+            return to.value == "$FUR";
+        });
 
         const activateSwap = () => {
             swapActive.value = "active";
@@ -98,6 +102,7 @@ export default {
             to,
             from,
             vault,
+            showVault,
             usdcBalance,
             furBalance,
             activateSwap,
