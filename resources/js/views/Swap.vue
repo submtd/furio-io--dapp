@@ -21,7 +21,7 @@
                     <input v-model="to" class="form-control" id="to" disabled/>
                 </div>
             </div>
-            <div class="form-group">
+            <div v-show="to == '$FUR'" class="form-group">
                 <div class="form-check">
                     <input v-model="vault" class="form-check-input" type="checkbox" id="vault"/>
                     <label for="vault" class="form-check-label">Deposit directly into the <router-link :to="{ name: 'Vault' }"><strong>Vault</strong></router-link></label>
