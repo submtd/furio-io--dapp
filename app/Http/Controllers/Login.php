@@ -32,8 +32,6 @@ class Login extends Controller
         return response()->json([
             'nonce' => $address->nonce,
             'name' => $address->name,
-            'email' => $address->email,
-            'email_verified_at' => $address->email_verified_at,
         ]);
     }
 }
