@@ -94,9 +94,13 @@ export default {
             address.value = store.state.wallet.address;
         });
 
+        const claimContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.claim_abi), store.state.settings.claim_address);
+        }
+
         const getAvailable = async () => {
             try {
-                const contract = new web3.eth.Contract(JSON.parse(store.state.settings.claim_abi), store.state.settings.claim_address);
+                const contract = claimContract();
                 available.value = await contract.methods.getOwnerValue(store.state.wallet.address).call();
             } catch (error) {
                 alerts.danger(error.message);
@@ -118,6 +122,12 @@ export default {
 
         const claim = async () => {
             showConfirm.value = false;
+            try {
+                const contract = claimContract();
+                await contract.claimNft(quantity.value, address.value, vault.value);
+            } catch (error) {
+                alerts.danger(error.message);
+            }
             getAvailable();
         }
 
