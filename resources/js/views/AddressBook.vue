@@ -36,12 +36,12 @@ export default {
         const settings = useSettings();
 
         const claimLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
-        const downlineLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
-        const presaleLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
-        const swapLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
-        const tokenLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
-        const paymentLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
-        const vaultLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
+        const downlineLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.downline_address);
+        const presaleLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.presale_address);
+        const swapLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.swap_address);
+        const tokenLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.token_address);
+        const paymentLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.payment_address);
+        const vaultLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.vault_address);
 
         onMounted(async () => {
             settings.update();
