@@ -88,11 +88,11 @@ export default {
 
         const playerStatusDisplay = computed(() => {
             switch(playerStatus.value) {
-                case 1:
+                case "1":
                     return 'Negative';
-                case 2:
+                case "2":
                     return 'Neutral';
-                case 3:
+                case "3":
                     return 'Positive';
             }
         });
