@@ -102,7 +102,7 @@ export default {
                 vaultBalance.value = await contract.methods.totalDeposit(store.state.wallet.address).call();
                 claimed.value = await contract.methods.totalClaim(store.state.wallet.address).call();
                 available.value = await contract.methods.rewardAvailable(store.state.wallet.address).call();
-                rewardRate.value = await contract.methods.rewardPercent(store.state.wallet.address).call();
+                rewardRate.value = await contract.methods.rewardPercent(store.state.wallet.address).call() / 100;
                 const token = tokenContract();
                 balance.value = await token.methods.balanceOf(store.state.wallet.address).call();
             } catch (error) {
