@@ -45,8 +45,8 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <p class="card-title">Available Rewards</p>
-                            <p class="card-text"><strong>{{ availableDisplay }}</strong></p>
+                            <p class="card-title">Player Status</p>
+                            <p class="card-text"><strong>{{ playerStatusDisplay }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -70,6 +70,7 @@ export default {
         const claimed = ref(0);
         const rewardRate = ref(0);
         const available = ref(0);
+        const playerStatus = ref(0);
         const quantity = ref(0);
         const balance = ref(0);
 
@@ -85,6 +86,17 @@ export default {
             return displayCurrency.format(available.value);
         });
 
+        const playerStatusDisplay = computed(() => {
+            switch(playerStatus.value) {
+                case 1:
+                    return 'Negative';
+                case 2:
+                    return 'Neutral';
+                case 3:
+                    return 'Positive';
+            }
+        });
+
         onMounted(async () => {
             await update();
         });
@@ -96,6 +108,7 @@ export default {
                 claimed.value = await contract.methods.totalClaim(store.state.wallet.address).call();
                 available.value = await contract.methods.rewardAvailable(store.state.wallet.address).call();
                 rewardRate.value = await contract.methods.rewardPercent(store.state.wallet.address).call() / 100;
+                playerStatus.value = await contract.methods.playerStatus(store.state.wallet.address).call();
                 const token = tokenContract();
                 balance.value = await token.methods.balanceOf(store.state.wallet.address).call();
             } catch (error) {
@@ -172,6 +185,8 @@ export default {
             rewardRate,
             available,
             availableDisplay,
+            playerStatus,
+            playerStatusDisplay,
             deposit,
             compound,
             claim,
