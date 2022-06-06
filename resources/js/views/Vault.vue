@@ -21,8 +21,8 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <p class="card-title">Vault Balance</p>
-                            <p class="card-text"><strong>{{ vaultBalanceDisplay }} $FUR</strong></p>
+                            <p class="card-title">Deposited</p>
+                            <p class="card-text"><strong>{{ depositedDisplay }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@ export default {
         const store = useStore();
         const alerts = useAlerts();
         const displayCurrency = useDisplayCurrency();
-        const vaultBalance = ref(0);
+        const deposited = ref(0);
         const claimed = ref(0);
         const rewardRate = ref(0);
         const available = ref(0);
@@ -74,8 +74,8 @@ export default {
         const quantity = ref(0);
         const balance = ref(0);
 
-        const vaultBalanceDisplay = computed(() => {
-            return displayCurrency.format(vaultBalance.value);
+        const depositedDisplay = computed(() => {
+            return displayCurrency.format(deposited.value);
         });
 
         const claimedDisplay = computed(() => {
@@ -104,7 +104,7 @@ export default {
         const update = async () => {
             try {
                 const contract = vaultContract();
-                vaultBalance.value = await contract.methods.totalDeposit(store.state.wallet.address).call();
+                deposited.value = await contract.methods.totalDeposit(store.state.wallet.address).call();
                 claimed.value = await contract.methods.totalClaim(store.state.wallet.address).call();
                 available.value = await contract.methods.rewardAvailable(store.state.wallet.address).call();
                 rewardRate.value = await contract.methods.rewardPercent(store.state.wallet.address).call() / 100;
@@ -182,8 +182,8 @@ export default {
 
         return {
             quantity,
-            vaultBalance,
-            vaultBalanceDisplay,
+            deposited,
+            depositedDisplay,
             claimed,
             claimedDisplay,
             rewardRate,
