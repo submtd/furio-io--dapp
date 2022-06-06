@@ -129,10 +129,7 @@ export default {
                 const gasMultiplier = 1;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const amount = BigInt(quantity.value * 1000000000000000000);
-                console.log(amount);
                 const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.vault_address).call();
-                console.log(allowance);
-                console.log(allowance < amount);
                 if(allowance < amount) {
                     const approveGas = Math.round(await token.methods.approve(store.state.settings.vault_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                     await token.methods.approve(store.state.settings.vault_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
@@ -144,15 +141,15 @@ export default {
                 alerts.danger(error.message);
             }
             await update();
-            }
+        }
 
         const compound = async () => {
             try {
                 const contract = vaultContract();
                 const gasPriceMultiplier = 1;
-                const gasMultipler = 1;
+                const gasMultiplier = 1;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
-                const gas = Math.round(await contract.methods.compound().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultipler);
+                const gas = Math.round(await contract.methods.compound().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await contract.methods.compound().send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
             } catch (error) {
@@ -165,15 +162,15 @@ export default {
             try {
                 const contract = vaultContract();
                 const gasPriceMultiplier = 1;
-                const gasMultipler = 1;
+                const gasMultiplier = 1;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
-                const gas = Math.round(await contract.methods.claim().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultipler);
+                const gas = Math.round(await contract.methods.claim().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await contract.methods.claim().send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
             } catch (error) {
                 alerts.danger(error.message);
             }
-            await claim();
+            await update();
         }
 
         return {
