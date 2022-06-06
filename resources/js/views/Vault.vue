@@ -28,7 +28,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Initial Deposit</p>
-                            <p class="card-text"><strong>{{ initialDeposit }} $FUR</strong></p>
+                            <p class="card-text"><strong>{{ initialDepositDisplay }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Total Deposit</p>
-                            <p class="card-text"><strong>{{ totalDeposit }} $FUR</strong></p>
+                            <p class="card-text"><strong>{{ totalDepositDisplay }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Claimed</p>
-                            <p class="card-text"><strong>{{ totalClaim }} $FUR</strong></p>
+                            <p class="card-text"><strong>{{ totalClaimDisplay }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Available Rewards</p>
-                            <p class="card-text"><strong>{{ rewardAvailable }}</strong></p>
+                            <p class="card-text"><strong>{{ rewardAvailableDisplay }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex';
 import useAlerts from '../composables/useAlerts';
 
@@ -74,8 +74,27 @@ export default {
         const totalDeposit = ref(0);
         const totalClaim = ref(0);
         const rewardAvailable = ref(0);
-
         const quantity = ref(0);
+
+        const initialDepositDisplay = computed(() => {
+            return displayAmount(initialDeposit.value);
+        });
+
+        const totalDepositDisplay = computed(() => {
+            return displayAmount(totalDeposit.value);
+        });
+
+        const totalClaimDisplay = computed(() => {
+            return displayAmount(totalClaim.value);
+        });
+
+        const rewardAvailableDisplay = computed(() => {
+            return displayAmount(rewardAvailable.value);
+        });
+
+        const displayAmount = (amount) => {
+            return Math.floor(amount / 100000000000000) / 1000;
+        }
 
         onMounted(async () => {
             try {
@@ -112,9 +131,13 @@ export default {
         return {
             quantity,
             initialDeposit,
+            initialDepositDisplay,
             totalDeposit,
+            totalDepositDisplay,
             totalClaim,
+            totalClaimDisplay,
             rewardAvailable,
+            rewardAvailableDisplay,
             deposit,
             compound,
             claim,
