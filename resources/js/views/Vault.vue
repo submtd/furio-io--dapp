@@ -100,11 +100,7 @@ export default {
                 initialDeposit.value = await contract.methods.initialDeposit(store.state.wallet.address).call();
                 totalDeposit.value = await contract.methods.totalDeposit(store.state.wallet.address).call();
                 totalClaim.value = await contract.methods.totalClaim(store.state.wallet.address).call();
-                let available = await contract.methods.rewardAvailable(store.state.wallet.address).call();
-                console.log(available);
-                available = Math.floor(available / 100000000000000);
-                available = available / 1000;
-                rewardAvailable.value = available;
+                rewardAvailable.value = await contract.methods.rewardAvailable(store.state.wallet.address).call();
             } catch (error) {
                 alerts.danger(error.message);
             }
