@@ -124,10 +124,13 @@ export default {
         const deposit = async () => {
             try {
                 const contract = vaultContract();
+                const tokenContract = tokenContract();
                 const gasPriceMultiplier = 1;
                 const gasMultipler = 1;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const amount = BigInt(quantity.value) * BigInt("1000000000000000000");
+                const approveGas = Math.round(await tokenContract.methods.approve(store.state.settings.vault_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                await tokenContract.methods.approve(store.state.settings.vault_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
                 const gas = Math.round(await contract.methods.deposit(amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultipler);
                 const result = await contract.methods.deposit(amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
@@ -135,7 +138,7 @@ export default {
                 alerts.danger(error.message);
             }
             await update();
-        }
+            }
 
         const compound = async () => {
             try {
