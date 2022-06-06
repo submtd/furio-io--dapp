@@ -130,7 +130,7 @@ export default {
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const amount = BigInt(quantity.value * 1000000000000000000);
                 console.log(amount);
-                const allowance = token.methods.allowance(store.state.wallet.address, store.state.settings.vault_address).call();
+                const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.vault_address).call();
                 console.log(allowance);
                 console.log(allowance < amount);
                 if(allowance < amount) {
