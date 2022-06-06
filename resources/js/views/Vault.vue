@@ -164,6 +164,10 @@ export default {
         const claim = async () => {
             try {
                 const contract = vaultContract();
+                const newRate = await contract.methods.claimPrecheck(store.state.wallet.address).call() / 100;
+                if(newRate < rewardRate.value) {
+                    alert("This claim will decrease your rewards to " + newRate + "%");
+                }
                 const gasPriceMultiplier = 1;
                 const gasMultiplier = 1;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
