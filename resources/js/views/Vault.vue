@@ -28,7 +28,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Initial Deposit</p>
-                            <p class="card-text"><strong>{{ initialDepositDisplay }} $FUR</strong></p>
+                            <p class="card-text"><strong>{{ vaultBalanceDisplay }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Total Deposit</p>
-                            <p class="card-text"><strong>{{ totalDepositDisplay }} $FUR</strong></p>
+                            <p class="card-text"><strong>{{ claimedDisplay }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Claimed</p>
-                            <p class="card-text"><strong>{{ totalClaimDisplay }} $FUR</strong></p>
+                            <p class="card-text"><strong>{{ rewardRate }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Available Rewards</p>
-                            <p class="card-text"><strong>{{ rewardAvailableDisplay }}</strong></p>
+                            <p class="card-text"><strong>{{ availableDisplay }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -72,27 +72,24 @@ export default {
         const store = useStore();
         const alerts = useAlerts();
         const displayCurrency = useDisplayCurrency();
-        const initialDeposit = ref(0);
+        const vaultBalance = ref(0);
         const totalDeposit = ref(0);
-        const totalClaim = ref(0);
-        const rewardAvailable = ref(0);
+        const claimed = ref(0);
+        const rewardRate = ref(0);
+        const available = ref(0);
         const quantity = ref(0);
         const balance = ref(0);
 
-        const initialDepositDisplay = computed(() => {
-            return displayCurrency.format(initialDeposit.value);
+        const vaultBalanceDisplay = computed(() => {
+            return displayCurrency.format(vaultBalance.value);
         });
 
-        const totalDepositDisplay = computed(() => {
-            return displayCurrency.format(totalDeposit.value);
+        const claimedDisplay = computed(() => {
+            return displayCurrency.format(claimed.value);
         });
 
-        const totalClaimDisplay = computed(() => {
-            return displayCurrency.format(totalClaim.value);
-        });
-
-        const rewardAvailableDisplay = computed(() => {
-            return displayCurrency.format(rewardAvailable.value);
+        const availableDisplay = computed(() => {
+            return displayCurrency.format(available.value);
         });
 
         onMounted(async () => {
@@ -102,10 +99,10 @@ export default {
         const update = async () => {
             try {
                 const contract = vaultContract();
-                initialDeposit.value = await contract.methods.initialDeposit(store.state.wallet.address).call();
-                totalDeposit.value = await contract.methods.totalDeposit(store.state.wallet.address).call();
-                totalClaim.value = await contract.methods.totalClaim(store.state.wallet.address).call();
-                rewardAvailable.value = await contract.methods.rewardAvailable(store.state.wallet.address).call();
+                vaultBalance.value = await contract.methods.totalDeposit(store.state.wallet.address).call();
+                claimed.value = await contract.methods.totalClaim(store.state.wallet.address).call();
+                available.value = await contract.methods.rewardAvailable(store.state.wallet.address).call();
+                rewardRate.value = await contract.methods.rewardPercent(store.state.wallet.address).call();
                 const token = tokenContract();
                 balance.value = await token.methods.balanceOf(store.state.wallet.address).call();
             } catch (error) {
@@ -175,14 +172,12 @@ export default {
 
         return {
             quantity,
-            initialDeposit,
-            initialDepositDisplay,
-            totalDeposit,
-            totalDepositDisplay,
-            totalClaim,
-            totalClaimDisplay,
-            rewardAvailable,
-            rewardAvailableDisplay,
+            vaultBalance,
+            vaultBalanceDisplay,
+            claimed,
+            claimedDisplay,
+            available,
+            availableDisplay,
             deposit,
             compound,
             claim,
