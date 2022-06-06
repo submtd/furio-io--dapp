@@ -10,14 +10,12 @@
             <div class="card-group mt-3">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Compound</h5>
-                        <button @click="compound" class="btn btn-sm btn-info btn-block">Compound</button>
+                        <button @click="compound" class="btn btn-sm btn-info btn-block">Compound {{ availableDisplay }} $FUR</button>
                     </div>
                 </div>
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Claim</h5>
-                        <button @click="claim" class="btn btn-sm btn-secondary btn-block">Claim</button>
+                        <button @click="claim" class="btn btn-sm btn-secondary btn-block">Claim {{ availableDisplay }} $FUR</button>
                     </div>
                 </div>
             </div>
