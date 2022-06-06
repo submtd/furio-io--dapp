@@ -83,7 +83,7 @@ export default {
                 initialDeposit.value = await contract.methods.initialDeposit(store.state.wallet.address).call();
                 totalDeposit.value = await contract.methods.totalDeposit(store.state.wallet.address).call();
                 totalClaim.value = await contract.methods.totalClaim(store.state.wallet.address).call();
-                rewardAvailable.value = await contract.methods.rewardAvailable(store.state.wallet.address).call();
+                rewardAvailable.value = await contract.methods.rewardAvailable(store.state.wallet.address).call() / 1000000000000000000;
             } catch (error) {
                 alerts.danger(error.message);
             }
