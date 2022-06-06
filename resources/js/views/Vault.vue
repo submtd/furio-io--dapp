@@ -110,6 +110,7 @@ export default {
             initialDeposit,
             totalDeposit,
             totalClaim,
+            rewardAvailable,
             deposit,
             compound,
             claim,
