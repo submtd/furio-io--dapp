@@ -127,7 +127,7 @@ export default {
                 const gasPriceMultiplier = 1;
                 const gasMultipler = 1;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
-                const amount = quantity.value * 1000000000000000000;
+                const amount = quantity.value * BigInt("1000000000000000000");
                 const gas = Math.round(await contract.methods.deposit(amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultipler);
                 const result = await contract.methods.deposit(amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
