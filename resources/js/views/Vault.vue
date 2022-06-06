@@ -134,6 +134,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
+            await update();
         }
 
         const compound = async () => {
@@ -148,6 +149,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
+            await update();
         }
 
         const claim = async () => {
@@ -162,6 +164,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
+            await claim();
         }
 
         return {
