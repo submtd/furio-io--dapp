@@ -43,14 +43,14 @@
                 </div>
             </div>
         </nav>
-        <div class="container">
-            
+        <div class="container text-right">
+            $FUR: {{ tokenBalance }} | USDC: {{ paymentBalance }}
         </div>
     </div>
 </template>
 
 <script>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import router from "../router";
@@ -60,6 +60,8 @@ export default {
     setup () {
         const store = useStore();
         const wallet = useWallet();
+        const tokenBalance = ref(0);
+        const paymentBalance = ref(0);
 
         const name = computed(() => {
             return store.state.wallet.name ?? 'Profile';
@@ -69,10 +71,26 @@ export default {
             router.push("/connect");
         }
 
+        const tokenContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
+        }
+
+        const paymentContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.payment_abi), store.state.settings.payment_address);
+        }
+
+        const refreshBalance = async () => {
+            tokenBalance.value = await tokenContract().methods.balanceOf(store.state.wallet.address).call();
+            paymentBalance.value = await paymentContract().methods.balanceOf(store.state.wallet.address).call();
+        }
+
         return {
             store,
             wallet,
             name,
+            tokenBalance,
+            paymentBalance,
+            refreshBalance,
         }
     }
 }
