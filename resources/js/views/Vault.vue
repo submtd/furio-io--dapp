@@ -77,6 +77,7 @@ export default {
         const totalClaim = ref(0);
         const rewardAvailable = ref(0);
         const quantity = ref(0);
+        const balance = ref(0);
 
         const initialDepositDisplay = computed(() => {
             return displayCurrency.format(initialDeposit.value);
@@ -105,6 +106,8 @@ export default {
                 totalDeposit.value = await contract.methods.totalDeposit(store.state.wallet.address).call();
                 totalClaim.value = await contract.methods.totalClaim(store.state.wallet.address).call();
                 rewardAvailable.value = await contract.methods.rewardAvailable(store.state.wallet.address).call();
+                const token = tokenContract();
+                balance.value = await token.methods.balanceOf(store.state.wallet.address).call();
             } catch (error) {
                 alerts.danger(error.message);
             }
@@ -112,6 +115,10 @@ export default {
 
         const vaultContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.vault_abi), store.state.settings.vault_address);
+        }
+
+        const tokenContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
         }
 
         const deposit = async () => {
