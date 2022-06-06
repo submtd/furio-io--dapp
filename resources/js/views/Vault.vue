@@ -65,11 +65,13 @@
 import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex';
 import useAlerts from '../composables/useAlerts';
+import useDisplayCurrency from '../composables/useDisplayCurrency';
 
 export default {
     setup () {
         const store = useStore();
         const alerts = useAlerts();
+        const displayCurrency = useDisplayCurrency();
         const initialDeposit = ref(0);
         const totalDeposit = ref(0);
         const totalClaim = ref(0);
@@ -77,24 +79,20 @@ export default {
         const quantity = ref(0);
 
         const initialDepositDisplay = computed(() => {
-            return displayAmount(initialDeposit.value);
+            return displayCurrency.format(initialDeposit.value);
         });
 
         const totalDepositDisplay = computed(() => {
-            return displayAmount(totalDeposit.value);
+            return displayCurrency.format(totalDeposit.value);
         });
 
         const totalClaimDisplay = computed(() => {
-            return displayAmount(totalClaim.value);
+            return displayCurrency.format(totalClaim.value);
         });
 
         const rewardAvailableDisplay = computed(() => {
-            return displayAmount(rewardAvailable.value);
+            return displayCurrency.format(rewardAvailable.value);
         });
-
-        const displayAmount = (amount) => {
-            return Math.floor(amount / 100000000000000) / 1000;
-        }
 
         onMounted(async () => {
             try {
