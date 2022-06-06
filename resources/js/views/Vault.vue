@@ -9,10 +9,10 @@
             <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2">Deposit</button>
             <div class="row mt-3">
                 <div class="col-6">
-                    <button @click="compound" class="btn btn-sm btn-info btn-block">Compound {{ availableDisplay }} $FUR</button>
+                    <button @click="compound" class="btn btn-lg btn-info btn-block">Compound {{ availableDisplay }}</button>
                 </div>
                 <div class="col-6">
-                    <button @click="claim" class="btn btn-sm btn-secondary btn-block">Claim {{ availableDisplay }} $FUR</button>
+                    <button @click="claim" class="btn btn-lg btn-secondary btn-block">Claim {{ availableDisplay }}</button>
                 </div>
             </div>
         </div>
