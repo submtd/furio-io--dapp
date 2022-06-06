@@ -51,8 +51,8 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <p class="card-title">Direct Referrals</p>
-                            <p class="card-text"><strong>0</strong></p>
+                            <p class="card-title">Available Rewards</p>
+                            <p class="card-text"><strong>{{ rewardAvailable }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -73,6 +73,7 @@ export default {
         const initialDeposit = ref(0);
         const totalDeposit = ref(0);
         const totalClaim = ref(0);
+        const rewardAvailable = ref(0);
 
         const quantity = ref(0);
 
@@ -82,6 +83,7 @@ export default {
                 initialDeposit.value = await contract.methods.initialDeposit(store.state.wallet.address).call();
                 totalDeposit.value = await contract.methods.totalDeposit(store.state.wallet.address).call();
                 totalClaim.value = await contract.methods.totalClaim(store.state.wallet.address).call();
+                rewardAvailable.value = await contract.methods.rewardAvailable(store.state.wallet.address).call();
             } catch (error) {
                 alerts.danger(error.message);
             }
