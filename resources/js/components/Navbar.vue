@@ -44,7 +44,7 @@
             </div>
         </nav>
         <div class="container text-right">
-            $FUR: {{ tokenBalance }} | USDC: {{ paymentBalance }}
+            $FUR: {{ tokenBalance }} | USDC: {{ paymentBalance }} <button @click="refreshBalance" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-clockwise"></i></button>
         </div>
     </div>
 </template>
