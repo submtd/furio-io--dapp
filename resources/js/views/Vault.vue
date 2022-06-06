@@ -7,16 +7,12 @@
                 <input v-model="quantity" type="number" class="form-control" id="quantity"/>
             </div>
             <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2">Deposit</button>
-            <div class="card-group mt-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <button @click="compound" class="btn btn-sm btn-info btn-block">Compound {{ availableDisplay }} $FUR</button>
-                    </div>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <button @click="compound" class="btn btn-sm btn-info btn-block">Compound {{ availableDisplay }} $FUR</button>
                 </div>
-                <div class="card text-center">
-                    <div class="card-body">
-                        <button @click="claim" class="btn btn-sm btn-secondary btn-block">Claim {{ availableDisplay }} $FUR</button>
-                    </div>
+                <div class="col-6">
+                    <button @click="claim" class="btn btn-sm btn-secondary btn-block">Claim {{ availableDisplay }} $FUR</button>
                 </div>
             </div>
         </div>
