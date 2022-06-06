@@ -95,6 +95,10 @@ export default {
         });
 
         onMounted(async () => {
+            await update();
+        });
+
+        const update = async () => {
             try {
                 const contract = vaultContract();
                 initialDeposit.value = await contract.methods.initialDeposit(store.state.wallet.address).call();
@@ -104,18 +108,39 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
-        });
+        }
 
         const vaultContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.vault_abi), store.state.settings.vault_address);
         }
 
         const deposit = async () => {
-
+            try {
+                const contract = vaultContract();
+                const gasPriceMultiplier = 1;
+                const gasMultipler = 1;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const amount = quantity.value * 1000000000000000000;
+                const gas = Math.round(await contract.methods.deposit(amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultipler);
+                const result = await contract.methods.deposit(amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
+            } catch (error) {
+                alerts.danger(error.message);
+            }
         }
 
         const compound = async () => {
-
+            try {
+                const contract = vaultContract();
+                const gasPriceMultiplier = 1;
+                const gasMultipler = 1;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const gas = Math.round(await contract.methods.claim().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultipler);
+                const result = await contract.methods.claim().send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
+            } catch (error) {
+                alerts.danger(error.message);
+            }
         }
 
         const claim = async () => {
