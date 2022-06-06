@@ -27,7 +27,7 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <p class="card-title">Initial Deposit</p>
+                            <p class="card-title">Vault Balance</p>
                             <p class="card-text"><strong>{{ vaultBalanceDisplay }} $FUR</strong></p>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <p class="card-title">Total Deposit</p>
+                            <p class="card-title">Claimed</p>
                             <p class="card-text"><strong>{{ claimedDisplay }} $FUR</strong></p>
                         </div>
                     </div>
@@ -43,8 +43,8 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <p class="card-title">Claimed</p>
-                            <p class="card-text"><strong>{{ rewardRate }} $FUR</strong></p>
+                            <p class="card-title">Reward Rate</p>
+                            <p class="card-text"><strong>{{ rewardRate }}%</strong></p>
                         </div>
                     </div>
                 </div>
@@ -73,7 +73,6 @@ export default {
         const alerts = useAlerts();
         const displayCurrency = useDisplayCurrency();
         const vaultBalance = ref(0);
-        const totalDeposit = ref(0);
         const claimed = ref(0);
         const rewardRate = ref(0);
         const available = ref(0);
@@ -176,6 +175,7 @@ export default {
             vaultBalanceDisplay,
             claimed,
             claimedDisplay,
+            rewardRate,
             available,
             availableDisplay,
             deposit,
