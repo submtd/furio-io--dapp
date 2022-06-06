@@ -28,7 +28,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Initial Deposit</p>
-                            <p class="card-text"><strong>0 $FUR</strong></p>
+                            <p class="card-text"><strong>{{ initialDeposit }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Total Deposit</p>
-                            <p class="card-text"><strong>0 $FUR</strong></p>
+                            <p class="card-text"><strong>{{ totalDeposit }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Claimed</p>
-                            <p class="card-text"><strong>0 $FUR</strong></p>
+                            <p class="card-text"><strong>{{ totalClaim }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -62,11 +62,34 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useStore } from 'vuex';
+import useAlerts from '../composables/useAlerts';
 
 export default {
     setup () {
+        const store = useStore();
+        const alerts = useAlerts();
+        const initialDeposit = ref(0);
+        const totalDeposit = ref(0);
+        const totalClaim = ref(0);
+
         const quantity = ref(0);
+
+        onMounted(async () => {
+            try {
+                const contract = vaultContract();
+                initialDeposit.value = await contract.methods.initialDeposit(store.state.wallet.address).call();
+                totalDeposit.value = await contract.methods.totalDeposit(store.state.wallet.address).call();
+                totalClaim.value = await contract.methods.totalClaim(store.state.wallet.address).call();
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+        });
+
+        const vaultContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.vault_abi), store.state.settings.vault_address);
+        }
 
         const deposit = async () => {
 
@@ -82,6 +105,9 @@ export default {
 
         return {
             quantity,
+            initialDeposit,
+            totalDeposit,
+            totalClaim,
             deposit,
             compound,
             claim,
