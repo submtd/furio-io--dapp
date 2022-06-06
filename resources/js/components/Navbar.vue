@@ -43,35 +43,20 @@
                 </div>
             </div>
         </nav>
-        <div class="container text-right">
-            $FUR: {{ tokenBalanceDisplay }} | USDC: {{ paymentBalanceDisplay }} <button @click="refreshBalance" class="btn btn-sm btn-secondary"><i class="bi bi-arrow-clockwise"></i></button>
-        </div>
     </div>
 </template>
 
 <script>
-import { computed, onMounted, ref } from "vue";
+import { computed, } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import router from "../router";
 import useWallet from "../composables/useWallet";
-import useDisplayCurrency from "../composables/useDisplayCurrency";
 
 export default {
     setup () {
         const store = useStore();
         const wallet = useWallet();
-        const displayCurrency = useDisplayCurrency();
-        const tokenBalance = ref(0);
-        const paymentBalance = ref(0);
-
-        const tokenBalanceDisplay = computed(() => {
-            return displayCurrency.format(tokenBalance.value);
-        });
-
-        const paymentBalanceDisplay = computed(() => {
-            return displayCurrency.format(paymentBalance.value);
-        });
 
         const name = computed(() => {
             return store.state.wallet.name ?? 'Profile';
@@ -81,32 +66,10 @@ export default {
             router.push("/connect");
         }
 
-        onMounted(async () => {
-            refreshBalance();
-        });
-
-        const tokenContract = () => {
-            return new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
-        }
-
-        const paymentContract = () => {
-            return new web3.eth.Contract(JSON.parse(store.state.settings.payment_abi), store.state.settings.payment_address);
-        }
-
-        const refreshBalance = async () => {
-            tokenBalance.value = await tokenContract().methods.balanceOf(store.state.wallet.address).call();
-            paymentBalance.value = await paymentContract().methods.balanceOf(store.state.wallet.address).call();
-        }
-
         return {
             store,
             wallet,
             name,
-            tokenBalance,
-            tokenBalanceDisplay,
-            paymentBalance,
-            paymentBalanceDisplay,
-            refreshBalance,
         }
     }
 }
