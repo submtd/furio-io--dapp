@@ -2,6 +2,7 @@
     <h1>Vault</h1>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
+            <div v-show="!loading">
             <div class="form-group">
                 <label for="quantity">Deposit $FUR</label>
                 <input v-model="quantity" type="number" class="form-control" id="quantity"/>
@@ -13,6 +14,12 @@
                 </div>
                 <div class="col-6">
                     <button @click="claim" class="btn btn-lg btn-secondary btn-block">Claim {{ availableDisplay }}</button>
+                </div>
+            </div>
+            </div>
+            <div v-show="loading" class="text-center">
+                <div class="spinner-border m-5" role="status">
+                    <span class="sr-only">Loading...</span>
                 </div>
             </div>
         </div>
@@ -73,6 +80,7 @@ export default {
         const playerStatus = ref(0);
         const quantity = ref(0);
         const balance = ref(0);
+        const loading = ref(false);
 
         const depositedDisplay = computed(() => {
             return displayCurrency.format(deposited.value);
@@ -102,6 +110,7 @@ export default {
         });
 
         const update = async () => {
+            loading.value = true;
             try {
                 const contract = vaultContract();
                 deposited.value = await contract.methods.totalDeposit(store.state.wallet.address).call();
@@ -114,6 +123,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
+            loading.value = false;
         }
 
         const vaultContract = () => {
@@ -125,6 +135,7 @@ export default {
         }
 
         const deposit = async () => {
+            loading.value = true;
             try {
                 const contract = vaultContract();
                 const token = tokenContract();
@@ -144,9 +155,11 @@ export default {
                 alerts.danger(error.message);
             }
             await update();
+            loading.value = false;
         }
 
         const compound = async () => {
+            loading.value = true;
             try {
                 const contract = vaultContract();
                 const gasPriceMultiplier = 1;
@@ -159,9 +172,11 @@ export default {
                 alerts.danger(error.message);
             }
             await update();
+            loading.value = false;
         }
 
         const claim = async () => {
+            loading.value = true;
             try {
                 const contract = vaultContract();
                 const newRate = await contract.methods.claimPrecheck(store.state.wallet.address).call() / 100;
@@ -178,6 +193,7 @@ export default {
                 alerts.danger(error.message);
             }
             await update();
+            loading.value = false;
         }
 
         return {
@@ -194,6 +210,7 @@ export default {
             deposit,
             compound,
             claim,
+            loading,
         }
     }
 }
