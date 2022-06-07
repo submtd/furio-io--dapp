@@ -2,20 +2,31 @@
     <h1>Vault</h1>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
-            <div v-show="!loading">
-            <div class="form-group">
-                <label for="quantity">Deposit $FUR</label>
-                <input v-model="quantity" type="number" class="form-control" id="quantity"/>
-            </div>
-            <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2">Deposit</button>
-            <div class="row mt-3">
-                <div class="col-6">
-                    <button @click="compound" class="btn btn-lg btn-info btn-block">Compound {{ availableDisplay }}</button>
+            <div v-show="!loading && !statusDrop">
+                <div class="form-group">
+                    <label for="quantity">Deposit $FUR</label>
+                    <input v-model="quantity" type="number" class="form-control" id="quantity"/>
                 </div>
-                <div class="col-6">
-                    <button @click="claim" class="btn btn-lg btn-secondary btn-block">Claim {{ availableDisplay }}</button>
+                <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2">Deposit</button>
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <button @click="compound" class="btn btn-lg btn-info btn-block">Compound {{ availableDisplay }}</button>
+                    </div>
+                    <div class="col-6">
+                        <button @click="claim" class="btn btn-lg btn-secondary btn-block">Claim {{ availableDisplay }}</button>
+                    </div>
                 </div>
             </div>
+            <div v-show="!loading && statusDrop">
+                <p>Claiming now will lower your reward rate from {{ rewardRate }}% to {{ newRewardRate }}%. Are you sure you want to continue?</p>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button @click="cancel" class="btn btn-lg btn-info btn-block mb-2">Cancel</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button @click="claim" class="btn btn-lg btn-danger btn-block mb-2">Continue</button>
+                    </div>
+                </div>
             </div>
             <div v-show="loading" class="text-center">
                 <div class="spinner-border m-5" role="status">
@@ -76,12 +87,14 @@ export default {
         const deposited = ref(0);
         const claimed = ref(0);
         const rewardRate = ref(0);
+        const newRewardRate = ref(0);
         const available = ref(0);
         const playerStatus = ref(0);
         const referrer = ref(0);
         const quantity = ref(0);
         const balance = ref(0);
         const loading = ref(false);
+        const statusDrop = ref(false);
 
         const depositedDisplay = computed(() => {
             return displayCurrency.format(deposited.value);
@@ -180,14 +193,15 @@ export default {
         }
 
         const claim = async () => {
-            alerts.warning("waiting on response from wallet");
-            loading.value = true;
             try {
                 const contract = vaultContract();
-                const newRate = await contract.methods.claimPrecheck(store.state.wallet.address).call() / 100;
-                if(newRate < rewardRate.value) {
-                    alerts.danger("WARNING: This claim will decreaser your rewards from " + rewardRate.value + "% to " + newRate + "%. If you do not wish to be moved to a lower rewards tier, reject this transaction!");
+                newRewardRate.value = await contract.methods.claimPrecheck(store.state.wallet.address).call() / 100;
+                if(newRewardRate < rewardRate.value && !statusDrop.value) {
+                    statusDrop.value = true;
+                    return;
                 }
+                alerts.warning("waiting on response from wallet");
+                loading.value = true;
                 const gasPriceMultiplier = 1;
                 const gasMultiplier = 1;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
@@ -201,6 +215,10 @@ export default {
             loading.value = false;
         }
 
+        const cancel = () => {
+            statusDrop.value = false;
+        }
+
         return {
             quantity,
             deposited,
@@ -208,6 +226,7 @@ export default {
             claimed,
             claimedDisplay,
             rewardRate,
+            newRewardRate,
             available,
             availableDisplay,
             playerStatus,
@@ -216,7 +235,9 @@ export default {
             deposit,
             compound,
             claim,
+            cancel,
             loading,
+            statusDrop,
         }
     }
 }
