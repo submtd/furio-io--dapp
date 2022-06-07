@@ -5,7 +5,7 @@
     </div>
     <div v-show="available > 0" class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
-            <div v-show="!showConfirm">
+            <div v-show="!showConfirm && !loading">
                 <div class="form-group">
                     <label for="quantity">Quantity</label>
                     <input v-model="quantity" :max="available" min="0" type="number" class="form-control" id="quantity"/>
@@ -26,7 +26,12 @@
                 </div>
                 <button @click="confirm" class="btn btn-lg btn-info btn-block mb-2">Claim</button>
             </div>
-            <div v-show="showConfirm">
+            <div v-show="!showConfirm && loading">
+                <div class="spinner-border m-5" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div v-show="showConfirm && !loading">
                 <div v-show="vault">
                     <p>
                         You are about to send <strong>{{ quantity }}</strong> $FUR tokens to the vault on behalf of address <strong>{{ address }}</strong>.
@@ -87,6 +92,7 @@ export default {
         const vault = ref(true);
         const referrer = ref(null);
         const showConfirm = ref(false);
+        const loading = ref(false);
 
         onMounted(async () => {
             await getAvailable();
@@ -99,12 +105,14 @@ export default {
         }
 
         const getAvailable = async () => {
+            loading.value = true;
             try {
                 const contract = claimContract();
                 available.value = await contract.methods.getOwnerValue(store.state.wallet.address).call();
             } catch (error) {
                 alerts.danger(error.message);
             }
+            loading.value = false;
         }
 
         const confirm = () => {
@@ -122,6 +130,7 @@ export default {
 
         const claim = async () => {
             showConfirm.value = false;
+            loading.value = true;
             try {
                 const contract = claimContract();
                 const gasPriceMultiplier = 1;
@@ -134,6 +143,7 @@ export default {
                 alerts.danger(error.message);
             }
             getAvailable();
+            loading.value = false;
         }
 
         return {
@@ -147,6 +157,7 @@ export default {
             confirm,
             cancel,
             claim,
+            loading,
         }
     }
 }
