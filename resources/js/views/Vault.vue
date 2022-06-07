@@ -196,7 +196,7 @@ export default {
             try {
                 const contract = vaultContract();
                 newRewardRate.value = await contract.methods.claimPrecheck(store.state.wallet.address).call() / 100;
-                if(newRewardRate < rewardRate.value && !statusDrop.value) {
+                if(newRewardRate.value < rewardRate.value && !statusDrop.value) {
                     statusDrop.value = true;
                     return;
                 }
