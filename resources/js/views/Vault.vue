@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div v-show="!loading && statusDrop">
-                <p>Claiming now will lower your reward rate from {{ rewardRate }}% to {{ newRewardRate }}%. Are you sure you want to continue?</p>
+                <p>Claiming now will lower your reward rate from <strong>{{ rewardRate }}%</strong> to <strong>{{ newRewardRate }}%</strong>. Are you <strong><em>sure</em></strong> you want to continue?</p>
                 <div class="row">
                     <div class="col-sm-6">
                         <button @click="cancel" class="btn btn-lg btn-info btn-block mb-2">Cancel</button>
