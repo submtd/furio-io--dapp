@@ -26,7 +26,7 @@
                 </div>
                 <button @click="confirm" class="btn btn-lg btn-info btn-block mb-2">Claim</button>
             </div>
-            <div v-show="!showConfirm && loading">
+            <div v-show="!showConfirm && loading" class="text-center">
                 <div class="spinner-border m-5" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
