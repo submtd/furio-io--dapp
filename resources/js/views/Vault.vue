@@ -135,6 +135,7 @@ export default {
         }
 
         const deposit = async () => {
+            alerts.warning("waiting on response from wallet");
             loading.value = true;
             try {
                 const contract = vaultContract();
@@ -159,6 +160,7 @@ export default {
         }
 
         const compound = async () => {
+            alerts.warning("waiting on response from wallet");
             loading.value = true;
             try {
                 const contract = vaultContract();
@@ -176,6 +178,7 @@ export default {
         }
 
         const claim = async () => {
+            alerts.warning("waiting on response from wallet");
             loading.value = true;
             try {
                 const contract = vaultContract();
