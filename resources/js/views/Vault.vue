@@ -186,7 +186,7 @@ export default {
                 const contract = vaultContract();
                 const newRate = await contract.methods.claimPrecheck(store.state.wallet.address).call() / 100;
                 if(newRate < rewardRate.value) {
-                    alert("This claim will decrease your rewards to " + newRate + "%");
+                    alerts.danger("WARNING: This claim will decreaser your rewards from " + rewardRate.value + "% to " + newRate + "%. If you do not wish to be moved to a lower rewards tier, reject this transaction!");
                 }
                 const gasPriceMultiplier = 1;
                 const gasMultiplier = 1;
