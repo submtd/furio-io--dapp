@@ -212,6 +212,7 @@ export default {
                 alerts.danger(error.message);
             }
             await update();
+            statusDrop.value = false;
             loading.value = false;
         }
 
