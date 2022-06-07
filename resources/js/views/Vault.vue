@@ -168,6 +168,7 @@ export default {
                 const result = await contract.methods.deposit(amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
             } catch (error) {
+                console.log(error.response);
                 alerts.danger(error.message);
             }
             await update();
