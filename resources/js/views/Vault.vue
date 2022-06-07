@@ -78,6 +78,7 @@ export default {
         const rewardRate = ref(0);
         const available = ref(0);
         const playerStatus = ref(0);
+        const referrer = ref(0);
         const quantity = ref(0);
         const balance = ref(0);
         const loading = ref(false);
@@ -118,6 +119,7 @@ export default {
                 available.value = await contract.methods.rewardAvailable(store.state.wallet.address).call();
                 rewardRate.value = await contract.methods.rewardPercent(store.state.wallet.address).call() / 100;
                 playerStatus.value = await contract.methods.playerStatus(store.state.wallet.address).call();
+                referrer.value = await contract.methods.referrer(store.state.wallet.address).call();
                 const token = tokenContract();
                 balance.value = await token.methods.balanceOf(store.state.wallet.address).call();
             } catch (error) {
@@ -210,6 +212,7 @@ export default {
             availableDisplay,
             playerStatus,
             playerStatusDisplay,
+            referrer,
             deposit,
             compound,
             claim,
