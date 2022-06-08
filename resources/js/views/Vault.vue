@@ -17,13 +17,13 @@
                         <button @click="compound" class="btn btn-lg btn-info btn-block">Compound {{ availableDisplay }}</button>
                     </div>
                     <div class="col-6">
-                        <button @click="claim" class="btn btn-lg btn-info btn-block">Claim {{ availableDisplay }}</button>
+                        <button @click="claim" class="btn btn-lg btn-secondary btn-block">Claim {{ availableDisplay }}</button>
                     </div>
                 </div>
             </div>
             <div v-show="!loading && !statusDrop && maxed">
                 <p><strong>Congratulations</strong> on maxing our your rewards! Why not send some of your earnings to another wallet and start again?</p>
-                <button @click="claim" class="btn btn-lg btn-secondary btn-block">Claim {{ availableDisplay }}</button>
+                <button @click="claim" class="btn btn-lg btn-info btn-block">Claim {{ availableDisplay }}</button>
             </div>
             <div v-show="!loading && statusDrop">
                 <p>Claiming now will lower your reward rate from <strong>{{ rewardRate }}%</strong> to <strong>{{ newRewardRate }}%</strong>. Are you <strong><em>sure</em></strong> you want to continue?</p>
