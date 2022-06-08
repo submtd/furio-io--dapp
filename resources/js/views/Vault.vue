@@ -101,16 +101,24 @@ export default {
         const participant = ref(null);
 
         const depositedDisplay = computed(() => {
+            if(!participant.value) {
+                return 0;
+            }
             return displayCurrency.format(participant.value.balance);
         });
 
         const claimedDisplay = computed(() => {
+            if(!participant.value) {
+                return 0;
+            }
             return displayCurrency.format(participant.value.claimed);
         });
 
         const availableDisplay = computed(() => {
-            return 0;
-            //return displayCurrency.format(participant.value.availableRewards);
+            if(!participant.value) {
+                return 0;
+            }
+            return displayCurrency.format(participant.value.availableRewards);
         });
 
         const playerStatusDisplay = computed(() => {
