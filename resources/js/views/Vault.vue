@@ -40,7 +40,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Balance</p>
-                            <p class="card-text"><strong>{{ participant.balance }} $FUR</strong></p>
+                            <p class="card-text"><strong>{{ depositedDisplay }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Claimed</p>
-                            <p class="card-text"><strong>{{ participant.claimed }} $FUR</strong></p>
+                            <p class="card-text"><strong> $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Reward Rate</p>
-                            <p class="card-text"><strong>{{ rewardRate }}%</strong></p>
+                            <p class="card-text"><strong>%</strong></p>
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Player Status</p>
-                            <p class="card-text"><strong>{{ playerStatusDisplay }}</strong></p>
+                            <p class="card-text"><strong>0</strong></p>
                         </div>
                     </div>
                 </div>
