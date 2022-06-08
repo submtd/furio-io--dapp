@@ -4,19 +4,12 @@ use Illuminate\Support\Facades\Route;
 
 // AJAX routes.
 Route::group([
-    'prefix' => 'api/v1',
     'namespace' => '\App\Http\Controllers',
 ], static function () {
-    Route::get('settings', 'Settings');
-    Route::post('address', 'UpdateAddress');
-    Route::post('login', 'Login');
-    Route::get('logout', 'Logout');
-    Route::get('getpromo', 'GetPromo');
+    Route::get('api/v1/settings', 'Settings');
+    Route::post('api/v1/address', 'UpdateAddress');
+    Route::post('api/v1/login', 'Login');
+    Route::get('api/v1/logout', 'Logout');
+    Route::get('api/v1/getpromo', 'GetPromo');
+    Route::get('{any}', 'App')->where('any', '.*');
 });
-
-
-
-// SPA route catchall.
-Route::get('{any}', function () {
-    return view('app');
-})->where('any', '.*');

@@ -29,6 +29,7 @@ class SettingsService
         $settings['payment_abi'] = Payment::toString();
         $settings['token_abi'] = Token::toString();
         $settings['vault_abi'] = Vault::toString();
+        $settings['referrer'] = session()->get('ref');
 
         return $settings;
     }
