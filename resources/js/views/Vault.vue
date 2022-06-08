@@ -2,7 +2,7 @@
     <h1>Vault</h1>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
-            <div v-show="!loading && !statusDrop">
+            <div v-show="!loading && !statusDrop && !participant.maxed">
                 <div class="form-group">
                     <label for="quantity">Deposit $FUR</label>
                     <input v-model="quantity" type="number" class="form-control" id="quantity"/>

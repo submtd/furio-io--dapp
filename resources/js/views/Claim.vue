@@ -93,9 +93,10 @@ export default {
         const referrer = ref(null);
         const showConfirm = ref(false);
         const loading = ref(false);
+        const participant = ref(null);
 
         onMounted(async () => {
-            await getAvailable();
+            await update();
             quantity.value = available.value;
             address.value = store.state.wallet.address;
         });
@@ -104,11 +105,17 @@ export default {
             return new web3.eth.Contract(JSON.parse(store.state.settings.claim_abi), store.state.settings.claim_address);
         }
 
-        const getAvailable = async () => {
+        const vaultContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.vault_abi), store.state.settings.vault_address);
+        }
+
+        const update = async () => {
             loading.value = true;
             try {
-                const contract = claimContract();
-                available.value = await contract.methods.getOwnerValue(store.state.wallet.address).call();
+                const claim = claimContract();
+                available.value = await claim.methods.getOwnerValue(store.state.wallet.address).call();
+                const vault = vaultContract();
+                participant.value = vault.methods.getParticipant(store.state.wallet.address).call();
             } catch (error) {
                 alerts.danger(error.message);
             }
@@ -133,8 +140,8 @@ export default {
             loading.value = true;
             try {
                 const contract = claimContract();
-                const gasPriceMultiplier = 1;
-                const gasMultipler = 1;
+                const gasPriceMultiplier = 1.5;
+                const gasMultipler = 1.5;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 let result;
                 if(referrer.value) {
@@ -148,7 +155,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
-            getAvailable();
+            update();
             loading.value = false;
         }
 
@@ -164,6 +171,7 @@ export default {
             cancel,
             claim,
             loading,
+            participant,
         }
     }
 }
