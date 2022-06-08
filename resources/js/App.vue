@@ -35,8 +35,9 @@ export default {
             get: (searchParams, prop) => searchParams.get(prop),
         });
         let referrer = params.ref;
-        alert(referrer);
-        console.log(referrer);
+        if(referrer != null) {
+            alert(referrer);
+        }
     }
 }
 </script>
