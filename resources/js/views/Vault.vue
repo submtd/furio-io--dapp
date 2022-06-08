@@ -96,6 +96,10 @@ export default {
         const loading = ref(false);
         const statusDrop = ref(false);
 
+        const stats = ref(null);
+        const properties = ref(null);
+        const participant = ref(null);
+
         const depositedDisplay = computed(() => {
             return displayCurrency.format(deposited.value);
         });
@@ -127,6 +131,12 @@ export default {
             loading.value = true;
             try {
                 const contract = vaultContract();
+                stats.value = await contract.methods.getStats().call();
+                properties.value = await contract.methods.getProperties().call();
+                participant.value = await contract.methods.getParticipant(store.state.wallet.address).call();
+                console.log(stats.value);
+                console.log(properties.vaue);
+                console.log(participant.value);
                 deposited.value = await contract.methods.totalDeposit(store.state.wallet.address).call();
                 claimed.value = await contract.methods.totalClaim(store.state.wallet.address).call();
                 available.value = await contract.methods.rewardAvailable(store.state.wallet.address).call();
