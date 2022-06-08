@@ -56,7 +56,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Reward Rate</p>
-                            <p class="card-text"><strong>{{ rewardRateDisplay }}%</strong></p>
+                            <p class="card-text"><strong>{{ rewardRate }}%</strong></p>
                         </div>
                     </div>
                 </div>
@@ -121,13 +121,6 @@ export default {
             return displayCurrency.format(available.value);
         });
 
-        const rewardRateDisplay = computed(() => {
-            if(!rewardRate.value) {
-                return 0;
-            }
-            return rewardRate.value / 100;
-        })
-
         const participantStatusDisplay = computed(() => {
             switch(participantStatus.value) {
                 case "1":
@@ -150,7 +143,7 @@ export default {
                 stats.value = await contract.methods.getStats().call();
                 properties.value = await contract.methods.getProperties().call();
                 participant.value = await contract.methods.getParticipant(store.state.wallet.address).call();
-                rewardRate.value = await contract.methods.rewardRate(store.state.wallet.address).call();
+                rewardRate.value = await contract.methods.rewardRate(store.state.wallet.address).call() / 100;
                 available.value = await contract.methods.availableRewards(store.state.wallet.address).call();
                 participantStatus.value = await contract.methods.participantStatus(store.state.wallet.address).call();
                 console.log(stats.value);
@@ -250,7 +243,6 @@ export default {
             claimed,
             claimedDisplay,
             rewardRate,
-            rewardRateDisplay,
             newRewardRate,
             available,
             availableDisplay,
