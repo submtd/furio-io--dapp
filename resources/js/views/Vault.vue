@@ -144,7 +144,7 @@ export default {
                 available.value = await contract.methods.availableRewards(store.state.wallet.address).call();
                 participantStatus.value = await contract.methods.participantStatus(store.state.wallet.address).call();
                 console.log(stats.value);
-                console.log(properties.vaue);
+                console.log(properties.value);
                 console.log(participant.value);
                 const token = tokenContract();
                 balance.value = await token.methods.balanceOf(store.state.wallet.address).call();
