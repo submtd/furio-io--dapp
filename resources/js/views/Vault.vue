@@ -124,6 +124,9 @@ export default {
         });
 
         const showReferrer = computed(() => {
+            if(!participant.value) {
+                return false;
+            }
             return participant.value.referrer == "0x0000000000000000000000000000000000000000";
         });
 
