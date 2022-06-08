@@ -109,7 +109,8 @@ export default {
         });
 
         const availableDisplay = computed(() => {
-            return displayCurrency.format(participant.value.availableRewards);
+            return 0;
+            //return displayCurrency.format(participant.value.availableRewards);
         });
 
         const playerStatusDisplay = computed(() => {
