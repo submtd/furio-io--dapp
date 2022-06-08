@@ -84,13 +84,10 @@ export default {
         const store = useStore();
         const alerts = useAlerts();
         const displayCurrency = useDisplayCurrency();
-        const deposited = ref(0);
-        const claimed = ref(0);
         const rewardRate = ref(0);
         const newRewardRate = ref(0);
         const available = ref(0);
         const participantStatus = ref(0);
-        const referrer = ref(0);
         const quantity = ref(0);
         const balance = ref(0);
         const loading = ref(false);
@@ -238,9 +235,7 @@ export default {
 
         return {
             quantity,
-            deposited,
             depositedDisplay,
-            claimed,
             claimedDisplay,
             rewardRate,
             newRewardRate,
