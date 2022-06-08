@@ -185,8 +185,14 @@ export default {
                     const approveGas = Math.round(await token.methods.approve(store.state.settings.vault_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                     await token.methods.approve(store.state.settings.vault_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
                 }
-                const gas = Math.round(await contract.methods.deposit(amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                const result = await contract.methods.deposit(amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                let result;
+                if(referrer.value) {
+                    const gas = Math.round(await contract.methods.deposit(amount, referrer.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                    result = await contract.methods.deposit(amount, referrer.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                } else {
+                    const gas = Math.round(await contract.methods.deposit(amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                    result = await contract.methods.deposit(amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                }
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
             } catch (error) {
                 alerts.danger(error.message);
