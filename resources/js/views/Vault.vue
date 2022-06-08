@@ -56,7 +56,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Reward Rate</p>
-                            <p class="card-text"><strong>{{ rewardRate }}%</strong></p>
+                            <p class="card-text"><strong>{{ rewardRateDisplay }}%</strong></p>
                         </div>
                     </div>
                 </div>
@@ -120,6 +120,13 @@ export default {
             }
             return displayCurrency.format(participant.value.availableRewards);
         });
+
+        const rewardRateDisplay = computed(() => {
+            if(!rewardRate.value) {
+                return 0;
+            }
+            return rewardRate.value / 100;
+        })
 
         const participantStatusDisplay = computed(() => {
             switch(participantStatus.value) {
@@ -243,6 +250,7 @@ export default {
             claimed,
             claimedDisplay,
             rewardRate,
+            rewardRateDisplay,
             newRewardRate,
             available,
             availableDisplay,
