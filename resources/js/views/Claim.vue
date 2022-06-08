@@ -20,7 +20,7 @@
                         <label for="vault" class="form-check-label">Deposit directly into the <router-link :to="{ name: 'Vault' }"><strong>Vault</strong></router-link></label>
                     </div>
                 </div>
-                <div v-show="vault && !referrer" class="form-group">
+                <div v-show="vault" class="form-group">
                     <label for="referrer">Referrer</label>
                     <input v-model="referrer" class="form-control" id="referrer"/>
                 </div>
