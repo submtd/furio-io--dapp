@@ -56,15 +56,15 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Reward Rate</p>
-                            <p class="card-text"><strong>%</strong></p>
+                            <p class="card-text"><strong>{{ rewardRate }}%</strong></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <p class="card-title">Player Status</p>
-                            <p class="card-text"><strong>0</strong></p>
+                            <p class="card-title">Participant Status</p>
+                            <p class="card-text"><strong>{{ participantStatusDisplay }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -89,7 +89,7 @@ export default {
         const rewardRate = ref(0);
         const newRewardRate = ref(0);
         const available = ref(0);
-        const playerStatus = ref(0);
+        const participantStatus = ref(0);
         const referrer = ref(0);
         const quantity = ref(0);
         const balance = ref(0);
@@ -121,8 +121,8 @@ export default {
             return displayCurrency.format(participant.value.availableRewards);
         });
 
-        const playerStatusDisplay = computed(() => {
-            switch(playerStatus.value) {
+        const participantStatusDisplay = computed(() => {
+            switch(participantStatus.value) {
                 case "1":
                     return 'Negative';
                 case "2":
@@ -144,6 +144,8 @@ export default {
                 properties.value = await contract.methods.getProperties().call();
                 participant.value = await contract.methods.getParticipant(store.state.wallet.address).call();
                 rewardRate.value = await contract.methods.rewardRate(store.state.wallet.address).call();
+                available.value = await contract.methods.availableRewards(store.state.wallet.address).call();
+                participantStatus.value = await contract.methods.participantStatus(store.state.wallet.address).call();
                 console.log(stats.value);
                 console.log(properties.vaue);
                 console.log(participant.value);
@@ -244,8 +246,8 @@ export default {
             newRewardRate,
             available,
             availableDisplay,
-            playerStatus,
-            playerStatusDisplay,
+            participantStatus,
+            participantStatusDisplay,
             referrer,
             deposit,
             compound,
