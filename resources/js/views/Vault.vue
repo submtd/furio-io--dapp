@@ -39,8 +39,8 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <p class="card-title">Deposited</p>
-                            <p class="card-text"><strong>{{ participant }} $FUR</strong></p>
+                            <p class="card-title">Balance</p>
+                            <p class="card-text"><strong>{{ participant.balance }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Claimed</p>
-                            <p class="card-text"><strong>{{ claimedDisplay }} $FUR</strong></p>
+                            <p class="card-text"><strong>{{ participant.claimed }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -101,15 +101,15 @@ export default {
         const participant = ref(null);
 
         const depositedDisplay = computed(() => {
-            return displayCurrency.format(deposited.value);
+            return displayCurrency.format(participant.value.balance);
         });
 
         const claimedDisplay = computed(() => {
-            return displayCurrency.format(claimed.value);
+            return displayCurrency.format(participant.value.claimed);
         });
 
         const availableDisplay = computed(() => {
-            return displayCurrency.format(available.value);
+            return displayCurrency.format(participant.value.availableRewards);
         });
 
         const playerStatusDisplay = computed(() => {
@@ -134,6 +134,7 @@ export default {
                 stats.value = await contract.methods.getStats().call();
                 properties.value = await contract.methods.getProperties().call();
                 participant.value = await contract.methods.getParticipant(store.state.wallet.address).call();
+                rewardRate.value = await contract.methods.rewardRate(store.state.wallet.address).call();
                 console.log(stats.value);
                 console.log(properties.vaue);
                 console.log(participant.value);
