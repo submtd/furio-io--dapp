@@ -29,6 +29,14 @@ export default {
         Footer,
         Navbar,
     },
-    setup() {}
+    setup() {
+        // Get referrer from query string and set a cookie
+        const params = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop),
+        });
+        let referrer = params.ref;
+        alert(referrer);
+        console.log(referrer);
+    }
 }
 </script>
