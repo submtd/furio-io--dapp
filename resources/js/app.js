@@ -10,12 +10,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // Web3
 import Web3 from "web3";
 window.web3 = new Web3();
-// Get referrer from query string and set a cookie
-const params = new Proxy(new URLSearchParams(window.location.search), {
-    get: (searchParams, prop) => searchParams.get(prop),
-});
-let ref = params.ref;
-console.log(ref);
 // Vue
 import { createApp } from "vue";
 import App from "./App.vue";
