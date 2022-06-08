@@ -115,10 +115,10 @@ export default {
         });
 
         const availableDisplay = computed(() => {
-            if(!participant.value) {
+            if(!available.value) {
                 return 0;
             }
-            return displayCurrency.format(participant.value.availableRewards);
+            return displayCurrency.format(available.value);
         });
 
         const rewardRateDisplay = computed(() => {
