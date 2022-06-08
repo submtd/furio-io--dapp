@@ -40,7 +40,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Deposited</p>
-                            <p class="card-text"><strong>{{ depositedDisplay }} $FUR</strong></p>
+                            <p class="card-text"><strong>{{ participant }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -137,12 +137,6 @@ export default {
                 console.log(stats.value);
                 console.log(properties.vaue);
                 console.log(participant.value);
-                deposited.value = await contract.methods.totalDeposit(store.state.wallet.address).call();
-                claimed.value = await contract.methods.totalClaim(store.state.wallet.address).call();
-                available.value = await contract.methods.rewardAvailable(store.state.wallet.address).call();
-                rewardRate.value = await contract.methods.rewardPercent(store.state.wallet.address).call() / 100;
-                playerStatus.value = await contract.methods.playerStatus(store.state.wallet.address).call();
-                referrer.value = await contract.methods.referrer(store.state.wallet.address).call();
                 const token = tokenContract();
                 balance.value = await token.methods.balanceOf(store.state.wallet.address).call();
             } catch (error) {
@@ -249,6 +243,9 @@ export default {
             cancel,
             loading,
             statusDrop,
+            stats,
+            properties,
+            participant,
         }
     }
 }
