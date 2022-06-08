@@ -2,7 +2,7 @@
     <h1>Vault</h1>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
-            <div v-show="!loading && !statusDrop && !participant.maxed">
+            <div v-show="!loading && !statusDrop && !maxed">
                 <div class="form-group">
                     <label for="quantity">Deposit $FUR</label>
                     <input v-model="quantity" type="number" class="form-control" id="quantity"/>
@@ -141,6 +141,13 @@ export default {
             }
         });
 
+        const maxed = computed(() => {
+            if(!participant.value) {
+                return false;
+            }
+            return participant.value.maxed;
+        });
+
         onMounted(async () => {
             await update();
         });
@@ -275,6 +282,7 @@ export default {
             stats,
             properties,
             participant,
+            maxed,
         }
     }
 }
