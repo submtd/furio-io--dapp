@@ -7,7 +7,7 @@
                     <label for="quantity">Deposit $FUR</label>
                     <input v-model="quantity" type="number" class="form-control" id="quantity"/>
                 </div>
-                <div v-show="!referrer" class="form-group">
+                <div v-show="showReferrer" class="form-group">
                     <label for="referrer">Referrer</label>
                     <input v-model="referrer" class="form-control" id="referrer"/>
                 </div>
@@ -121,6 +121,10 @@ export default {
                 return 0;
             }
             return displayCurrency.format(available.value);
+        });
+
+        const showReferrer = computed(() => {
+            return participant.value.referrer == "0x0000000000000000000000000000000000000000";
         });
 
         const participantStatusDisplay = computed(() => {
@@ -257,6 +261,7 @@ export default {
             availableDisplay,
             participantStatus,
             participantStatusDisplay,
+            showReferrer,
             referrer,
             deposit,
             compound,
