@@ -243,7 +243,6 @@ export default {
             availableDisplay,
             participantStatus,
             participantStatusDisplay,
-            referrer,
             deposit,
             compound,
             claim,
