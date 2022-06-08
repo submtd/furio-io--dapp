@@ -7,6 +7,10 @@
                     <label for="quantity">Deposit $FUR</label>
                     <input v-model="quantity" type="number" class="form-control" id="quantity"/>
                 </div>
+                <div v-show="!referrer" class="form-group">
+                    <label for="referrer">Referrer</label>
+                    <input v-model="referrer" class="form-control" id="referrer"/>
+                </div>
                 <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2">Deposit</button>
                 <div class="row mt-3">
                     <div class="col-6">
@@ -96,6 +100,7 @@ export default {
         const stats = ref(null);
         const properties = ref(null);
         const participant = ref(null);
+        const referrer = ref(null);
 
         const depositedDisplay = computed(() => {
             if(!participant.value) {
@@ -146,6 +151,9 @@ export default {
                 console.log(stats.value);
                 console.log(properties.value);
                 console.log(participant.value);
+                if(participant.value.referrer != "0x0000000000000000000000000000000000000000") {
+                    referrer.value = participant.value.referrer;
+                }
                 const token = tokenContract();
                 balance.value = await token.methods.balanceOf(store.state.wallet.address).call();
             } catch (error) {
@@ -243,6 +251,7 @@ export default {
             availableDisplay,
             participantStatus,
             participantStatusDisplay,
+            referrer,
             deposit,
             compound,
             claim,
