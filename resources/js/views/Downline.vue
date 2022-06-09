@@ -65,7 +65,7 @@ export default {
         const sellQuantity = ref(0);
 
         const available = computed(() => {
-            return 15 - owned;
+            return 15 - owned.value;
         });
 
         onMounted(async () => {
