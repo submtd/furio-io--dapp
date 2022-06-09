@@ -120,7 +120,6 @@ export default {
         }
 
         const sell = async () => {
-
         }
 
         return {
