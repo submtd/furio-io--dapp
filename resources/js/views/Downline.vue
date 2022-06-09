@@ -120,6 +120,21 @@ export default {
         }
 
         const sell = async () => {
+            alerts.warning("waiting on response from wallet");
+            loading.value = true;
+            try {
+                const downline = downlineContract();
+                const gasPriceMultiplier = 1.5;
+                const gasMultiplier = 1.5;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const gas = Math.round(await downline.methods.sell(sellQuantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await downline.methods.sell(sellQuantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            await update();
+            loading.value = false;
         }
 
         return {
