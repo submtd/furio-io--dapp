@@ -36,10 +36,13 @@
 <script>
 import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
+import useAlerts from "../composables/useAlerts";
 
 export default {
     setup () {
         const store = useStore();
+        const alerts = useAlerts();
+        const loading = ref(false);
         const totalSupply = ref(0);
         const owned = ref(0);
 
@@ -52,12 +55,19 @@ export default {
         }
 
         const update = async () => {
-            const contract = downlineContract();
-            totalSupply.value = await contract.methods.totalSupply().call();
-            owned.value = await contract.methods.balanceOf(store.state.wallet.address).call();
+            loading.value = true;
+            try {
+                const contract = downlineContract();
+                totalSupply.value = await contract.methods.totalSupply().call();
+                owned.value = await contract.methods.balanceOf(store.state.wallet.address).call();
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            loading.value = false;
         }
 
         return {
+            loading,
             totalSupply,
             owned,
         }
