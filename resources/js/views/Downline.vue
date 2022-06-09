@@ -124,7 +124,7 @@ export default {
         });
 
         const teamWallet = computed(() => {
-            const tw = "No";
+            let tw = "No";
             if(!participant.value) {
                 return tw;
             }
