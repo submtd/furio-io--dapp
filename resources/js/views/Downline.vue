@@ -15,32 +15,16 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <p class="card-title">Balance</p>
-                            <p class="card-text"><strong>{{ depositedDisplay }} $FUR</strong></p>
+                            <p class="card-title">Total Supply</p>
+                            <p class="card-text"><strong>{{ totalSupply }}</strong></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <p class="card-title">Claimed</p>
-                            <p class="card-text"><strong>{{ claimedDisplay }} $FUR</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <p class="card-title">Reward Rate</p>
-                            <p class="card-text"><strong>{{ rewardRate }}%</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <p class="card-title">Participant Status</p>
-                            <p class="card-text"><strong>{{ participantStatusDisplay }}</strong></p>
+                            <p class="card-title">Owned</p>
+                            <p class="card-text"><strong>{{ owned }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -50,4 +34,34 @@
 </template>
 
 <script>
+import { ref, onMounted } from "vue";
+import { useStore } from "vuex";
+
+export default {
+    setup () {
+        const store = useStore();
+        const totalSupply = ref(0);
+        const owned = ref(0);
+
+        onMounted(async () => {
+            await update();
+        });
+
+        const downlineContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.downline_abi), store.state.settings.downline_address);
+        }
+
+        const update = async () => {
+            const contract = downlineContract();
+            totalSupply.value = await contract.methods.totalSupply().call();
+            owned.value = await contract.methods.balanceOf(store.state.wallet.address).call();
+        }
+
+        return {
+            totalSupply,
+            owned,
+        }
+    }
+
+}
 </script>
