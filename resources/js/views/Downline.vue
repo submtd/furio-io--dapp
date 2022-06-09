@@ -14,7 +14,7 @@
                         <label for="buy-quantity">Quantity</label>
                         <input v-model="buyQuantity" :max="available" min="0" type="number" class="form-control" id="buy-quantity"/>
                     </div>
-                    <button @click="buy" class="btn btn-lg btn-info btn-block mb-2">Buy</button>
+                    <button @click="buy" class="btn btn-lg btn-info btn-block mb-2">Buy ({{ buyQuantity * 5 }} $FUR)</button>
                 </div>
                 <div v-show="owned > 0">
                     <h2>Burn</h2>
@@ -22,7 +22,7 @@
                         <label for="sell-quantity">Quantity</label>
                         <input v-model="sellQuantity" :max="owned" min="0" type="number" class="form-control" id="sell-quantity"/>
                     </div>
-                    <button @click="sell" class="btn btn-lg btn-info btn-block mb-2">Bur    n</button>
+                    <button @click="sell" class="btn btn-lg btn-info btn-block mb-2">Burn</button>
                 </div>
             </div>
         </div>
