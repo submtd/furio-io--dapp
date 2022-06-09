@@ -76,6 +76,10 @@ export default {
             return new web3.eth.Contract(JSON.parse(store.state.settings.downline_abi), store.state.settings.downline_address);
         }
 
+        const tokenContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
+        }
+
         const update = async () => {
             loading.value = true;
             try {
@@ -93,7 +97,8 @@ export default {
             alerts.warning("waiting on response from wallet");
             loading.value = true;
             try {
-                const contract = downlineContract();
+                const downline = downlineContract();
+                const token = tokenContract();
                 const gasPriceMultiplier = 1.5;
                 const gasMultiplier = 1.5;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
@@ -103,8 +108,8 @@ export default {
                     const approveGas = Math.round(await token.methods.approve(store.state.settings.downline_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                     await token.methods.approve(store.state.settings.downline_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
                 }
-                const gas = Math.round(await contract.methods.buy(buyQuantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                const result = await contract.methods.buy(buyQuantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                const gas = Math.round(await downline.methods.buy(buyQuantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await downline.methods.buy(buyQuantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
             } catch (error) {
                 alerts.danger(error.message);
