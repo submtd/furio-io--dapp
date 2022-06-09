@@ -17,12 +17,12 @@
                     <button @click="buy" class="btn btn-lg btn-info btn-block mb-2">Buy</button>
                 </div>
                 <div v-show="owned > 0">
-                    <h2>Sell</h2>
+                    <h2>Burn</h2>
                     <div class="form-group">
                         <label for="sell-quantity">Quantity</label>
                         <input v-model="sellQuantity" :max="owned" min="0" type="number" class="form-control" id="sell-quantity"/>
                     </div>
-                    <button @click="sell" class="btn btn-lg btn-info btn-block mb-2">Sell</button>
+                    <button @click="sell" class="btn btn-lg btn-info btn-block mb-2">Bur    n</button>
                 </div>
             </div>
         </div>
@@ -44,6 +44,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Referrals</p>
+                            <p class="card-text"><strong>{{ referrals }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Rewarded</p>
+                            <p class="card-text"><strong>{{ rewarded }} $FUR</strong></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -53,19 +69,36 @@
 import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import useAlerts from "../composables/useAlerts";
+import useDisplayCurrency from '../composables/useDisplayCurrency';
 
 export default {
     setup () {
         const store = useStore();
         const alerts = useAlerts();
+        const displayCurrency = useDisplayCurrency();
         const loading = ref(false);
         const totalSupply = ref(0);
         const owned = ref(0);
         const buyQuantity = ref(0);
         const sellQuantity = ref(0);
+        const participant = ref(null);
 
         const available = computed(() => {
             return 15 - owned.value;
+        });
+
+        const referrals = computed(() => {
+            if(!participant.value) {
+                return 0;
+            }
+            return participant.value.directReferrals;
+        });
+
+        const rewarded = computed(() => {
+            if(!participant.value) {
+                return 0;
+            }
+            return displayCurrency.format(participant.value.awarded);
         });
 
         onMounted(async () => {
@@ -80,12 +113,18 @@ export default {
             return new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
         }
 
+        const vaultContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.vault_abi), store.state.settings.vault_address);
+        }
+
         const update = async () => {
             loading.value = true;
             try {
                 const contract = downlineContract();
+                const vault = vaultContract();
                 totalSupply.value = await contract.methods.totalSupply().call();
                 owned.value = await contract.methods.balanceOf(store.state.wallet.address).call();
+                participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
                 buyQuantity.value = 15 - owned.value;
                 sellQuantity.value = owned.value;
             } catch (error) {
@@ -146,6 +185,8 @@ export default {
             available,
             buy,
             sell,
+            referrals,
+            rewarded,
         }
     }
 
