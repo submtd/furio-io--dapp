@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div v-show="!loading">
-                <div v-show="available">
+                <div v-show="available > 0">
                     <h2>Buy</h2>
                     <div class="form-group">
                         <label for="buy-quantity">Quantity</label>
@@ -16,7 +16,7 @@
                     </div>
                     <button @click="buy" class="btn btn-lg btn-info btn-block mb-2">Buy</button>
                 </div>
-                <div v-show="owned">
+                <div v-show="owned > 0">
                     <h2>Sell</h2>
                     <div class="form-group">
                         <label for="sell-quantity">Quantity</label>
@@ -90,7 +90,27 @@ export default {
         }
 
         const buy = async () => {
-
+            alerts.warning("waiting on response from wallet");
+            loading.value = true;
+            try {
+                const contract = downlineContract();
+                const gasPriceMultiplier = 1.5;
+                const gasMultiplier = 1.5;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const amount = BigInt(buyQuantity.value * 5 * 1000000000000000000);
+                const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.downline_address).call();
+                if(allowance < amount) {
+                    const approveGas = Math.round(await token.methods.approve(store.state.settings.downline_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                    await token.methods.approve(store.state.settings.downline_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
+                }
+                const gas = Math.round(await contract.methods.buy(buyQuantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await contract.methods.buy(buyQuantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            await update();
+            loading.value = false;
         }
 
         const sell = async () => {
