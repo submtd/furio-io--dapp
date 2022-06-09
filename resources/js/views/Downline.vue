@@ -9,7 +9,7 @@
             </div>
             <div v-show="!loading">
                 <div v-show="available > 0">
-                    <h2>Buy</h2>
+                    <h2>Buy Downline NFTs</h2>
                     <div class="form-group">
                         <label for="buy-quantity">Quantity</label>
                         <input v-model="buyQuantity" :max="available" min="0" type="number" class="form-control" id="buy-quantity"/>
@@ -17,12 +17,12 @@
                     <button @click="buy" class="btn btn-lg btn-info btn-block mb-2">Buy ({{ buyQuantity * 5 }} $FUR)</button>
                 </div>
                 <div v-show="owned > 0">
-                    <h2>Burn</h2>
+                    <h2>Sell Downline NFTs</h2>
                     <div class="form-group">
                         <label for="sell-quantity">Quantity</label>
                         <input v-model="sellQuantity" :max="owned" min="0" type="number" class="form-control" id="sell-quantity"/>
                     </div>
-                    <button @click="sell" class="btn btn-lg btn-info btn-block mb-2">Burn</button>
+                    <button @click="sell" class="btn btn-lg btn-info btn-block mb-2">Sell ({{ sellQuantity * 4 }}</button>
                 </div>
             </div>
         </div>
@@ -31,7 +31,15 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <p class="card-title">Total Supply</p>
+                            <p class="card-title">Max Supply</p>
+                            <p class="card-text"><strong>{{ maxSupply }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Total in Circulation</p>
                             <p class="card-text"><strong>{{ totalSupply }}</strong></p>
                         </div>
                     </div>
@@ -39,7 +47,7 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <p class="card-title">Owned</p>
+                            <p class="card-title">NFTs Owned</p>
                             <p class="card-text"><strong>{{ owned }}</strong></p>
                         </div>
                     </div>
@@ -47,7 +55,15 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <p class="card-title">Referrals</p>
+                            <p class="card-title">Team Wallet</p>
+                            <p class="card-text"><strong>{{ teamWallet }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Direct Referrals</p>
                             <p class="card-text"><strong>{{ referrals }}</strong></p>
                         </div>
                     </div>
@@ -77,6 +93,7 @@ export default {
         const alerts = useAlerts();
         const displayCurrency = useDisplayCurrency();
         const loading = ref(false);
+        const maxSupply = ref(0);
         const totalSupply = ref(0);
         const owned = ref(0);
         const buyQuantity = ref(0);
@@ -84,7 +101,12 @@ export default {
         const participant = ref(null);
 
         const available = computed(() => {
-            return 15 - owned.value;
+            const remaining = maxSupply.value - totalSupply.value;
+            const ableToBuy = 15 - owned.value;
+            if(ableToBuy > remaining) {
+                return remaining;
+            }
+            return ableToBuy;
         });
 
         const referrals = computed(() => {
@@ -100,6 +122,17 @@ export default {
             }
             return displayCurrency.format(participant.value.awarded);
         });
+
+        const teamWallet = computed(() => {
+            const tw = "No";
+            if(!participant.value) {
+                return tw;
+            }
+            if(participant.value.teamWallet) {
+                tw = "Yes";
+            }
+            return tw;
+        })
 
         onMounted(async () => {
             await update();
@@ -123,6 +156,7 @@ export default {
                 const contract = downlineContract();
                 const vault = vaultContract();
                 totalSupply.value = await contract.methods.totalSupply().call();
+                maxSupply.value = await contract.methods.maxSupply().call();
                 owned.value = await contract.methods.balanceOf(store.state.wallet.address).call();
                 participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
                 buyQuantity.value = 15 - owned.value;
@@ -179,9 +213,11 @@ export default {
         return {
             loading,
             totalSupply,
+            maxSupply,
             owned,
             buyQuantity,
             sellQuantity,
+            teamWallet,
             available,
             buy,
             sell,
