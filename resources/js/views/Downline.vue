@@ -87,6 +87,7 @@ export default {
                 totalSupply.value = await contract.methods.totalSupply().call();
                 owned.value = await contract.methods.balanceOf(store.state.wallet.address).call();
                 buyQuantity.value = 15 - owned.value;
+                sellQuantity.value = owned.value;
             } catch (error) {
                 alerts.danger(error.message);
             }
