@@ -42,8 +42,6 @@
                     </div>
                 </div>
             </div>
-            <p>USDC Address: {{ store.state.settings.payment_address }}</p>
-            <p>Presale NFT Address: {{ store.state.settings.presale_address }}</p>
         </div>
     </div>
 </template>
