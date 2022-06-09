@@ -8,12 +8,21 @@
                 </div>
             </div>
             <div v-show="!loading">
-                <div v-show="owned < 15">
+                <div v-show="available">
+                    <h2>Buy</h2>
                     <div class="form-group">
                         <label for="buy-quantity">Quantity</label>
-                        <input v-model="buyQuantity" class="form-control" id="buy-quantity"/>
+                        <input v-model="buyQuantity" :max="available" min="0" type="number" class="form-control" id="buy-quantity"/>
                     </div>
                     <button @click="buy" class="btn btn-lg btn-info btn-block mb-2">Buy</button>
+                </div>
+                <div v-show="owned">
+                    <h2>Sell</h2>
+                    <div class="form-group">
+                        <label for="sell-quantity">Quantity</label>
+                        <input v-model="sellQuantity" :max="owned" min="0" type="number" class="form-control" id="sell-quantity"/>
+                    </div>
+                    <button @click="sell" class="btn btn-lg btn-info btn-block mb-2">Sell</button>
                 </div>
             </div>
         </div>
@@ -41,7 +50,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import useAlerts from "../composables/useAlerts";
 
@@ -53,6 +62,11 @@ export default {
         const totalSupply = ref(0);
         const owned = ref(0);
         const buyQuantity = ref(0);
+        const sellQuantity = ref(0);
+
+        const available = computed(() => {
+            return 15 - owned;
+        });
 
         onMounted(async () => {
             await update();
@@ -79,12 +93,19 @@ export default {
 
         }
 
+        const sell = async () => {
+
+        }
+
         return {
             loading,
             totalSupply,
             owned,
             buyQuantity,
+            sellQuantity,
+            available,
             buy,
+            sell,
         }
     }
 
