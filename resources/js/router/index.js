@@ -1,10 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import AddressBook from "../views/AddressBook.vue";
-import Airdrop from "../views/Airdrop.vue";
 import Claim from "../views/Claim.vue";
 import Connect from "../views/Connect.vue";
-import Downline from "../views/Downline.vue";
+import Team from "../views/Team.vue";
 import Home from "../views/Home.vue";
 import Profile from "../views/Profile.vue";
 import Promo from "../views/Promo.vue";
@@ -34,14 +33,9 @@ const routes = [
         component: Vault,
     },
     {
-        path: "/airdrop",
-        name: "Airdrop",
-        component: Airdrop,
-    },
-    {
-        path: "/downline",
-        name: "Downline",
-        component: Downline,
+        path: "/team",
+        name: "Team",
+        component: Team,
     },
     {
         path: "/profile",

@@ -64,7 +64,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Direct Referrals</p>
-                            <p class="card-text"><strong>{{ referrals }}</strong></p>
+                            <p class="card-text"><strong>{{ directReferrals }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -99,6 +99,7 @@ export default {
         const buyQuantity = ref(0);
         const sellQuantity = ref(0);
         const participant = ref(null);
+        const referrals = ref([]);
 
         const available = computed(() => {
             const remaining = maxSupply.value - totalSupply.value;
@@ -109,7 +110,7 @@ export default {
             return ableToBuy;
         });
 
-        const referrals = computed(() => {
+        const directReferrals = computed(() => {
             if(!participant.value) {
                 return 0;
             }
@@ -159,6 +160,7 @@ export default {
                 maxSupply.value = await contract.methods.maxSupply().call();
                 owned.value = await contract.methods.balanceOf(store.state.wallet.address).call();
                 participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
+                referrals.value = await vault.methods.getReferrals(store.state.wallet.address).call();
                 buyQuantity.value = 15 - owned.value;
                 sellQuantity.value = owned.value;
             } catch (error) {
@@ -222,6 +224,7 @@ export default {
             buy,
             sell,
             referrals,
+            directReferrals,
             rewarded,
         }
     }
