@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div v-show="!loading">
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-md-6">
                         <h5>Buy Downline NFTs</h5>
                         <div class="form-group">
@@ -26,7 +26,11 @@
                         <button @click="sell" class="btn btn-sm btn-info btn-block mb-2">Sell ({{ sellQuantity * 4 }} $FUR)</button>
                     </div>
                 </div>
-                <p>Referrer: <strong>{{ referrer }}</strong></p>
+                <p class="mb-3">Referrer: <strong>{{ referrer }}</strong></p>
+                <h3>Referrals</h3>
+                <ul>
+                    <li v-for="referred in referrals">{{ referred }}</li>
+                </ul>
             </div>
         </div>
         <div class="col-lg-5">
