@@ -8,25 +8,22 @@
                 </div>
             </div>
             <div v-show="!loading">
-                <strong>{{ address }}</strong>
-                <div class="row">
-                    <div class="col-lg-6 mb-3">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <p class="card-title">Status</p>
-                                <p class="card-text"><strong>{{ participantStatusDisplay }}</strong></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 mb-3">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <p class="card-title">Reward Rate</p>
-                                <p class="card-text"><strong>{{ rewardRate }}</strong></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Participant Status</th>
+                            <td>{{ participantStatusDisplay }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Reward Rate</th>
+                            <td>{{ rewardRate }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Vault Balance</th>
+                            <td>{{ displayCurrency.format(getProperty("balance")) }} $FUR</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="col-lg-5">
