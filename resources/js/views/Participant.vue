@@ -169,9 +169,9 @@ export default {
             try {
                 const vault = vaultContract();
                 participant.value = await vault.methods.getParticipant(address.value).call();
-                rewardRate.value = await contract.methods.rewardRate(address.value).call() / 100;
-                participantStatus.value = await contract.methods.participantStatus(address.value).call();
-                available.value = await contract.methods.availableRewards(store.state.wallet.address).call();
+                rewardRate.value = await vault.methods.rewardRate(address.value).call() / 100;
+                participantStatus.value = await vault.methods.participantStatus(address.value).call();
+                available.value = await vault.methods.availableRewards(store.state.wallet.address).call();
                 console.log(participant.value);
             } catch (error) {
                 alerts.danger(error.message);
