@@ -2,6 +2,7 @@
     <h1>Airdrop</h1>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
+            <h2>Referrals</h2>
             <ul>
                 <li v-for="referral in referrals">{{ referral }}</li>
             </ul>
@@ -40,6 +41,7 @@ export default {
         const store = useStore();
         const alerts = useAlerts();
         const loading = ref(false);
+        const participant = ref(null);
         const referrals = ref([]);
 
         onMounted(async () => {
@@ -54,7 +56,9 @@ export default {
             loading.value = true;
             try {
                 const vault = vaultContract();
+                participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
                 referrals.value = await vault.methods.getReferrals(store.state.wallet.address).call();
+                console.log(participant.value);
             } catch (error) {
                 alerts.danger(error.message);
             }
