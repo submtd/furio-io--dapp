@@ -49,7 +49,7 @@ export default {
         });
 
         const balance = computed(() => {
-            return get("balance");
+            return getProperty("balance");
         });
 
         onMounted(async () => {
@@ -57,7 +57,7 @@ export default {
             await update();
         });
 
-        const get = (property) => {
+        const getProperty = (property) => {
             if(!participant.value) {
                 return null;
             }
