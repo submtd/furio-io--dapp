@@ -16,7 +16,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Vault Balance</p>
-                            <p class="card-text"><strong>{{ get("balance") }}</strong></p>
+                            <p class="card-text"><strong>{{ balance }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -46,6 +46,10 @@ export default {
                 return null;
             }
             return address.value.substr(0, 4) + "..." + address.value.substr(-4);
+        });
+
+        const balance = computed(() => {
+            return get("balance");
         });
 
         onMounted(async () => {
@@ -91,7 +95,7 @@ export default {
             loading,
             address,
             shortAddress,
-            get,
+            balance,
         }
     }
 
