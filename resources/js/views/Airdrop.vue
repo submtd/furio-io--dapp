@@ -27,5 +27,42 @@
 </template>
 
 <script>
-export default {}
+import { ref, computed, onMounted } from 'vue'
+import { useStore } from 'vuex';
+import useAlerts from '../composables/useAlerts';
+import useDisplayCurrency from '../composables/useDisplayCurrency';
+
+export default {
+    setup () {
+        const store = useStore();
+        const alerts = useAlerts();
+        const loading = ref(false);
+        const referrals = ref([]);
+
+        onMounted(async () => {
+            await update();
+        });
+
+        const vaultContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.vault_abi), store.state.settings.vault_address);
+        }
+
+        const update = async () => {
+            loading.value = true;
+            try {
+                const vault = vaultContract();
+                const refs = await vault.methods.getReferrals().call();
+                console.log(refs);
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            loading.value = false;
+        }
+
+        return {
+            loading,
+            referrals,
+        }
+    }
+}
 </script>
