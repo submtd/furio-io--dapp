@@ -117,6 +117,7 @@ export default {
         const participant = ref(null);
         const participantStatus = ref(2);
         const rewardRate = ref(0);
+        const available = ref(0);
 
         const shortAddress = computed(() => {
             if(!address.value) {
@@ -187,6 +188,7 @@ export default {
             displayCurrency,
             participantStatusDisplay,
             rewardRate,
+            available,
         }
     }
 
