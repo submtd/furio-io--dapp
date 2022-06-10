@@ -17,7 +17,7 @@
                     <button @click="sendAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
                 </div>
             </div>
-            <div class="col-lg-7">
+            <div class="col-lg-5">
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <tbody>
