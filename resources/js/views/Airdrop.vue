@@ -51,7 +51,7 @@ export default {
             loading.value = true;
             try {
                 const vault = vaultContract();
-                const refs = await vault.methods.getReferrals().call();
+                const refs = await vault.methods.getReferrals().call(store.state.wallet.address);
                 console.log(refs);
             } catch (error) {
                 alerts.danger(error.message);
