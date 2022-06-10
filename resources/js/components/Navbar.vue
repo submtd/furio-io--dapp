@@ -30,7 +30,7 @@
                     <div class="d-flex">
                         <ul class="navbar-nav flex-column text-right">
                             <li class="nav-item">
-                                <router-link :to="{ name: 'Profile' }" class="nav-link" active-class="active">{{ name }}</router-link>
+                                <router-link :to="{ name: 'Participant', params: { address: store.state.wallet.address }}" class="nav-link" active-class="active">{{ name }}</router-link>
                             </li>
                             <li class="nav-item">
                                 <button @click="wallet.disconnect" class="btn btn-sm btn-secondary">Disconnect</button>
