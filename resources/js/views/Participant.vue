@@ -2,22 +2,7 @@
     <h1>{{ shortAddress }}</h1>
     <div class="bg-light text-dark rounded p-5 mb-4">
         <div class="row flex-row-reverse gx-5">
-            <div class="col-lg-7">
-                <div v-show="loading" class="text-center">
-                    <div class="spinner-border m-5" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </div>
-                <div v-show="!loading && !airdropDisabled">
-                    <h2>Send Airdrop</h2>
-                    <div class="form-group">
-                        <label for="amount">Amount</label>
-                        <input v-model="amount" class="form-control" id="amount"/>
-                    </div>
-                    <button @click="sendAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
-                </div>
-            </div>
-            <div class="col-lg-5">
+            <div class="col-lg-8">
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <tbody>
@@ -64,6 +49,21 @@
                         </tbody>
                     </table>
                 </div>
+                <div v-show="loading" class="text-center">
+                    <div class="spinner-border m-5" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div v-show="!loading && !airdropDisabled">
+                    <h2>Send Airdrop</h2>
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input v-model="amount" class="form-control" id="amount"/>
+                    </div>
+                    <button @click="sendAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
+                </div>
+            </div>
+            <div class="col-lg-4">
             </div>
         </div>
     </div>
