@@ -8,6 +8,24 @@
                 </div>
             </div>
             <div v-show="!loading">
+                <div class="row">
+                    <div class="col-lg-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <p class="card-title">Status</p>
+                                <p class="card-text"><strong>{{ participantStatusDisplay }}</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <p class="card-title">Reward Rate</p>
+                                <p class="card-text"><strong>{{ rewardRate }}</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-lg-5">
@@ -97,6 +115,8 @@ export default {
         const loading = ref(true);
         const address = ref(null);
         const participant = ref(null);
+        const participantStatus = ref(2);
+        const rewardRate = ref(0);
 
         const shortAddress = computed(() => {
             if(!address.value) {
@@ -104,6 +124,18 @@ export default {
             }
             return address.value.substr(0, 4) + "..." + address.value.substr(-4);
         });
+
+        const participantStatusDisplay = computed(() => {
+            switch(participantStatus.value) {
+                case "1":
+                    return 'Negative';
+                case "2":
+                    return 'Neutral';
+                case "3":
+                    return 'Positive';
+            }
+        });
+
 
         onMounted(async () => {
             address.value = route.params.address;
@@ -137,6 +169,9 @@ export default {
             try {
                 const vault = vaultContract();
                 participant.value = await vault.methods.getParticipant(address.value).call();
+                rewardRate.value = await contract.methods.rewardRate(address.value).call() / 100;
+                participantStatus.value = await contract.methods.participantStatus(address.value).call();
+                available.value = await contract.methods.availableRewards(store.state.wallet.address).call();
                 console.log(participant.value);
             } catch (error) {
                 alerts.danger(error.message);
@@ -150,6 +185,8 @@ export default {
             shortAddress,
             getProperty,
             displayCurrency,
+            participantStatusDisplay,
+            rewardRate,
         }
     }
 
