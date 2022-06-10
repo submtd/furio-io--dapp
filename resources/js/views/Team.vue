@@ -28,8 +28,8 @@
                 </div>
                 <p class="mb-3">Referrer: <strong>{{ referrer }}</strong></p>
                 <h3>Referrals</h3>
-                <ul>
-                    <li v-for="referred in referrals">{{ referred }}</li>
+                <ul class="nav flex-column">
+                    <li v-for="referred in referrals" class="nav-item">{{ referred }}</li>
                 </ul>
             </div>
         </div>
