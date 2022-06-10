@@ -144,7 +144,7 @@ export default {
                 rewardRate.value = await vault.methods.rewardRate(address.value).call() / 100;
                 participantStatus.value = await vault.methods.participantStatus(address.value).call();
                 available.value = await vault.methods.availableRewards(store.state.wallet.address).call();
-                amount.value = available.value;
+                amount.value = displayCurrency.format(available.value);
                 console.log(participant.value);
             } catch (error) {
                 alerts.danger(error.message);
