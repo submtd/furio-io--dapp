@@ -8,21 +8,23 @@
                 </div>
             </div>
             <div v-show="!loading">
-                <div v-show="available > 0">
-                    <h2>Buy Downline NFTs</h2>
-                    <div class="form-group">
-                        <label for="buy-quantity">Quantity</label>
-                        <input v-model="buyQuantity" :max="available" min="0" type="number" class="form-control" id="buy-quantity"/>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Buy Downline NFTs</h5>
+                        <div class="form-group">
+                            <label for="buy-quantity">Quantity</label>
+                            <input v-model="buyQuantity" :max="available" min="0" type="number" class="form-control" id="buy-quantity"/>
+                        </div>
+                        <button @click="buy" class="btn btn-sm btn-info btn-block mb-2">Buy ({{ buyQuantity * 5 }} $FUR)</button>
                     </div>
-                    <button @click="buy" class="btn btn-lg btn-info btn-block mb-2">Buy ({{ buyQuantity * 5 }} $FUR)</button>
-                </div>
-                <div v-show="owned > 0">
-                    <h2>Sell Downline NFTs</h2>
-                    <div class="form-group">
-                        <label for="sell-quantity">Quantity</label>
-                        <input v-model="sellQuantity" :max="owned" min="0" type="number" class="form-control" id="sell-quantity"/>
+                    <div class="col-md-6">
+                        <h2>Sell Downline NFTs</h2>
+                        <div class="form-group">
+                            <label for="sell-quantity">Quantity</label>
+                            <input v-model="sellQuantity" :max="owned" min="0" type="number" class="form-control" id="sell-quantity"/>
+                        </div>
+                        <button @click="sell" class="btn btn-sm btn-info btn-block mb-2">Sell ({{ sellQuantity * 4 }}</button>
                     </div>
-                    <button @click="sell" class="btn btn-lg btn-info btn-block mb-2">Sell ({{ sellQuantity * 4 }}</button>
                 </div>
             </div>
         </div>
@@ -31,12 +33,8 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <h2>Buy Downline NFTs</h2>
-                            <div class="form-group">
-                                <label for="buy-quantity">Quantity</label>
-                                <input v-model="buyQuantity" :max="available" min="0" type="number" class="form-control" id="buy-quantity"/>
-                            </div>
-                            <button @click="buy" class="btn btn-lg btn-info btn-block mb-2">Buy ({{ buyQuantity * 5 }} $FUR)</button>
+                            <p class="card-title">Max Supply</p>
+                            <p class="card-text"><strong>{{ maxSupply }}</strong></p>
                         </div>
                     </div>
                 </div>
