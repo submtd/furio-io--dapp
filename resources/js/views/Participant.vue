@@ -166,7 +166,22 @@ export default {
         }
 
         const sendAirdrop = async () => {
-
+            alerts.warning("waiting on response from wallet");
+            loading.value = true;
+            try {
+                const contract = vaultContract();
+                const gasPriceMultiplier = 1.5;
+                const gasMultiplier = 1.5;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const sendAmount = BigInt(amount.value * 1000000000000000000);
+                const gas = Math.round(await contract.methods.airdrop(address.value, sendAmount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await contract.methods.airdrop(address.value, sendAmount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            await update();
+            loading.value = false;
         }
 
         return {
