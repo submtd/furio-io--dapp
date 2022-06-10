@@ -31,6 +31,9 @@ export default {
         const participant = ref(null);
 
         const shortAddress = computed(() => {
+            if(!address.value) {
+                return null;
+            }
             return address.value.substr(0, 4) + "..." + address.value.substr(-4);
         });
 
