@@ -16,7 +16,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Vault Balance</p>
-                            <p class="card-text"><strong>{{ getProperty("balance") }}</strong></p>
+                            <p class="card-text"><strong>{{ displayCurrency.format(getProperty("balance")) }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -31,11 +31,13 @@ import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import useAlerts from "../composables/useAlerts";
+import useDisplayCurrency from "../composables/useDisplayCurrency";
 
 export default {
     setup () {
         const store = useStore();
         const alerts = useAlerts();
+        const displayCurrency = useDisplayCurrency();
         const route = useRoute();
         const loading = ref(true);
         const address = ref(null);
@@ -92,6 +94,7 @@ export default {
             address,
             shortAddress,
             getProperty,
+            displayCurrency,
         }
     }
 
