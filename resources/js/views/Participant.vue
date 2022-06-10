@@ -10,7 +10,7 @@
                 </div>
                 <div v-show="!loading">
                     <h2>Send Airdrop</h2>
-                    <div v-show="showReferrer" class="form-group">
+                    <div class="form-group">
                         <label for="amount">Amount</label>
                         <input v-model="amount" class="form-control" id="amount"/>
                     </div>
@@ -144,6 +144,7 @@ export default {
                 rewardRate.value = await vault.methods.rewardRate(address.value).call() / 100;
                 participantStatus.value = await vault.methods.participantStatus(address.value).call();
                 available.value = await vault.methods.availableRewards(store.state.wallet.address).call();
+                amount.value = available.value;
                 console.log(participant.value);
             } catch (error) {
                 alerts.danger(error.message);
