@@ -13,7 +13,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Airdrops Received</p>
-                            <p class="card-text"><strong>0 $FUR</strong></p>
+                            <p class="card-text"><strong>{{ received }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Airdrops Sent</p>
-                            <p class="card-text"><strong>0 $FUR</strong></p>
+                            <p class="card-text"><strong>{{ sent }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -40,9 +40,24 @@ export default {
     setup () {
         const store = useStore();
         const alerts = useAlerts();
+        const displayCurrency = useDisplayCurrency();
         const loading = ref(false);
         const participant = ref(null);
         const referrals = ref([]);
+
+        const received = computed(() => {
+            if(!participant.value) {
+                return 0;
+            }
+            return displayCurrency.format(participant.value.airdropReceived);
+        });
+
+        const sent = computed(() => {
+            if(!participant.value) {
+                return 0;
+            }
+            return displayCurrency.format(participant.value.airdropSent);
+        });
 
         onMounted(async () => {
             await update();
@@ -68,6 +83,8 @@ export default {
         return {
             loading,
             referrals,
+            received,
+            sent,
         }
     }
 }
