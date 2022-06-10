@@ -8,22 +8,24 @@
                 </div>
             </div>
             <div v-show="!loading">
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <th scope="row">Participant Status</th>
-                            <td>{{ participantStatusDisplay }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Reward Rate</th>
-                            <td>{{ rewardRate }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Vault Balance</th>
-                            <td>{{ displayCurrency.format(getProperty("balance")) }} $FUR</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Participant Status</th>
+                                <td>{{ participantStatusDisplay }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Reward Rate</th>
+                                <td>{{ rewardRate }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Vault Balance</th>
+                                <td>{{ displayCurrency.format(getProperty("balance")) }} $FUR</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="col-lg-5">
