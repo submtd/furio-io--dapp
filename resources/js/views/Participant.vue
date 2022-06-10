@@ -14,7 +14,7 @@
                         <label for="amount">Amount</label>
                         <input v-model="amount" class="form-control" id="amount"/>
                     </div>
-                    <button @click="sendAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
+                    <button @click="sendAirdrop" :disabled="airdropDisabled" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
                 </div>
             </div>
             <div class="col-lg-5">
@@ -108,6 +108,19 @@ export default {
             }
         });
 
+        const airdropDisabled = computed(() => {
+            if(!participant.value) {
+                return true;
+            }
+            if(address.value == store.state.wallet.address) {
+                return true;
+            }
+            if(available.value == 0) {
+                return true;
+            }
+            return false;
+        });
+
 
         onMounted(async () => {
             address.value = route.params.address;
@@ -167,6 +180,7 @@ export default {
             available,
             amount,
             sendAirdrop,
+            airdropDisabled,
         }
     }
 
