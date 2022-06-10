@@ -9,6 +9,7 @@ import Profile from "../views/Profile.vue";
 import Promo from "../views/Promo.vue";
 import Swap from "../views/Swap.vue";
 import Vault from "../views/Vault.vue";
+import Participant from "../views/Participant.vue";
 import NotFound from "../views/NotFound.vue";
 
 const routes = [
@@ -36,6 +37,11 @@ const routes = [
         path: "/team",
         name: "Team",
         component: Team,
+    },
+    {
+        path: "/participant/:address",
+        name: "Participant",
+        component: Participant,
     },
     {
         path: "/profile",

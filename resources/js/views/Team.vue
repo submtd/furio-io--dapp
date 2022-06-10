@@ -29,7 +29,9 @@
                 <p class="mb-3">Referrer: <strong>{{ referrer }}</strong></p>
                 <h3>Referrals</h3>
                 <ul class="nav flex-column">
-                    <li v-for="referred in referrals" class="nav-item">{{ referred }}</li>
+                    <li v-for="referred in referrals" class="nav-item">
+                        <a :href="participantLink(referred)" class="nav-link">{{ referred }}</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -133,6 +135,10 @@ export default {
             return participant.value.referrer;
         });
 
+        const participantLink = (address) => {
+            return "/participant/" + address;
+        }
+
         onMounted(async () => {
             await update();
         });
@@ -225,6 +231,7 @@ export default {
             referrals,
             directReferrals,
             rewarded,
+            participantLink,
         }
     }
 
