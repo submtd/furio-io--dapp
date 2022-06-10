@@ -16,7 +16,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Vault Balance</p>
-                            <p class="card-text"><strong>{{ balance }}</strong></p>
+                            <p class="card-text"><strong>{{ getProperty("balance") }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -48,10 +48,6 @@ export default {
             return address.value.substr(0, 4) + "..." + address.value.substr(-4);
         });
 
-        const balance = computed(() => {
-            return getProperty("balance");
-        });
-
         onMounted(async () => {
             address.value = route.params.address;
             await update();
@@ -61,10 +57,10 @@ export default {
             if(!participant.value) {
                 return null;
             }
-            if(!participant.value.property) {
+            if(!participant.value[property]) {
                 return null;
             }
-            return participant.value.property;
+            return participant.value[property];
         }
 
         const downlineContract = () => {
@@ -95,7 +91,7 @@ export default {
             loading,
             address,
             shortAddress,
-            balance,
+            getProperty,
         }
     }
 
