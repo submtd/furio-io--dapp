@@ -1,5 +1,5 @@
 <template>
-    <h1>{{ address }}</h1>
+    <h1>{{ shortAddress }}</h1>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
             <div v-show="loading" class="text-center">
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import useAlerts from "../composables/useAlerts";
@@ -29,6 +29,10 @@ export default {
         const loading = ref(true);
         const address = ref(null);
         const participant = ref(null);
+
+        const shortAddress = computed(() => {
+            return address.value.substr(0, 4) + "..." + address.value.substr(-4);
+        });
 
         onMounted(async () => {
             address.value = route.params.address;
@@ -62,6 +66,7 @@ export default {
         return {
             loading,
             address,
+            shortAddress,
         }
     }
 

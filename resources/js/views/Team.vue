@@ -26,11 +26,11 @@
                         <button @click="sell" class="btn btn-sm btn-info btn-block mb-2">Sell ({{ sellQuantity * 4 }} $FUR)</button>
                     </div>
                 </div>
-                <p class="mb-3">Referrer: <strong>{{ referrer }}</strong></p>
+                <p class="mb-3">Referrer: <button @click="participantLink(referrer)" class="btn btn-link"><strong>{{ referrer }}</strong></button></p>
                 <h3>Referrals</h3>
                 <ul class="nav flex-column">
                     <li v-for="referred in referrals" class="nav-item">
-                        <button @click="participantLink(referred)" class="nav-link">{{ referred }}</button>
+                        <button @click="participantLink(referred)" class="btn btn-link">{{ referred }}</button>
                     </li>
                 </ul>
             </div>
