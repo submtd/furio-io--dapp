@@ -30,7 +30,7 @@
                 <h3>Referrals</h3>
                 <ul class="nav flex-column">
                     <li v-for="referred in referrals" class="nav-item">
-                        <a :href="participantLink(referred)" class="nav-link">{{ referred }}</a>
+                        <button @click="participantLink(referred)" class="nav-link">{{ referred }}</button>
                     </li>
                 </ul>
             </div>
@@ -76,6 +76,7 @@
 
 <script>
 import { ref, computed, onMounted } from "vue";
+import router from "../router";
 import { useStore } from "vuex";
 import useAlerts from "../composables/useAlerts";
 import useDisplayCurrency from '../composables/useDisplayCurrency';
@@ -136,7 +137,7 @@ export default {
         });
 
         const participantLink = (address) => {
-            return "/participant/" + address;
+            router.push("/participant/" + address);
         }
 
         onMounted(async () => {
