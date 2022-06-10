@@ -26,6 +26,7 @@
                         <button @click="sell" class="btn btn-sm btn-info btn-block mb-2">Sell ({{ sellQuantity * 4 }} $FUR)</button>
                     </div>
                 </div>
+                <p>Referrer: <strong>{{ referrer }}</strong></p>
             </div>
         </div>
         <div class="col-lg-5">
@@ -119,7 +120,14 @@ export default {
                 tw = "Yes";
             }
             return tw;
-        })
+        });
+
+        const referrer = computed(() => {
+            if(!participant.value) {
+                return null;
+            }
+            return participant.value.referrer;
+        });
 
         onMounted(async () => {
             await update();
@@ -209,6 +217,7 @@ export default {
             available,
             buy,
             sell,
+            referrer,
             referrals,
             directReferrals,
             rewarded,
