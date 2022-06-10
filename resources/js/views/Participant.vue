@@ -11,6 +11,17 @@
             </div>
         </div>
         <div class="col-lg-5">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Vault Balance</p>
+                            <p class="card-text"><strong>{{ get("balance") }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </template>
@@ -42,6 +53,16 @@ export default {
             await update();
         });
 
+        const get = (property) => {
+            if(!participant.value) {
+                return null;
+            }
+            if(!participant.value.property) {
+                return null;
+            }
+            return participant.value.property;
+        }
+
         const downlineContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.downline_abi), store.state.settings.downline_address);
         }
@@ -70,6 +91,7 @@ export default {
             loading,
             address,
             shortAddress,
+            get,
         }
     }
 
