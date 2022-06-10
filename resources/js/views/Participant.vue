@@ -1,5 +1,5 @@
 <template>
-    <h1>{{ shortAddress }}</h1>
+    <h1>{{ name }}</h1>
     <div class="bg-light text-dark rounded p-5 mb-4">
         <div class="row flex-row-reverse gx-5">
             <div class="col-lg-8">
@@ -90,11 +90,11 @@ export default {
         const available = ref(0);
         const amount = ref(0);
 
-        const shortAddress = computed(() => {
+        const name = computed(() => {
             if(!address.value) {
                 return null;
             }
-            return address.value.substr(0, 4) + "..." + address.value.substr(-4);
+            return store.state.wallet.name ?? store.state.wallet.shortAddress;
         });
 
         const participantStatusDisplay = computed(() => {
@@ -187,7 +187,7 @@ export default {
         return {
             loading,
             address,
-            shortAddress,
+            name,
             getProperty,
             displayCurrency,
             participantStatusDisplay,
