@@ -1,13 +1,23 @@
 <template>
     <h1>{{ shortAddress }}</h1>
-    <div class="row flex-row-reverse gx-5">
-        <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
-            <div v-show="loading" class="text-center">
-                <div class="spinner-border m-5" role="status">
-                    <span class="sr-only">Loading...</span>
+    <div class="bg-light text-dark rounded p-5 mb-4">
+        <div class="row flex-row-reverse gx-5">
+            <div class="col-lg-7">
+                <div v-show="loading" class="text-center">
+                    <div class="spinner-border m-5" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div v-show="!loading">
+                    <h2>Send Airdrop</h2>
+                    <div v-show="showReferrer" class="form-group">
+                        <label for="amount">Amount</label>
+                        <input v-model="amount" class="form-control" id="amount"/>
+                    </div>
+                    <button @click="sendAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
                 </div>
             </div>
-            <div v-show="!loading">
+            <div class="col-lg-7">
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <tbody>
@@ -56,8 +66,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-5 bg-light text-dark rounded p-5 mb-4">
-        </div>
     </div>
 </template>
 
@@ -80,6 +88,7 @@ export default {
         const participantStatus = ref(2);
         const rewardRate = ref(0);
         const available = ref(0);
+        const amount = ref(0);
 
         const shortAddress = computed(() => {
             if(!address.value) {
@@ -142,6 +151,10 @@ export default {
             loading.value = false;
         }
 
+        const sendAirdrop = async () => {
+
+        }
+
         return {
             loading,
             address,
@@ -151,6 +164,8 @@ export default {
             participantStatusDisplay,
             rewardRate,
             available,
+            amount,
+            sendAirdrop,
         }
     }
 
