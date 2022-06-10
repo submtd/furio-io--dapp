@@ -20,7 +20,62 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Deposited</p>
+                            <p class="card-text"><strong>{{ displayCurrency.format(getProperty("deposited")) }} $FUR</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Compounded</p>
+                            <p class="card-text"><strong>{{ displayCurrency.format(getProperty("compounded")) }} $FUR</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Claimed</p>
+                            <p class="card-text"><strong>{{ displayCurrency.format(getProperty("claimed")) }} $FUR</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Referral Rewards</p>
+                            <p class="card-text"><strong>{{ displayCurrency.format(getProperty("awarded")) }} $FUR</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Taxes Paid</p>
+                            <p class="card-text"><strong>{{ displayCurrency.format(getProperty("taxed")) }} $FUR</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Airdrops Sent</p>
+                            <p class="card-text"><strong>{{ displayCurrency.format(getProperty("airdropSent")) }} $FUR</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Airdrops Received</p>
+                            <p class="card-text"><strong>{{ displayCurrency.format(getProperty("airdropReceived")) }} $FUR</strong></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
