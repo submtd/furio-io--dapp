@@ -33,7 +33,7 @@
                                 <router-link :to="{ name: 'Profile' }" class="nav-link" active-class="active">{{ name }}</router-link>
                             </li>
                             <li class="nav-item">
-                                <button @click="wallet.disconnect" class="btn btn-sm btn-secondary">Disconnect {{ store.state.wallet.shortAddress }}</button>
+                                <button @click="wallet.disconnect" class="btn btn-sm btn-secondary">Disconnect</button>
                             </li>
                         </ul>
                     </div>
@@ -56,7 +56,7 @@ export default {
         const wallet = useWallet();
 
         const name = computed(() => {
-            return store.state.wallet.name ?? 'Profile';
+            return store.state.wallet.name ?? store.state.wallet.shortAddress;
         });
 
         if(!store.state.wallet.loggedIn && useRoute().name != 'Connect') {

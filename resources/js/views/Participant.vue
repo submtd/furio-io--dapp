@@ -8,13 +8,13 @@
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
-                <div v-show="!loading">
+                <div v-show="!loading && !airdropDisabled">
                     <h2>Send Airdrop</h2>
                     <div class="form-group">
                         <label for="amount">Amount</label>
                         <input v-model="amount" class="form-control" id="amount"/>
                     </div>
-                    <button @click="sendAirdrop" :disabled="airdropDisabled" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
+                    <button @click="sendAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
                 </div>
             </div>
             <div class="col-lg-5">
