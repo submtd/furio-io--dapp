@@ -8,6 +8,7 @@
                 </div>
             </div>
             <div v-show="!loading">
+                <h5>{{ address }}</h5>
                 <div class="row">
                     <div class="col-lg-6 mb-3">
                         <div class="card h-100">
