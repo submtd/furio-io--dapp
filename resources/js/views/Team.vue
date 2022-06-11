@@ -27,7 +27,6 @@
                     </div>
                 </div>
                 <p class="mb-3">Referrer: <button @click="participantLink(referrer)" class="btn btn-link"><strong>{{ referrer }}</strong></button></p>
-                <p class="mb-3">Me: <button @click="participantLink(store.state.wallet.address)" class="btn btn-link"><strong>{{ store.state.wallet.address }}</strong></button></p>
                 <h3>Referrals</h3>
                 <ul class="nav flex-column">
                     <li v-for="referred in referrals" class="nav-item">
