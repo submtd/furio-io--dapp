@@ -97,6 +97,7 @@ export default {
         const furBalance = ref(0);
         const referrer = ref(null);
         const output = ref(0);
+        const participant = ref(null);
 
         const showVault = computed(() => {
             return toCurrency.value == "$FUR";
@@ -109,6 +110,14 @@ export default {
         watch(from, async (value) => {
             getOutput();
         });
+
+        const update = async () => {
+            try {
+                balances.refresh();
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+        }
 
         const activateSwap = () => {
             swapActive.value = "active";
