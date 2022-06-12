@@ -67,8 +67,6 @@ export default {
             router.push("/connect");
         }
 
-        balances.refresh();
-
         const profileLink = () => {
             router.push("/participant/" + store.state.wallet.address);
         }
