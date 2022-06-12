@@ -35,7 +35,7 @@
                         <label for="vault" class="form-check-label">Deposit directly into the <router-link :to="{ name: 'Vault' }"><strong>Vault</strong></router-link></label>
                     </div>
                 </div>
-                <div v-show="showVault && vault && !referrer" class="form-group">
+                <div v-show="showVault && vault && showReferrer" class="form-group">
                     <label for="referrer">Referrer</label>
                     <input v-model="referrer" class="form-control" id="referrer"/>
                 </div>
@@ -103,16 +103,26 @@ export default {
             return toCurrency.value == "$FUR";
         });
 
+        const showReferrer = computed(() => {
+            if(!participant.value) {
+                return false;
+            }
+            return participant.value.referrer == "0x0000000000000000000000000000000000000000";
+        })
+
         onMounted(async () => {
-            balances.refresh();
+            update();
         });
 
         watch(from, async (value) => {
             getOutput();
         });
 
+
         const update = async () => {
             try {
+                const vault = vaultContract();
+                participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
                 balances.refresh();
             } catch (error) {
                 alerts.danger(error.message);
@@ -205,7 +215,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
-            balances.refresh();
+            update();
             loading.value = false;
         }
 
@@ -225,6 +235,7 @@ export default {
             activateBuy,
             swapToFrom,
             referrer,
+            showReferrer,
             max,
             output,
             swap,
