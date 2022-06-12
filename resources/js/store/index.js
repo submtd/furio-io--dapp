@@ -6,8 +6,7 @@ export default createStore({
             alert: null,
             loggedIn: false,
             settings: {},
-            tokenBalance: 0,
-            paymentBalance: 0,
+            balances: {},
             wallet: {
                 address: null,
                 shortAddress: null,
@@ -50,11 +49,8 @@ export default createStore({
         presaleNft(state, value) {
             state.presaleNft = value;
         },
-        tokenBalance(state, value) {
-            state.tokenBalance = value;
-        },
-        paymentBalance(state, value) {
-            state.paymentBalance = value;
+        balances(state, value) {
+            state.balances = value;
         },
     }
 });
