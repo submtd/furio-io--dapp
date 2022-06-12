@@ -121,7 +121,7 @@ export default {
 
         const update = async () => {
             try {
-                const vault = vaultContract();
+                const vault = new web3.eth.Contract(JSON.parse(store.state.settings.vault_abi), store.state.settings.vault_address);
                 participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
                 balances.refresh();
             } catch (error) {
