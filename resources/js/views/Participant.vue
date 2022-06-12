@@ -174,6 +174,7 @@ export default {
             loading.value = true;
             try {
                 const contract = vaultContract();
+                const token = tokenContract();
                 const gasPriceMultiplier = 1.5;
                 const gasMultiplier = 1.5;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
