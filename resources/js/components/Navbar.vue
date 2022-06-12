@@ -41,38 +41,26 @@
             </div>
         </nav>
         <div class="container text-right mb-5">
-            $FUR Balance: <strong>{{ tokenBalanceDisplay }}</strong><br/>
-            USDC Balance: <strong>{{ paymentBalanceDisplay }}</strong><br/>
-            <button @click="refreshBalances" class="btn btn-link">refresh <i class="bi bi-arrow-clockwise"></i></button><br/>
+            $FUR Balance: <strong>{{ balances.tokenBalance }}</strong><br/>
+            USDC Balance: <strong>{{ balances.paymentBalance }}</strong><br/>
+            <button @click="balances.refresh" class="btn btn-link">refresh <i class="bi bi-arrow-clockwise"></i></button><br/>
         </div>
     </div>
 </template>
 
 <script>
-import { ref, computed, onMounted } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import router from "../router";
 import useWallet from "../composables/useWallet";
-import useAlerts from "../composables/useAlerts";
-import useDisplayCurrency from "../composables/useDisplayCurrency";
+import useBalances from "../composables/useBalances";
 
 export default {
     setup () {
         const store = useStore();
         const wallet = useWallet();
-        const alerts = useAlerts();
-        const displayCurrency = useDisplayCurrency();
-        const tokenBalance = ref(0);
-        const paymentBalance = ref(0);
-
-        const tokenBalanceDisplay = computed(() => {
-            return displayCurrency.format(tokenBalance.value);
-        });
-
-        const paymentBalanceDisplay = computed(() => {
-            return displayCurrency.format(paymentBalance.value);
-        });
+        const balances = useBalances();
 
         const name = computed(() => {
             return store.state.wallet.name ?? store.state.wallet.shortAddress;
@@ -82,25 +70,8 @@ export default {
             router.push("/connect");
         }
 
-        onMounted(async () => {
-            if(store.state.wallet.loggedIn) {
-                refreshBalances();
-            }
-        });
-
         const profileLink = () => {
             router.push("/participant/" + store.state.wallet.address);
-        }
-
-        const refreshBalances = async () => {
-            try {
-                const token = new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
-                const payment = new web3.eth.Contract(JSON.parse(store.state.settings.payment_abi), store.state.settings.payment_address);
-                tokenBalance.value = await token.methods.balanceOf(store.state.wallet.address).call();
-                paymentBalance.value = await payment.methods.balanceOf(store.state.wallet.address).call();
-            } catch (error) {
-                alerts.danger(error.message);
-            }
         }
 
         return {
@@ -108,9 +79,7 @@ export default {
             wallet,
             name,
             profileLink,
-            tokenBalanceDisplay,
-            paymentBalanceDisplay,
-            refreshBalances,
+            balances,
         }
     }
 }
