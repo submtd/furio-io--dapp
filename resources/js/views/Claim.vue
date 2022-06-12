@@ -115,7 +115,7 @@ export default {
         watch(address, async (value) => {
             try {
                 const vault = vaultContract();
-                participant.value = vault.methods.getParticipant(value).call();
+                participant.value = await vault.methods.getParticipant(value).call();
                 if(value != store.state.wallet.address && participant.value.referrer == "0x0000000000000000000000000000000000000000") {
                     referrer.value = store.state.wallet.address;
                 }
@@ -137,8 +137,6 @@ export default {
             try {
                 const claim = claimContract();
                 available.value = await claim.methods.getOwnerValue(store.state.wallet.address).call();
-                const vault = vaultContract();
-                participant.value = vault.methods.getParticipant(store.state.wallet.address).call();
             } catch (error) {
                 alerts.danger(error.message);
             }
