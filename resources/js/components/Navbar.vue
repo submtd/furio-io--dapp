@@ -40,10 +40,10 @@
                 </div>
             </div>
         </nav>
-        <div class="text-right mb-5">
-            $FUR Balance: <strong>{{ tokenBalanceDisplay }}</strong>
-            USDC Balance: <strong>{{ paymentBalanceDisplay }}</strong>
-            <button @click="refreshBalances" class="btn btn-link">refresh <i class="bi bi-arrow-clockwise"></i></button>
+        <div class="container text-right mb-5">
+            $FUR Balance: <strong>{{ tokenBalanceDisplay }}</strong><br/>
+            USDC Balance: <strong>{{ paymentBalanceDisplay }}</strong><br/>
+            <button @click="refreshBalances" class="btn btn-link">refresh <i class="bi bi-arrow-clockwise"></i></button><br/>
         </div>
     </div>
 </template>
