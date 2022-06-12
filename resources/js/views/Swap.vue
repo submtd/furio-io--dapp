@@ -20,7 +20,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
                     </div>
-                    <input v-model="to" class="form-control" id="to" disabled/>
+                    <input v-model="output" class="form-control" id="to" disabled/>
                 </div>
             </div>
             <div v-show="showVault" class="form-group">
@@ -66,13 +66,15 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
+import useAlerts from "../composables/useAlerts";
 import useBalances from "../composables/useBalances";
 
 export default {
     setup () {
         const store = useStore();
+        const alerts = useAlerts();
         const balances = useBalances();
         const swapActive = ref("active");
         const buyActive = ref("");
@@ -84,6 +86,7 @@ export default {
         const usdcBalance = ref(0);
         const furBalance = ref(0);
         const referrer = ref(null);
+        const output = ref(0);
 
         const showVault = computed(() => {
             return toCurrency.value == "$FUR";
@@ -91,6 +94,10 @@ export default {
 
         onMounted(async () => {
             balances.refresh();
+        });
+
+        watch(from, async (value) => {
+            getOutput();
         });
 
         const activateSwap = () => {
@@ -118,6 +125,21 @@ export default {
             }
         }
 
+        const getOutput = async () => {
+            try {
+                const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
+                const amount = BigInt(from.value * 1000000000000000000);
+                if(fromCurrency.value == "$FUR") {
+                    output.value = await swap.methods.sellOutput(amount).call();
+                }
+                if(fromCurrency.value == "USDC") {
+                    output.value = await swap.methods.buyOutput(amount).call();
+                }
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+        }
+
         return {
             store,
             swapActive,
@@ -135,6 +157,7 @@ export default {
             swapToFrom,
             referrer,
             max,
+            output,
         }
     }
 }
