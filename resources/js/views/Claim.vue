@@ -120,7 +120,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
-            balances.update();
+            balances.refresh();
             loading.value = false;
         }
 
