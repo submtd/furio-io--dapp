@@ -41,9 +41,8 @@
             </div>
         </nav>
         <div class="container text-right mb-5">
-            $FUR Balance: <strong>{{ balances.tokenBalance }}</strong><br/>
-            USDC Balance: <strong>{{ balances.paymentBalance }}</strong><br/>
-            <button @click="balances.refresh" class="btn btn-link">refresh <i class="bi bi-arrow-clockwise"></i></button><br/>
+            $FUR Balance: <strong>{{ store.state.wallet.tokenBalance }}</strong><br/>
+            USDC Balance: <strong>{{ store.state.wallet.paymentBalance }}</strong><br/>
         </div>
     </div>
 </template>
@@ -54,13 +53,11 @@ import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import router from "../router";
 import useWallet from "../composables/useWallet";
-import useBalances from "../composables/useBalances";
 
 export default {
     setup () {
         const store = useStore();
         const wallet = useWallet();
-        const balances = useBalances();
 
         const name = computed(() => {
             return store.state.wallet.name ?? store.state.wallet.shortAddress;
@@ -81,7 +78,6 @@ export default {
             wallet,
             name,
             profileLink,
-            balances,
         }
     }
 }
