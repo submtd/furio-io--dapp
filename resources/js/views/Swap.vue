@@ -10,7 +10,9 @@
                     </div>
                     <input v-model="from" class="form-control" id="from"/>
                 </div>
-                <button @click="max" class="btn btn-link"><small class="form-text text-muted text-right">max</small></button>
+                <div class="text-right">
+                    <button @click="max" class="btn btn-link"><small class="form-text text-muted">max</small></button>
+                </div>
             </div>
             <div class="form-group mb-3">
                 <label for="to">To</label>
