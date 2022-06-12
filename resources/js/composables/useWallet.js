@@ -1,14 +1,12 @@
 import { useStore } from "vuex";
 import useAlerts from "./useAlerts";
 import useSettings from "./useSettings";
-import useDisplayCurrency from "./useDisplayCurrency";
 import router from "../router";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 export default () => {
     const store = useStore();
     const alerts = useAlerts();
     const settings = useSettings();
-    const displayCurrency = useDisplayCurrency();
 
     const metamask = () => {
         if (typeof window.ethereum == 'undefined') {
@@ -65,11 +63,6 @@ export default () => {
                 alerts.danger(error.message);
                 return disconnect();
             });
-            // get balances
-            const token = new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
-            const payment = new web3.eth.Contract(JSON.parse(store.state.settings.payment_abi), store.state.settings.payment_address);
-            wallet.tokenBalance = displayCurrency.format(await token.methods.balanceOf(wallet.address).call())
-            wallet.paymentBalance = displayCurrency.format(await payment.methods.balanceOf(wallet.address).call());
             store.commit("wallet", wallet);
             alerts.clear();
             await settings.update();
