@@ -64,10 +64,12 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
+import useBalances from "../composables/useBalances";
 
 export default {
     setup () {
+        const balances = useBalances();
         const swapActive = ref("active");
         const buyActive = ref("");
         const fromCurrency = ref("USDC");
@@ -81,6 +83,10 @@ export default {
 
         const showVault = computed(() => {
             return toCurrency.value == "$FUR";
+        });
+
+        onMounted(async () => {
+            balances.refresh();
         });
 
         const activateSwap = () => {
