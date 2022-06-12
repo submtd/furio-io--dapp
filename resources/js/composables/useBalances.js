@@ -6,8 +6,8 @@ export default () => {
     const store = useStore();
     const alerts = useAlerts();
     const displayCurrency = useDisplayCurrency();
-    const tokenBalance = 0
-    const paymentBalance = 0;
+    let tokenBalance = 0
+    let paymentBalance = 0;
 
     const refresh = async () => {
         try {
