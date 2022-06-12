@@ -43,6 +43,7 @@
         <div class="container text-right mb-5">
             $FUR Balance: <strong>{{ store.state.balances.token }}</strong><br/>
             USDC Balance: <strong>{{ store.state.balances.payment }}</strong><br/>
+            Vault Balance: <strong>{{ store.state.balances.vault }}</strong><br/>
         </div>
     </div>
 </template>
