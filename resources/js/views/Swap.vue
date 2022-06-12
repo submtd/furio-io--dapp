@@ -178,8 +178,20 @@ export default {
                     const approveGas = Math.round(await token.methods.approve(store.state.settings.swap_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                     await token.methods.approve(store.state.settings.swap_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
                 }
-                const gas = Math.round(await swap.methods[method](amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                const result = await swap.methods[method](amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                let gas;
+                let result;
+                if(fromCurrency.value == "USDC" && vault.value == true) {
+                    if(referrer.value) {
+                        gas = Math.round(await swap.methods.depositBuy(amount, referrer.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                        result = await swap.methods.depositBuy(amount, referrer.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                    } else {
+                        gas = Math.round(await swap.methods.depositBuy(amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                        result = await swap.methods.depositBuy(amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                    }
+                } else {
+                    gas = Math.round(await swap.methods[method](amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                    result = await swap.methods[method](amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                }
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
             } catch (error) {
                 alerts.danger(error.message);
