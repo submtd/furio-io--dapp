@@ -115,7 +115,7 @@ export default {
         const swapToFrom = () => {
             const tmp = fromCurrency.value;
             fromCurrency.value = toCurrency.value;
-            from.value = output.value;
+            from.value = 0;
             toCurrency.value = tmp;
         }
 
@@ -132,6 +132,10 @@ export default {
             try {
                 const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
                 const amount = BigInt(from.value * 1000000000000000000);
+                if(amount == 0) {
+                    output.value = 0;
+                    return;
+                }
                 if(fromCurrency.value == "$FUR") {
                     output.value = displayCurrency.format(await swap.methods.sellOutput(amount).call());
                 }
