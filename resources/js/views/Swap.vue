@@ -117,6 +117,7 @@ export default {
         }
 
         return {
+            store,
             swapActive,
             buyActive,
             fromCurrency,
