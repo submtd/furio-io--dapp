@@ -20,7 +20,7 @@
                         <label for="vault" class="form-check-label">Deposit directly into the <router-link :to="{ name: 'Vault' }"><strong>Vault</strong></router-link></label>
                     </div>
                 </div>
-                <div v-show="vault" class="form-group">
+                <div v-show="showReferrer" class="form-group">
                     <label for="referrer">Referrer</label>
                     <input v-model="referrer" class="form-control" id="referrer"/>
                 </div>
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import useAlerts from "../composables/useAlerts";
 import useBalances from "../composables/useBalances";
@@ -96,10 +96,32 @@ export default {
         const loading = ref(false);
         const participant = ref(null);
 
+        const showReferrer = computed(() => {
+            if(!participant.value) {
+                return false;
+            }
+            if(!vault.value) {
+                return false;
+            }
+            return participant.value.referrer == "0x0000000000000000000000000000000000000000";
+        });
+
         onMounted(async () => {
             await update();
             quantity.value = available.value;
             address.value = store.state.wallet.address;
+        });
+
+        watch(address, async (value) => {
+            try {
+                const vault = vaultContract();
+                participant.value = vault.methods.getParticipant(value).call();
+                if(value != store.state.wallet.address && participant.value.referrer == "0x0000000000000000000000000000000000000000") {
+                    referrer.value = store.state.wallet.address;
+                }
+            } catch (error) {
+                alerts.danger(error.message);
+            }
         });
 
         const claimContract = () => {
@@ -168,6 +190,7 @@ export default {
             address,
             vault,
             referrer,
+            showReferrer,
             showConfirm,
             confirm,
             cancel,
