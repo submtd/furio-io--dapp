@@ -83,7 +83,7 @@ export default {
         const fromCurrency = ref("USDC");
         const toCurrency = ref("$FUR");
         const to = ref(null);
-        const from = ref(null);
+        const from = ref(0);
         const vault = ref(true);
         const usdcBalance = ref(0);
         const furBalance = ref(0);
@@ -115,7 +115,7 @@ export default {
         const swapToFrom = () => {
             const tmp = fromCurrency.value;
             fromCurrency.value = toCurrency.value;
-            from.value = 0;
+            from.value = output.value;
             toCurrency.value = tmp;
         }
 
