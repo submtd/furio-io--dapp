@@ -68,8 +68,8 @@ export default () => {
             // get balances
             const token = new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
             const payment = new web3.eth.Contract(JSON.parse(store.state.settings.payment_abi), store.state.settings.payment_address);
-            wallet.tokenBalance = displayCurrency.format(await token.methods.balanceOf(store.state.wallet.address).call())
-            wallet.paymentBalance = displayCurrency.format(await payment.methods.balanceOf(store.state.wallet.address).call());
+            wallet.tokenBalance = displayCurrency.format(await token.methods.balanceOf(wallet.address).call())
+            wallet.paymentBalance = displayCurrency.format(await payment.methods.balanceOf(wallet.address).call());
             store.commit("wallet", wallet);
             alerts.clear();
             await settings.update();
