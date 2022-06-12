@@ -65,10 +65,12 @@
 
 <script>
 import { ref, computed, onMounted } from "vue";
+import { useStore } from "vuex";
 import useBalances from "../composables/useBalances";
 
 export default {
     setup () {
+        const store = useStore();
         const balances = useBalances();
         const swapActive = ref("active");
         const buyActive = ref("");
