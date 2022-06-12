@@ -175,6 +175,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
+            balances.refresh();
         }
 
         return {
