@@ -41,8 +41,8 @@
             </div>
         </nav>
         <div class="container text-right mb-5">
-            $FUR Balance: <strong>{{ store.state.wallet.tokenBalance }}</strong><br/>
-            USDC Balance: <strong>{{ store.state.wallet.paymentBalance }}</strong><br/>
+            $FUR Balance: <strong>{{ store.state.tokenBalance }}</strong><br/>
+            USDC Balance: <strong>{{ store.state.paymentBalance }}</strong><br/>
         </div>
     </div>
 </template>
