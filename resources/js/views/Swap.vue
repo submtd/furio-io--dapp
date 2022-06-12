@@ -2,43 +2,50 @@
     <h1>Swap</h1>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
-            <div class="form-group">
-                <label for="from">From</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><strong>{{ fromCurrency }}</strong></div>
+            <div v-show="loading" class="text-center">
+                <div class="spinner-border m-5" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div v-show="!loading">
+                <div class="form-group">
+                    <label for="from">From</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><strong>{{ fromCurrency }}</strong></div>
+                        </div>
+                        <input v-model="from" class="form-control" id="from"/>
                     </div>
-                    <input v-model="from" class="form-control" id="from"/>
-                </div>
-                <div class="text-right">
-                    <button @click="max" class="btn btn-link"><small class="form-text text-muted">max</small></button>
-                </div>
-            </div>
-            <div class="form-group mb-3">
-                <label for="to">To</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
+                    <div class="text-right">
+                        <button @click="max" class="btn btn-link"><small class="form-text text-muted">max</small></button>
                     </div>
-                    <input v-model="output" class="form-control" id="to" disabled/>
                 </div>
-            </div>
-            <div v-show="showVault" class="form-group">
-                <div class="form-check">
-                    <input v-model="vault" class="form-check-input" type="checkbox" id="vault"/>
-                    <label for="vault" class="form-check-label">Deposit directly into the <router-link :to="{ name: 'Vault' }"><strong>Vault</strong></router-link></label>
+                <div class="form-group mb-3">
+                    <label for="to">To</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><strong>{{ toCurrency }}</strong></div>
+                        </div>
+                        <input v-model="output" class="form-control" id="to" disabled/>
+                    </div>
                 </div>
-            </div>
-            <div v-show="showVault && vault && !referrer" class="form-group">
-                <label for="referrer">Referrer</label>
-                <input v-model="referrer" class="form-control" id="referrer"/>
-            </div>
-            <div class="row mt-3">
-                <div class="col-10">
-                    <button @click="swap" class="btn btn-lg btn-info btn-block">Swap</button>
+                <div v-show="showVault" class="form-group">
+                    <div class="form-check">
+                        <input v-model="vault" class="form-check-input" type="checkbox" id="vault"/>
+                        <label for="vault" class="form-check-label">Deposit directly into the <router-link :to="{ name: 'Vault' }"><strong>Vault</strong></router-link></label>
+                    </div>
                 </div>
-                <div class="col-2">
-                    <button @click="swapToFrom" class="btn btn-lg btn-secondary btn-block"><i class="bi bi-arrow-down-up"></i></button>
+                <div v-show="showVault && vault && !referrer" class="form-group">
+                    <label for="referrer">Referrer</label>
+                    <input v-model="referrer" class="form-control" id="referrer"/>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-10">
+                        <button @click="swap" class="btn btn-lg btn-info btn-block">Swap</button>
+                    </div>
+                    <div class="col-2">
+                        <button @click="swapToFrom" class="btn btn-lg btn-secondary btn-block"><i class="bi bi-arrow-down-up"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -78,6 +85,7 @@ export default {
         const alerts = useAlerts();
         const balances = useBalances();
         const displayCurrency = useDisplayCurrency();
+        const loading = ref(false);
         const swapActive = ref("active");
         const buyActive = ref("");
         const fromCurrency = ref("USDC");
@@ -148,6 +156,7 @@ export default {
         }
 
         const swap = async () => {
+            loading.value = true;
             try {
                 const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
                 const amount = BigInt(from.value * 1000000000000000000);
@@ -176,6 +185,7 @@ export default {
                 alerts.danger(error.message);
             }
             balances.refresh();
+            loading.value = false;
         }
 
         return {
@@ -197,6 +207,7 @@ export default {
             max,
             output,
             swap,
+            loading,
         }
     }
 }
