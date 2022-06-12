@@ -70,12 +70,14 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import useAlerts from "../composables/useAlerts";
 import useBalances from "../composables/useBalances";
+import useDisplayCurrency from "../composables/useDisplayCurrency";
 
 export default {
     setup () {
         const store = useStore();
         const alerts = useAlerts();
         const balances = useBalances();
+        const displayCurrency = useDisplayCurrency();
         const swapActive = ref("active");
         const buyActive = ref("");
         const fromCurrency = ref("USDC");
@@ -113,6 +115,7 @@ export default {
         const swapToFrom = () => {
             const tmp = fromCurrency.value;
             fromCurrency.value = toCurrency.value;
+            from.value = 0;
             toCurrency.value = tmp;
         }
 
@@ -130,10 +133,10 @@ export default {
                 const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
                 const amount = BigInt(from.value * 1000000000000000000);
                 if(fromCurrency.value == "$FUR") {
-                    output.value = await swap.methods.sellOutput(amount).call();
+                    output.value = displayCurrency.format(await swap.methods.sellOutput(amount).call());
                 }
                 if(fromCurrency.value == "USDC") {
-                    output.value = await swap.methods.buyOutput(amount).call();
+                    output.value = displayCurrency.format(await swap.methods.buyOutput(amount).call());
                 }
             } catch (error) {
                 alerts.danger(error.message);
