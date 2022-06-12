@@ -78,6 +78,7 @@
 import { ref, computed, onMounted } from "vue";
 import router from "../router";
 import { useStore } from "vuex";
+import useBalances from "../composables/useBalances";
 import useAlerts from "../composables/useAlerts";
 import useDisplayCurrency from '../composables/useDisplayCurrency';
 
@@ -85,6 +86,7 @@ export default {
     setup () {
         const store = useStore();
         const alerts = useAlerts();
+        const balances = useBalances();
         const displayCurrency = useDisplayCurrency();
         const loading = ref(false);
         const maxSupply = ref(0);
@@ -171,6 +173,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
+            balances.refresh();
             loading.value = false;
         }
 

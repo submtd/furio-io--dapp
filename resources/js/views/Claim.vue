@@ -79,12 +79,13 @@
 import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import useAlerts from "../composables/useAlerts";
+import useBalances from "../composables/useBalances";
 
 export default {
     setup () {
         const alerts = useAlerts();
         const store = useStore();
-
+        const balances = useBalances();
         const available = ref(0);
         const claimed = ref(0);
         const quantity = ref(0);
@@ -119,6 +120,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
+            balances.update();
             loading.value = false;
         }
 

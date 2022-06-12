@@ -74,12 +74,14 @@ import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import useAlerts from "../composables/useAlerts";
+import useBalances from "../composables/useBalances";
 import useDisplayCurrency from "../composables/useDisplayCurrency";
 
 export default {
     setup () {
         const store = useStore();
         const alerts = useAlerts();
+        const balances = useBalances();
         const displayCurrency = useDisplayCurrency();
         const route = useRoute();
         const loading = ref(true);
@@ -162,6 +164,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
+            balances.refresh();
             loading.value = false;
         }
 
