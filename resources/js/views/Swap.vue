@@ -195,6 +195,7 @@ export default {
             referrer,
             max,
             output,
+            swap,
         }
     }
 }
