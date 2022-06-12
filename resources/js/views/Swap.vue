@@ -10,7 +10,7 @@
                     </div>
                     <input v-model="from" class="form-control" id="from"/>
                 </div>
-                <small class="form-text text-muted text-right"><a href="#">max</a></small>
+                <button @click="max" class="btn btn-link"><small class="form-text text-muted text-right">max</small></button>
             </div>
             <div class="form-group mb-3">
                 <label for="to">To</label>
@@ -105,6 +105,15 @@ export default {
             toCurrency.value = tmp;
         }
 
+        const max = () => {
+            if(fromCurrency.value == "$FUR") {
+                from.value = store.state.balances.token;
+            }
+            if(fromCurrency.value == "USDC") {
+                from.value = store.state.balances.payment;
+            }
+        }
+
         return {
             swapActive,
             buyActive,
@@ -120,6 +129,7 @@ export default {
             activateBuy,
             swapToFrom,
             referrer,
+            max,
         }
     }
 }
