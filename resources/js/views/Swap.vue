@@ -20,6 +20,9 @@
                         <button @click="max" class="btn btn-link"><small class="form-text text-muted">max</small></button>
                     </div>
                 </div>
+                <div v-show="warning" class="alert alert-danger">
+                    <strong>{{ warning }}</strong>
+                </div>
                 <div class="form-group mb-3">
                     <label for="to">To</label>
                     <div class="input-group">
@@ -38,9 +41,6 @@
                 <div v-show="showVault && vault && showReferrer" class="form-group">
                     <label for="referrer">Referrer</label>
                     <input v-model="referrer" class="form-control" id="referrer"/>
-                </div>
-                <div v-show="warning" class="alert alert-danger">
-                    <strong>{{ warning }}</strong>
                 </div>
                 <div class="row mt-3">
                     <div class="col-10">
