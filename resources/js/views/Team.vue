@@ -27,6 +27,16 @@
                     </div>
                 </div>
                 <p class="mb-3">Referrer: <button @click="participantLink(referrer)" class="btn btn-link"><strong>{{ referrer }}</strong></button></p>
+                <div class="mb-5">
+                    <h2>Team Airdrop</h2>
+                    <p>Team airdrops allow you to send a bonus to all qualifying team members. You can set a minimum and a maximum vault balance to determine who receives the airdrop.</p>
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input v-model="amount" class="form-control" id="amount"/>
+                        <small id="amount-help" class="form-text text-muted">Airdrops are sent from your wallet balance into the recipient's vault balance. This amount will be split evenly between all qualifying team members.</small>
+                    </div>
+                    <button @click="sendAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
+                </div>
                 <h3>Referrals</h3>
                 <ul class="nav flex-column">
                     <li v-for="referred in referrals" class="nav-item">
@@ -96,6 +106,9 @@ export default {
         const sellQuantity = ref(0);
         const participant = ref(null);
         const referrals = ref([]);
+        const amount = ref(0);
+        const minBalance = ref(0);
+        const maxBalance = ref(100000);
 
         const available = computed(() => {
             const remaining = maxSupply.value - totalSupply.value;
@@ -220,6 +233,8 @@ export default {
             loading.value = false;
         }
 
+        const sendAirdrop = async () => {}
+
         return {
             store,
             loading,
@@ -237,6 +252,10 @@ export default {
             directReferrals,
             rewarded,
             participantLink,
+            amount,
+            minBalance,
+            maxBalance,
+            sendAirdrop,
         }
     }
 
