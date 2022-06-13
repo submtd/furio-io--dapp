@@ -39,6 +39,9 @@
                     <label for="referrer">Referrer</label>
                     <input v-model="referrer" class="form-control" id="referrer"/>
                 </div>
+                <div v-show="warning" class="alert alert-danger">
+                    <strong>{{ warning }}</strong>
+                </div>
                 <div class="row mt-3">
                     <div class="col-10">
                         <button @click="swap" class="btn btn-lg btn-info btn-block">Swap</button>
@@ -98,6 +101,7 @@ export default {
         const referrer = ref(null);
         const output = ref(0);
         const participant = ref(null);
+        const warning = ref(null);
 
         const showVault = computed(() => {
             return toCurrency.value == "$FUR";
@@ -165,9 +169,16 @@ export default {
                 }
                 if(fromCurrency.value == "$FUR") {
                     output.value = displayCurrency.format(await swap.methods.sellOutput(amount).call());
+                    if(amount > participant.value.balance && !participant.value.maxed) {
+                        warning.value = "WARNING: The sell amount is greater than 25% of your vault balance and will receive an additional 50% tax!";
+                    }
+                    else {
+                        warning.value = null;
+                    }
                 }
                 if(fromCurrency.value == "USDC") {
                     output.value = displayCurrency.format(await swap.methods.buyOutput(amount).call());
+                    warning.value = null;
                 }
             } catch (error) {
                 alerts.danger(error.message);
