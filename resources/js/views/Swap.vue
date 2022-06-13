@@ -161,22 +161,20 @@ export default {
 
         const getOutput = async () => {
             try {
+                const amount = BigInt(from.value * 1000000000000000000);
                 const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
                 if(amount == 0) {
                     output.value = 0;
                     return;
                 }
-                let amount = BigInt(from.value * 1000000000000000000);
                 if(fromCurrency.value == "$FUR") {
+                    output.value = displayCurrency.format(await swap.methods.sellOutput(amount).call());
                     if(amount > participant.value.balance * .25 && !participant.value.maxed) {
-                        warning.value = "WARNING: The sell amount is greater than 25% of your vault balance and will receive a pump and dump tax of 60%!";
-                        amount = BigInt(from.value * 400000000000000000 * .4);
+                        warning.value = "WARNING: The sell amount is greater than 25% of your vault balance and will receive a pump and dump tax of 60%! USDC value below does not reflect these additional taxes.";
                     }
                     else {
-                        warning.value = "WARNING: All sales of $FUR will be taxed at a rate of 10%";
-                        amount = BigInt(from.value * 1000000000000000000 * .9);
+                        warning.value = "WARNING: All sales of $FUR will be taxed at a rate of 10%. USDC value below does not reflect this tax.";
                     }
-                    output.value = displayCurrency.format(await swap.methods.sellOutput(amount).call());
                 }
                 if(fromCurrency.value == "USDC") {
                     warning.value = null;
