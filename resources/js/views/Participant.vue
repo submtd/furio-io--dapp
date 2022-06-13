@@ -59,6 +59,7 @@
                     <div class="form-group">
                         <label for="amount">Amount</label>
                         <input v-model="amount" class="form-control" id="amount"/>
+                        <small id="amount-help" class="form-text text-muted">Airdrops are sent from your wallet balance into the recipient's vault balance.</small>
                     </div>
                     <button @click="sendAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
                 </div>
@@ -160,8 +161,7 @@ export default {
                 rewardRate.value = await vault.methods.rewardRate(address.value).call() / 100;
                 participantStatus.value = await vault.methods.participantStatus(address.value).call();
                 available.value = await token.methods.balanceOf(store.state.wallet.address).call();
-                amount.value = displayCurrency.format(available.value);
-                console.log(participant.value);
+                //amount.value = displayCurrency.format(available.value);
             } catch (error) {
                 alerts.danger(error.message);
             }
@@ -170,6 +170,11 @@ export default {
         }
 
         const sendAirdrop = async () => {
+            const sendAmount = BigInt(amount.value * 1000000000000000000);
+            if(sendAmount > available.value) {
+                alerts.danger("Insufficient funds");
+                return;
+            }
             alerts.warning("waiting on response from wallet");
             loading.value = true;
             try {
@@ -178,7 +183,6 @@ export default {
                 const gasPriceMultiplier = 1.5;
                 const gasMultiplier = 1.5;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
-                const sendAmount = BigInt(amount.value * 1000000000000000000);
                 const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.vault_address).call();
                 if(allowance < amount) {
                     const approveGas = Math.round(await token.methods.approve(store.state.settings.vault_address, sendAmount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
