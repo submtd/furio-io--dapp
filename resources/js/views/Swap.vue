@@ -170,10 +170,10 @@ export default {
                 if(fromCurrency.value == "$FUR") {
                     output.value = displayCurrency.format(await swap.methods.sellOutput(amount).call());
                     if(amount > participant.value.balance * .25 && !participant.value.maxed) {
-                        warning.value = "WARNING: The sell amount is greater than 25% of your vault balance and will receive an additional 50% tax!";
+                        warning.value = "WARNING: The sell amount is greater than 25% of your vault balance and will receive a pump and dump tax of 60%!";
                     }
                     else {
-                        warning.value = null;
+                        warning.value = "WARNING: All sales of $FUR will be taxed at a rate of 10%";
                     }
                 }
                 if(fromCurrency.value == "USDC") {
