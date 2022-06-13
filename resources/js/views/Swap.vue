@@ -169,7 +169,7 @@ export default {
                 }
                 if(fromCurrency.value == "$FUR") {
                     output.value = displayCurrency.format(await swap.methods.sellOutput(amount).call());
-                    if(amount > participant.value.balance && !participant.value.maxed) {
+                    if(amount > participant.value.balance * .25 && !participant.value.maxed) {
                         warning.value = "WARNING: The sell amount is greater than 25% of your vault balance and will receive an additional 50% tax!";
                     }
                     else {
