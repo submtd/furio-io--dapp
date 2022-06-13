@@ -188,6 +188,7 @@ export default {
         }
 
         const swap = async () => {
+            alerts.warning("waiting on response from wallet");
             loading.value = true;
             try {
                 const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
