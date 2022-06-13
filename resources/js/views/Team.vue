@@ -32,7 +32,7 @@
                     <p>Team airdrops allow you to send a bonus to all qualifying team members. You can set a minimum and a maximum vault balance to determine who receives the airdrop.</p>
                     <div class="form-group">
                         <label for="amount">Amount</label>
-                        <input v-model="amount" class="form-control" id="amount"/>
+                        <input v-model="airdropAmount" class="form-control" id="amount"/>
                         <small id="amount-help" class="form-text text-muted">Airdrops are sent from your wallet balance into the recipient's vault balance. This amount will be split evenly between all qualifying team members.</small>
                     </div>
                     <div class="row">
@@ -120,9 +120,10 @@ export default {
         const sellQuantity = ref(0);
         const participant = ref(null);
         const referrals = ref([]);
-        const amount = ref(0);
+        const airdropAmount = ref(0);
         const minBalance = ref(0);
         const maxBalance = ref(100000);
+        const walletBalance = ref(0);
 
         const available = computed(() => {
             const remaining = maxSupply.value - totalSupply.value;
@@ -190,11 +191,13 @@ export default {
             try {
                 const contract = downlineContract();
                 const vault = vaultContract();
+                const token = tokenContract();
                 totalSupply.value = await contract.methods.totalSupply().call();
                 maxSupply.value = await contract.methods.maxSupply().call();
                 owned.value = await contract.methods.balanceOf(store.state.wallet.address).call();
                 participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
                 referrals.value = await vault.methods.getReferrals(store.state.wallet.address).call();
+                walletBalance.value = await token.methods.balanceOf(store.state.wallet.address).call();
                 buyQuantity.value = 15 - owned.value;
                 sellQuantity.value = owned.value;
             } catch (error) {
@@ -247,7 +250,36 @@ export default {
             loading.value = false;
         }
 
-        const sendAirdrop = async () => {}
+        const sendAirdrop = async () => {
+            const sendAmount = BigInt(airdropAmount.value * 1000000000000000000);
+            const min = BigInt(minBalance.value * 1000000000000000000);
+            const max = BigInt(maxBalance.value * 1000000000000000000);
+            if(sendAmount > walletBalance.value) {
+                alerts.danger("Insufficient funds");
+                return;
+            }
+            alerts.warning("waiting on response from wallet");
+            loading.value = true;
+            try {
+                const vault = vaultContract();
+                const token = tokenContract();
+                const gasPriceMultiplier = 1.5;
+                const gasMultiplier = 1.5;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.vault_address).call();
+                if(allowance < amount) {
+                    const approveGas = Math.round(await token.methods.approve(store.state.settings.vault_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                    await token.methods.approve(store.state.settings.vault_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
+                }
+                const gas = Math.round(await vault.methods.airdropTeam(sendAmount.value, min, max).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await vault.methods.airdropTeam(sendAmount.value, min, max).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            await update();
+            loading.value = false;
+        }
 
         return {
             store,
@@ -266,7 +298,7 @@ export default {
             directReferrals,
             rewarded,
             participantLink,
-            amount,
+            airdropAmount,
             minBalance,
             maxBalance,
             sendAirdrop,
