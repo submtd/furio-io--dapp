@@ -251,6 +251,7 @@ export default {
             output,
             swap,
             loading,
+            warning,
         }
     }
 }
