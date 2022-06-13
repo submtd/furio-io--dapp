@@ -258,6 +258,10 @@ export default {
                 alerts.danger("Insufficient funds");
                 return;
             }
+            if(sendAmount < 0) {
+                alerts.danger("Invalid amount");
+                return;
+            }
             alerts.warning("waiting on response from wallet");
             loading.value = true;
             try {
@@ -271,8 +275,8 @@ export default {
                     const approveGas = Math.round(await token.methods.approve(store.state.settings.vault_address, sendAmount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                     await token.methods.approve(store.state.settings.vault_address, sendAmount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
                 }
-                const gas = Math.round(await vault.methods.airdropTeam(sendAmount.value, min, max).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                const result = await vault.methods.airdropTeam(sendAmount.value, min, max).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                const gas = Math.round(await vault.methods.airdropTeam(sendAmount, min, max).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await vault.methods.airdropTeam(sendAmount, min, max).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
             } catch (error) {
                 alerts.danger(error.message);
