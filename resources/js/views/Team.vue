@@ -35,6 +35,20 @@
                         <input v-model="amount" class="form-control" id="amount"/>
                         <small id="amount-help" class="form-text text-muted">Airdrops are sent from your wallet balance into the recipient's vault balance. This amount will be split evenly between all qualifying team members.</small>
                     </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="min">Minimum Vault Balance</label>
+                                <input v-model="minBalance" class="form-control" id="min"/>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="max">Maximum Vault Balance</label>
+                                <input v-model="maxBalance" class="form-control" id="max"/>
+                            </div>
+                        </div>
+                    </div>
                     <button @click="sendAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
                 </div>
                 <h3>Referrals</h3>
