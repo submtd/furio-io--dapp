@@ -58,3 +58,16 @@ body {
     font-weight:normal;
     font-style:normal;
 }
+
+/* #Button
+================================================== */
+.btn-info { color: #fff; background:#1abc9c; font-size:14px; display:inline-block; padding: 8px 20px; font-weight: bold; text-decoration:none;
+	-webkit-border-radius:	5px;
+	-moz-border-radius:		5px;
+	border-radius:			5px;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+}
+.btn-info:hover { background: #129f83; text-decoration: none; }
