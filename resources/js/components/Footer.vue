@@ -28,11 +28,12 @@
                 <div class="col-md-3">
                     <h5 class="border-bottom border-primary pb-3">Connect</h5>
                     <nav class="nav social">
-                        <a class="nav-link" href="https://www.facebook.com/furiocrypto"><img src="../../images/facebook.svg" width="40" height="40" alt="Facebook Logo"></a>
-                        <a class="nav-link" href="https://twitter.com/furiocrypto"><img class="img-fluid" src="../../images/twitter.svg" width="40" height="40" alt="Twitter Logo"></a>
-                        <a class="nav-link" href="https://www.instagram.com/furiocrypto"><img class="img-fluid" src="../../images/instagram.svg" width="40" height="40" alt="Instagram Logo"></a>
-                        <a class="nav-link" href="https://discord.gg/furio"><img class="img-fluid" src="../../images/discord.svg" width="40" height="40" alt="Discord Logo"></a>
-                        <a class="nav-link" href="https://t.me/furiocrypto"><img class="img-fluid" src="../../images/telegram.svg" width="40" height="40" alt="Telegram Logo"></a>
+                        <a class="nav-link" href="https://twitter.com/furiocrypto"><img class="img-fluid" src="../../images/twitter.svg" width="32" height="32" alt="Twitter Logo"></a>
+                        <a class="nav-link" href="https://t.me/furiocrypto"><img class="img-fluid" src="../../images/telegram.svg" width="32" height="32" alt="Telegram Logo"></a>
+                        <a class="nav-link" href="https://discord.gg/furio"><img class="img-fluid" src="../../images/discord.svg" width="32" height="32" alt="Discord Logo"></a>
+                        <a class="nav-link" href="https://furiocrypto.medium.com/"><img class="img-fluid" src="../../images/medium.svg" width="32" height="32" alt="Medium Logo"></a>
+                        <a class="nav-link" href="https://www.facebook.com/furiocrypto"><img src="../../images/facebook.svg" width="32" height="32" alt="Facebook Logo"></a>
+                        <a class="nav-link" href="https://www.instagram.com/furiocrypto"><img class="img-fluid" src="../../images/instagram.svg" width="32" height="32" alt="Instagram Logo"></a>
                     </nav>
                 </div>
             </div>
@@ -46,7 +47,7 @@ export default {
     setup () {
         const store = useStore();
 
-        return {
+        return  {
             store,
         }
     }
