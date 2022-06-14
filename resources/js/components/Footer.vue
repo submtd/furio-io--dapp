@@ -21,6 +21,10 @@
                         <li class="nav-item"><a class="nav-link" href="https://furio.io/variable-rewards"><i class="fa-solid fa-link"></i> Variable Rewards</a></li>
                         <li class="nav-item"><a class="nav-link" href="https://furio.io/taxes"><i class="fa-solid fa-link"></i> Taxes</a></li>
                         <li class="nav-item"><a class="nav-link" href="https://furio.io/whale-tax"><i class="fa-solid fa-link"></i> Whale Tax</a></li>
+                        <li class="nav-item"><a class="nav-link" href="https://www.furio.io/anti-dump-mechanics/"><i class="fa-solid fa-link"></i> Anti Dump Mechanics</a></li>
+                        <li class="nav-item"><a class="nav-link" href="https://www.furio.io/fast-programme/"><i class="fa-solid fa-link"></i> FAST Programme</a></li>
+                        <li class="nav-item"><a class="nav-link" href="https://www.furio.io/fast-teams/"><i class="fa-solid fa-link"></i> FAST Teams</a></li>
+                        <li class="nav-item"><a class="nav-link" href="https://www.furio.io/how-to-guides/"><i class="fa-solid fa-link"></i> How To Guides</a></li>
                         <li v-show="store.state.wallet.loggedIn" class="nav-item"><router-link :to="{ name: 'Promo' }" class="nav-link"><i class="fa-solid fa-link"></i> Check for Promos</router-link></li>
                         <li v-show="store.state.wallet.loggedIn" class="nav-item"><router-link :to="{ name: 'AddressBook' }" class="nav-link"><i class="fa-solid fa-link"></i> Address Book</router-link></li>
                     </ul>

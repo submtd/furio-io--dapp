@@ -1,5 +1,6 @@
 <template>
     <h1>Team</h1>
+    <p class="mb-5">Buy your downline NFT's and manage your teams/airdrops here.</p>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
             <div v-show="loading" class="text-center">

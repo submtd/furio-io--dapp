@@ -1,5 +1,6 @@
 <template>
     <h1>Claim</h1>
+    <p class="mb-5">Claim your FUR tokens here. You can deposit them straight into the Furvault by selecting deposit directly into the Vault.</p>
     <div v-show="available < 1" class="bg-light text-dark rounded p-5">
         <p>You do not have any $FUR tokens available to claim.</p>
     </div>

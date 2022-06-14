@@ -12,16 +12,13 @@
                 <div class="collapse navbar-collapse" id="navbar">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <router-link :to="{ name: 'Home' }" class="nav-link" active-class="active">Home</router-link>
+                            <router-link :to="{ name: 'Home' }" class="nav-link" active-class="active">Furswap</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link :to="{ name: 'Vault' }" class="nav-link" active-class="active">Furvault</router-link>
                         </li>
                         <li class="nav-item">
                             <router-link :to="{ name: 'Claim' }" class="nav-link" active-class="active">Claim</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'Swap' }" class="nav-link" active-class="active">Swap</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'Vault' }" class="nav-link" active-class="active">Vault</router-link>
                         </li>
                         <li class="nav-item">
                             <router-link :to="{ name: 'Team' }" class="nav-link" active-class="active">Team</router-link>

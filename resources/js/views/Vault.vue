@@ -1,5 +1,6 @@
 <template>
-    <h1>Vault</h1>
+    <h1>Furvault</h1>
+    <p class="mb-5">Earn up to 2.5% daily rewards by depositing in to the Furvault.</p>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
             <div v-show="!loading && !statusDrop && !maxed">

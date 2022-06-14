@@ -1,5 +1,8 @@
 <template>
-    <h1>Swap</h1>
+    <h1>Furswap</h1>
+    <p class="mb-5">Swap USDC for FUR tokens here.<br/>
+                    FUR token runs the Furio ecosystem.<br/>
+                    Earn up to 2.5% daily rewards by depositing your tokens in to Furvault.</p>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
             <div v-show="loading" class="text-center">
