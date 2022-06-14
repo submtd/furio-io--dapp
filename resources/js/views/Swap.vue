@@ -104,6 +104,7 @@ export default {
         const participant = ref(null);
         const warning = ref(null);
         const price = ref(0);
+        const onCooldown = ref(false);
 
         const showVault = computed(() => {
             return toCurrency.value == "$FUR";
@@ -129,8 +130,10 @@ export default {
             try {
                 const vault = new web3.eth.Contract(JSON.parse(store.state.settings.vault_abi), store.state.settings.vault_address);
                 const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
+                const token = new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
                 participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
                 price.value = displayCurrency.format(await swap.methods.sellOutput("1000000000000000000").call());
+                onCooldown.value = await token.methods.onCooldown(store.state.wallet.address).call();
                 balances.refresh();
             } catch (error) {
                 alerts.danger(error.message);
@@ -200,6 +203,10 @@ export default {
                 let token;
                 let method;
                 if(fromCurrency.value == "$FUR") {
+                    if(onCooldown.value) {
+                        alerts.danger("You are currently on a sell cooldown period. Please try again later");
+                        return;
+                    }
                     token = new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
                     method = "sell";
                 }
@@ -260,6 +267,7 @@ export default {
             loading,
             warning,
             price,
+            onCooldown,
         }
     }
 }
