@@ -64,7 +64,7 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <img src="../../images/nft.svg" class="mx-auto d-block mb-3" alt="NFT" width="50" height="50"/>
+                            <img src="../../images/nft.svg" class="mx-auto d-block mb-3" alt="NFT" width="75" height="75"/>
                             <p class="card-title">NFTs Owned</p>
                             <p class="card-text"><strong>{{ owned }}</strong></p>
                         </div>
@@ -73,7 +73,7 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <img src="../../images/team-wallet.svg" class="mx-auto d-block mb-3" alt="Team Wallet" width="50" height="50"/>
+                            <img src="../../images/team-wallet.svg" class="mx-auto d-block mb-3" alt="Team Wallet" width="75" height="75"/>
                             <p class="card-title">Team Wallet</p>
                             <p class="card-text"><strong>{{ teamWallet }}</strong></p>
                         </div>
@@ -82,7 +82,7 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <img src="../../images/referral.svg" class="mx-auto d-block mb-3" alt="Referrals" width="50" height="50"/>
+                            <img src="../../images/referral.svg" class="mx-auto d-block mb-3" alt="Referrals" width="75" height="75"/>
                             <p class="card-title">Direct Referrals</p>
                             <p class="card-text"><strong>{{ directReferrals }}</strong></p>
                         </div>
@@ -91,7 +91,7 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="50" height="50"/>
+                            <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="75" height="75"/>
                             <p class="card-title">Rewarded</p>
                             <p class="card-text"><strong>{{ rewarded }} $FUR</strong></p>
                         </div>

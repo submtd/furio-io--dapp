@@ -47,7 +47,7 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="50" height="50"/>
+                            <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="75" height="75"/>
                             <p class="card-title">Balance</p>
                             <p class="card-text"><strong>{{ depositedDisplay }} $FUR</strong></p>
                         </div>
@@ -56,7 +56,7 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="50" height="50"/>
+                            <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="75" height="75"/>
                             <p class="card-title">Claimed</p>
                             <p class="card-text"><strong>{{ claimedDisplay }} $FUR</strong></p>
                         </div>
@@ -65,7 +65,7 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <img src="../../images/reward-rate.svg" class="mx-auto d-block mb-3" alt="Reward Rate" width="50" height="50"/>
+                            <img src="../../images/reward-rate.svg" class="mx-auto d-block mb-3" alt="Reward Rate" width="75" height="75"/>
                             <p class="card-title">Reward Rate</p>
                             <p class="card-text"><strong>{{ rewardRate }}%</strong></p>
                         </div>
@@ -74,7 +74,7 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <img src="../../images/referral.svg" class="mx-auto d-block mb-3" alt="Participant" width="50" height="50"/>
+                            <img src="../../images/referral.svg" class="mx-auto d-block mb-3" alt="Participant" width="75" height="75"/>
                             <p class="card-title">Participant Status</p>
                             <p class="card-text"><strong>{{ participantStatusDisplay }}</strong></p>
                         </div>

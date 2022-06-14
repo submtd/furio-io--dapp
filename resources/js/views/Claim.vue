@@ -57,7 +57,7 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="50" height="50"/>
+                            <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="75" height="75"/>
                             <p class="card-title">Available</p>
                             <p class="card-text"><strong>{{ available }} $FUR</strong></p>
                         </div>
@@ -66,7 +66,7 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="50" height="50"/>
+                            <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="75" height="75"/>
                             <p class="card-title">Claimed</p>
                             <p class="card-text"><strong>{{ claimed }} $FUR</strong></p>
                         </div>
