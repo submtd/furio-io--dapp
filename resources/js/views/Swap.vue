@@ -58,6 +58,7 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
+                            <img src="../../images/usdc.svg" class="mx-auto d-block" alt="USDC" width="64" height="64"/>
                             <p class="card-title">USDC Balance</p>
                             <p class="card-text"><strong>{{ store.state.balances.payment }} USDC</strong></p>
                         </div>
