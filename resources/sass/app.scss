@@ -61,7 +61,7 @@ body {
 
 /* #Button
 ================================================== */
-.btn-info { color: #fff; background: linear-gradient(90deg, rgba(229,122,59,1) 0%, rgba(239,173,42,1) 50%);
+.btn-info { color: #fff; background: linear-gradient(0deg, rgba(229,122,59,1) 0%, rgba(239,173,42,1) 50%);
 	-webkit-border-radius:	5px;
 	-moz-border-radius:		5px;
 	border-radius:			5px;
@@ -69,5 +69,6 @@ body {
 	-moz-transition: all 0.2s ease-in-out;
 	-o-transition: all 0.2s ease-in-out;
 	transition: all 0.2s ease-in-out;
+    border-color: none;
 }
 .btn-info:hover { background: #e57a3b; text-decoration: none; }
