@@ -69,6 +69,6 @@ body {
 	-moz-transition: all 0.2s ease-in-out;
 	-o-transition: all 0.2s ease-in-out;
 	transition: all 0.2s ease-in-out;
-    border-color: none;
+    border-color: none !important;
 }
 .btn-info:hover { background: #e57a3b; text-decoration: none; }
