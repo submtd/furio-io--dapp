@@ -128,6 +128,7 @@ export default {
         const update = async () => {
             try {
                 const vault = new web3.eth.Contract(JSON.parse(store.state.settings.vault_abi), store.state.settings.vault_address);
+                const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
                 participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
                 price.value = displayCurrency.format(await swap.methods.sellOutput("1000000000000000000").call());
                 balances.refresh();
