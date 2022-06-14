@@ -205,6 +205,7 @@ export default {
                 if(fromCurrency.value == "$FUR") {
                     if(onCooldown.value) {
                         alerts.danger("You are currently on a sell cooldown period. Please try again later");
+                        loading.value = false;
                         return;
                     }
                     token = new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
