@@ -165,6 +165,7 @@ export default {
 
         const getOutput = async () => {
             try {
+                warning.value = null;
                 let amount = BigInt(from.value * 1000000000000000000);
                 const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
                 if(amount == 0) {
@@ -183,7 +184,6 @@ export default {
                     output.value = displayCurrency.format(await swap.methods.sellOutput(amount).call());
                 }
                 if(fromCurrency.value == "USDC") {
-                    warning.value = null;
                     output.value = displayCurrency.format(await swap.methods.buyOutput(amount).call());
                 }
             } catch (error) {
