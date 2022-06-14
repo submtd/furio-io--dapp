@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div v-show="!loading">
-                <p>Current $FUR price: <strong>{{ price }}</strong></p>
+                <p>Current $FUR price: <strong>{{ price }} USDC</strong></p>
                 <div class="form-group">
                     <label for="from">From</label>
                     <div class="input-group">
