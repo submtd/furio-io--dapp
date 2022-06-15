@@ -32,7 +32,15 @@ export default () => {
     }
 
     const connect = async () => {
-        alert(Cookies.getItem('provider'));
+        if(!web3.currentProvider) {
+            if(Cookies.getItem('provider') == "metamask") {
+                return metamask();
+            }
+            if(Cookies.getItem('provider') == "walletconnect") {
+                return walletconnect();
+            }
+            return;
+        }
         await settings.update();
         try {
             const wallet = {};
@@ -100,6 +108,7 @@ export default () => {
     return {
         metamask,
         walletconnect,
+        connect,
         disconnect,
     }
 }
