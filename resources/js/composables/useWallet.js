@@ -29,9 +29,7 @@ export default () => {
     }
 
     const connect = async () => {
-        await disconnect();
         await settings.update();
-        alerts.info("Waiting on response from wallet");
         try {
             const wallet = {};
             await web3.currentProvider.enable();

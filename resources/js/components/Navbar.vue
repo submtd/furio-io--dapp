@@ -51,6 +51,7 @@ import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import router from "../router";
 import useWallet from "../composables/useWallet";
+import Web3 from "web3";
 
 export default {
     setup () {
@@ -61,9 +62,13 @@ export default {
             return store.state.wallet.name ?? store.state.wallet.shortAddress;
         });
 
-        if(!store.state.wallet.loggedIn && useRoute().name != 'Connect') {
+        if(!Web3.eth.currentProvider) {
             router.push("/connect");
         }
+
+        //if(!store.state.wallet.loggedIn && useRoute().name != 'Connect') {
+            //router.push("/connect");
+        //}
 
         const profileLink = () => {
             router.push("/participant/" + store.state.wallet.address);
