@@ -183,12 +183,16 @@ export default {
                 const gasMultipler = 1.5;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 let result;
+                let destination = store.state.wallet.address;
+                if(different.value) {
+                    destination = address.value;
+                }
                 if(referrer.value) {
-                    const gas = Math.round(await contract.methods.claim(quantity.value, address.value, vault.value, referrer.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultipler);
-                    result = await contract.methods.claim(quantity.value, address.value, vault.value, referrer.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                    const gas = Math.round(await contract.methods.claim(quantity.value, destination, vault.value, referrer.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultipler);
+                    result = await contract.methods.claim(quantity.value, destination, vault.value, referrer.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 } else {
-                    const gas = Math.round(await contract.methods.claim(quantity.value, address.value, vault.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultipler);
-                    result = await contract.methods.claim(quantity.value, address.value, vault.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                    const gas = Math.round(await contract.methods.claim(quantity.value, destination, vault.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultipler);
+                    result = await contract.methods.claim(quantity.value, destination, vault.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 }
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
             } catch (error) {
