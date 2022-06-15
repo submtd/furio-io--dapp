@@ -80,8 +80,9 @@ export default () => {
             store.commit("wallet", wallet);
             alerts.clear();
             await settings.update();
-            console.log(router.currentRoute.value);
-            router.push("/");
+            if(router.currentRoute.value.path == "connect") {
+                router.push("/");
+            }
         } catch (error) {
             alerts.danger(error.message);
         }
