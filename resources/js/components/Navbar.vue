@@ -21,7 +21,7 @@
                             <router-link :to="{ name: 'Claim' }" class="nav-link" active-class="active">Claim</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link :to="{ name: 'Team', params: { teamaddress: store.state.wallet.address }}" class="nav-link" active-class="active">Team</router-link>
+                            <router-link :to="{ name: 'Team', params: { teamaddress: teamaddress }}" class="nav-link" active-class="active">Team</router-link>
                         </li>
                     </ul>
                     <div class="d-flex">
@@ -62,6 +62,10 @@ export default {
             return store.state.wallet.name ?? store.state.wallet.shortAddress;
         });
 
+        const teamaddress = computed(() => {
+            return store.state.wallet.address ?? "0x0000000000000000000000000000000000000000";
+        });
+
         if(!Web3.currentProvider) {
             wallet.connect();
         }
@@ -78,6 +82,7 @@ export default {
             store,
             wallet,
             name,
+            teamaddress,
             profileLink,
         }
     }
