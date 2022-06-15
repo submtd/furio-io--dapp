@@ -248,10 +248,12 @@ export default {
         const claim = async () => {
             try {
                 const contract = vaultContract();
-                newRewardRate.value = await contract.methods.claimPrecheck(store.state.wallet.address).call() / 100;
-                if(newRewardRate.value < rewardRate.value && !statusDrop.value) {
-                    statusDrop.value = true;
-                    return;
+                if(!participant.value.maxed) {
+                    newRewardRate.value = await contract.methods.claimPrecheck(store.state.wallet.address).call() / 100;
+                    if(newRewardRate.value < rewardRate.value && !statusDrop.value) {
+                        statusDrop.value = true;
+                        return;
+                    }
                 }
                 alerts.warning("waiting on response from wallet");
                 loading.value = true;
