@@ -12,6 +12,12 @@
                     <input v-model="quantity" :max="available" min="0" type="number" class="form-control" id="quantity"/>
                 </div>
                 <div class="form-group">
+                    <div class="form-check">
+                        <input v-model="different" class="form-check-input" type="checkbox" id="different"/>
+                        <label for="different" class="form-check-label">Send tokens to someone else's address.</label>
+                    </div>
+                </div>
+                <div v-show="different" class="form-group">
                     <label for="address">Address</label>
                     <input v-model="address" class="form-control" id="address"/>
                 </div>
@@ -103,6 +109,7 @@ export default {
         const vault = ref(false);
         const referrer = ref(null);
         const showConfirm = ref(false);
+        const different = ref(false);
         const loading = ref(false);
         const participant = ref(null);
 
@@ -205,6 +212,7 @@ export default {
             claim,
             loading,
             participant,
+            different,
         }
     }
 }
