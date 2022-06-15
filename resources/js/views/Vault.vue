@@ -24,7 +24,12 @@
             </div>
             <div v-show="!loading && !statusDrop && maxed">
                 <p><strong>Congratulations</strong> on maxing our your rewards! Why not send some of your earnings to another wallet and start again?</p>
-                <button @click="claim" class="btn btn-lg btn-info btn-block">Claim {{ availableDisplay }}</button>
+                <div v-show="complete" class="alert alert-primary">
+                    You have claimed your maximum amount of rewards!
+                </div>
+                <div v-show="!complete">
+                    <button @click="claim" class="btn btn-lg btn-info btn-block">Claim {{ availableDisplay }}</button>
+                </div>
             </div>
             <div v-show="!loading && statusDrop">
                 <p>Claiming now will lower your reward rate from <strong>{{ rewardRate }}%</strong> to <strong>{{ newRewardRate }}%</strong>. Are you <strong><em>sure</em></strong> you want to continue?</p>
@@ -157,6 +162,13 @@ export default {
                 return false;
             }
             return participant.value.maxed;
+        });
+
+        const complete = computed(() => {
+            if(!participant.value) {
+                return false;
+            }
+            return participant.value.complete;
         });
 
         onMounted(async () => {
@@ -297,6 +309,7 @@ export default {
             properties,
             participant,
             maxed,
+            complete,
         }
     }
 }
