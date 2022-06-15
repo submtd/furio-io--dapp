@@ -32,6 +32,9 @@ export default () => {
     }
 
     const connect = async () => {
+        if(store.state.wallet.loggedIn) {
+            return;
+        }
         if(!web3.currentProvider) {
             if(Cookies.getItem('provider') == "metamask") {
                 return metamask();
