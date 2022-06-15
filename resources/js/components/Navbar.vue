@@ -62,7 +62,7 @@ export default {
             return store.state.wallet.name ?? store.state.wallet.shortAddress;
         });
 
-        if(!Web3.eth.currentProvider) {
+        if(!Web3.currentProvider) {
             router.push("/connect");
         }
 
