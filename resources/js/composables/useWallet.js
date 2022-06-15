@@ -51,7 +51,7 @@ export default () => {
                 alerts.danger(error.message);
                 return disconnect();
             });
-            if(store.state.settings.require_signature) {
+            if(store.state.settings.require_signature == "true") {
                 const signature = await web3.eth.personal.sign(wallet.nonce, wallet.address, "");
                 await axios.post("/api/v1/login", {
                     address: wallet.address,
