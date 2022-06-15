@@ -63,7 +63,7 @@ export default {
         });
 
         if(!Web3.currentProvider) {
-            await wallet.connect();
+            wallet.connect();
             //router.push("/connect");
         }
 
