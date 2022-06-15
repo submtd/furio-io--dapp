@@ -21,7 +21,7 @@
                             <router-link :to="{ name: 'Claim' }" class="nav-link" active-class="active">Claim</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link :to="{ name: 'Team' }" class="nav-link" active-class="active">Team</router-link>
+                            <router-link :to="{ name: 'Team', params: { teamaddress: store.state.wallet.address }}" class="nav-link" active-class="active">Team</router-link>
                         </li>
                     </ul>
                     <div class="d-flex">

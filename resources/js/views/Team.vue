@@ -1,6 +1,7 @@
 <template>
-    <h1>Team</h1>
-    <p class="mb-5">Buy your downline NFT's and manage your teams/airdrops here.</p>
+    <h1>Team {{ shortteamaddress }}</h1>
+    <p v-show="!isSelf" class="mb-t">View team stats here.</p>
+    <p v-show="isSelf" class="mb-5">Buy your downline NFT's and manage your teams/airdrops here.</p>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
             <div v-show="loading" class="text-center">
@@ -9,7 +10,7 @@
                 </div>
             </div>
             <div v-show="!loading">
-                <div class="row mb-3">
+                <div v-show="isSelf" class="row mb-3">
                     <div class="col-md-6">
                         <h5>Buy Downline NFTs</h5>
                         <div class="form-group">
@@ -28,7 +29,7 @@
                     </div>
                 </div>
                 <p class="mb-3">Referrer: <button @click="participantLink(referrer)" class="btn btn-link"><strong>{{ referrer }}</strong></button></p>
-                <div class="mb-5">
+                <div v-show="isSelf" class="mb-5">
                     <h2>Team Airdrop</h2>
                     <p>Team airdrops allow you to send a bonus to all qualifying team members. You can set a minimum and a maximum vault balance to determine who receives the airdrop.</p>
                     <div class="form-group">
@@ -107,6 +108,7 @@
 import { ref, computed, onMounted } from "vue";
 import router from "../router";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 import useBalances from "../composables/useBalances";
 import useAlerts from "../composables/useAlerts";
 import useDisplayCurrency from '../composables/useDisplayCurrency';
@@ -115,6 +117,7 @@ export default {
     setup () {
         const store = useStore();
         const alerts = useAlerts();
+        const route = useRoute();
         const balances = useBalances();
         const displayCurrency = useDisplayCurrency();
         const loading = ref(false);
@@ -129,6 +132,8 @@ export default {
         const minBalance = ref(0);
         const maxBalance = ref(100000);
         const walletBalance = ref(0);
+        const teamaddress = ref(null);
+        const shortteamaddress = ref(null);
 
         const available = computed(() => {
             const remaining = maxSupply.value - totalSupply.value;
@@ -171,13 +176,19 @@ export default {
             return participant.value.referrer;
         });
 
+        const isSelf = computed(() => {
+            return teamaddress.value == store.state.wallet.address;
+        });
+
+        onMounted(async () => {
+            teamaddress.value = route.params.teamaddress ?? store.state.wallet.address;
+            shortteamaddress.value = teamaddress.value.substr(0, 4) + "..." + teamaddress.value.substr(-4);
+            await update();
+        });
+
         const participantLink = (address) => {
             router.push("/participant/" + address);
         }
-
-        onMounted(async () => {
-            await update();
-        });
 
         const downlineContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.downline_abi), store.state.settings.downline_address);
@@ -199,10 +210,10 @@ export default {
                 const token = tokenContract();
                 totalSupply.value = await contract.methods.totalSupply().call();
                 maxSupply.value = await contract.methods.maxSupply().call();
-                owned.value = await contract.methods.balanceOf(store.state.wallet.address).call();
-                participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
-                referrals.value = await vault.methods.getReferrals(store.state.wallet.address).call();
-                walletBalance.value = await token.methods.balanceOf(store.state.wallet.address).call();
+                owned.value = await contract.methods.balanceOf(teamaddress.value).call();
+                participant.value = await vault.methods.getParticipant(teamaddress.value).call();
+                referrals.value = await vault.methods.getReferrals(teamaddress.value).call();
+                walletBalance.value = await token.methods.balanceOf(teamaddress.value).call();
                 buyQuantity.value = 15 - owned.value;
                 sellQuantity.value = owned.value;
             } catch (error) {
@@ -311,6 +322,9 @@ export default {
             minBalance,
             maxBalance,
             sendAirdrop,
+            teamaddress,
+            shortteamaddress,
+            isSelf,
         }
     }
 

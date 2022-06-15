@@ -34,7 +34,7 @@ const routes = [
         component: Vault,
     },
     {
-        path: "/team",
+        path: "/team/:teamaddress",
         name: "Team",
         component: Team,
     },
