@@ -46,6 +46,9 @@ export default () => {
         }
         await settings.update();
         try {
+            if(!web3.currentProvider) {
+                return;
+            }
             const wallet = {};
             await web3.currentProvider.enable();
             if(parseInt(await web3.eth.net.getId()) != parseInt(store.state.settings.network_id)) {
