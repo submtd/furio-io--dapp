@@ -80,6 +80,7 @@ export default () => {
             store.commit("wallet", wallet);
             alerts.clear();
             await settings.update();
+            alert(router.currentRoute);
             router.push("/");
         } catch (error) {
             alerts.danger(error.message);
@@ -87,6 +88,7 @@ export default () => {
     }
 
     const disconnect = async () => {
+        Cookies.removeItem("provider");
         try {
             web3.currentProvider.disconnect();
         } catch(error) {}
