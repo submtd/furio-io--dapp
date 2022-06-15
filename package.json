@@ -16,6 +16,7 @@
         "bootstrap": "^4.6",
         "bootstrap-icons": "^1.8.3",
         "jquery": "^3.5",
+        "js-cookies": "^1.0.4",
         "laravel-echo": "^1.11.5",
         "laravel-mix": "^6.0.6",
         "node-polyfill-webpack-plugin": "^1.1.4",

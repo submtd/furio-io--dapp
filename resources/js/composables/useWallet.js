@@ -3,6 +3,7 @@ import useAlerts from "./useAlerts";
 import useSettings from "./useSettings";
 import router from "../router";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import Cookies from "js-cookies";
 export default () => {
     const store = useStore();
     const alerts = useAlerts();
@@ -13,6 +14,7 @@ export default () => {
             window.location.href = 'https://metamask.app.link/dapp/' + location.hostname;
             return false;
         }
+        Cookies.setItem('provider', 'metamask');
         web3.setProvider(window.ethereum);
         connect();
     }
@@ -24,11 +26,13 @@ export default () => {
                 [parseInt(store.state.settings.network_id)]: store.state.settings.rpc_url,
             }
         });
+        Cookies.setItem('provider', 'walletconnect');
         web3.setProvider(provider);
         connect();
     }
 
     const connect = async () => {
+        alert(Cookies.getItem('provider'));
         await settings.update();
         try {
             const wallet = {};
