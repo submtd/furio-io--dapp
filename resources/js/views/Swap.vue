@@ -43,6 +43,11 @@
                     </div>
                 </div>
                 <div v-show="showVault && vault && showReferrer" class="form-group">
+                    <div v-show="!referrer">
+                        <div class="alert alert-danger">
+                            <strong>You do not currently have a referrer set. By leaving this field blank, your referrer will default to the dev wallet.</strong>
+                        </div>
+                    </div>
                     <label for="referrer">Referrer</label>
                     <input v-model="referrer" class="form-control" id="referrer"/>
                 </div>
@@ -101,7 +106,7 @@ export default {
         const toCurrency = ref("$FUR");
         const to = ref(null);
         const from = ref(0);
-        const vault = ref(true);
+        const vault = ref(false);
         const usdcBalance = ref(0);
         const furBalance = ref(0);
         const referrer = ref(null);

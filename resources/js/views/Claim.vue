@@ -37,6 +37,13 @@
                     <p>
                         You are about to send <strong>{{ quantity }}</strong> $FUR tokens to the vault on behalf of address <strong>{{ address }}</strong>.
                     </p>
+                    <div v-show="showReferrer && !referrer" class="form-group">
+                        <div class="alert alert-danger">
+                            <strong>You do not currently have a referrer set. By leaving this field blank, your referrer will default to the dev wallet.</strong>
+                        </div>
+                        <label for="referrer">Referrer</label>
+                        <input v-model="referrer" class="form-control" id="referrer"/>
+                    </div>
                 </div>
                 <div v-show="!vault">
                     <p>
@@ -93,7 +100,7 @@ export default {
         const claimed = ref(0);
         const quantity = ref(0);
         const address = ref(0);
-        const vault = ref(true);
+        const vault = ref(false);
         const referrer = ref(null);
         const showConfirm = ref(false);
         const loading = ref(false);
