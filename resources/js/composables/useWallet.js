@@ -51,18 +51,22 @@ export default () => {
                 alerts.danger(error.message);
                 return disconnect();
             });
-            const signature = await web3.eth.personal.sign(wallet.nonce, wallet.address, "");
-            await axios.post("/api/v1/login", {
-                address: wallet.address,
-                nonce: wallet.nonce,
-                signature: signature,
-            }).then(response => {
+            if(store.state.settings.require_signature) {
+                const signature = await web3.eth.personal.sign(wallet.nonce, wallet.address, "");
+                await axios.post("/api/v1/login", {
+                    address: wallet.address,
+                    nonce: wallet.nonce,
+                    signature: signature,
+                }).then(response => {
+                    wallet.loggedIn = true;
+                    store.commit("loggedIn", true);
+                }).catch(error => {
+                    alerts.danger(error.message);
+                    return disconnect();
+                });
+            } else {
                 wallet.loggedIn = true;
-                store.commit("loggedIn", true);
-            }).catch(error => {
-                alerts.danger(error.message);
-                return disconnect();
-            });
+            }
             store.commit("wallet", wallet);
             alerts.clear();
             await settings.update();
