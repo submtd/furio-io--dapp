@@ -39,7 +39,7 @@ export default () => {
             if(Cookies.getItem('provider') == "walletconnect") {
                 return walletconnect();
             }
-            return;
+            router.push("/connect");
         }
         await settings.update();
         try {

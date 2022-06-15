@@ -64,12 +64,11 @@ export default {
 
         if(!Web3.currentProvider) {
             wallet.connect();
-            //router.push("/connect");
         }
 
-        if(!store.state.wallet.loggedIn && useRoute().name != 'Connect') {
-            router.push("/connect");
-        }
+        //if(!store.state.wallet.loggedIn && useRoute().name != 'Connect') {
+            //router.push("/connect");
+        //}
 
         const profileLink = () => {
             router.push("/participant/" + store.state.wallet.address);
