@@ -21,7 +21,6 @@ export default () => {
 
     const walletconnect = () => {
         const provider = new WalletConnectProvider({
-            //infuraId: store.state.settings.infuraId,
             rpc: {
                 [parseInt(store.state.settings.network_id)]: store.state.settings.rpc_url,
             }
@@ -49,41 +48,35 @@ export default () => {
             if(!web3.currentProvider) {
                 return;
             }
-            const wallet = {};
             await web3.currentProvider.enable();
             if(parseInt(await web3.eth.net.getId()) != parseInt(store.state.settings.network_id)) {
                 alerts.danger("Incorrect network. Please connect to " + store.state.settings.network_name);
                 return disconnect();
             }
             const accounts = await web3.eth.getAccounts();
-            wallet.address = accounts[0];
-            wallet.shortAddress = wallet.address.substr(0, 4) + "..." + wallet.address.substr(-4);
-            await axios.post("/api/v1/address", {
-                address: wallet.address,
-            }).then(response => {
-                wallet.nonce = response.data.nonce;
-                wallet.name = response.data.name;
-            }).catch(error => {
-                alerts.danger(error.message);
-                return disconnect();
-            });
-            if(store.state.settings.require_signature == "true") {
-                const signature = await web3.eth.personal.sign(wallet.nonce, wallet.address, "");
-                await axios.post("/api/v1/login", {
-                    address: wallet.address,
-                    nonce: wallet.nonce,
-                    signature: signature,
+            const wallet = null;
+            const wallets = [];
+            accounts.forEach((account) => {
+                wallet.address = account;
+                wallet.shortAddress = account.substr(0, 4) + "..." + account.substr(-4);
+                await axios.post("/api/v1/address", {
+                    address: account,
                 }).then(response => {
-                    wallet.loggedIn = true;
-                    store.commit("loggedIn", true);
+                    wallet.nonce = response.data.nonce;
+                    wallet.name = response.data.name;
                 }).catch(error => {
                     alerts.danger(error.message);
                     return disconnect();
                 });
-            } else {
-                wallet.loggedIn = true;
-            }
-            store.commit("wallet", wallet);
+                if(!wallet) {
+                    wallet.loggedIn = true;
+                    store.commit("wallet", wallet);
+                    Cookies.setItem("wallet", wallet);
+                }
+                wallets.push(w);
+            });
+            store.commit("wallets", wallets);
+            Cookies.setItem("wallets", wallets);
             alerts.clear();
             await settings.update();
             if(router.currentRoute.value.path == "/connect") {
@@ -96,6 +89,8 @@ export default () => {
 
     const disconnect = async () => {
         Cookies.removeItem("provider");
+        Cookies.removeItem("wallet");
+        Cookies.removeItem("wallets");
         try {
             web3.currentProvider.disconnect();
         } catch(error) {}

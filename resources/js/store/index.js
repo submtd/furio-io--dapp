@@ -14,23 +14,7 @@ export default createStore({
                 loggedIn: false,
                 name: null,
             },
-            presaleNft: {
-                updated: false,
-                supply: 0,
-                value: 0,
-                price: 0,
-                max: 0,
-                ownedValue: 0,
-                balance: 0,
-                presaleOneStart: 0,
-                presaleTwoStart: 0,
-                presaleThreeStart: 0,
-                claimStart: 0,
-                nextRound: null,
-            },
-            usdc: {
-
-            },
+            wallets: [],
         }
     },
     mutations: {
@@ -45,6 +29,9 @@ export default createStore({
         },
         wallet(state, value) {
             state.wallet = value;
+        },
+        wallets(state, value) {
+            state.wallets = value;
         },
         presaleNft(state, value) {
             state.presaleNft = value;
