@@ -97,9 +97,11 @@ import { useStore } from 'vuex';
 import useAlerts from '../composables/useAlerts';
 import useBalances from '../composables/useBalances';
 import useDisplayCurrency from '../composables/useDisplayCurrency';
+import useMultiWallet from '../composables/useMultiWallet';
 
 export default {
     setup () {
+        const multiWallet = useMultiWallet();
         const store = useStore();
         const alerts = useAlerts();
         const balances = useBalances();
@@ -288,6 +290,7 @@ export default {
         }
 
         return {
+            multiWallet,
             quantity,
             depositedDisplay,
             claimedDisplay,
