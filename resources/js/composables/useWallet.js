@@ -1,38 +1,89 @@
 import { useStore } from "vuex";
-import useAlerts from "./useAlerts";
-import useSettings from "./useSettings";
-import router from "../router";
-import WalletConnectProvider from "@walletconnect/web3-provider";
 import Cookies from "js-cookies";
-export default () => {
-    const store = useStore();
-    const alerts = useAlerts();
-    const settings = useSettings();
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import router from "../router";
+import useAlerts from "./useAlerts";
+import axios from "axios";
 
-    const metamask = () => {
-        if (typeof window.ethereum == 'undefined') {
-            window.location.href = 'https://metamask.app.link/dapp/' + location.hostname;
-            return false;
+export default () => {
+    const store = useStore(); // Global storage.
+    const alerts = useAlerts(); // Alerts.
+    let connected = false; // Connected?
+    let wallet = null; // Current wallet.
+
+    // Watch for accountsChanged event.
+    window.ethereum.on('accountsChanged', async function () {
+        if(connected) {
+            await loadWallet();
+            return;
         }
-        Cookies.setItem('provider', 'metamask');
-        web3.setProvider(window.ethereum);
-        connect();
+        await connect();
+    });
+
+    // Watch for networkChanged event.
+    window.ethereum.on('networkChanged', async function () {
+        if(connected) {
+            await checkNetwork();
+            return;
+        }
+        await connect();
+    });
+
+    // Get connected state.
+    const isConnected = () => {
+        return connected;
     }
 
+    // Get current wallet.
+    const getWallet = () => {
+        return wallet;
+    }
+
+    // Connect with metamask.
+    const metamask = () => {
+        // If mobile or doesn't have mm installed, redirect.
+        if (typeof window.ethereum == "undefined") {
+            window.location.href = "https://metamask.app.link/dapp/" + location.hostname;
+            return;
+        }
+        Cookies.setItem("provider", "metamask");
+        web3.setProvider(window.ethereum);
+        return connect();
+    }
+
+    // Connect with walletconnect.
     const walletconnect = () => {
         const provider = new WalletConnectProvider({
-            //infuraId: store.state.settings.infuraId,
             rpc: {
                 [parseInt(store.state.settings.network_id)]: store.state.settings.rpc_url,
-            }
+            },
         });
-        Cookies.setItem('provider', 'walletconnect');
+        Cookies.setItem("provider", "walletconnect");
         web3.setProvider(provider);
-        connect();
+        return connect();
     }
 
+    // Connect to correct network.
+    const checkNetwork = async () => {
+        // Switch to correct network.
+        if(parseInt(await web3.eth.net.getId()) != parseInt(store.state.settings.network_id)) {
+            try {
+                await web3.currentProvider.request({
+                    method: "wallet_switchEthereumChain",
+                    params: [{
+                        chainId: web3.utils.toHex(store.state.settings.network_id),
+                    }],
+                });
+            } catch(error) {
+                alerts.danger("Incorrect network. Please connect to " + store.state.settings.network_name);
+            }
+        }
+    }
+
+    // Connect to wallet.
     const connect = async () => {
-        if(store.state.wallet.loggedIn) {
+        if(connected) {
+            // Already connected.
             return;
         }
         if(!web3.currentProvider) {
@@ -42,60 +93,37 @@ export default () => {
             if(Cookies.getItem('provider') == "walletconnect") {
                 return walletconnect();
             }
+            // Need to pick a provider
             router.push("/connect");
+            return;
         }
-        await settings.update();
+        // Enable provider.
         try {
-            if(!web3.currentProvider) {
-                return;
-            }
-            const wallet = {};
             await web3.currentProvider.enable();
-            if(parseInt(await web3.eth.net.getId()) != parseInt(store.state.settings.network_id)) {
-                alerts.danger("Incorrect network. Please connect to " + store.state.settings.network_name);
-                return disconnect();
-            }
-            const accounts = await web3.eth.getAccounts();
-            wallet.address = accounts[0];
-            wallet.shortAddress = wallet.address.substr(0, 4) + "..." + wallet.address.substr(-4);
-            await axios.post("/api/v1/address", {
-                address: wallet.address,
-            }).then(response => {
-                wallet.nonce = response.data.nonce;
-                wallet.name = response.data.name;
-            }).catch(error => {
-                alerts.danger(error.message);
-                return disconnect();
-            });
-            if(store.state.settings.require_signature == "true") {
-                const signature = await web3.eth.personal.sign(wallet.nonce, wallet.address, "");
-                await axios.post("/api/v1/login", {
-                    address: wallet.address,
-                    nonce: wallet.nonce,
-                    signature: signature,
-                }).then(response => {
-                    wallet.loggedIn = true;
-                    store.commit("loggedIn", true);
-                }).catch(error => {
-                    alerts.danger(error.message);
-                    return disconnect();
-                });
-            } else {
-                wallet.loggedIn = true;
-            }
-            store.commit("wallet", wallet);
-            alerts.clear();
-            await settings.update();
-            if(router.currentRoute.value.path == "/connect") {
-                router.push("/");
-            }
+            connected = true;
+            // Switch to correct network.
+            await checkNetwork();
+            await loadWallet();
         } catch (error) {
             alerts.danger(error.message);
+            return disconnect();
         }
+        alerts.clear();
     }
 
+    // Disconnect.
     const disconnect = async () => {
+        connected = false;
+        wallet = null;
+        const storedWallet = {
+            address: null,
+            shortAddress: null,
+            loggedIn: false,
+            name: null,
+        };
+        store.commit("wallet", storedWallet);
         Cookies.removeItem("provider");
+        Cookies.removeItem("wallet");
         try {
             web3.currentProvider.disconnect();
         } catch(error) {}
@@ -103,21 +131,50 @@ export default () => {
             web3.currentProvider.close();
         } catch(error) {}
         await axios.get("/api/v1/logout");
-        const wallet = {
-            address: null,
-            shortAddress: null,
-            nonce: null,
-            loggedIn: false,
-            name: null,
-        };
-        store.commit("wallet", wallet);
         router.push("/connect");
     }
 
+    // Load wallet.
+    const loadWallet = async () => {
+        if(!connected) {
+            await connect();
+            return;
+        }
+        // Get address.
+        let address = await web3.eth.getAccounts();
+        if(wallet && address[0] == wallet.attributes.address) {
+            return;
+        }
+        wallet = await lookupAddress(address[0]);
+        const storedWallet = {
+            address: wallet.attributes.address,
+            shortAddress: wallet.attributes.address.substr(0, 4) + "..." + wallet.attributes.address.substr(-4),
+            loggedIn: true,
+            name: wallet.attributes.name,
+        };
+        store.commit("wallet", storedWallet);
+        Cookies.setItem("wallet", address[0]);
+        console.log(wallet);
+    }
+
+    // Lookup address.
+    const lookupAddress = async (address) => {
+        try {
+            const response = await axios.get("/api/v1/address/" + address);
+            return response.data.data;
+        } catch (error) {
+            alerts.danger(error.message);
+            return disconnect();
+        }
+    }
+
     return {
+        isConnected,
+        getWallet,
         metamask,
         walletconnect,
         connect,
         disconnect,
+        lookupAddress,
     }
 }
