@@ -53,7 +53,7 @@
                     <button @click="sendIndividualAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
                 </div>
                 <p class="mb-3">Referrer: <button @click="participantLink(referrer)" class="btn btn-link"><strong>{{ referrer }}</strong></button></p>
-                <div v-show="isSelf" class="mb-5">
+                <div v-show="isSelf && walletBalance > 0" class="mb-5">
                     <h3>Team Airdrop</h3>
                     <p>Team airdrops allow you to send a bonus to all qualifying team members. You can set a minimum and a maximum vault balance to determine who receives the airdrop.</p>
                     <div class="form-group">
@@ -138,35 +138,35 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">Vault Balance</th>
-                                        <td>{{ displayCurrency.format(getProperty("balance")) }} $FUR</td>
+                                        <td>{{ displayCurrency.format(getProperty("balance")) }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Deposited</th>
-                                        <td>{{ displayCurrency.format(getProperty("deposited")) }} $FUR</td>
+                                        <td>{{ displayCurrency.format(getProperty("deposited")) }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Compounded</th>
-                                        <td>{{ displayCurrency.format(getProperty("compounded")) }} $FUR</td>
+                                        <td>{{ displayCurrency.format(getProperty("compounded")) }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Claimed</th>
-                                        <td>{{ displayCurrency.format(getProperty("claimed")) }} $FUR</td>
+                                        <td>{{ displayCurrency.format(getProperty("claimed")) }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Referral Rewards</th>
-                                        <td>{{ displayCurrency.format(getProperty("awarded")) }} $FUR</td>
+                                        <td>{{ displayCurrency.format(getProperty("awarded")) }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Taxes Paid</th>
-                                        <td>{{ displayCurrency.format(getProperty("taxed")) }} $FUR</td>
+                                        <td>{{ displayCurrency.format(getProperty("taxed")) }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Airdrops Sent</th>
-                                        <td>{{ displayCurrency.format(getProperty("airdropSent")) }} $FUR</td>
+                                        <td>{{ displayCurrency.format(getProperty("airdropSent")) }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Airdrops Received</th>
-                                        <td>{{ displayCurrency.format(getProperty("airdropReceived")) }} $FUR</td>
+                                        <td>{{ displayCurrency.format(getProperty("airdropReceived")) }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -517,6 +517,7 @@ export default {
             airdropAmount,
             minBalance,
             maxBalance,
+            walletBalance,
             sendAirdrop,
             teamaddress,
             shortteamaddress,
