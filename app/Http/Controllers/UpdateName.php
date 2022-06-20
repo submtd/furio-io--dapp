@@ -22,8 +22,8 @@ class UpdateName extends Controller
                 'required',
                 new ValidSignature,
             ],
-            'name' => 'nullable|max:255',
-            //'name' => 'nullable|max:255|unique:addresses,name,'.$request->get('address').',address',
+            //'name' => 'nullable|max:255',
+            'name' => 'nullable|max:255|unique:addresses,name,'.$request->get('address').',address',
         ]);
         $address = Address::where('address', $request->get('address'))->first();
         $address->name = $request->get('name');

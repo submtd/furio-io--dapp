@@ -43,6 +43,15 @@
                         <button @click="sell" class="btn btn-sm btn-info btn-block mb-2">Sell ({{ sellQuantity * 4 }} $FUR)</button>
                     </div>
                 </div>
+                <div v-show="!isSelf">
+                    <h2>Send Airdrop to {{ name }}</h2>
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input v-model="individualAirdropAmount" class="form-control" id="amount"/>
+                        <small id="amount-help" class="form-text text-muted">Airdrops are sent from your wallet balance into the recipient's vault balance.</small>
+                    </div>
+                    <button @click="sendIndividualAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
+                </div>
                 <p class="mb-3">Referrer: <button @click="participantLink(referrer)" class="btn btn-link"><strong>{{ referrer }}</strong></button></p>
                 <div v-show="isSelf" class="mb-5">
                     <h2>Team Airdrop</h2>
@@ -221,6 +230,7 @@ export default {
         const rewardRate = ref(0);
         const participantStatus = ref(1);
         const lookupTeam = ref(null);
+        const individualAirdropAmount = ref(0);
 
         const name = computed(() => {
             if(!address.value) {
@@ -416,6 +426,35 @@ export default {
             loading.value = false;
         }
 
+        const sendIndividualAirdrop = async () => {
+            const sendAmount = BigInt(individualAirdropAmount.value * 1000000000000000000);
+            if(sendAmount > walletBalance.value) {
+                alerts.danger("Insufficient funds");
+                return;
+            }
+            alerts.warning("waiting on response from wallet");
+            loading.value = true;
+            try {
+                const contract = vaultContract();
+                const token = tokenContract();
+                const gasPriceMultiplier = 1.5;
+                const gasMultiplier = 1.5;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.vault_address).call();
+                if(allowance < amount) {
+                    const approveGas = Math.round(await token.methods.approve(store.state.settings.vault_address, sendAmount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                    await token.methods.approve(store.state.settings.vault_address, sendAmount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
+                }
+                const gas = Math.round(await contract.methods.airdrop(address.value, sendAmount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await contract.methods.airdrop(address.value, sendAmount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            await update();
+            loading.value = false;
+        }
+
         const sendAirdrop = async () => {
             const sendAmount = BigInt(airdropAmount.value * 1000000000000000000);
             const min = BigInt(minBalance.value * 1000000000000000000);
@@ -498,6 +537,8 @@ export default {
             getProperty,
             addr,
             lookupTeam,
+            individualAirdropAmount,
+            sendIndividualAirdrop,
         }
     }
 
