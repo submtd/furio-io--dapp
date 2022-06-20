@@ -255,6 +255,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
+            dispatchEvent(new Event("refresh"));
             update();
             loading.value = false;
         }

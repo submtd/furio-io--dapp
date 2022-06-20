@@ -239,6 +239,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
+            dispatchEvent(new Event("refresh"));
             await update();
             loading.value = false;
         }
@@ -257,6 +258,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
+            dispatchEvent(new Event("refresh"));
             await update();
             loading.value = false;
         }
@@ -282,6 +284,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
+            dispatchEvent(new Event("refresh"));
             await update();
             statusDrop.value = false;
             loading.value = false;
