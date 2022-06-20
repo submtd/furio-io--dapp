@@ -109,7 +109,7 @@ export default {
         const vault = ref(false);
         const usdcBalance = ref(0);
         const furBalance = ref(0);
-        const referrer = ref(null);
+        const referrer = ref(store.state.referrer);
         const output = ref(0);
         const participant = ref(null);
         const warning = ref(null);

@@ -22,6 +22,7 @@
 import Alerts from "./components/Alerts.vue";
 import Footer from "./components/Footer.vue";
 import Navbar from "./components/Navbar.vue";
+import useReferral from "./composables/useReferral";
 
 export default {
     components: {
@@ -29,6 +30,8 @@ export default {
         Footer,
         Navbar,
     },
-    setup() {}
+    setup() {
+        useReferral();
+    }
 }
 </script>

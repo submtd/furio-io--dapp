@@ -1,4 +1,9 @@
 <template>
+    <div class="container">
+        <div v-show="store.state.wallet.loggedIn" class="bg-light text-dark rounded p-5 mb-4 text-center">
+            Rererral Link: <strong>{{ refLink }}</strong> <button @click="copyRefLink" class="btn btn-sm btn-info">Copy Link</button>
+        </div>
+    </div>
     <div class="footer border-top border-secondary pt-5">
         <div class="container">
             <div class="row">
@@ -46,13 +51,27 @@
 </template>
 
 <script>
+import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
     setup () {
         const store = useStore();
 
+        const refLink = computed(() => {
+            if(!store.state.wallet.loggedIn) {
+                return null;
+            }
+            return location.protocol + "//" + location.host + "?ref=" + store.state.wallet.address;
+        });
+
+        const copyRefLink = () => {
+            navigator.clipboard.writeText(refLink.value);
+        }
+
         return  {
             store,
+            refLink,
+            copyRefLink,
         }
     }
 }

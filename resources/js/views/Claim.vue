@@ -107,7 +107,7 @@ export default {
         const quantity = ref(0);
         const address = ref(0);
         const vault = ref(false);
-        const referrer = ref(null);
+        const referrer = ref(store.state.referrer);
         const showConfirm = ref(false);
         const different = ref(false);
         const loading = ref(false);

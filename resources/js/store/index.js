@@ -31,6 +31,7 @@ export default createStore({
             usdc: {
 
             },
+            referrer: null,
         }
     },
     mutations: {
@@ -51,6 +52,9 @@ export default createStore({
         },
         balances(state, value) {
             state.balances = value;
+        },
+        referrer(state, value) {
+            state.referrer = value;
         },
     }
 });
