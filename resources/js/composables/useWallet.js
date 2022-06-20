@@ -1,5 +1,4 @@
 import { useStore } from "vuex";
-//import Cookies from "js-cookies";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import router from "../router";
 import useAlerts from "./useAlerts";
@@ -15,23 +14,24 @@ export default () => {
     let connected = false; // Connected?
     let wallet = null; // Current wallet.
 
-    // Watch for accountsChanged event.
-    window.ethereum.on('accountsChanged', async function () {
-        if(connected) {
-            await loadWallet();
-            return;
-        }
-        await connect();
-    });
-
-    // Watch for networkChanged event.
-    window.ethereum.on('networkChanged', async function () {
-        if(connected) {
-            await checkNetwork();
-            return;
-        }
-        await connect();
-    });
+    if(typeof window.ethereum != "undefined") {
+        // Watch for accountsChanged event.
+        window.ethereum.on('accountsChanged', async function () {
+            if(connected) {
+                await loadWallet();
+                return;
+            }
+            await connect();
+        });
+        // Watch for networkChanged event.
+        window.ethereum.on('networkChanged', async function () {
+            if(connected) {
+                await checkNetwork();
+                return;
+            }
+            await connect();
+        });
+    }
 
     // Get connected state.
     const isConnected = () => {
@@ -51,7 +51,6 @@ export default () => {
             return;
         }
         cookies.set("provider", "metamask");
-        //Cookies.setItem("provider", "metamask");
         web3.setProvider(window.ethereum);
         return connect();
     }
@@ -64,7 +63,6 @@ export default () => {
             },
         });
         cookies.set("provider", "walletconnect");
-        //Cookies.setItem("provider", "walletconnect");
         web3.setProvider(provider);
         return connect();
     }
@@ -98,11 +96,9 @@ export default () => {
         }
         if(!web3.currentProvider) {
             if(cookies.get("provider") == "metamask") {
-            //if(Cookies.getItem('provider') == "metamask") {
                 return metamask();
             }
             if(cookies.get("provider") == "walletconnect") {
-            //if(Cookies.getItem('provider') == "walletconnect") {
                 return walletconnect();
             }
             // Need to pick a provider
@@ -137,9 +133,7 @@ export default () => {
         };
         store.commit("wallet", storedWallet);
         cookies.remove("provider");
-        //Cookies.removeItem("provider");
         cookies.remove("wallet");
-        //Cookies.removeItem("wallet");
         try {
             web3.currentProvider.disconnect();
         } catch(error) {}
@@ -171,7 +165,6 @@ export default () => {
         };
         store.commit("wallet", storedWallet);
         cookies.set("wallet", address[0]);
-        //Cookies.setItem("wallet", address[0]);
         dispatchEvent(new Event("refresh"));
     }
 
