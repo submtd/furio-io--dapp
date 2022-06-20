@@ -13,9 +13,10 @@ export default () => {
     let connected = false; // Connected?
     let wallet = null; // Current wallet.
 
+    connect();
+
     // Watch for accountsChanged event.
     window.ethereum.on('accountsChanged', async function () {
-        settings.update();
         if(connected) {
             await loadWallet();
             return;
@@ -25,7 +26,6 @@ export default () => {
 
     // Watch for networkChanged event.
     window.ethereum.on('networkChanged', async function () {
-        settings.update();
         if(connected) {
             await checkNetwork();
             return;
