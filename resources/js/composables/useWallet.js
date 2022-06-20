@@ -1,14 +1,16 @@
 import { useStore } from "vuex";
-import Cookies from "js-cookies";
+//import Cookies from "js-cookies";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import router from "../router";
 import useAlerts from "./useAlerts";
 import useSettings from "./useSettings";
+import useCookies from "./useCookies";
 import axios from "axios";
 
 export default () => {
     const store = useStore(); // Global storage.
     const alerts = useAlerts(); // Alerts.
+    const cookies = useCookies(); // Cookies.
     const settings = useSettings(); // Settings.
     let connected = false; // Connected?
     let wallet = null; // Current wallet.
@@ -50,7 +52,8 @@ export default () => {
             window.location.href = "https://metamask.app.link/dapp/" + location.hostname;
             return;
         }
-        Cookies.setItem("provider", "metamask");
+        cookies.set("provider", "metamask");
+        //Cookies.setItem("provider", "metamask");
         web3.setProvider(window.ethereum);
         return connect();
     }
@@ -62,7 +65,8 @@ export default () => {
                 [parseInt(store.state.settings.network_id)]: store.state.settings.rpc_url,
             },
         });
-        Cookies.setItem("provider", "walletconnect");
+        cookies.set("provider", "walletconnect");
+        //Cookies.setItem("provider", "walletconnect");
         web3.setProvider(provider);
         return connect();
     }
@@ -95,10 +99,12 @@ export default () => {
             return;
         }
         if(!web3.currentProvider) {
-            if(Cookies.getItem('provider') == "metamask") {
+            if(cookies.get("provider") == "metamask") {
+            //if(Cookies.getItem('provider') == "metamask") {
                 return metamask();
             }
-            if(Cookies.getItem('provider') == "walletconnect") {
+            if(cookies.get("provider") == "walletconnect") {
+            //if(Cookies.getItem('provider') == "walletconnect") {
                 return walletconnect();
             }
             // Need to pick a provider
@@ -132,8 +138,10 @@ export default () => {
             name: null,
         };
         store.commit("wallet", storedWallet);
-        Cookies.removeItem("provider");
-        Cookies.removeItem("wallet");
+        cookies.remove("provider");
+        //Cookies.removeItem("provider");
+        cookies.remove("wallet");
+        //Cookies.removeItem("wallet");
         try {
             web3.currentProvider.disconnect();
         } catch(error) {}
@@ -164,7 +172,8 @@ export default () => {
             name: wallet.attributes.name,
         };
         store.commit("wallet", storedWallet);
-        Cookies.setItem("wallet", address[0]);
+        cookies.set("wallet", address[0]);
+        //Cookies.setItem("wallet", address[0]);
         dispatchEvent(new Event("refresh"));
     }
 
