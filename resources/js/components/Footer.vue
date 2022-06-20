@@ -53,7 +53,7 @@
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
-import { useAlerts } from "../composables/useAlerts";
+import useAlerts from "../composables/useAlerts";
 export default {
     setup () {
         const store = useStore();
