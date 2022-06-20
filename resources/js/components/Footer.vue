@@ -53,9 +53,11 @@
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
+import { useAlerts } from "../composables/useAlerts";
 export default {
     setup () {
         const store = useStore();
+        const alerts = useAlerts();
 
         const refLink = computed(() => {
             if(!store.state.wallet.loggedIn) {
@@ -66,6 +68,7 @@ export default {
 
         const copyRefLink = () => {
             navigator.clipboard.writeText(refLink.value);
+            alerts.info("Referral link copied");
         }
 
         return  {
