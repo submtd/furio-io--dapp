@@ -21,9 +21,7 @@ class GetAddress extends Controller
         $address = Address::firstOrNew([
             'address' => $address,
         ]);
-        if (!$address->nonce) {
-            $address->nonce = 'FURIO-MESSAGE-VALIDATION-' . Str::random(8);
-        }
+        $address->nonce = 'FURIO-MESSAGE-VALIDATION-' . Str::random(8);
         $address->save();
 
         return AddressResource::make($address);

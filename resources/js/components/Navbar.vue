@@ -75,7 +75,7 @@ export default {
         //}
 
         const profileLink = () => {
-            router.push("/participant/" + store.state.wallet.address);
+            router.push("/team/" + store.state.wallet.address);
         }
 
         return {

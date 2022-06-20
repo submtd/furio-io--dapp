@@ -1,5 +1,20 @@
 <template>
-    <h1>Team {{ shortteamaddress }}</h1>
+    <h1 v-show="!showUpdateNameForm">{{ name }}</h1>
+    <div v-show="showUpdateNameForm">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input v-model="updatedName" class="form-control" id="name"/>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <button @click="toggleNameForm" class="btn btn-lg btn-secondary btn-block mb-2">Cancel</button>
+            </div>
+            <div class="col-sm-3">
+                <button @click="updateName" class="btn btn-lg btn-info btn-block mb-2">Update</button>
+            </div>
+        </div>
+    </div>
+    <div v-show="isSelf && !showUpdateNameForm"><button @click="toggleNameForm" class="btn btn-link"><small>update team name</small></button></div>
     <p v-show="!isSelf" class="mb-t">View team stats here.</p>
     <p v-show="isSelf" class="mb-5">Buy your downline NFT's and manage your teams/airdrops here.</p>
     <div class="row flex-row-reverse gx-5">
@@ -99,19 +114,70 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Participant Status</th>
+                                        <td>{{ participantStatusDisplay }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Reward Rate</th>
+                                        <td>{{ rewardRate }}%</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Vault Balance</th>
+                                        <td>{{ displayCurrency.format(getProperty("balance")) }} $FUR</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Deposited</th>
+                                        <td>{{ displayCurrency.format(getProperty("deposited")) }} $FUR</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Compounded</th>
+                                        <td>{{ displayCurrency.format(getProperty("compounded")) }} $FUR</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Claimed</th>
+                                        <td>{{ displayCurrency.format(getProperty("claimed")) }} $FUR</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Referral Rewards</th>
+                                        <td>{{ displayCurrency.format(getProperty("awarded")) }} $FUR</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Taxes Paid</th>
+                                        <td>{{ displayCurrency.format(getProperty("taxed")) }} $FUR</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Airdrops Sent</th>
+                                        <td>{{ displayCurrency.format(getProperty("airdropSent")) }} $FUR</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Airdrops Received</th>
+                                        <td>{{ displayCurrency.format(getProperty("airdropReceived")) }} $FUR</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import router from "../router";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import useBalances from "../composables/useBalances";
 import useAlerts from "../composables/useAlerts";
 import useDisplayCurrency from '../composables/useDisplayCurrency';
+import useWallet from "../composables/useWallet";
 
 export default {
     setup () {
@@ -120,6 +186,8 @@ export default {
         const route = useRoute();
         const balances = useBalances();
         const displayCurrency = useDisplayCurrency();
+        const wallet = useWallet();
+        const address = ref(null);
         const loading = ref(false);
         const maxSupply = ref(0);
         const totalSupply = ref(0);
@@ -134,6 +202,17 @@ export default {
         const walletBalance = ref(0);
         const teamaddress = ref(null);
         const shortteamaddress = ref(null);
+        const showUpdateNameForm = ref(false);
+        const updatedName = ref(null);
+        const rewardRate = ref(0);
+        const participantStatus = ref(1);
+
+        const name = computed(() => {
+            if(!address.value) {
+                return null;
+            }
+            return address.value.attributes.name ?? address.value.attributes.shortAddress;
+        });
 
         const available = computed(() => {
             const remaining = maxSupply.value - totalSupply.value;
@@ -177,17 +256,46 @@ export default {
         });
 
         const isSelf = computed(() => {
-            return teamaddress.value == store.state.wallet.address;
+            if(!address.value) {
+                return false;
+            }
+            if(typeof store.state.wallet == "undefined") {
+                return false;
+            }
+            return address.value.attributes.address == store.state.wallet.address;
+        });
+
+        const participantStatusDisplay = computed(() => {
+            switch(participantStatus.value) {
+                case "1":
+                    return 'Negative';
+                case "2":
+                    return 'Neutral';
+                case "3":
+                    return 'Positive';
+            }
+        });
+
+        addEventListener("refresh", async () => {
+            if(!address.value) {
+                //await update();
+            }
+        });
+
+        const addr = computed(async () => {
+            return route.params.teamaddress ?? store.state.wallet.address;
+        });
+
+        watch(addr, async () => {
+            await update();
         });
 
         onMounted(async () => {
-            teamaddress.value = route.params.teamaddress ?? store.state.wallet.address;
-            shortteamaddress.value = teamaddress.value.substr(0, 4) + "..." + teamaddress.value.substr(-4);
             await update();
         });
 
         const participantLink = (address) => {
-            router.push("/participant/" + address);
+            router.push("/team/" + address);
         }
 
         const downlineContract = () => {
@@ -205,22 +313,49 @@ export default {
         const update = async () => {
             loading.value = true;
             try {
+                address.value = await wallet.lookupAddress(route.params.teamaddress ?? store.state.wallet.address);
                 const contract = downlineContract();
                 const vault = vaultContract();
                 const token = tokenContract();
                 totalSupply.value = await contract.methods.totalSupply().call();
                 maxSupply.value = await contract.methods.maxSupply().call();
-                owned.value = await contract.methods.balanceOf(teamaddress.value).call();
-                participant.value = await vault.methods.getParticipant(teamaddress.value).call();
-                referrals.value = await vault.methods.getReferrals(teamaddress.value).call();
-                walletBalance.value = await token.methods.balanceOf(teamaddress.value).call();
+                owned.value = await contract.methods.balanceOf(address.value.attributes.address).call();
+                participant.value = await vault.methods.getParticipant(address.value.attributes.address).call();
+                referrals.value = await vault.methods.getReferrals(address.value.attributes.address).call();
+                walletBalance.value = await token.methods.balanceOf(address.value.attributes.address).call();
                 buyQuantity.value = 15 - owned.value;
                 sellQuantity.value = owned.value;
+                rewardRate.value = await vault.methods.rewardRate(address.value.attributes.address).call() / 100;
+                participantStatus.value = await vault.methods.participantStatus(address.value.attributes.address).call();
             } catch (error) {
                 alerts.danger(error.message);
             }
             balances.refresh();
             loading.value = false;
+        }
+
+        const toggleNameForm = () => {
+            showUpdateNameForm.value = !showUpdateNameForm.value;
+        }
+
+        const updateName = async () => {
+            const signature = await web3.eth.personal.sign(address.value.attributes.nonce, address.value.attributes.address, "");
+            await axios.post("/api/v1/name", {
+                address: address.value.attributes.address,
+                nonce: address.value.attributes.nonce,
+                signature: signature,
+                name: updatedName.value,
+            }).then(response => {
+                alerts.info("Team name updated");
+            }).catch(error => {
+                if(error.response.status == 422) {
+                    alerts.danger(error.response.data.message);
+                    return;
+                }
+                alerts.danger(error.message);
+            });
+            toggleNameForm();
+            await update();
         }
 
         const buy = async () => {
@@ -301,8 +436,21 @@ export default {
             loading.value = false;
         }
 
+        const getProperty = (property) => {
+            if(!participant.value) {
+                return null;
+            }
+            if(!participant.value[property]) {
+                return null;
+            }
+            return participant.value[property];
+        }
+
+
         return {
             store,
+            name,
+            address,
             loading,
             totalSupply,
             maxSupply,
@@ -325,6 +473,15 @@ export default {
             teamaddress,
             shortteamaddress,
             isSelf,
+            toggleNameForm,
+            showUpdateNameForm,
+            updateName,
+            updatedName,
+            participantStatusDisplay,
+            rewardRate,
+            displayCurrency,
+            getProperty,
+            addr,
         }
     }
 

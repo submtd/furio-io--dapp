@@ -7,6 +7,10 @@ export default () => {
     const store = useStore();
     const displayCurrency = useDisplayCurrency();
 
+    addEventListener("refresh", async () => {
+        await refresh();
+    });
+
     const refresh = async () => {
         try {
             const balances = {};

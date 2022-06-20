@@ -123,6 +123,11 @@ export default {
             return participant.value.referrer == "0x0000000000000000000000000000000000000000";
         });
 
+        addEventListener("refresh", async () => {
+            await update();
+        });
+
+
         onMounted(async () => {
             await update();
             quantity.value = available.value;

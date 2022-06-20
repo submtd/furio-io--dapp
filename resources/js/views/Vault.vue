@@ -171,6 +171,10 @@ export default {
             return participant.value.complete;
         });
 
+        addEventListener("refresh", async () => {
+            await update();
+        });
+
         onMounted(async () => {
             await update();
         });

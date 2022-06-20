@@ -3,16 +3,19 @@ import Cookies from "js-cookies";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import router from "../router";
 import useAlerts from "./useAlerts";
+import useSettings from "./useSettings";
 import axios from "axios";
 
 export default () => {
     const store = useStore(); // Global storage.
     const alerts = useAlerts(); // Alerts.
+    const settings = useSettings(); // Settings.
     let connected = false; // Connected?
     let wallet = null; // Current wallet.
 
     // Watch for accountsChanged event.
     window.ethereum.on('accountsChanged', async function () {
+        settings.update();
         if(connected) {
             await loadWallet();
             return;
@@ -22,6 +25,7 @@ export default () => {
 
     // Watch for networkChanged event.
     window.ethereum.on('networkChanged', async function () {
+        settings.update();
         if(connected) {
             await checkNetwork();
             return;
@@ -66,6 +70,9 @@ export default () => {
     // Connect to correct network.
     const checkNetwork = async () => {
         // Switch to correct network.
+        if(typeof store.state.settings.network_id == "undefined") {
+            return;
+        }
         if(parseInt(await web3.eth.net.getId()) != parseInt(store.state.settings.network_id)) {
             try {
                 await web3.currentProvider.request({
@@ -82,6 +89,7 @@ export default () => {
 
     // Connect to wallet.
     const connect = async () => {
+        settings.update();
         if(connected) {
             // Already connected.
             return;
@@ -109,6 +117,7 @@ export default () => {
             return disconnect();
         }
         alerts.clear();
+        settings.update();
     }
 
     // Disconnect.
@@ -118,6 +127,7 @@ export default () => {
         const storedWallet = {
             address: null,
             shortAddress: null,
+            nonce: null,
             loggedIn: false,
             name: null,
         };
@@ -148,19 +158,21 @@ export default () => {
         wallet = await lookupAddress(address[0]);
         const storedWallet = {
             address: wallet.attributes.address,
-            shortAddress: wallet.attributes.address.substr(0, 4) + "..." + wallet.attributes.address.substr(-4),
+            shortAddress: wallet.attributes.shortAddress,
+            nonce: wallet.attributes.nonce,
             loggedIn: true,
             name: wallet.attributes.name,
         };
         store.commit("wallet", storedWallet);
         Cookies.setItem("wallet", address[0]);
-        console.log(wallet);
+        dispatchEvent(new Event("refresh"));
     }
 
     // Lookup address.
     const lookupAddress = async (address) => {
         try {
             const response = await axios.get("/api/v1/address/" + address);
+            response.data.data.attributes.shortAddress = response.data.data.attributes.address.substr(0, 4) + "..." + response.data.data.attributes.address.substr(-4);
             return response.data.data;
         } catch (error) {
             alerts.danger(error.message);

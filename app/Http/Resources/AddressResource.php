@@ -19,6 +19,7 @@ class AddressResource extends JsonResource
             'id' => $this->uuid,
             'attributes' => [
                 'address' => $this->address,
+                'nonce' => $this->nonce,
                 'name' => $this->name,
                 'created_at' => $this->created_at->toIso8601String(),
                 'updated_at' => $this->updated_at->toIso8601String(),
