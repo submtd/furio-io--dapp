@@ -167,6 +167,20 @@
             </div>
         </div>
     </div>
+    <div class="bg-light text-dark rounded p-5 mb-4">
+        <div class="row">
+            <h5>Lookup Team</h5>
+            <div class="col-md-10">
+                <div class="form-group">
+                    <label for="lookup" class="sr-only">Team Address</label>
+                    <input v-model="lookupTeam" class="form-control" id="lookup" placeholder="Lookup Team">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button @click="participantLink(lookupTeam)" class="btn btn-sm btn-info">Lookup Team</button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -206,6 +220,7 @@ export default {
         const updatedName = ref(null);
         const rewardRate = ref(0);
         const participantStatus = ref(1);
+        const lookupTeam = ref(null);
 
         const name = computed(() => {
             if(!address.value) {
@@ -482,6 +497,7 @@ export default {
             displayCurrency,
             getProperty,
             addr,
+            lookupTeam,
         }
     }
 
