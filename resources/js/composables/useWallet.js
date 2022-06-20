@@ -47,13 +47,7 @@ export default () => {
     const metamask = () => {
         // If mobile or doesn't have mm installed, redirect.
         if (typeof window.ethereum == "undefined") {
-            //window.location.href = "https://metamask.app.link/dapp/" + location.hostname;
-            const a = document.createElement("a");
-            a.href = "https://metamask.app.link/dapp/" + location.hostname;
-            a.target = "_self";
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
+            window.location.href = "https://metamask.app.link/dapp/" + location.hostname;
             return;
         }
         cookies.set("provider", "metamask");
