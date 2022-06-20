@@ -15,8 +15,6 @@ export default () => {
     let connected = false; // Connected?
     let wallet = null; // Current wallet.
 
-    connect();
-
     // Watch for accountsChanged event.
     window.ethereum.on('accountsChanged', async function () {
         if(connected) {
@@ -188,6 +186,8 @@ export default () => {
             return disconnect();
         }
     }
+
+    connect();
 
     return {
         isConnected,
