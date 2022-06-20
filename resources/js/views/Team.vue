@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div v-show="!isSelf">
-                    <h2>Send Airdrop to {{ name }}</h2>
+                    <h3>Send Airdrop to Team Leader</h3>
                     <div class="form-group">
                         <label for="amount">Amount</label>
                         <input v-model="individualAirdropAmount" class="form-control" id="amount"/>
@@ -54,7 +54,7 @@
                 </div>
                 <p class="mb-3">Referrer: <button @click="participantLink(referrer)" class="btn btn-link"><strong>{{ referrer }}</strong></button></p>
                 <div v-show="isSelf" class="mb-5">
-                    <h2>Team Airdrop</h2>
+                    <h3>Team Airdrop</h3>
                     <p>Team airdrops allow you to send a bonus to all qualifying team members. You can set a minimum and a maximum vault balance to determine who receives the airdrop.</p>
                     <div class="form-group">
                         <label for="amount">Amount</label>
@@ -77,7 +77,7 @@
                     </div>
                     <button @click="sendAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
                 </div>
-                <h3>Referrals</h3>
+                <h4>Referrals</h4>
                 <ul class="nav flex-column">
                     <li v-for="referred in referrals" class="nav-item">
                         <button @click="participantLink(referred)" class="btn btn-link">{{ referred }}</button>
@@ -347,7 +347,7 @@ export default {
                 owned.value = await contract.methods.balanceOf(address.value.attributes.address).call();
                 participant.value = await vault.methods.getParticipant(address.value.attributes.address).call();
                 referrals.value = await vault.methods.getReferrals(address.value.attributes.address).call();
-                walletBalance.value = await token.methods.balanceOf(address.value.attributes.address).call();
+                walletBalance.value = await token.methods.balanceOf(store.state.wallet.address).call();
                 buyQuantity.value = 15 - owned.value;
                 sellQuantity.value = owned.value;
                 rewardRate.value = await vault.methods.rewardRate(address.value.attributes.address).call() / 100;
@@ -435,18 +435,12 @@ export default {
             alerts.warning("waiting on response from wallet");
             loading.value = true;
             try {
-                const contract = vaultContract();
                 const token = tokenContract();
                 const gasPriceMultiplier = 1.5;
                 const gasMultiplier = 1.5;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
-                const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.vault_address).call();
-                if(allowance < amount) {
-                    const approveGas = Math.round(await token.methods.approve(store.state.settings.vault_address, sendAmount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                    await token.methods.approve(store.state.settings.vault_address, sendAmount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
-                }
-                const gas = Math.round(await contract.methods.airdrop(address.value, sendAmount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                const result = await contract.methods.airdrop(address.value, sendAmount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                const gas = Math.round(await token.methods.transfer(address.value.attributes.address, sendAmount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await token.methods.transfer(address.value.attributes.address, sendAmount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
             } catch (error) {
                 alerts.danger(error.message);
