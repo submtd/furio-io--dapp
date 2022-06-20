@@ -1,16 +1,17 @@
 import { useStore } from "vuex";
-import Cookies from "js-cookies";
 import QueryString from "query-string";
+import useCookies from "./useCookies";
 
 export default () => {
     const store = useStore();
+    const cookies = useCookies();
     const qs = QueryString.parse(location.search);
     let referrer = qs.ref;
     if(typeof referrer == "undefined") {
-        referrer = Cookies.getItem("referrer");
+        referrer = cookies.get("referrer");
     }
     if(referrer) {
-        Cookies.setItem("referrer", referrer);
+        cookies.set("referrer", referrer);
         store.commit("referrer", referrer);
     }
 }
