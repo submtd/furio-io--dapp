@@ -21,6 +21,57 @@
                         <button @click="claim" class="btn btn-lg btn-secondary btn-block">Claim {{ availableDisplay }}</button>
                     </div>
                 </div>
+                <div class="text-right mt-3">
+                    <button @click="toggleVaultStats" class="btn btn-link">Vault Statistics</button>
+                </div>
+                <div v-show="showVaultStats" class="mt-5">
+                    <hr/>
+                    <h5 class="text-center">Vault Statistics</h5>
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <th scope="col">Count</th>
+                                <th scope="col">Value</th>
+                            </tr>
+                            <tr>
+                                <th scope="row">Participants</th>
+                                <td>{{ getStat("totalParticipants") }}</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Deposits</th>
+                                <td>{{ getStat("totalDeposits") }}</td>
+                                <td>{{ displayCurrency.format(getStat("totalDeposited")) }} $FUR</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Compounds</th>
+                                <td>{{ getStat("totalCompounds") }}</td>
+                                <td>{{ displayCurrency.format(getStat("totalCompounded")) }} $FUR</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Claims</th>
+                                <td>{{ getStat("totalClaims") }}</td>
+                                <td>{{ displayCurrency.format(getStat("totalClaimed")) }} $FUR</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Airdrops</th>
+                                <td>{{ getStat("totalAirdrops") }}</td>
+                                <td>{{ displayCurrency.format(getStat("totalAirdropped")) }} $FUR</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Referral Rewards</th>
+                                <td>{{ getStat("totalBonuses") }}</td>
+                                <td>{{ displayCurrency.format(getStat("totalBonused")) }} $FUR</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Taxes</th>
+                                <td>{{ getStat("totalTaxed") }}</td>
+                                <td>{{ displayCurrency.format(getStat("totalTaxes")) }} $FUR</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div v-show="!loading && !statusDrop && maxed">
                 <p><strong>Congratulations</strong> on maxing our your rewards! Why not send some of your earnings to another wallet and start again?</p>
@@ -117,6 +168,8 @@ export default {
         const properties = ref(null);
         const participant = ref(null);
         const referrer = ref(null);
+
+        const showVaultStats = ref(null);
 
         const depositedDisplay = computed(() => {
             if(!participant.value) {
@@ -294,6 +347,20 @@ export default {
             statusDrop.value = false;
         }
 
+        const getStat = (stat) => {
+            if(!stats.value) {
+                return null;
+            }
+            if(!stats.value[stat]) {
+                return null;
+            }
+            return stats.value[stat];
+        }
+
+        const toggleVaultStats = () => {
+            showVaultStats.value = !showVaultStats.value;
+        }
+
         return {
             quantity,
             depositedDisplay,
@@ -317,6 +384,10 @@ export default {
             participant,
             maxed,
             complete,
+            getStat,
+            displayCurrency,
+            showVaultStats,
+            toggleVaultStats,
         }
     }
 }
