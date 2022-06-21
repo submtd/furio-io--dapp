@@ -70,7 +70,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-show="isSelf && canUpdateReferrer" class="text-right"><button @click="toggleUpdateReferrerForm" class="btn btn-link"><small>Update Referrer</small></button></div>
+                    <div v-show="isSelf && canUpdateReferrer && !showUpdateReferrerForm" class="text-right"><button @click="toggleUpdateReferrerForm" class="btn btn-link"><small>Update Referrer</small></button></div>
                 </div>
                 <div v-show="isSelf && walletBalance > 0" class="mb-5">
                     <h3>Team Airdrop</h3>
