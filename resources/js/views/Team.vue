@@ -52,21 +52,22 @@
                     </div>
                     <button @click="sendIndividualAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
                 </div>
-                <p class="mb-3">Referrer: <button @click="participantLink(referrer)" class="btn btn-link"><strong>{{ referrer }}</strong></button></p>
-                <div v-show="showUpdateReferrerForm">
-                    <div class="alert alert-danger">
-                        Referrer can only be updated <strong>one</strong> time. Please make sure the information you enter here is correct.
-                    </div>
-                    <div class="form-group">
-                        <label for="referrer">Referrer</label>
-                        <input v-model="newReferrer" class="form-control" id="referrer"/>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <button @click="toggleUpdateReferrerForm" class="btn btn-lg btn-secondary btn-block mb-2">Cancel</button>
+                <div class="mb-3">Referrer: <button @click="participantLink(referrer)" class="btn btn-link"><strong>{{ referrer }}</strong></button>
+                    <div v-show="showUpdateReferrerForm" class="text-right">
+                        <div class="alert alert-danger">
+                            Referrer can only be updated <strong>one</strong> time. Please make sure the information you enter here is correct.
                         </div>
-                        <div class="col-sm-3">
-                            <button @click="updateReferrer" class="btn btn-lg btn-info btn-block mb-2">Update</button>
+                        <div class="form-group">
+                            <label for="referrer">Referrer</label>
+                            <input v-model="newReferrer" class="form-control" id="referrer"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <button @click="toggleUpdateReferrerForm" class="btn btn-lg btn-secondary btn-block mb-2">Cancel</button>
+                            </div>
+                            <div class="col-sm-3">
+                                <button @click="updateReferrer" class="btn btn-lg btn-info btn-block mb-2">Update</button>
+                            </div>
                         </div>
                     </div>
                 </div>
