@@ -229,8 +229,8 @@ export default {
                     token = new web3.eth.Contract(JSON.parse(store.state.settings.payment_abi), store.state.settings.payment_address);
                     method = "buy";
                 }
-                const gasPriceMultiplier = 1.5;
-                const gasMultiplier = 1.5;
+                const gasPriceMultiplier = 1.2;
+                const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.swap_address).call();
                 if(allowance < amount) {

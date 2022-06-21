@@ -184,8 +184,8 @@ export default {
             loading.value = true;
             try {
                 const contract = claimContract();
-                const gasPriceMultiplier = 1.5;
-                const gasMultipler = 1.5;
+                const gasPriceMultiplier = 1.25;
+                const gasMultipler = 1.25;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 let result;
                 let destination = store.state.wallet.address;

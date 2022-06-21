@@ -249,8 +249,8 @@ export default {
             loading.value = true;
             try {
                 const contract = vaultContract();
-                const gasPriceMultiplier = 1.5;
-                const gasMultiplier = 1.5;
+                const gasPriceMultiplier = 1.2;
+                const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const gas = Math.round(await contract.methods.compound().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await contract.methods.compound().send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
@@ -275,8 +275,8 @@ export default {
                 }
                 alerts.warning("waiting on response from wallet");
                 loading.value = true;
-                const gasPriceMultiplier = 1.5;
-                const gasMultiplier = 1.5;
+                const gasPriceMultiplier = 1.2;
+                const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const gas = Math.round(await contract.methods.claim().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await contract.methods.claim().send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });

@@ -36,8 +36,8 @@ export default () => {
     const buy = async (signature, quantity, max, price, value, total, expiration) => {
         try {
             alerts.info("Waiting on response from wallet");
-            const gasPriceMultiplier = 1.5;
-            const gasMultipler = 1.5;
+            const gasPriceMultiplier = 1.2;
+            const gasMultipler = 1.2;
             const nft = getContract();
             const payment = getPaymentContract();
             const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);

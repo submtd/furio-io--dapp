@@ -24,6 +24,7 @@ export default () => {
             settings.token_address = await addressBook.getAddress("token");
             settings.payment_address = await addressBook.getAddress("payment");
             settings.vault_address = await addressBook.getAddress("vault");
+            settings.safe_address = await addressBook.getAddress("safe");
         }
         // commit settings
         store.commit("settings", settings);

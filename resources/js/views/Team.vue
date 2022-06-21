@@ -53,6 +53,24 @@
                     <button @click="sendIndividualAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
                 </div>
                 <p class="mb-3">Referrer: <button @click="participantLink(referrer)" class="btn btn-link"><strong>{{ referrer }}</strong></button></p>
+                <div v-show="showUpdateReferrerForm">
+                    <div class="alert alert-danger">
+                        Referrer can only be updated <strong>one</strong> time. Please make sure the information you enter here is correct.
+                    </div>
+                    <div class="form-group">
+                        <label for="referrer">Referrer</label>
+                        <input v-model="newReferrer" class="form-control" id="referrer"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <button @click="toggleUpdateReferrerForm" class="btn btn-lg btn-secondary btn-block mb-2">Cancel</button>
+                        </div>
+                        <div class="col-sm-3">
+                            <button @click="updateReferrer" class="btn btn-lg btn-info btn-block mb-2">Update</button>
+                        </div>
+                    </div>
+                </div>
+                <div v-show="isSelf && canUpdateReferrer"><button @click="toggleUpdateReferrerForm" class="btn btn-link">Update Referrer</button></div>
                 <div v-show="isSelf && walletBalance > 0" class="mb-5">
                     <h3>Team Airdrop</h3>
                     <p>Team airdrops allow you to send a bonus to all qualifying team members. You can set a minimum and a maximum vault balance to determine who receives the airdrop.</p>
@@ -231,6 +249,8 @@ export default {
         const participantStatus = ref(1);
         const lookupTeam = ref(null);
         const individualAirdropAmount = ref(0);
+        const showUpdateReferrerForm = ref(false);
+        const newReferrer = ref(null);
 
         const name = computed(() => {
             if(!address.value) {
@@ -299,6 +319,16 @@ export default {
                 case "3":
                     return 'Positive';
             }
+        });
+
+        const canUpdateReferrer = computed(() => {
+            if(!participant.value) {
+                return false;
+            }
+            if(participant.value.referrer == store.state.settings.safe_address && participant.value.directReferrals == 0) {
+                return true;
+            }
+            return false;
         });
 
         addEventListener("refresh", async () => {
@@ -389,8 +419,8 @@ export default {
             try {
                 const downline = downlineContract();
                 const token = tokenContract();
-                const gasPriceMultiplier = 1.5;
-                const gasMultiplier = 1.5;
+                const gasPriceMultiplier = 1.2;
+                const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const amount = BigInt(buyQuantity.value * 5 * 1000000000000000000);
                 const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.downline_address).call();
@@ -413,8 +443,8 @@ export default {
             loading.value = true;
             try {
                 const downline = downlineContract();
-                const gasPriceMultiplier = 1.5;
-                const gasMultiplier = 1.5;
+                const gasPriceMultiplier = 1.2;
+                const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const gas = Math.round(await downline.methods.sell(sellQuantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await downline.methods.sell(sellQuantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
@@ -437,8 +467,8 @@ export default {
             try {
                 const token = tokenContract();
                 const vault = vaultContract();
-                const gasPriceMultiplier = 1.5;
-                const gasMultiplier = 1.5;
+                const gasPriceMultiplier = 1.2;
+                const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.vault_address).call();
                 if(allowance < sendAmount) {
@@ -472,8 +502,8 @@ export default {
             try {
                 const vault = vaultContract();
                 const token = tokenContract();
-                const gasPriceMultiplier = 1.5;
-                const gasMultiplier = 1.5;
+                const gasPriceMultiplier = 1.2;
+                const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.vault_address).call();
                 if(allowance < sendAmount) {
@@ -500,6 +530,25 @@ export default {
             return participant.value[property];
         }
 
+        const toggleUpdateReferrerForm = () => {
+            showUpdateReferrerForm.value = !showUpdateReferrerForm.value;
+        }
+
+        const updateReferrer = async () => {
+            try {
+                const vault = vaultContract();
+                const gasPriceMultiplier = 1.2;
+                const gasMultiplier = 1.2;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const gas = Math.round(await vault.methods.updateReferrer(newReferrer.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await vault.methods.updateReferrer(newReferrer.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            await update();
+            loading.value = false;
+        }
 
         return {
             store,
@@ -540,6 +589,11 @@ export default {
             lookupTeam,
             individualAirdropAmount,
             sendIndividualAirdrop,
+            canUpdateReferrer,
+            toggleUpdateReferrerForm,
+            showUpdateReferrerForm,
+            updateReferrer,
+            newReferrer,
         }
     }
 
