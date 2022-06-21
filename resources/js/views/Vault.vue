@@ -42,32 +42,32 @@
                             <tr>
                                 <th scope="row">Deposits</th>
                                 <td>{{ getStat("totalDeposits") }}</td>
-                                <td>{{ displayCurrency.format(getStat("totalDeposited")) }} $FUR</td>
+                                <td>{{ displayCurrency.format(getStat("totalDeposited")) }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Compounds</th>
                                 <td>{{ getStat("totalCompounds") }}</td>
-                                <td>{{ displayCurrency.format(getStat("totalCompounded")) }} $FUR</td>
+                                <td>{{ displayCurrency.format(getStat("totalCompounded")) }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Claims</th>
                                 <td>{{ getStat("totalClaims") }}</td>
-                                <td>{{ displayCurrency.format(getStat("totalClaimed")) }} $FUR</td>
+                                <td>{{ displayCurrency.format(getStat("totalClaimed")) }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Airdrops</th>
                                 <td>{{ getStat("totalAirdrops") }}</td>
-                                <td>{{ displayCurrency.format(getStat("totalAirdropped")) }} $FUR</td>
+                                <td>{{ displayCurrency.format(getStat("totalAirdropped")) }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Referral Rewards</th>
                                 <td>{{ getStat("totalBonuses") }}</td>
-                                <td>{{ displayCurrency.format(getStat("totalBonused")) }} $FUR</td>
+                                <td>{{ displayCurrency.format(getStat("totalBonused")) }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Taxes</th>
                                 <td>{{ getStat("totalTaxed") }}</td>
-                                <td>{{ displayCurrency.format(getStat("totalTaxes")) }} $FUR</td>
+                                <td>{{ displayCurrency.format(getStat("totalTaxes")) }}</td>
                             </tr>
                         </tbody>
                     </table>
