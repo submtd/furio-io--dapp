@@ -53,7 +53,7 @@
                     <button @click="sendIndividualAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
                 </div>
                 <div class="mb-3">Referrer: <button @click="participantLink(referrer)" class="btn btn-link"><strong>{{ referrer }}</strong></button>
-                    <div v-show="showUpdateReferrerForm">
+                    <div v-show="showUpdateReferrerForm" class="mb-5">
                         <div class="alert alert-danger">
                             Referrer can only be updated <strong>one</strong> time. Please make sure the information you enter here is correct.
                         </div>
