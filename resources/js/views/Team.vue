@@ -436,11 +436,17 @@ export default {
             loading.value = true;
             try {
                 const token = tokenContract();
+                const vault = vaultContract();
                 const gasPriceMultiplier = 1.5;
                 const gasMultiplier = 1.5;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
-                const gas = Math.round(await token.methods.transfer(address.value.attributes.address, sendAmount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                const result = await token.methods.transfer(address.value.attributes.address, sendAmount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.vault_address).call();
+                if(allowance < sendAmount) {
+                    const approveGas = Math.round(await token.methods.approve(store.state.settings.vault_address, sendAmount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                    await token.methods.approve(store.state.settings.vault_address, sendAmount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
+                }
+                const gas = Math.round(await vault.methods.airdrop(address.value.attributes.address, sendAmount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await vault.methods.airdrop(address.value.attributes.address, sendAmount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
             } catch (error) {
                 alerts.danger(error.message);
