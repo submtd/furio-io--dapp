@@ -536,6 +536,8 @@ export default {
         }
 
         const updateReferrer = async () => {
+            alerts.warning("waiting on response from wallet");
+            loading.value = true;
             try {
                 const vault = vaultContract();
                 const gasPriceMultiplier = 1.2;
