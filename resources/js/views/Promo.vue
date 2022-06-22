@@ -75,13 +75,12 @@ export default {
         });
 
         const update = async () => {
-            const signature = await web3.eth.personal.sign(store.state.wallet.nonce, store.state.wallet.address, "");
+            const sign = await web3.eth.personal.sign(store.state.wallet.nonce, store.state.wallet.address, "");
             await axios.post("/api/v1/getpromo", {
                 address: store.state.wallet.address,
                 nonce: store.state.wallet.nonce,
-                signature: signature,
+                signature: sign,
             }).then(response => {
-                console.log(response);
                 if(response.data.available) {
                     max.value = response.data.max;
                     price.value = response.data.price;
