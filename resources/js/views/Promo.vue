@@ -81,6 +81,7 @@ export default {
                 nonce: store.state.wallet.nonce,
                 signature: signature,
             }).then(response => {
+                console.log(response);
                 if(response.data.available) {
                     max.value = response.data.max;
                     price.value = response.data.price;
