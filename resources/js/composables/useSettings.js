@@ -1,11 +1,9 @@
 import axios from "axios";
 import { useStore } from "vuex";
 import useAddressBook from "./useAddressBook";
-import useDisplayCurrency from "./useDisplayCurrency";
 export default () => {
     const addressBook = useAddressBook();
     const store = useStore();
-    const displayCurrency = useDisplayCurrency();
 
     const update = async () => {
         const response = await axios.get("/api/v1/settings");

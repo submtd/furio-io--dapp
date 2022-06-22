@@ -12,6 +12,6 @@ Route::group([
     Route::post('api/v1/name', 'UpdateName');
     Route::post('api/v1/login', 'Login');
     Route::get('api/v1/logout', 'Logout');
-    Route::get('api/v1/getpromo', 'GetPromo');
+    Route::post('api/v1/getpromo', 'GetPromo');
     Route::get('{any}', 'App')->where('any', '.*');
 });

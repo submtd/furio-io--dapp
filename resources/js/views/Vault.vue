@@ -242,9 +242,6 @@ export default {
                 rewardRate.value = await contract.methods.rewardRate(store.state.wallet.address).call() / 100;
                 available.value = await contract.methods.availableRewards(store.state.wallet.address).call();
                 participantStatus.value = await contract.methods.participantStatus(store.state.wallet.address).call();
-                console.log(stats.value);
-                console.log(properties.value);
-                console.log(participant.value);
                 if(participant.value.referrer != "0x0000000000000000000000000000000000000000") {
                     referrer.value = participant.value.referrer;
                 }

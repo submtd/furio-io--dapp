@@ -24,7 +24,7 @@ export default () => {
             await connect();
         });
         // Watch for networkChanged event.
-        window.ethereum.on('networkChanged', async function () {
+        window.ethereum.on('chainChanged', async function () {
             if(connected) {
                 await checkNetwork();
                 return;
@@ -107,7 +107,7 @@ export default () => {
         }
         // Enable provider.
         try {
-            await web3.currentProvider.enable();
+            //await web3.currentProvider.enable();
             connected = true;
             // Switch to correct network.
             await checkNetwork();
@@ -151,7 +151,8 @@ export default () => {
             return;
         }
         // Get address.
-        let address = await web3.eth.getAccounts();
+        //let address = await web3.eth.getAccounts();
+        let address = await web3.eth.requestAccounts();
         if(wallet && address[0] == wallet.attributes.address) {
             return;
         }
