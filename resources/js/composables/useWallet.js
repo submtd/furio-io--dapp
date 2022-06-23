@@ -92,7 +92,7 @@ export default () => {
         settings.update();
         if(connected) {
             // Already connected.
-            return;
+            //return;
         }
         if(!web3.currentProvider) {
             if(cookies.get("provider") == "metamask") {
@@ -110,7 +110,7 @@ export default () => {
             await web3.currentProvider.enable();
             connected = true;
             // Switch to correct network.
-            await checkNetwork();
+            //await checkNetwork();
             await loadWallet();
         } catch (error) {
             alerts.danger(error.message);
