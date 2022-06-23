@@ -110,7 +110,7 @@ export default () => {
             await web3.currentProvider.enable();
             connected = true;
             // Switch to correct network.
-            //await checkNetwork();
+            await checkNetwork();
             await loadWallet();
         } catch (error) {
             alerts.danger(error.message);
@@ -151,8 +151,8 @@ export default () => {
             return;
         }
         // Get address.
-        let address = await web3.eth.getAccounts();
-        //let address = await web3.eth.requestAccounts();
+        //let address = await web3.eth.getAccounts();
+        let address = await web3.eth.requestAccounts();
         if(wallet && address[0] == wallet.attributes.address) {
             return;
         }
