@@ -151,8 +151,8 @@ export default () => {
             return;
         }
         // Get address.
-        //let address = await web3.eth.getAccounts();
-        let address = await web3.eth.requestAccounts();
+        let address = await web3.eth.getAccounts();
+        //let address = await web3.eth.requestAccounts();
         if(wallet && address[0] == wallet.attributes.address) {
             return;
         }
