@@ -107,7 +107,7 @@ export default () => {
         }
         // Enable provider.
         try {
-            //await web3.currentProvider.enable();
+            await web3.currentProvider.enable();
             connected = true;
             // Switch to correct network.
             await checkNetwork();
