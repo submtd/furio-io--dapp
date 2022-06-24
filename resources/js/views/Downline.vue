@@ -25,42 +25,22 @@
                 </div>
             </div>
             <div v-show="!loading">
-                <div class="row">
-                    <div class="col-lg-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <img src="../../images/nft.svg" class="mx-auto d-block mb-3" alt="NFT" width="75" height="75"/>
-                                <p class="card-title">NFTs Owned</p>
-                                <p class="card-text"><strong>{{ owned }}</strong></p>
-                            </div>
+                <div v-show="isSelf" class="row mb-3">
+                    <div class="col-md-6">
+                        <h5>Buy Downline NFTs</h5>
+                        <div class="form-group">
+                            <label for="buy-quantity">Quantity</label>
+                            <input v-model="buyQuantity" :max="available" min="0" type="number" class="form-control" id="buy-quantity"/>
                         </div>
+                        <button @click="buy" class="btn btn-sm btn-info btn-block mb-2">Buy ({{ buyQuantity * 5 }} $FUR)</button>
                     </div>
-                    <div class="col-lg-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <img src="../../images/team-wallet.svg" class="mx-auto d-block mb-3" alt="Team Wallet" width="75" height="75"/>
-                                <p class="card-title">Team Wallet</p>
-                                <p class="card-text"><strong>{{ teamWallet }}</strong></p>
-                            </div>
+                    <div class="col-md-6">
+                        <h5>Sell Downline NFTs</h5>
+                        <div class="form-group">
+                            <label for="sell-quantity">Quantity</label>
+                            <input v-model="sellQuantity" :max="owned" min="0" type="number" class="form-control" id="sell-quantity"/>
                         </div>
-                    </div>
-                    <div class="col-lg-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <img src="../../images/referral.svg" class="mx-auto d-block mb-3" alt="Referrals" width="75" height="75"/>
-                                <p class="card-title">Direct Referrals</p>
-                                <p class="card-text"><strong>{{ directReferrals }}</strong></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="75" height="75"/>
-                                <p class="card-title">Rewarded</p>
-                                <p class="card-text"><strong>{{ rewarded }} $FUR</strong></p>
-                            </div>
-                        </div>
+                        <button @click="sell" class="btn btn-sm btn-info btn-block mb-2">Sell ({{ sellQuantity * 4 }} $FUR)</button>
                     </div>
                 </div>
                 <div v-show="!isSelf">
@@ -134,7 +114,7 @@
                     </div>
                 </div>
             </div>
-            <div v-show="showSocialMenu || isSelf" class="bg-light text-dark rounded p-3 mb-3">
+            <div class="bg-light text-dark rounded p-3 mb-3">
                 <nav v-show="showSocialMenu" class="nav social flex-column mb-3">
                     <a v-show="socialLink('twitter')" class="nav-link" :href="socialLink('twitter')" target="_new"><img class="img-fluid" src="../../images/twitter.svg" width="32" height="32" alt="twitter logo"> {{ socialLink('twitter') }}</a>
                     <a v-show="socialLink('telegram')" class="nav-link" :href="socialLink('telegram')" target="_new"><img class="img-fluid" src="../../images/telegram.svg" width="32" height="32" alt="telegram logo"> {{ socialLink('telegram') }}</a>
@@ -143,9 +123,7 @@
                     <a v-show="socialLink('facebook')" class="nav-link" :href="socialLink('facebook')" target="_new"><img class="img-fluid" src="../../images/facebook.svg" width="32" height="32" alt="facebook logo"> {{ socialLink('facebook') }}</a>
                     <a v-show="socialLink('instagram')" class="nav-link" :href="socialLink('instagram')" target="_new"><img class="img-fluid" src="../../images/instagram.svg" width="32" height="32" alt="instagram logo"> {{ socialLink('instagram') }}</a>
                 </nav>
-                <div v-show="isSelf">
-                    <button @click="toggleSocialMediaForm" class="btn btn-link"><small>edit social media links</small></button>
-                </div>
+                <button @click="toggleSocialMediaForm" v-show="isSelf" class="btn btn-link"><small>edit social media links</small></button>
                 <div v-show="isSelf && showSocialMediaForm" class="mb-3">
                     <div class="form-group">
                         <label for="twitter">twitter</label>
@@ -177,6 +155,44 @@
                         </div>
                         <div class="col-sm-6">
                             <button @click="updateSocialMedia" class="btn btn-lg btn-info btn-block mb-2">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <img src="../../images/nft.svg" class="mx-auto d-block mb-3" alt="NFT" width="75" height="75"/>
+                            <p class="card-title">NFTs Owned</p>
+                            <p class="card-text"><strong>{{ owned }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <img src="../../images/team-wallet.svg" class="mx-auto d-block mb-3" alt="Team Wallet" width="75" height="75"/>
+                            <p class="card-title">Team Wallet</p>
+                            <p class="card-text"><strong>{{ teamWallet }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <img src="../../images/referral.svg" class="mx-auto d-block mb-3" alt="Referrals" width="75" height="75"/>
+                            <p class="card-title">Direct Referrals</p>
+                            <p class="card-text"><strong>{{ directReferrals }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="75" height="75"/>
+                            <p class="card-title">Rewarded</p>
+                            <p class="card-text"><strong>{{ rewarded }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
