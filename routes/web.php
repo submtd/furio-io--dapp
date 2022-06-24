@@ -10,6 +10,8 @@ Route::group([
     Route::get('api/v1/address/{address}', 'GetAddress');
     Route::post('api/v1/address', 'UpdateAddress');
     Route::post('api/v1/name', 'UpdateName');
+    Route::post('api/v1/social', 'UpdateSocial');
+    Route::post('api/v1/image', 'UpdateImage');
     Route::post('api/v1/login', 'Login');
     Route::get('api/v1/logout', 'Logout');
     Route::post('api/v1/getpromo', 'GetPromo');

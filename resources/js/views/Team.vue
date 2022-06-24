@@ -105,6 +105,60 @@
             </div>
         </div>
         <div class="col-lg-5">
+            <div class="bg-light text-dark rounded p-5 mb-3 text-center">
+                <img :src="avatar" class="img-fluid img-thumbnail w-100 rounded" alt="profile"/>
+                <button @click="toggleImageUploadForm" class="btn btn-link"><small>upload team image</small></button>
+                <div v-show="isSelf && showImageUploadForm" class="mt-3 mb-3">
+                    <div class="form-group">
+                        <input v-on:change="uploadImage" type="file" class="form-control-file" id="image">
+                    </div>
+                </div>
+            </div>
+            <div class="bg-light text-dark rounded p-3 mb-3">
+                <nav v-show="showSocialMenu" class="nav social flex-column mb-3">
+                    <a v-show="socialLink('twitter')" class="nav-link" :href="socialLink('twitter')" target="_new"><img class="img-fluid" src="../../images/twitter.svg" width="32" height="32" alt="twitter logo"> {{ socialLink('twitter') }}</a>
+                    <a v-show="socialLink('telegram')" class="nav-link" :href="socialLink('telegram')" target="_new"><img class="img-fluid" src="../../images/telegram.svg" width="32" height="32" alt="telegram logo"> {{ socialLink('telegram') }}</a>
+                    <a v-show="socialLink('discord')" class="nav-link" :href="socialLink('discord')" target="_new"><img class="img-fluid" src="../../images/discord.svg" width="32" height="32" alt="discord logo"> {{ socialLink('discord') }}</a>
+                    <a v-show="socialLink('medium')" class="nav-link" :href="socialLink('medium')" target="_new"><img class="img-fluid" src="../../images/medium.svg" width="32" height="32" alt="medium logo"> {{ socialLink('medium') }}</a>
+                    <a v-show="socialLink('facebook')" class="nav-link" :href="socialLink('facebook')" target="_new"><img class="img-fluid" src="../../images/facebook.svg" width="32" height="32" alt="facebook logo"> {{ socialLink('facebook') }}</a>
+                    <a v-show="socialLink('instagram')" class="nav-link" :href="socialLink('instagram')" target="_new"><img class="img-fluid" src="../../images/instagram.svg" width="32" height="32" alt="instagram logo"> {{ socialLink('instagram') }}</a>
+                    <button @click="toggleSocialMediaForm" v-show="isSelf" class="btn btn-link"><small>edit social media links</small></button>
+                </nav>
+                <div v-show="isSelf && showSocialMediaForm" class="mb-3">
+                    <div class="form-group">
+                        <label for="twitter">twitter</label>
+                        <input v-model="twitter" class="form-control" id="twitter"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="telegram">telegram</label>
+                        <input v-model="telegram" class="form-control" id="telegram"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="discord">discord</label>
+                        <input v-model="discord" class="form-control" id="discord"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="medium">medium</label>
+                        <input v-model="medium" class="form-control" id="medium"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="facebook">facebook</label>
+                        <input v-model="facebook" class="form-control" id="facebook"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="instagram">instagram</label>
+                        <input v-model="instagram" class="form-control" id="instagram"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <button @click="toggleSocialMediaForm" class="btn btn-lg btn-secondary btn-block mb-2">Cancel</button>
+                        </div>
+                        <div class="col-sm-6">
+                            <button @click="updateSocialMedia" class="btn btn-lg btn-info btn-block mb-2">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
@@ -142,54 +196,54 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <table class="table table-striped">
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">Participant Status</th>
-                                        <td>{{ participantStatusDisplay }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Reward Rate</th>
-                                        <td>{{ rewardRate }}%</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Vault Balance</th>
-                                        <td>{{ displayCurrency.format(getProperty("balance")) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Deposited</th>
-                                        <td>{{ displayCurrency.format(getProperty("deposited")) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Compounded</th>
-                                        <td>{{ displayCurrency.format(getProperty("compounded")) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Claimed</th>
-                                        <td>{{ displayCurrency.format(getProperty("claimed")) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Referral Rewards</th>
-                                        <td>{{ displayCurrency.format(getProperty("awarded")) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Taxes Paid</th>
-                                        <td>{{ displayCurrency.format(getProperty("taxed")) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Airdrops Sent</th>
-                                        <td>{{ displayCurrency.format(getProperty("airdropSent")) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Airdrops Received</th>
-                                        <td>{{ displayCurrency.format(getProperty("airdropReceived")) }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+            </div>
+            <div class="mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Participant Status</th>
+                                    <td>{{ participantStatusDisplay }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Reward Rate</th>
+                                    <td>{{ rewardRate }}%</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Vault Balance</th>
+                                    <td>{{ displayCurrency.format(getProperty("balance")) }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Deposited</th>
+                                    <td>{{ displayCurrency.format(getProperty("deposited")) }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Compounded</th>
+                                    <td>{{ displayCurrency.format(getProperty("compounded")) }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Claimed</th>
+                                    <td>{{ displayCurrency.format(getProperty("claimed")) }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Referral Rewards</th>
+                                    <td>{{ displayCurrency.format(getProperty("awarded")) }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Taxes Paid</th>
+                                    <td>{{ displayCurrency.format(getProperty("taxed")) }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Airdrops Sent</th>
+                                    <td>{{ displayCurrency.format(getProperty("airdropSent")) }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Airdrops Received</th>
+                                    <td>{{ displayCurrency.format(getProperty("airdropReceived")) }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -252,12 +306,31 @@ export default {
         const individualAirdropAmount = ref(0);
         const showUpdateReferrerForm = ref(false);
         const newReferrer = ref(null);
+        const showSocialMediaForm = ref(false);
+        const twitter = ref(null);
+        const telegram = ref(null);
+        const discord = ref(null);
+        const medium = ref(null);
+        const facebook = ref(null);
+        const instagram = ref(null);
+        const showImageUploadForm = ref(false);
+        const image = ref(null);
 
         const name = computed(() => {
             if(!address.value) {
                 return null;
             }
             return address.value.attributes.name ?? address.value.attributes.shortAddress;
+        });
+
+        const avatar = computed(() => {
+            if(!address.value) {
+                return "/images/profile.png"
+            }
+            if(typeof address.value.related == "undefined") {
+                return "/images/profile.png";
+            }
+            return address.value.related.avatar.attributes.path;
         });
 
         const available = computed(() => {
@@ -354,6 +427,61 @@ export default {
             router.push("/team/" + address);
         }
 
+        const showSocialMenu = computed(() => {
+            if(!address.value) {
+                return false;
+            }
+            return socialLink("twitter") ||
+                   socialLink("telegram") ||
+                   socialLink("discord") ||
+                   socialLink("medium") ||
+                   socialLink("facebook") ||
+                   socialLink("instagram");
+        });
+
+        const socialLink = (platform) => {
+            if(!address.value) {
+                return false;
+            }
+            if(!address.value.attributes[platform]) {
+                return false;
+            }
+            return address.value.attributes[platform];
+        }
+
+        const toggleImageUploadForm = () => {
+            showImageUploadForm.value = !showImageUploadForm.value;
+        }
+
+        const uploadImage = async (e) => {
+            let files = e.target.files || e.dataTransfer.files;
+            if (!files.length) return;
+            const signature = await web3.eth.personal.sign(address.value.attributes.nonce, address.value.attributes.address, "");
+            const formData = new FormData();
+            formData.append("address", address.value.attributes.address);
+            formData.append("nonce", address.value.attributes.nonce);
+            formData.append("signature", signature);
+            formData.append("image", files[0]);
+            await axios.post("/api/v1/image", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }).then(response => {
+                alerts.info("Team image updated");
+            }).catch(error => {
+                if(error.response.status == 422) {
+                    alerts.danger(error.response.data.message);
+                    return;
+                }
+                alerts.danger(error.message);
+            })
+        }
+
+        const toggleSocialMediaForm = () => {
+            showSocialMediaForm.value = !showSocialMediaForm.value;
+        }
+
+
         const downlineContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.downline_abi), store.state.settings.downline_address);
         }
@@ -370,6 +498,12 @@ export default {
             loading.value = true;
             try {
                 address.value = await wallet.lookupAddress(route.params.teamaddress ?? store.state.wallet.address);
+                twitter.value = address.value.attributes.twitter;
+                telegram.value = address.value.attributes.telegram;
+                discord.value = address.value.attributes.discord;
+                medium.value = address.value.attributes.medium;
+                facebook.value = address.value.attributes.facebook;
+                instagram.value = address.value.attributes.instagram;
                 const contract = downlineContract();
                 const vault = vaultContract();
                 const token = tokenContract();
@@ -412,6 +546,32 @@ export default {
             });
             toggleNameForm();
             await update();
+        }
+
+        const updateSocialMedia = async () => {
+            const signature = await web3.eth.personal.sign(address.value.attributes.nonce, address.value.attributes.address, "");
+            await axios.post("/api/v1/social", {
+                address: address.value.attributes.address,
+                nonce: address.value.attributes.nonce,
+                signature: signature,
+                twitter: twitter.value,
+                telegram: telegram.value,
+                discord: discord.value,
+                medium: medium.value,
+                facebook: facebook.value,
+                instagram: instagram.value,
+            }).then(response => {
+                alerts.info("Social links updated");
+            }).catch(error => {
+                if(error.response.status == 422) {
+                    alerts.danger(error.response.data.message);
+                    return;
+                }
+                alerts.danger(error.message);
+            });
+            toggleSocialMediaForm();
+            await update();
+
         }
 
         const buy = async () => {
@@ -597,6 +757,21 @@ export default {
             showUpdateReferrerForm,
             updateReferrer,
             newReferrer,
+            showSocialMenu,
+            socialLink,
+            showSocialMediaForm,
+            toggleSocialMediaForm,
+            twitter,
+            telegram,
+            discord,
+            medium,
+            facebook,
+            instagram,
+            updateSocialMedia,
+            showImageUploadForm,
+            toggleImageUploadForm,
+            uploadImage,
+            avatar,
         }
     }
 

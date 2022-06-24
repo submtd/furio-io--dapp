@@ -14,8 +14,8 @@ return new class extends Migration {
     {
         Schema::create('avatars', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('address_id')->unique();
             $table->uuid('uuid')->unique();
+            $table->bigInteger('address_id')->unique();
             $table->string('name');
             $table->string('path');
             $table->timestamps();
