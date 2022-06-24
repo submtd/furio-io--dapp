@@ -325,10 +325,10 @@ export default {
 
         const avatar = computed(() => {
             if(!address.value) {
-                return "/images/profile.png"
+                return "../../images/profile.png"
             }
             if(typeof address.value.related == "undefined") {
-                return "/images/profile.png";
+                return "../../images/profile.png";
             }
             return address.value.related.avatar.attributes.path;
         });
