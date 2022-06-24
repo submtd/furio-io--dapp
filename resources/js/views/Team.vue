@@ -127,9 +127,9 @@
         <div class="col-lg-5">
             <div class="bg-light text-dark rounded p-5 mb-3 text-center">
                 <img :src="avatar" class="img-fluid img-thumbnail w-100 rounded" alt="profile"/>
-                <button v-show="isSelf" @click="toggleImageUploadForm" class="btn btn-link"><small>upload team image</small></button>
-                <div v-show="isSelf && showImageUploadForm" class="mt-3 mb-3">
-                    <div class="form-group">
+                <div v-show="isSelf">
+                    <button @click="toggleImageUploadForm" class="btn btn-link"><small>upload team image</small></button>
+                    <div v-show="showImageUploadForm" class="form-group">
                         <input v-on:change="uploadImage" type="file" class="form-control-file" id="image">
                     </div>
                 </div>
