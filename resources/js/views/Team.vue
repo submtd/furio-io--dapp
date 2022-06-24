@@ -122,8 +122,8 @@
                     <a v-show="socialLink('medium')" class="nav-link" :href="socialLink('medium')" target="_new"><img class="img-fluid" src="../../images/medium.svg" width="32" height="32" alt="medium logo"> {{ socialLink('medium') }}</a>
                     <a v-show="socialLink('facebook')" class="nav-link" :href="socialLink('facebook')" target="_new"><img class="img-fluid" src="../../images/facebook.svg" width="32" height="32" alt="facebook logo"> {{ socialLink('facebook') }}</a>
                     <a v-show="socialLink('instagram')" class="nav-link" :href="socialLink('instagram')" target="_new"><img class="img-fluid" src="../../images/instagram.svg" width="32" height="32" alt="instagram logo"> {{ socialLink('instagram') }}</a>
-                    <button @click="toggleSocialMediaForm" v-show="isSelf" class="btn btn-link"><small>edit social media links</small></button>
                 </nav>
+                <button @click="toggleSocialMediaForm" v-show="isSelf" class="btn btn-link"><small>edit social media links</small></button>
                 <div v-show="isSelf && showSocialMediaForm" class="mb-3">
                     <div class="form-group">
                         <label for="twitter">twitter</label>
