@@ -22,7 +22,7 @@ class SettingsService
      */
     public static function get(): array
     {
-        $settings = Cache::remember('settings', Carbon::now()->adMinutes(5), function () {
+        $settings = Cache::remember('settings', Carbon::now()->addMinutes(5), function () {
             $settings = [];
             foreach (Setting::orderBy('name')->get() as $setting) {
                 $settings[$setting->name] = $setting->value;
