@@ -390,12 +390,6 @@ export default {
             return false;
         });
 
-        addEventListener("refresh", async () => {
-            if(!address.value) {
-                await update();
-            }
-        });
-
         const addr = computed(async () => {
             return route.params.teamaddress ?? store.state.wallet.address;
         });
