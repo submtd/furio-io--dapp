@@ -26,6 +26,17 @@ export default () => {
         }
         // commit settings
         store.commit("settings", settings);
+        // update token info
+        if(Date.now() - settings.last_token_update > 300000 && settings.token_address && settings.vault_address) {
+            const token = new web3.eth.Contract(JSON.parse(settings.token_abi), settings.token_address);
+            const totalSupply = await token.methods.totalSupply().call();
+            const vaultSupply = await token.methods.balanceOf(settings.vault_address).call();
+            const circulatingSupply = BigInt(totalSupply - vaultSupply).toString();
+            await axios.post("/api/v1/updatetoken", {
+                total_supply: totalSupply,
+                circulating_supply: circulatingSupply,
+            });
+        }
         dispatchEvent(new Event("refresh"));
     }
 
