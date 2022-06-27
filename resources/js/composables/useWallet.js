@@ -2,7 +2,6 @@ import { useStore } from "vuex";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import router from "../router";
 import useAlerts from "./useAlerts";
-import useSettings from "./useSettings";
 import useCookies from "./useCookies";
 import axios from "axios";
 
@@ -10,7 +9,6 @@ export default () => {
     const store = useStore(); // Global storage.
     const alerts = useAlerts(); // Alerts.
     const cookies = useCookies(); // Cookies.
-    const settings = useSettings(); // Settings.
     let connected = false; // Connected?
     let wallet = null; // Current wallet.
 
@@ -89,10 +87,10 @@ export default () => {
 
     // Connect to wallet.
     const connect = async () => {
-        settings.update();
+        //settings.update();
         if(connected) {
             // Already connected.
-            //return;
+            return;
         }
         if(!web3.currentProvider) {
             if(cookies.get("provider") == "metamask") {
@@ -112,12 +110,13 @@ export default () => {
             // Switch to correct network.
             await checkNetwork();
             await loadWallet();
+            alerts.clear();
+            //router.push("/");
         } catch (error) {
             alerts.danger(error.message);
             return disconnect();
         }
-        alerts.clear();
-        settings.update();
+        //settings.update();
     }
 
     // Disconnect.
@@ -141,7 +140,8 @@ export default () => {
             web3.currentProvider.close();
         } catch(error) {}
         await axios.get("/api/v1/logout");
-        router.push("/connect");
+        location.href = "/connect";
+        //router.push("/connect");
     }
 
     // Load wallet.

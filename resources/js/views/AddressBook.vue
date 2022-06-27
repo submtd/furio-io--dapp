@@ -44,7 +44,7 @@ export default {
         const vaultLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.vault_address);
 
         onMounted(async () => {
-            settings.update();
+            //settings.update();
         });
 
         return {

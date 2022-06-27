@@ -32,6 +32,7 @@ export default createStore({
 
             },
             referrer: null,
+            loading: true,
         }
     },
     mutations: {
@@ -56,5 +57,8 @@ export default createStore({
         referrer(state, value) {
             state.referrer = value;
         },
+        loading(state, value) {
+            state.loading = value;
+        }
     }
 });

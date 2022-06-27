@@ -476,7 +476,7 @@ export default {
         const update = async () => {
             loading.value = true;
             try {
-                await settings.update();
+                //await settings.update();
                 alerts.clear();
                 address.value = await wallet.lookupAddress(route.params.teamaddress ?? store.state.wallet.address);
                 twitter.value = address.value.attributes.twitter;

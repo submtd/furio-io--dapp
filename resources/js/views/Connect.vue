@@ -31,7 +31,7 @@ export default {
         const wallet = useWallet();
 
         onMounted(async () => {
-            await settings.update();
+            //await settings.update();
         })
 
         return {

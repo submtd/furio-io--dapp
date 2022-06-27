@@ -18,11 +18,13 @@
 </template>
 
 <script>
+import { useStore } from "vuex";
 // Components.
 import Alerts from "./components/Alerts.vue";
 import Footer from "./components/Footer.vue";
 import Navbar from "./components/Navbar.vue";
 import useReferral from "./composables/useReferral";
+import useSettings from "./composables/useSettings";
 
 export default {
     components: {
@@ -31,7 +33,11 @@ export default {
         Navbar,
     },
     setup() {
+        const store = useStore();
+        store.commit("loading", true);
         useReferral();
+        useSettings().update();
+        store.commit("loading", false);
     }
 }
 </script>
