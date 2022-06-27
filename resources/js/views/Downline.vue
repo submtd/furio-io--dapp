@@ -1,22 +1,6 @@
 <template>
-    <h1 v-show="!showUpdateNameForm">{{ name }}</h1>
-    <div v-show="showUpdateNameForm">
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input v-model="updatedName" class="form-control" id="name"/>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <button @click="toggleNameForm" class="btn btn-lg btn-secondary btn-block mb-2">Cancel</button>
-            </div>
-            <div class="col-sm-3">
-                <button @click="updateName" class="btn btn-lg btn-info btn-block mb-2">Update</button>
-            </div>
-        </div>
-    </div>
-    <div v-show="isSelf && !showUpdateNameForm"><button @click="toggleNameForm" class="btn btn-link"><small>update team name</small></button></div>
-    <p v-show="!isSelf" class="mb-t">View team stats here.</p>
-    <p v-show="isSelf" class="mb-5">Buy your downline NFT's and manage your teams/airdrops here.</p>
+    <h1>Downline NFTs</h1>
+    <p v-show="!isSelf" class="mb-t">Buy and sell downline NFT's here.</p>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
             <div v-show="loading" class="text-center">
@@ -43,122 +27,9 @@
                         <button @click="sell" class="btn btn-sm btn-info btn-block mb-2">Sell ({{ sellQuantity * 4 }} $FUR)</button>
                     </div>
                 </div>
-                <div v-show="!isSelf">
-                    <h3>Send Airdrop to Team Leader</h3>
-                    <div class="form-group">
-                        <label for="amount">Amount</label>
-                        <input v-model="individualAirdropAmount" class="form-control" id="amount"/>
-                        <small id="amount-help" class="form-text text-muted">Airdrops are sent from your wallet balance into the recipient's vault balance.</small>
-                    </div>
-                    <button @click="sendIndividualAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
-                </div>
-                <div class="mb-3">Referrer: <button @click="participantLink(referrer)" class="btn btn-link"><strong>{{ referrer }}</strong></button>
-                    <div v-show="showUpdateReferrerForm" class="mb-5">
-                        <div class="alert alert-danger">
-                            Referrer can only be updated <strong>one</strong> time. Please make sure the information you enter here is correct.
-                        </div>
-                        <div class="form-group">
-                            <label for="referrer">Referrer</label>
-                            <input v-model="newReferrer" class="form-control" id="referrer"/>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <button @click="toggleUpdateReferrerForm" class="btn btn-lg btn-secondary btn-block mb-2">Cancel</button>
-                            </div>
-                            <div class="col-sm-3">
-                                <button @click="updateReferrer" class="btn btn-lg btn-info btn-block mb-2">Update</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div v-show="isSelf && canUpdateReferrer && !showUpdateReferrerForm" class="text-right"><button @click="toggleUpdateReferrerForm" class="btn btn-link"><small>Update Referrer</small></button></div>
-                </div>
-                <div v-show="isSelf && walletBalance > 0" class="mb-5">
-                    <h3>Team Airdrop</h3>
-                    <p>Team airdrops allow you to send a bonus to all qualifying team members. You can set a minimum and a maximum vault balance to determine who receives the airdrop.</p>
-                    <div class="form-group">
-                        <label for="amount">Amount</label>
-                        <input v-model="airdropAmount" class="form-control" id="amount"/>
-                        <small id="amount-help" class="form-text text-muted">Airdrops are sent from your wallet balance into the recipient's vault balance. This amount will be split evenly between all qualifying team members.</small>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="min">Minimum Vault Balance</label>
-                                <input v-model="minBalance" class="form-control" id="min"/>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="max">Maximum Vault Balance</label>
-                                <input v-model="maxBalance" class="form-control" id="max"/>
-                            </div>
-                        </div>
-                    </div>
-                    <button @click="sendAirdrop" class="btn btn-lg btn-info btn-block mb-2">Send Airdrop</button>
-                </div>
-                <h4>Referrals</h4>
-                <ul class="nav flex-column">
-                    <li v-for="referred in referrals" class="nav-item">
-                        <button @click="participantLink(referred)" class="btn btn-link">{{ referred }}</button>
-                    </li>
-                </ul>
             </div>
         </div>
         <div class="col-lg-5">
-            <div class="bg-light text-dark rounded p-5 mb-3 text-center">
-                <img :src="avatar" class="img-fluid img-thumbnail w-100 rounded" alt="profile"/>
-                <button @click="toggleImageUploadForm" class="btn btn-link"><small>upload team image</small></button>
-                <div v-show="isSelf && showImageUploadForm" class="mt-3 mb-3">
-                    <div class="form-group">
-                        <input v-on:change="uploadImage" type="file" class="form-control-file" id="image">
-                    </div>
-                </div>
-            </div>
-            <div class="bg-light text-dark rounded p-3 mb-3">
-                <nav v-show="showSocialMenu" class="nav social flex-column mb-3">
-                    <a v-show="socialLink('twitter')" class="nav-link" :href="socialLink('twitter')" target="_new"><img class="img-fluid" src="../../images/twitter.svg" width="32" height="32" alt="twitter logo"> {{ socialLink('twitter') }}</a>
-                    <a v-show="socialLink('telegram')" class="nav-link" :href="socialLink('telegram')" target="_new"><img class="img-fluid" src="../../images/telegram.svg" width="32" height="32" alt="telegram logo"> {{ socialLink('telegram') }}</a>
-                    <a v-show="socialLink('discord')" class="nav-link" :href="socialLink('discord')" target="_new"><img class="img-fluid" src="../../images/discord.svg" width="32" height="32" alt="discord logo"> {{ socialLink('discord') }}</a>
-                    <a v-show="socialLink('medium')" class="nav-link" :href="socialLink('medium')" target="_new"><img class="img-fluid" src="../../images/medium.svg" width="32" height="32" alt="medium logo"> {{ socialLink('medium') }}</a>
-                    <a v-show="socialLink('facebook')" class="nav-link" :href="socialLink('facebook')" target="_new"><img class="img-fluid" src="../../images/facebook.svg" width="32" height="32" alt="facebook logo"> {{ socialLink('facebook') }}</a>
-                    <a v-show="socialLink('instagram')" class="nav-link" :href="socialLink('instagram')" target="_new"><img class="img-fluid" src="../../images/instagram.svg" width="32" height="32" alt="instagram logo"> {{ socialLink('instagram') }}</a>
-                </nav>
-                <button @click="toggleSocialMediaForm" v-show="isSelf" class="btn btn-link"><small>edit social media links</small></button>
-                <div v-show="isSelf && showSocialMediaForm" class="mb-3">
-                    <div class="form-group">
-                        <label for="twitter">twitter</label>
-                        <input v-model="twitter" class="form-control" id="twitter"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="telegram">telegram</label>
-                        <input v-model="telegram" class="form-control" id="telegram"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="discord">discord</label>
-                        <input v-model="discord" class="form-control" id="discord"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="medium">medium</label>
-                        <input v-model="medium" class="form-control" id="medium"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="facebook">facebook</label>
-                        <input v-model="facebook" class="form-control" id="facebook"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="instagram">instagram</label>
-                        <input v-model="instagram" class="form-control" id="instagram"/>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <button @click="toggleSocialMediaForm" class="btn btn-lg btn-secondary btn-block mb-2">Cancel</button>
-                        </div>
-                        <div class="col-sm-6">
-                            <button @click="updateSocialMedia" class="btn btn-lg btn-info btn-block mb-2">Update</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
@@ -172,94 +43,12 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <img src="../../images/team-wallet.svg" class="mx-auto d-block mb-3" alt="Team Wallet" width="75" height="75"/>
-                            <p class="card-title">Team Wallet</p>
-                            <p class="card-text"><strong>{{ teamWallet }}</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
                             <img src="../../images/referral.svg" class="mx-auto d-block mb-3" alt="Referrals" width="75" height="75"/>
                             <p class="card-title">Direct Referrals</p>
                             <p class="card-text"><strong>{{ directReferrals }}</strong></p>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="75" height="75"/>
-                            <p class="card-title">Rewarded</p>
-                            <p class="card-text"><strong>{{ rewarded }} $FUR</strong></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <table class="table table-striped">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Participant Status</th>
-                                    <td>{{ participantStatusDisplay }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Reward Rate</th>
-                                    <td>{{ rewardRate }}%</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Vault Balance</th>
-                                    <td>{{ displayCurrency.format(getProperty("balance")) }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Deposited</th>
-                                    <td>{{ displayCurrency.format(getProperty("deposited")) }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Compounded</th>
-                                    <td>{{ displayCurrency.format(getProperty("compounded")) }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Claimed</th>
-                                    <td>{{ displayCurrency.format(getProperty("claimed")) }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Referral Rewards</th>
-                                    <td>{{ displayCurrency.format(getProperty("awarded")) }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Taxes Paid</th>
-                                    <td>{{ displayCurrency.format(getProperty("taxed")) }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Airdrops Sent</th>
-                                    <td>{{ displayCurrency.format(getProperty("airdropSent")) }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Airdrops Received</th>
-                                    <td>{{ displayCurrency.format(getProperty("airdropReceived")) }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="bg-light text-dark rounded p-5 mb-4">
-        <div class="row">
-            <h5>Lookup Team</h5>
-            <div class="col-md-10">
-                <div class="form-group">
-                    <label for="lookup" class="sr-only">Team Address</label>
-                    <input v-model="lookupTeam" class="form-control" id="lookup" placeholder="Lookup Team">
-                </div>
-            </div>
-            <div class="col-md-2">
-                <button @click="participantLink(lookupTeam)" class="btn btn-sm btn-info">Lookup Team</button>
             </div>
         </div>
     </div>

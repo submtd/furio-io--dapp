@@ -258,6 +258,7 @@ import useBalances from "../composables/useBalances";
 import useAlerts from "../composables/useAlerts";
 import useDisplayCurrency from '../composables/useDisplayCurrency';
 import useWallet from "../composables/useWallet";
+import useSettings from "../composables/useSettings";
 
 export default {
     setup () {
@@ -265,6 +266,7 @@ export default {
         const alerts = useAlerts();
         const route = useRoute();
         const balances = useBalances();
+        const settings = useSettings();
         const displayCurrency = useDisplayCurrency();
         const wallet = useWallet();
         const address = ref(null);
@@ -298,7 +300,6 @@ export default {
         const facebook = ref(null);
         const instagram = ref(null);
         const showImageUploadForm = ref(false);
-        const image = ref(null);
 
         const name = computed(() => {
             if(!address.value) {
@@ -391,16 +392,12 @@ export default {
 
         addEventListener("refresh", async () => {
             if(!address.value) {
-                //await update();
+                await update();
             }
         });
 
         const addr = computed(async () => {
             return route.params.teamaddress ?? store.state.wallet.address;
-        });
-
-        watch(addr, async () => {
-            await update();
         });
 
         onMounted(async () => {
@@ -481,6 +478,8 @@ export default {
         const update = async () => {
             loading.value = true;
             try {
+                await settings.update();
+                alerts.clear();
                 address.value = await wallet.lookupAddress(route.params.teamaddress ?? store.state.wallet.address);
                 twitter.value = address.value.attributes.twitter;
                 telegram.value = address.value.attributes.telegram;
