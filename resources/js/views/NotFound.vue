@@ -1,3 +1,10 @@
 <template>
-    <h1>Not Found</h1>
 </template>
+
+<script>
+export default {
+    setup () {
+        location.href = "/404";
+    }
+}
+</script>

@@ -25,5 +25,8 @@ Route::group([
         $circulating = Setting::firstOrNew(['name' => 'circulating_supply']);
         return $circulating->value;
     });
+    Route::get('404', static function () {
+        return response('not found', 404);
+    });
     Route::get('{any}', 'App')->where('any', '.*');
 });
