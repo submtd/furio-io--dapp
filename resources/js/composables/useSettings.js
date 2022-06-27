@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useStore } from "vuex";
-import useAddressBook from "./useAddressBook";
+//import useAddressBook from "./useAddressBook";
 export default () => {
-    const addressBook = useAddressBook();
+    //const addressBook = useAddressBook();
     const store = useStore();
 
     const update = async () => {
@@ -14,16 +14,16 @@ export default () => {
         // get time offset
         settings.time_offset = settings.server_time - (Date.now() / 1000);
         // get addresses
-        if(store.state.wallet.loggedIn && typeof store.state.settings.vault_address == "undefined") {
-            settings.claim_address = await addressBook.getAddress("claim");
-            settings.downline_address = await addressBook.getAddress("downline");
-            settings.presale_address = await addressBook.getAddress("presale");
-            settings.swap_address = await addressBook.getAddress("swap");
-            settings.token_address = await addressBook.getAddress("token");
-            settings.payment_address = await addressBook.getAddress("payment");
-            settings.vault_address = await addressBook.getAddress("vault");
-            settings.safe_address = await addressBook.getAddress("safe");
-        }
+        //if(store.state.wallet.loggedIn && typeof store.state.settings.vault_address == "undefined") {
+            //settings.claim_address = await addressBook.getAddress("claim");
+            //settings.downline_address = await addressBook.getAddress("downline");
+            //settings.presale_address = await addressBook.getAddress("presale");
+            //settings.swap_address = await addressBook.getAddress("swap");
+            //settings.token_address = await addressBook.getAddress("token");
+            //settings.payment_address = await addressBook.getAddress("payment");
+            //settings.vault_address = await addressBook.getAddress("vault");
+            //settings.safe_address = await addressBook.getAddress("safe");
+        //}
         // commit settings
         store.commit("settings", settings);
         // update token info
