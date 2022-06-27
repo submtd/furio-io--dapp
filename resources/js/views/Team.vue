@@ -600,10 +600,10 @@ export default {
 
         const sendIndividualAirdrop = async () => {
             const sendAmount = BigInt(individualAirdropAmount.value * 1000000000000000000);
-            if(sendAmount > walletBalance.value) {
-                alerts.danger("Insufficient funds");
-                return;
-            }
+            //if(sendAmount > walletBalance.value) {
+                //alerts.danger("Insufficient funds");
+                //return;
+            //}
             alerts.warning("waiting on response from wallet");
             loading.value = true;
             try {
