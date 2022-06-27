@@ -398,6 +398,10 @@ export default {
             await update();
         });
 
+        watch(addr, async () => {
+            await update();
+        });
+
         const participantLink = (address) => {
             router.push("/team/" + address);
         }
