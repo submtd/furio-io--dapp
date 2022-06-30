@@ -1,4 +1,4 @@
-name: dapp
+name: furio
 recipe: laravel
 config:
   php: '8.0'
