@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div v-show="store.state.wallet.loggedIn" class="bg-light text-dark rounded p-5 mb-4 text-center">
-            Rererral Link: <strong>{{ refLink }}</strong> <button @click="copyRefLink" class="btn btn-sm btn-info">Copy Link</button>
+            Referral Link: <strong>{{ refLink }}</strong> <button @click="copyRefLink" class="btn btn-sm btn-info">Copy Link</button>
         </div>
     </div>
     <div class="footer border-top border-secondary pt-5">
