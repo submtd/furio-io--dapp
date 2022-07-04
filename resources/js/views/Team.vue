@@ -381,6 +381,7 @@ export default {
         });
 
         const canUpdateReferrer = computed(() => {
+            return true;
             if(!participant.value) {
                 return false;
             }
