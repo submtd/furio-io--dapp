@@ -498,6 +498,7 @@ export default {
                 sellQuantity.value = owned.value;
                 rewardRate.value = await vault.methods.rewardRate(address.value.attributes.address).call() / 100;
                 participantStatus.value = await vault.methods.participantStatus(address.value.attributes.address).call();
+                console.log(participant);
             } catch (error) {
                 alerts.danger(error.message);
             }
