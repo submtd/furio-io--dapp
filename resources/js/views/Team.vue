@@ -384,7 +384,7 @@ export default {
             if(!participant.value) {
                 return false;
             }
-            if((participant.value.referrer == store.state.settings.safe_address || participant.value.referrer == "0x0000000000000000000000000000000000000000") && participant.value.directReferrals == 0) {
+            if((participant.value.referrer == store.state.settings.safe_address || participant.value.referrer == "0x0000000000000000000000000000000000000000") && participant.value.directReferrals == "0") {
                 return true;
             }
             return false;
