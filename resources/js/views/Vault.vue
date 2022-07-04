@@ -247,6 +247,7 @@ export default {
                 }
                 const token = tokenContract();
                 balance.value = await token.methods.balanceOf(store.state.wallet.address).call();
+                console.log(participant.value);
             } catch (error) {
                 alerts.danger(error.message);
             }
