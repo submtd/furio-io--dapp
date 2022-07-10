@@ -21,6 +21,8 @@
                 <dd class="col-sm-9"><a target="_new" :href="paymentLink">{{ store.state.settings.payment_address }}</a></dd>
                 <dt class="col-sm-3">Vault Contract</dt>
                 <dd class="col-sm-9"><a target="_new" :href="vaultLink">{{ store.state.settings.vault_address }}</a></dd>
+                <dt class="col-sm-3">AutoCompound Contract</dt>
+                <dd class="col-sm-9"><a target="_new" :href="autoCompoundLink">{{ store.state.settings.autocompound_address }}</a></dd>
             </dl>
         </div>
     </div>
@@ -42,6 +44,7 @@ export default {
         const tokenLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.token_address);
         const paymentLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.payment_address);
         const vaultLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.vault_address);
+        const autoCompoundLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.autocompound_address);
 
         onMounted(async () => {
             //settings.update();
@@ -56,6 +59,7 @@ export default {
             tokenLink,
             paymentLink,
             vaultLink,
+            autoCompoundLink,
         }
     }
 }

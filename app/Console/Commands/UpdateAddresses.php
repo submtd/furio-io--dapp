@@ -39,6 +39,7 @@ class UpdateAddresses extends Command
         $this->updateSetting('payment_address', AddressBookService::get('payment'));
         $this->updateSetting('vault_address', AddressBookService::get('vault'));
         $this->updateSetting('safe_address', AddressBookService::get('safe'));
+        $this->updateSetting('autocompound_address', AddressBookService::get('autocompound'));
     }
 
     protected function updateSetting(string $name, string $value)
