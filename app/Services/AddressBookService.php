@@ -19,6 +19,7 @@ class AddressBookService
         $address = '';
         $c->call('get', $contract, function ($err, $result) use (&$address) {
             if ($err) {
+                dd($err);
                 return;
             }
             $address = $result[0];
