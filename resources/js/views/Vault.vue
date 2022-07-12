@@ -22,6 +22,18 @@
                     </div>
                 </div>
                 <div class="text-right mt-3">
+                    <button @click="toggleAutoCompound" class="btn btn-link">Auto Compound</button>
+                </div>
+                <div v-show="showAutoCompound" class="mt-3">
+                    <hr/>
+                    <div class="alert alert-danger" role="alert"><strong>WARNING:</strong> The auto compound feature is currently in <strong>beta</strong>. Use at your own risk!</div>
+                    <div class="form-group">
+                        <label for="auto-compound-periods">Periods</label>
+                        <input v-model="autoCompoundPeriods" class="form-control" type="number" id="auto-compound-periods"/>
+                    </div>
+                    <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound</button>
+                </div>
+                <div class="text-right mt-3">
                     <button @click="toggleVaultStats" class="btn btn-link">Vault Statistics</button>
                 </div>
                 <div v-show="showVaultStats" class="mt-5">
@@ -168,6 +180,9 @@ export default {
         const properties = ref(null);
         const participant = ref(null);
         const referrer = ref(null);
+
+        const showAutoCompound = ref(false);
+        const autoCompoundPeriods = ref(0);
 
         const showVaultStats = ref(null);
 
@@ -355,6 +370,38 @@ export default {
             return stats.value[stat];
         }
 
+        const toggleAutoCompound = () => {
+            showAutoCompound.value = !showAutoCompound.value;
+        }
+
+        const autoCompound = async () => {
+            if(autoCompoundPeriods.value < 1) {
+                alerts.danger("Periods must be greater than zero");
+                return;
+            }
+            try {
+                loading.value = true;
+                const autocompound = new web3.eth.Contract(JSON.parse(store.state.settings.autocompound_abi), store.state.settings.autocompound_address);
+                const autocompoundProperties = await autocompound.methods.properties().call();
+                console.log(autocompoundProperties);
+                if(autoCompoundPeriods.value > autocompoundProperties.maxPeriods) {
+                    alerts.danger("Periods cannot be greater than " + autocompoundProperties.maxPeriods);
+                    loading.value = false;
+                    return;
+                }
+                const price = autoCompoundPeriods.value * autocompoundProperties.fee;
+                const gasPriceMultiplier = 1.2;
+                const gasMultiplier = 1.2;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const gas = Math.round(await autocompound.methods.start(autoCompoundPeriods.value).estimateGas({ from: store.state.wallet.address, value: price, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await autocompound.methods.start(autoCompoundPeriods.value).send({ from: store.state.wallet.address, value: price, gasPrice: gasPrice, gas: gas });
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            loading.value = false;
+        }
+
         const toggleVaultStats = () => {
             showVaultStats.value = !showVaultStats.value;
         }
@@ -386,6 +433,10 @@ export default {
             displayCurrency,
             showVaultStats,
             toggleVaultStats,
+            showAutoCompound,
+            toggleAutoCompound,
+            autoCompoundPeriods,
+            autoCompound,
         }
     }
 }
