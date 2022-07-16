@@ -6,7 +6,7 @@ return [
     'rpc_url' => env('RPC_URL', 'https://rinkeby.infura.io/v3/b8e7a65f07574f89a1424b075a31f605'),
     'block_explorer_url' => env('BLOCK_EXPLORER_URL', 'https://rinkeby.etherscan.io'),
     'addressbook_address' => env('ADDRESSBOOK_ADDRESS', '0xE26B21737a35B114Ec23c41ac949360b90A2b4Ea'),
-    'autocompound_address' => env('AUTOCOMPOUND_ADDRESS', '0x9aB5b6105D53E04a2406342479581aa817da3805'),
+    'autocompound_address' => env('AUTOCOMPOUND_ADDRESS', '0xd3C01a66A9deDF47B9b61BB1b30Ca9729ABD620c'),
     'claim_address' => env('CLAIM_ADDRESS', '0xBE520aad8EACd773FE96cA3deCF31A269Bdaa0C1'),
     'downline_address' => env('DOWNLINE_ADDRESS', '0xb9DB83cE7AbEe3016333Be80074951C3DCeB1831'),
     'payment_address' => env('PAYMENT_ADDRESS', '0xeF0939b3c2c64c03Dc11AAc9D7Ec7dB99d82654B'),
