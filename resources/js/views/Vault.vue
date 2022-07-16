@@ -25,13 +25,16 @@
                     <button @click="toggleAutoCompound" class="btn btn-link">Auto Compound</button>
                 </div>
                 <div v-show="showAutoCompound" class="mt-3">
-                    <hr/>
-                    <div class="alert alert-danger" role="alert"><strong>WARNING:</strong> The auto compound feature is currently in <strong>beta</strong>. Use at your own risk!</div>
-                    <div class="form-group">
-                        <label for="auto-compound-periods">Periods</label>
-                        <input v-model="autoCompoundPeriods" class="form-control" type="number" id="auto-compound-periods"/>
+                    <div v-show="autocompoundFull" class="alert alert-danger" role="alert">The autocompound contract is currently full. Please try again later.</div>
+                    <div v-show="!autocompoundFull">
+                        <hr/>
+                        <div class="alert alert-danger" role="alert"><strong>WARNING:</strong> The auto compound feature is currently in <strong>beta</strong>. Use at your own risk!</div>
+                        <div class="form-group">
+                            <label for="auto-compound-periods">Periods</label>
+                            <input v-model="autoCompoundPeriods" class="form-control" type="number" id="auto-compound-periods"/>
+                        </div>
+                        <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound</button>
                     </div>
-                    <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound</button>
                 </div>
                 <div class="text-right mt-3">
                     <button @click="toggleVaultStats" class="btn btn-link">Vault Statistics</button>
@@ -183,6 +186,18 @@ export default {
 
         const showAutoCompound = ref(false);
         const autoCompoundPeriods = ref(0);
+        const autocompoundStats = ref({
+            compounding: 0,
+            compounds: 0,
+        });
+        const autocompoundProperties = ref({
+            maxPeriods: 0,
+            period: 0,
+            fee: 0,
+            minPresaleBalance: 0,
+            minVaultBalance: 0,
+            maxParticipants: 0,
+        });
 
         const showVaultStats = ref(null);
 
@@ -239,6 +254,10 @@ export default {
             return participant.value.complete;
         });
 
+        const autocompoundFull = computed(() => {
+            return autocompoundStats.value.compounding < autocompoundProperties.value.maxParticipants;
+        });
+
         addEventListener("refresh", async () => {
             await update();
         });
@@ -262,6 +281,9 @@ export default {
                 }
                 const token = tokenContract();
                 balance.value = await token.methods.balanceOf(store.state.wallet.address).call();
+                const autocompound = autocompoundContract();
+                autocompoundStats.value = await autocompound.methods.stats().call();
+                autocompoundProperties.value = await autocompound.methods.properties().call();
                 console.log(participant.value);
             } catch (error) {
                 alerts.danger(error.message);
@@ -276,6 +298,10 @@ export default {
 
         const tokenContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
+        }
+
+        const autocompoundContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.autocompound_abi), store.state.settings.autocompound_address);
         }
 
         const deposit = async () => {
@@ -381,7 +407,7 @@ export default {
             }
             try {
                 loading.value = true;
-                const autocompound = new web3.eth.Contract(JSON.parse(store.state.settings.autocompound_abi), store.state.settings.autocompound_address);
+                const autocompound = autocompoundContract();
                 const autocompoundProperties = await autocompound.methods.properties().call();
                 console.log(autocompoundProperties);
                 if(autoCompoundPeriods.value > autocompoundProperties.maxPeriods) {
@@ -437,6 +463,7 @@ export default {
             toggleAutoCompound,
             autoCompoundPeriods,
             autoCompound,
+            autocompoundFull,
         }
     }
 }
