@@ -22,6 +22,7 @@
                     </div>
                 </div>
                 <div class="text-right mt-3">
+                    <button @click="toggleAutoCompound" class="btn btn-link">Auto Compound</button>
                 </div>
                 <div v-show="showAutoCompound" class="mt-3">
                     <hr/>
