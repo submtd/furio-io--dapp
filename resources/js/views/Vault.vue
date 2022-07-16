@@ -284,8 +284,8 @@ export default {
             try {
                 const contract = vaultContract();
                 const token = tokenContract();
-                const gasPriceMultiplier = 1.6;
-                const gasMultiplier = 1.6;
+                const gasPriceMultiplier = 1;
+                const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const amount = BigInt(quantity.value * 1000000000000000000);
                 const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.vault_address).call();
@@ -315,8 +315,8 @@ export default {
             loading.value = true;
             try {
                 const contract = vaultContract();
-                const gasPriceMultiplier = 1.6;
-                const gasMultiplier = 1.6;
+                const gasPriceMultiplier = 1;
+                const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const gas = Math.round(await contract.methods.compound().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await contract.methods.compound().send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
@@ -341,8 +341,8 @@ export default {
                 }
                 alerts.warning("waiting on response from wallet");
                 loading.value = true;
-                const gasPriceMultiplier = 1.6;
-                const gasMultiplier = 1.6;
+                const gasPriceMultiplier = 1;
+                const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const gas = Math.round(await contract.methods.claim().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await contract.methods.claim().send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
@@ -390,8 +390,8 @@ export default {
                     return;
                 }
                 const price = autoCompoundPeriods.value * autocompoundProperties.fee;
-                const gasPriceMultiplier = 1.6;
-                const gasMultiplier = 1.6;
+                const gasPriceMultiplier = 1;
+                const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const gas = Math.round(await autocompound.methods.start(autoCompoundPeriods.value).estimateGas({ from: store.state.wallet.address, value: price, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await autocompound.methods.start(autoCompoundPeriods.value).send({ from: store.state.wallet.address, value: price, gasPrice: gasPrice, gas: gas });
