@@ -194,8 +194,6 @@ export default {
             maxPeriods: 0,
             period: 0,
             fee: 0,
-            minPresaleBalance: 0,
-            minVaultBalance: 0,
             maxParticipants: 0,
         });
 
