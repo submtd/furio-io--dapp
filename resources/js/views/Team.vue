@@ -533,8 +533,8 @@ export default {
             try {
                 const downline = downlineContract();
                 const token = tokenContract();
-                const gasPriceMultiplier = 1.2;
-                const gasMultiplier = 1.2;
+                const gasPriceMultiplier = 1;
+                const gasMultiplier = 2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const amount = BigInt(buyQuantity.value * 5 * 1000000000000000000);
                 const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.downline_address).call();
@@ -557,8 +557,8 @@ export default {
             loading.value = true;
             try {
                 const downline = downlineContract();
-                const gasPriceMultiplier = 1.2;
-                const gasMultiplier = 1.2;
+                const gasPriceMultiplier = 1;
+                const gasMultiplier = 2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const gas = Math.round(await downline.methods.sell(sellQuantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await downline.methods.sell(sellQuantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
@@ -581,8 +581,8 @@ export default {
             try {
                 const token = tokenContract();
                 const vault = vaultContract();
-                const gasPriceMultiplier = 1.2;
-                const gasMultiplier = 1.2;
+                const gasPriceMultiplier = 1;
+                const gasMultiplier = 2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.vault_address).call();
                 if(allowance < sendAmount) {
@@ -616,8 +616,8 @@ export default {
             try {
                 const vault = vaultContract();
                 const token = tokenContract();
-                const gasPriceMultiplier = 1.2;
-                const gasMultiplier = 1.2;
+                const gasPriceMultiplier = 1;
+                const gasMultiplier = 2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.vault_address).call();
                 if(allowance < sendAmount) {
