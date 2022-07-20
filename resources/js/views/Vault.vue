@@ -253,7 +253,7 @@ export default {
         });
 
         const autocompoundFull = computed(() => {
-            return autocompoundStats.value.compounding < autocompoundProperties.value.maxParticipants;
+            return autocompoundStats.value.compounding >= autocompoundProperties.value.maxParticipants;
         });
 
         addEventListener("refresh", async () => {
