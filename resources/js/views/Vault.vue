@@ -1,6 +1,5 @@
 <template>
     <h1>Furvault</h1>
-    {{ lastAction }}
     <p class="mb-5">Earn up to 2.5% daily rewards by depositing in to the Furvault.</p>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
@@ -14,6 +13,9 @@
                     <input v-model="referrer" class="form-control" id="referrer"/>
                 </div>
                 <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2">Deposit</button>
+                <div v-show="lastAction" class="mb-2 text-center">
+                    Last action: <strong>{{ lastAction }}</strong>
+                </div>
                 <div class="row mt-3">
                     <div class="col-6">
                         <button @click="compound" class="btn btn-lg btn-info btn-block">Compound {{ availableDisplay }}</button>
