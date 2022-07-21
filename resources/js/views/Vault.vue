@@ -13,6 +13,9 @@
                     <input v-model="referrer" class="form-control" id="referrer"/>
                 </div>
                 <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2">Deposit</button>
+                <div v-show="lastAction" class="mb-2 text-center">
+                    Last action: <strong>{{ lastAction }}</strong>
+                </div>
                 <div class="row mt-3">
                     <div class="col-6">
                         <button @click="compound" class="btn btn-lg btn-info btn-block">Compound {{ availableDisplay }}</button>
@@ -160,12 +163,16 @@
 <script>
 import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
 import useAlerts from '../composables/useAlerts';
 import useBalances from '../composables/useBalances';
 import useDisplayCurrency from '../composables/useDisplayCurrency';
 
 export default {
     setup () {
+        TimeAgo.addDefaultLocale(en);
+        const timeAgo = new TimeAgo('en-US');
         const store = useStore();
         const alerts = useAlerts();
         const balances = useBalances();
@@ -272,6 +279,13 @@ export default {
             return autocompoundStats.value.compounding >= autocompoundProperties.value.maxParticipants;
         });
 
+        const lastAction = computed(() => {
+            if(!participant.value) {
+                return null;
+            }
+            return timeAgo.format(new Date(parseInt(participant.value.lastRewardUpdate) * 1000));
+        });
+
         addEventListener("refresh", async () => {
             await update();
         });
@@ -316,6 +330,7 @@ export default {
                     complete: participant.value.complete,
                     maxed_rate: participant.value.maxedRate,
                     direct_referrals: participant.value.directReferrals,
+                    last_reward_update: participant.value.lastRewardUpdate,
                     airdrop_sent: participant.value.airdropSent,
                     airdrop_received: participant.value.airdropReceived,
                 }).catch(error => {
@@ -517,6 +532,7 @@ export default {
             autoCompound,
             autocompoundFull,
             ac,
+            lastAction,
         }
     }
 }
