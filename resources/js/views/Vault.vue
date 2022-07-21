@@ -169,7 +169,8 @@ import useDisplayCurrency from '../composables/useDisplayCurrency';
 
 export default {
     setup () {
-        TimeAgo.addLocale(en);
+        TimeAgo.addDefaultLocale(en);
+        const timeAgo = new TimeAgo('en-US');
         const store = useStore();
         const alerts = useAlerts();
         const balances = useBalances();
@@ -280,7 +281,7 @@ export default {
             if(!participant.value) {
                 return null;
             }
-            return TimeAgo.format(new Date(participant.value.lastRewardUpdate));
+            return timeAgo.format(new Date(participant.value.lastRewardUpdate));
         });
 
         addEventListener("refresh", async () => {
