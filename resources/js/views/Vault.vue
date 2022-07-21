@@ -281,7 +281,7 @@ export default {
             if(!participant.value) {
                 return null;
             }
-            return timeAgo.format(new Date(parseint(participant.value.lastRewardUpdate)));
+            return timeAgo.format(new Date(parseInt(participant.value.lastRewardUpdate)));
         });
 
         addEventListener("refresh", async () => {
