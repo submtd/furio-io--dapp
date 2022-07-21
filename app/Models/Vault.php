@@ -16,6 +16,7 @@ class Vault extends Model
      * @var array
      */
     protected $fillable = [
+        'address_id',
         'start_time',
         'balance',
         'deposited',

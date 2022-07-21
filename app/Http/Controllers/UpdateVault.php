@@ -22,7 +22,9 @@ class UpdateVault extends Controller
         if (!$address = Address::where('address', $request->get('address'))->first()) {
             return response()->json([]);
         }
-        $vault = $address->vault()->firstOrNew([]);
+        $vault = $address->vault()->firstOrNew([
+            'address_id' => $address->id,
+        ]);
         $vault->fill([
             'start_time' => Carbon::createFromTimestamp($request->get('start_time') ?? $vault->start_time),
             'balance' => $request->get('balance') ?? $vault->balance,
