@@ -44,6 +44,7 @@ class UpdateVault extends Controller
             'complete' => $request->get('complete') ?? $vault->complete,
             'maxed_rate' => $request->get('maxed_rate') ?? $vault->maxed_rate,
             'direct_referrals' => $request->get('direct_referrals') ?? $vault->direct_referrals,
+            'last_reward_update' => $request->get('last_reward_update') ?? $vault->last_reward_update,
             'airdrop_sent' => $request->get('airdrop_sent') ?? $vault->airdrop_sent,
             'airdrop_received' => $request->get('airdrop_received') ?? $vault->airdrop_received,
         ]);

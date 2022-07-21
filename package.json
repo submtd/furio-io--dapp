@@ -26,6 +26,7 @@
         "postcss": "^8.1.14",
         "pusher-js": "^7.0.6",
         "query-string": "^7.1.1",
+        "relative-time-format": "^1.1.4",
         "resolve-url-loader": "^4.0.0",
         "sass": "^1.49.9",
         "sass-loader": "^12.6.0",

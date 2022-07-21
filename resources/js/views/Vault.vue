@@ -1,5 +1,6 @@
 <template>
     <h1>Furvault</h1>
+    {{ lastAction }}
     <p class="mb-5">Earn up to 2.5% daily rewards by depositing in to the Furvault.</p>
     <div class="row flex-row-reverse gx-5">
         <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
@@ -160,12 +161,15 @@
 <script>
 import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
 import useAlerts from '../composables/useAlerts';
 import useBalances from '../composables/useBalances';
 import useDisplayCurrency from '../composables/useDisplayCurrency';
 
 export default {
     setup () {
+        TimeAgo.addLocale(en);
         const store = useStore();
         const alerts = useAlerts();
         const balances = useBalances();
@@ -272,6 +276,13 @@ export default {
             return autocompoundStats.value.compounding >= autocompoundProperties.value.maxParticipants;
         });
 
+        const lastAction = computed(() => {
+            if(!participant.value) {
+                return null;
+            }
+            return TimeAgo.format(new Date(participant.value.lastRewardUpdate));
+        });
+
         addEventListener("refresh", async () => {
             await update();
         });
@@ -316,6 +327,7 @@ export default {
                     complete: participant.value.complete,
                     maxed_rate: participant.value.maxedRate,
                     direct_referrals: participant.value.directReferrals,
+                    last_reward_update: participant.value.lastRewardUpdate,
                     airdrop_sent: participant.value.airdropSent,
                     airdrop_received: participant.value.airdropReceived,
                 }).catch(error => {
@@ -517,6 +529,7 @@ export default {
             autoCompound,
             autocompoundFull,
             ac,
+            lastAction,
         }
     }
 }

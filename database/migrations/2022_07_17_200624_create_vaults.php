@@ -31,6 +31,7 @@ return new class extends Migration {
             $table->boolean('complete')->index();
             $table->string('maxed_rate');
             $table->string('direct_referrals')->index();
+            $table->timestamp('last_reward_update');
             $table->string('airdrop_sent');
             $table->string('airdrop_received');
             $table->timestamps();

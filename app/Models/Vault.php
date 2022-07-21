@@ -32,6 +32,7 @@ class Vault extends Model
         'complete',
         'maxed_rate',
         'direct_referrals',
+        'last_reward_update',
         'airdrop_sent',
         'airdrop_received',
     ];
