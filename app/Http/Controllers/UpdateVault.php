@@ -24,7 +24,7 @@ class UpdateVault extends Controller
         }
         $vault = $address->vault()->firstOrNew([]);
         $vault->fill([
-            'start_time' => Carbon::parse($request->get('start_time') ?? $vault->start_time),
+            'start_time' => Carbon::createFromTimestamp($request->get('start_time') ?? $vault->start_time),
             'balance' => $request->get('balance') ?? $vault->balance,
             'deposited' => $request->get('deposited') ?? $vault->deposited,
             'compounded' => $request->get('compounded') ?? $vault->compounded,
