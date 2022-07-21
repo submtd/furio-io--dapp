@@ -48,4 +48,14 @@ class Address extends Model implements AuthenticatableContract
     {
         return $this->hasOne(Avatar::class);
     }
+
+    /**
+     * Vault.
+     *
+     * @return HasOne
+     */
+    public function vault(): HasOne
+    {
+        return $this->hasOne(Vault::class);
+    }
 }

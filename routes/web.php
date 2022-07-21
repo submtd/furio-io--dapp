@@ -17,14 +17,7 @@ Route::group([
     Route::get('api/v1/logout', 'Logout');
     Route::post('api/v1/getpromo', 'GetPromo');
     Route::post('api/v1/updatetoken', 'UpdateToken');
-    Route::get('api/v1/totalsupply', static function () {
-        $totalSupply = Setting::firstOrNew(['name' => 'total_supply']);
-        return $totalSupply->value;
-    });
-    Route::get('api/v1/circulatingsupply', static function () {
-        $circulating = Setting::firstOrNew(['name' => 'circulating_supply']);
-        return $circulating->value;
-    });
+    Route::post('api/v1/vault', 'UpdateVault');
     Route::get('404', static function () {
         return response('not found', 404);
     });

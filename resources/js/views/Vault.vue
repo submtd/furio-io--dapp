@@ -183,6 +183,22 @@ export default {
         const properties = ref(null);
         const participant = ref(null);
         const referrer = ref(null);
+        const ac = ref({
+            stats: {
+                compounding: 0,
+                compounds: 0,
+            },
+            properties: {
+                maxPeriods: 0,
+                period: 0,
+                fee: 0,
+                maxParticipants: 0,
+            },
+            isCompounding: false,
+            remainingCompounds: 0,
+            lastCompound: 0,
+            totalCompounds: 0,
+        });
 
         const showAutoCompound = ref(false);
         const autoCompoundPeriods = ref(0);
@@ -283,6 +299,28 @@ export default {
                 autocompoundStats.value = await autocompound.methods.stats().call();
                 autocompoundProperties.value = await autocompound.methods.properties().call();
                 console.log(participant.value);
+                await axios.post("/api/v1/vault", {
+                    address: store.state.wallet.address,
+                    start_time: participant.value.startTime,
+                    balance: participant.value.balance,
+                    deposited: participant.value.deposited,
+                    compounded: participant.value.compounded,
+                    claimed: participant.value.claimed,
+                    taxed: participant.value.taxed,
+                    awarded: participant.value.awarded,
+                    negative: participant.value.negative,
+                    penalized: participant.value.penalized,
+                    maxed: participant.value.maxed,
+                    banned: participant.value.banned,
+                    team_wallet: participant.value.teamWallet,
+                    complete: participant.value.complete,
+                    maxed_rate: participant.value.maxedRate,
+                    direct_referrals: participant.value.directReferrals,
+                    airdrop_sent: participant.value.airdropSent,
+                    airdrop_received: participant.value.airdropReceived,
+                }).catch(error => {
+                    alerts.danger(error.message);
+                })
             } catch (error) {
                 alerts.danger(error.message);
             }
@@ -394,8 +432,24 @@ export default {
             return stats.value[stat];
         }
 
-        const toggleAutoCompound = () => {
-            showAutoCompound.value = !showAutoCompound.value;
+        const toggleAutoCompound = async () => {
+            loading.value = true;
+            try {
+                const autocompound = autocompoundContract();
+                ac.value.stats = await autocompound.methods.stats().call();
+                ac.value.properties = await autocompound.methods.properties().call();
+                ac.value.isCompounding = await autocompound.methods.compounding(store.state.wallet.address).call();
+                if(ac.value.isCompounding) {
+                    ac.value.remainingCompounds = await autocompound.methods.compoundsLeft(store.state.wallet.address).call();
+                    ac.value.lastCompound = await autocompound.methods.lastCompound(store.state.wallet.address).call();
+                    ac.value.totalCompounds = await autocompound.methods.totalCompounds(store.state.wallet.address).call();
+                }
+                console.log(ac);
+                showAutoCompound.value = !showAutoCompound.value;
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            loading.value = false;
         }
 
         const autoCompound = async () => {
@@ -462,6 +516,7 @@ export default {
             autoCompoundPeriods,
             autoCompound,
             autocompoundFull,
+            ac,
         }
     }
 }
