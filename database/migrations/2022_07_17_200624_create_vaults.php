@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->uuid('uuid')->unique();
             $table->bigInteger('address_id')->index();
-            $table->timestamp('start_time')->nullable();
+            $table->timestamp('start_time');
             $table->string('balance')->index();
             $table->string('deposited')->index();
             $table->string('compounded')->index();
