@@ -31,6 +31,7 @@ export default createStore({
             usdc: {
 
             },
+            eth:-1,
             referrer: null,
             loading: true,
         }
@@ -53,6 +54,9 @@ export default createStore({
         },
         balances(state, value) {
             state.balances = value;
+        },
+        eth(state, value) {
+            state.eth = value;
         },
         referrer(state, value) {
             state.referrer = value;
