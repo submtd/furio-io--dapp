@@ -159,16 +159,16 @@ export default () => {
         }
 
         wallet = await lookupAddress(address[0]);
+        let balance = await getETHBalance(wallet.attributes.address);
         const storedWallet = {
             address: wallet.attributes.address,
             shortAddress: wallet.attributes.shortAddress,
             nonce: wallet.attributes.nonce,
             loggedIn: true,
             name: wallet.attributes.name,
+            balance:balance
         };
         store.commit("wallet", storedWallet);
-        let balance = await getETHBalance(wallet.attributes.address);
-        store.commit("eth", balance);
         cookies.set("wallet", address[0]);
         dispatchEvent(new Event("refresh"));
     }
