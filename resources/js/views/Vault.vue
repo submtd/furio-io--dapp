@@ -161,7 +161,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useStore } from 'vuex';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
@@ -286,6 +286,38 @@ export default {
             return timeAgo.format(new Date(parseInt(participant.value.lastRewardUpdate) * 1000));
         });
 
+        watch(participant, async (value, oldValue) => {
+            if(oldValue != null) {
+                return;
+            }
+            if(value == null) {
+                return;
+            }
+            await axios.post("/api/v1/vault", {
+                address: store.state.wallet.address,
+                start_time: participant.value.startTime,
+                balance: participant.value.balance,
+                deposited: participant.value.deposited,
+                compounded: participant.value.compounded,
+                claimed: participant.value.claimed,
+                taxed: participant.value.taxed,
+                awarded: participant.value.awarded,
+                negative: participant.value.negative,
+                penalized: participant.value.penalized,
+                maxed: participant.value.maxed,
+                banned: participant.value.banned,
+                team_wallet: participant.value.teamWallet,
+                complete: participant.value.complete,
+                maxed_rate: participant.value.maxedRate,
+                direct_referrals: participant.value.directReferrals,
+                last_reward_update: participant.value.lastRewardUpdate,
+                airdrop_sent: participant.value.airdropSent,
+                airdrop_received: participant.value.airdropReceived,
+            }).catch(error => {
+                alerts.danger(error.message);
+            });
+        });
+
         addEventListener("refresh", async () => {
             await update();
         });
@@ -313,29 +345,6 @@ export default {
                 autocompoundStats.value = await autocompound.methods.stats().call();
                 autocompoundProperties.value = await autocompound.methods.properties().call();
                 console.log(participant.value);
-                await axios.post("/api/v1/vault", {
-                    address: store.state.wallet.address,
-                    start_time: participant.value.startTime,
-                    balance: participant.value.balance,
-                    deposited: participant.value.deposited,
-                    compounded: participant.value.compounded,
-                    claimed: participant.value.claimed,
-                    taxed: participant.value.taxed,
-                    awarded: participant.value.awarded,
-                    negative: participant.value.negative,
-                    penalized: participant.value.penalized,
-                    maxed: participant.value.maxed,
-                    banned: participant.value.banned,
-                    team_wallet: participant.value.teamWallet,
-                    complete: participant.value.complete,
-                    maxed_rate: participant.value.maxedRate,
-                    direct_referrals: participant.value.directReferrals,
-                    last_reward_update: participant.value.lastRewardUpdate,
-                    airdrop_sent: participant.value.airdropSent,
-                    airdrop_received: participant.value.airdropReceived,
-                }).catch(error => {
-                    alerts.danger(error.message);
-                })
             } catch (error) {
                 alerts.danger(error.message);
             }
