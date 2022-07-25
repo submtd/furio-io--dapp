@@ -45,7 +45,7 @@ export default {
             } catch (error) {
                 alerts.danger(error.message);
             }
-            loading.value = false;
+            //loading.value = false;
         }
 
         return {
