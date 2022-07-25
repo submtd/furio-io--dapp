@@ -41,7 +41,7 @@ export default {
             return initiative.value[0];
         });
 
-        const description = compouted(() => {
+        const description = computed(() => {
             if(! initiative.value) {
                 return "";
             }
@@ -68,6 +68,7 @@ export default {
         return {
             loading,
             name,
+            description,
         }
     }
 
