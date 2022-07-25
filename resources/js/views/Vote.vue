@@ -12,13 +12,14 @@
                 <h5>{{ name }}</h5>
                 <p>{{ description }}</p>
                 <p v-show="!active" class="text-muted">This initiative is not active yet.</p>
-                <p v-show="active" class="text-muted">This initiative is active.</p>
-                <div class="row">
-                    <div class="col-md-6">
-                        <button class="btn btn-lg btn-info btn-block mb-2">Yes</button>
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-lg btn-info btn-block mb-2">No</button>
+                <div v-show="active">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button @click="voteYes" class="btn btn-lg btn-info btn-block mb-2">Yes</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button @click="voteNo" class="btn btn-lg btn-info btn-block mb-2">No</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,7 +78,30 @@ export default {
                 initiative.value = await contract.methods.getInitiative(1).call();
                 console.log(initiative.value);
             } catch (error) {
-                alert(error.message);
+                alerts.danger(error.message);
+            }
+            loading.value = false;
+        }
+
+        const voteYes = async () => {
+            await vote(true);
+        }
+
+        const voteNo = async () => {
+            await vote(false);
+        }
+
+        const vote = async (decision) => {
+            loading.value = true;
+            try {
+                const contract = voteContract();
+                const gasPriceMultiplier = 1;
+                const gasMultiplier = 1.5;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const gas = Math.round(await contract.methods.vote(1, decision).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await contract.methods.vote(1, decision).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
+            } catch (error) {
                 alerts.danger(error.message);
             }
             loading.value = false;
@@ -88,6 +112,8 @@ export default {
             name,
             description,
             active,
+            voteYes,
+            voteNo,
         }
     }
 
