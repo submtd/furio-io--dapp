@@ -40,9 +40,10 @@ export default {
             loading.value = true;
             try {
                 const contract = voteContract();
-                initiative.value = await contract.methods.owner().call();
+                initiative.value = await contract.methods.getInitiative(1).call();
                 console.log(initiative.value);
             } catch (error) {
+                alert(error.message);
                 alerts.danger(error.message);
             }
             loading.value = false;
