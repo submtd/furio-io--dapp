@@ -13,6 +13,14 @@
                 <p>{{ description }}</p>
                 <p v-show="!active" class="text-muted">This initiative is not active yet.</p>
                 <p v-show="active" class="text-muted">This initiative is active.</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-lg btn-info btn-block mb-2">Yes</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-lg btn-info btn-block mb-2">No</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-lg-5">
