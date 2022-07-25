@@ -9,7 +9,8 @@
                 </div>
             </div>
             <div v-show="!loading">
-                <h3>{{ name }}</h3>
+                <h5>{{ name }}</h5>
+                <p>{{ description }}</p>
             </div>
         </div>
         <div class="col-lg-5">
@@ -38,6 +39,13 @@ export default {
                 return "";
             }
             return initiative.value[0];
+        });
+
+        const description = compouted(() => {
+            if(! initiative.value) {
+                return "";
+            }
+            return initiative.value[1];
         });
 
         onMounted(async () => {
