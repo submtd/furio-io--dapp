@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="col-lg-5">
-            <div class="row">
+            <div v-show="voted" class="row">
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
@@ -58,6 +58,7 @@ export default {
         const alerts = useAlerts();
         const loading = ref(false);
         const initiative = ref(null);
+        const voted = ref(false);
 
         const voteContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.vote_abi), store.state.settings.vote_address);
@@ -108,7 +109,7 @@ export default {
             try {
                 const contract = voteContract();
                 initiative.value = await contract.methods.getInitiative(1).call();
-                console.log(initiative.value);
+                voted.value = await contract.methods.voted(1, store.state.wallet.address).call();
             } catch (error) {
                 alerts.danger(error.message);
             }
@@ -149,6 +150,7 @@ export default {
             voteNo,
             totalVotes,
             yesVotes,
+            voted,
         }
     }
 
