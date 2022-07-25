@@ -10,6 +10,7 @@ import Swap from "../views/Swap.vue";
 import Vault from "../views/Vault.vue";
 import Participant from "../views/Participant.vue";
 import Downline from "../views/Downline.vue";
+import Vote from "../views/Vote.vue";
 import NotFound from "../views/NotFound.vue";
 
 const routes = [
@@ -67,6 +68,11 @@ const routes = [
         path: "/connect",
         name: "Connect",
         component: Connect,
+    },
+    {
+        path: "/vote",
+        name: "Vote",
+        component: Vote,
     },
     {
         path: "/:catchAll(.*)",
