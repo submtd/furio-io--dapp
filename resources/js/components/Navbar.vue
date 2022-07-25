@@ -26,6 +26,9 @@
                         <li class="nav-item">
                             <router-link :to="{ name: 'Downline' }" class="nav-link" active-class="active">Downline NFTs</router-link>
                         </li>
+                        <li class="nav-item">
+                            <router-link :to="{ name: 'Vote' }" class="nav-link" active-class="active">Vote</router-link>
+                        </li>
                     </ul>
                     <div class="d-flex">
                         <ul class="navbar-nav flex-column text-right">
