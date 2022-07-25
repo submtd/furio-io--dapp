@@ -28,16 +28,12 @@
                     <button @click="toggleAutoCompound" class="btn btn-link">Auto Compound</button>
                 </div>
                 <div v-show="showAutoCompound" class="mt-3">
-                    <div v-show="autocompoundFull" class="alert alert-danger" role="alert">The autocompound contract is currently full. Please try again later.</div>
-                    <div v-show="!autocompoundFull">
-                        <hr/>
-                        <div class="alert alert-danger" role="alert"><strong>WARNING:</strong> The auto compound feature is currently in <strong>beta</strong>. Use at your own risk!</div>
-                        <div class="form-group">
-                            <label for="auto-compound-periods">Periods</label>
-                            <input v-model="autoCompoundPeriods" class="form-control" type="number" id="auto-compound-periods"/>
-                        </div>
-                        <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound</button>
+                    <hr/>
+                    <div class="form-group">
+                        <label for="auto-compound-periods">Periods</label>
+                        <input v-model="autoCompoundPeriods" class="form-control" type="number" id="auto-compound-periods"/>
                     </div>
+                    <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound</button>
                 </div>
                 <div class="text-right mt-3">
                     <button @click="toggleVaultStats" class="btn btn-link">Vault Statistics</button>
@@ -276,7 +272,8 @@ export default {
         });
 
         const autocompoundFull = computed(() => {
-            return autocompoundStats.value.compounding >= autocompoundProperties.value.maxParticipants;
+            return false;
+            //return autocompoundStats.value.compounding >= autocompoundProperties.value.maxParticipants;
         });
 
         const lastAction = computed(() => {
@@ -344,6 +341,7 @@ export default {
                 const autocompound = autocompoundContract();
                 autocompoundStats.value = await autocompound.methods.stats().call();
                 autocompoundProperties.value = await autocompound.methods.properties().call();
+                console.log(autocompoundProperties.value);
                 console.log(participant.value);
             } catch (error) {
                 alerts.danger(error.message);
