@@ -11,6 +11,7 @@ use App\Abis\Presale;
 use App\Abis\Swap;
 use App\Abis\Token;
 use App\Abis\Vault;
+use App\Abis\Vote;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
@@ -33,6 +34,7 @@ class SettingsService
         $settings['swap_abi'] = Swap::toString();
         $settings['token_abi'] = Token::toString();
         $settings['vault_abi'] = Vault::toString();
+        $settings['vote_abi'] = Vote::toString();
         $settings['server_time'] = now()->timestamp;
         $settings['referrer'] = session()->get('ref');
 
