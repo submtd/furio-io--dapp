@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import useAlerts from "../composables/useAlerts";
 
@@ -32,6 +32,13 @@ export default {
         const voteContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.vote_abi), store.state.settings.vote_address);
         }
+
+        const name = computed(() => {
+            if(! initiative.value) {
+                return "";
+            }
+            return initiative.value[0];
+        });
 
         onMounted(async () => {
             await update();
@@ -52,7 +59,7 @@ export default {
 
         return {
             loading,
-            initiative,
+            name,
         }
     }
 
