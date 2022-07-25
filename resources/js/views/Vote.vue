@@ -25,6 +25,24 @@
             </div>
         </div>
         <div class="col-lg-5">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Yes Votes</p>
+                            <p class="card-text"><strong>{{ yesVotes }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">No Votes</p>
+                            <p class="card-text"><strong>{{ totalVotes - yesVotes }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -67,6 +85,20 @@ export default {
             return timestamp >= initiative.value[2] && timestamp <= initiative.value[3];
         });
 
+        const totalVotes = computed(() => {
+            if(! initiative.value) {
+                return 0;
+            }
+            return initiative.value[4];
+        });
+
+        const yesVotes = computed(() => {
+            if(! initiative.value) {
+                return 0;
+            }
+            return initiative.value[5];
+        });
+
         onMounted(async () => {
             await update();
         });
@@ -101,6 +133,7 @@ export default {
                 const gas = Math.round(await contract.methods.vote(1, decision).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await contract.methods.vote(1, decision).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
+                await update();
             } catch (error) {
                 alerts.danger(error.message);
             }
@@ -114,6 +147,8 @@ export default {
             active,
             voteYes,
             voteNo,
+            totalVotes,
+            yesVotes,
         }
     }
 
