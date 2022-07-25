@@ -101,6 +101,10 @@ export default {
             return initiative.value[5];
         });
 
+        addEventListener("refresh", async () => {
+            await update();
+        });
+
         onMounted(async () => {
             await update();
         });
