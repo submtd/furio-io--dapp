@@ -12,7 +12,7 @@
                 <h5>{{ name }}</h5>
                 <p>{{ description }}</p>
                 <p v-show="!active" class="text-muted">This initiative is not active yet.</p>
-                <div v-show="active">
+                <div v-show="active && !voted">
                     <div class="row">
                         <div class="col-md-6">
                             <button @click="voteYes" class="btn btn-lg btn-info btn-block mb-2">Yes</button>
@@ -22,6 +22,7 @@
                         </div>
                     </div>
                 </div>
+                <p v-show="active && voted">You have already voted on this initiative.</p>
             </div>
         </div>
         <div class="col-lg-5">
