@@ -26,7 +26,7 @@ export default {
         const store = useStore();
         const alerts = useAlerts();
         const loading = ref(false);
-        const initiative = ref({});
+        const initiative = ref(null);
 
         const voteContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.vote_abi), store.state.settings.vote_address);
@@ -40,7 +40,7 @@ export default {
             loading.value = true;
             try {
                 const contract = voteContract();
-                initiative.value = await contract.methods.getInitiative(1).call();
+                initiative.value = await contract.methods.owner().call();
                 console.log(initiative.value);
             } catch (error) {
                 alerts.danger(error.message);
