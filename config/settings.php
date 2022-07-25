@@ -15,5 +15,6 @@ return [
     'swap_address' => env('SWAP_ADDRESS', '0x3f35cf2D0b6450294baa309Eb510e1B7E004e5fa'),
     'token_address' => env('TOKEN_ADDRESS', '0x6be4206809aB796059d30013f70c0e73326151F0'),
     'vault_address' => env('VAULT_ADDRESS', '0xeE01c3AabB75ACd37E65BCD43e600c83CC56536D'),
+    'vote_address' => env('VOTE_ADDRESS', '0x5f8Fa12dbe4461c70B402aB9A733DdBc50A66019'),
     'payment_decimals' => 18,
 ];
