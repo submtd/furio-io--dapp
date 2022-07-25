@@ -22,7 +22,7 @@
                         </div>
                     </div>
                 </div>
-                <p v-show="active && voted">You have already voted on this initiative.</p>
+                <p v-show="active && voted" class="text-muted">You have already voted on this initiative.</p>
             </div>
         </div>
         <div class="col-lg-5">
