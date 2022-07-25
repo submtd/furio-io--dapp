@@ -11,6 +11,8 @@
             <div v-show="!loading">
                 <h5>{{ name }}</h5>
                 <p>{{ description }}</p>
+                <p v-show="!active" class="text-muted">This initiative is not active yet.</p>
+                <p v-show="active" class="text-muted">This initiative is active.</p>
             </div>
         </div>
         <div class="col-lg-5">
@@ -48,6 +50,14 @@ export default {
             return initiative.value[1];
         });
 
+        const active = computed(() => {
+            if(! initiative.value) {
+                return false;
+            }
+            const timestamp = Date.now() / 1000;
+            return timestamp >= initiative.value[2] && timestamp <= initiative.value[3];
+        });
+
         onMounted(async () => {
             await update();
         });
@@ -69,6 +79,7 @@ export default {
             loading,
             name,
             description,
+            active,
         }
     }
 
