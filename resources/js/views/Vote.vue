@@ -9,6 +9,7 @@
                 </div>
             </div>
             <div v-show="!loading">
+                <h3>{{ initiative[0] }}</h3>
             </div>
         </div>
         <div class="col-lg-5">
