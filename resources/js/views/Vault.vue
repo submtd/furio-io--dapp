@@ -27,13 +27,41 @@
                 <div class="text-right mt-3">
                     <button @click="toggleAutoCompound" class="btn btn-link">Auto Compound</button>
                 </div>
-                <div v-show="showAutoCompound" class="mt-3">
+                <div v-show="ac.show" class="mt-3">
                     <hr/>
-                    <div class="form-group">
-                        <label for="auto-compound-periods">Periods</label>
-                        <input v-model="autoCompoundPeriods" class="form-control" type="number" id="auto-compound-periods"/>
+                    <div v-show="!ac.isCompounding">
+                        <div class="form-group">
+                            <label for="auto-compound-periods">Periods</label>
+                            <input v-model="autoCompoundPeriods" class="form-control" min="0" :max="ac.properties.maxPeriods" type="number" id="auto-compound-periods"/>
+                        </div>
+                        <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound ({{ autoCompoundPrice }} BNB)</button>
                     </div>
-                    <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound ({{ autoCompoundPrice }} BNB)</button>
+                    <div v-show="ac.isCompounding" class="row">
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <p class="card-title">Remaining Compounds</p>
+                                    <p class="card-text"><strong>{{ ac.remainingCompounds }}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <p class="card-title">Last Compound</p>
+                                    <p class="card-text"><strong>{{ ac.lastCompound }}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <p class="card-title">Total Compounds</p>
+                                    <p class="card-text"><strong>{{ ac.totalCompounds }}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="text-right mt-3">
                     <button @click="toggleVaultStats" class="btn btn-link">Vault Statistics</button>
@@ -187,6 +215,7 @@ export default {
         const participant = ref(null);
         const referrer = ref(null);
         const ac = ref({
+            show: false,
             stats: {
                 compounding: 0,
                 compounds: 0,
@@ -202,19 +231,7 @@ export default {
             lastCompound: 0,
             totalCompounds: 0,
         });
-
-        const showAutoCompound = ref(false);
         const autoCompoundPeriods = ref(0);
-        const autocompoundStats = ref({
-            compounding: 0,
-            compounds: 0,
-        });
-        const autocompoundProperties = ref({
-            maxPeriods: 0,
-            period: 0,
-            fee: 0,
-            maxParticipants: 0,
-        });
 
         const showVaultStats = ref(null);
 
@@ -269,11 +286,6 @@ export default {
                 return false;
             }
             return participant.value.complete;
-        });
-
-        const autocompoundFull = computed(() => {
-            return false;
-            //return autocompoundStats.value.compounding >= autocompoundProperties.value.maxParticipants;
         });
 
         const lastAction = computed(() => {
@@ -339,10 +351,14 @@ export default {
                 const token = tokenContract();
                 balance.value = await token.methods.balanceOf(store.state.wallet.address).call();
                 const autocompound = autocompoundContract();
-                autocompoundStats.value = await autocompound.methods.stats().call();
-                autocompoundProperties.value = await autocompound.methods.properties().call();
-                console.log(autocompoundProperties.value);
-                console.log(participant.value);
+                ac.value.stats = await autocompound.methods.stats().call();
+                ac.value.properties = await autocompound.methods.properties().call();
+                ac.value.isCompounding = await autocompound.methods.compounding(store.state.wallet.address).call();
+                if(ac.value.isCompounding) {
+                    ac.value.remainingCompounds = await autocompound.methods.compoundsLeft(store.state.wallet.address).call();
+                    ac.value.lastCompound = await autocompound.methods.lastCompound(store.state.wallet.address).call();
+                    ac.value.totalCompounds = await autocompound.methods.totalCompounds(store.state.wallet.address).call();
+                }
             } catch (error) {
                 alerts.danger(error.message);
             }
@@ -455,23 +471,7 @@ export default {
         }
 
         const toggleAutoCompound = async () => {
-            loading.value = true;
-            try {
-                const autocompound = autocompoundContract();
-                ac.value.stats = await autocompound.methods.stats().call();
-                ac.value.properties = await autocompound.methods.properties().call();
-                ac.value.isCompounding = await autocompound.methods.compounding(store.state.wallet.address).call();
-                if(ac.value.isCompounding) {
-                    ac.value.remainingCompounds = await autocompound.methods.compoundsLeft(store.state.wallet.address).call();
-                    ac.value.lastCompound = await autocompound.methods.lastCompound(store.state.wallet.address).call();
-                    ac.value.totalCompounds = await autocompound.methods.totalCompounds(store.state.wallet.address).call();
-                }
-                console.log(ac);
-                showAutoCompound.value = !showAutoCompound.value;
-            } catch (error) {
-                alerts.danger(error.message);
-            }
-            loading.value = false;
+            ac.value.show = !ac.value.show;
         }
 
         const autoCompoundPrice = computed(() => {
@@ -489,20 +489,19 @@ export default {
             try {
                 loading.value = true;
                 const autocompound = autocompoundContract();
-                const autocompoundProperties = await autocompound.methods.properties().call();
-                console.log(autocompoundProperties);
-                if(autoCompoundPeriods.value > autocompoundProperties.maxPeriods) {
-                    alerts.danger("Periods cannot be greater than " + autocompoundProperties.maxPeriods);
+                if(autoCompoundPeriods.value > ac.value.properties.maxPeriods) {
+                    alerts.danger("Periods cannot be greater than " + ac.value.properties.maxPeriods);
                     loading.value = false;
                     return;
                 }
-                const price = autoCompoundPeriods.value * autocompoundProperties.fee;
+                const price = autoCompoundPeriods.value * ac.value.properties.fee;
                 const gasPriceMultiplier = 1;
                 const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const gas = Math.round(await autocompound.methods.start(autoCompoundPeriods.value).estimateGas({ from: store.state.wallet.address, value: price, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await autocompound.methods.start(autoCompoundPeriods.value).send({ from: store.state.wallet.address, value: price, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
+                await update();
             } catch (error) {
                 alerts.danger(error.message);
             }
