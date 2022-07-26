@@ -215,7 +215,7 @@ export default {
         const participant = ref(null);
         const referrer = ref(null);
         const ac = ref({
-            show: false,
+            show: true,
             stats: {
                 compounding: 0,
                 compounds: 0,
