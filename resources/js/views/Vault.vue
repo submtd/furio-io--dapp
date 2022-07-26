@@ -239,7 +239,7 @@ export default {
                 return "Never";
             }
             let date = new Date(ac.value.lastCompound * 1000);
-            return date.toLocaleString("en-us");
+            return timeAgo.format(date);
         });
         const autoCompoundPeriods = ref(0);
 
