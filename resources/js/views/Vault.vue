@@ -49,7 +49,7 @@
                             <div class="card h-100">
                                 <div class="card-body text-center">
                                     <p class="card-title">Last Compound</p>
-                                    <p class="card-text"><strong>{{ ac.lastCompound }}</strong></p>
+                                    <p class="card-text"><strong>{{ lastAutoCompound }}</strong></p>
                                 </div>
                             </div>
                         </div>
@@ -230,6 +230,16 @@ export default {
             remainingCompounds: 0,
             lastCompound: 0,
             totalCompounds: 0,
+        });
+        const lastAutoCompound = computed(() => {
+            if(ac.value.totalCompounds == 0) {
+                return "Never";
+            }
+            if(ac.value.lastCompound == 0) {
+                return "Never";
+            }
+            let date = new Date(ac.value.lastCompound * 1000);
+            return date.toLocaleString("en-us");
         });
         const autoCompoundPeriods = ref(0);
 
@@ -545,6 +555,7 @@ export default {
             autoCompoundPrice,
             ac,
             lastAction,
+            lastAutoCompound,
         }
     }
 }
