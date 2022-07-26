@@ -24,14 +24,11 @@
                         <button @click="claim" class="btn btn-lg btn-secondary btn-block">Claim {{ availableDisplay }}</button>
                     </div>
                 </div>
-                <div class="text-right mt-3">
-                    <button @click="toggleAutoCompound" class="btn btn-link">Auto Compound</button>
-                </div>
-                <div v-show="ac.show" class="mt-3">
-                    <hr/>
+                <div class="mt-3">
+                    <h6 class="text-center">Auto Compound</h6>
                     <div v-show="!ac.isCompounding">
                         <div class="form-group">
-                            <label for="auto-compound-periods">Periods</label>
+                            <label for="auto-compound-periods">Auto Compound Periods</label>
                             <input v-model="autoCompoundPeriods" class="form-control" min="0" :max="ac.properties.maxPeriods" type="number" id="auto-compound-periods"/>
                         </div>
                         <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound ({{ autoCompoundPrice }} BNB)</button>
@@ -40,7 +37,7 @@
                         <div class="col-md-4">
                             <div class="card h-100">
                                 <div class="card-body text-center">
-                                    <p class="card-title">Remaining Compounds</p>
+                                    <p class="card-title">Remaining Auto Compounds</p>
                                     <p class="card-text"><strong>{{ ac.remainingCompounds }}</strong></p>
                                 </div>
                             </div>
@@ -48,7 +45,7 @@
                         <div class="col-md-4">
                             <div class="card h-100">
                                 <div class="card-body text-center">
-                                    <p class="card-title">Last Compound</p>
+                                    <p class="card-title">Last Auto Compound</p>
                                     <p class="card-text"><strong>{{ lastAutoCompound }}</strong></p>
                                 </div>
                             </div>
@@ -56,7 +53,7 @@
                         <div class="col-md-4">
                             <div class="card h-100">
                                 <div class="card-body text-center">
-                                    <p class="card-title">Total Compounds</p>
+                                    <p class="card-title">Total Auto Compounds</p>
                                     <p class="card-text"><strong>{{ ac.totalCompounds }}</strong></p>
                                 </div>
                             </div>
