@@ -37,7 +37,7 @@
                         <div class="col-md-4">
                             <div class="card h-100">
                                 <div class="card-body text-center">
-                                    <p class="card-title">Remaining Auto Compounds</p>
+                                    <p class="card-title">Remaining</p>
                                     <p class="card-text"><strong>{{ ac.remainingCompounds }}</strong></p>
                                 </div>
                             </div>
@@ -45,7 +45,7 @@
                         <div class="col-md-4">
                             <div class="card h-100">
                                 <div class="card-body text-center">
-                                    <p class="card-title">Last Auto Compound</p>
+                                    <p class="card-title">Last</p>
                                     <p class="card-text"><strong>{{ lastAutoCompound }}</strong></p>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                         <div class="col-md-4">
                             <div class="card h-100">
                                 <div class="card-body text-center">
-                                    <p class="card-title">Total Auto Compounds</p>
+                                    <p class="card-title">Total</p>
                                     <p class="card-text"><strong>{{ ac.totalCompounds }}</strong></p>
                                 </div>
                             </div>
