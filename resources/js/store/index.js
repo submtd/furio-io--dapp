@@ -13,6 +13,7 @@ export default createStore({
                 nonce: null,
                 loggedIn: false,
                 name: null,
+                balance:-1
             },
             presaleNft: {
                 updated: false,
@@ -31,6 +32,7 @@ export default createStore({
             usdc: {
 
             },
+            eth:-1,
             referrer: null,
             loading: true,
         }

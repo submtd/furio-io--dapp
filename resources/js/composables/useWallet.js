@@ -110,6 +110,7 @@ export default () => {
             // Switch to correct network.
             await checkNetwork();
             await loadWallet();
+
             alerts.clear();
             //router.push("/");
         } catch (error) {
@@ -156,13 +157,16 @@ export default () => {
         if(wallet && address[0] == wallet.attributes.address) {
             return;
         }
+
         wallet = await lookupAddress(address[0]);
+        let balance = await getETHBalance(wallet.attributes.address);
         const storedWallet = {
             address: wallet.attributes.address,
             shortAddress: wallet.attributes.shortAddress,
             nonce: wallet.attributes.nonce,
             loggedIn: true,
             name: wallet.attributes.name,
+            balance:balance
         };
         store.commit("wallet", storedWallet);
         cookies.set("wallet", address[0]);
@@ -178,6 +182,16 @@ export default () => {
         } catch (error) {
             alerts.danger(error.message);
             return disconnect();
+        }
+    }
+
+    const getETHBalance = async (address) =>{
+        try{            
+            let balance = await web3.eth.getBalance(address, 'latest');
+            console.log(address, balance)
+            return parseFloat(web3.utils.fromWei(balance));
+        }catch(e){
+            return e;
         }
     }
 
