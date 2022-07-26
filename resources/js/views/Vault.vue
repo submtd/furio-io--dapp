@@ -33,7 +33,7 @@
                         <label for="auto-compound-periods">Periods</label>
                         <input v-model="autoCompoundPeriods" class="form-control" type="number" id="auto-compound-periods"/>
                     </div>
-                    <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound</button>
+                    <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound ({{ autoCompoundPrice }} BNB)</button>
                 </div>
                 <div class="text-right mt-3">
                     <button @click="toggleVaultStats" class="btn btn-link">Vault Statistics</button>
@@ -474,6 +474,13 @@ export default {
             loading.value = false;
         }
 
+        const autoCompoundPrice = computed(() => {
+            if(!ac.value) {
+                return 0;
+            }
+            return displayCurrency.format(ac.value.properties.fee * autoCompoundPeriods.value);
+        });
+
         const autoCompound = async () => {
             if(autoCompoundPeriods.value < 1) {
                 alerts.danger("Periods must be greater than zero");
@@ -538,6 +545,7 @@ export default {
             autoCompoundPeriods,
             autoCompound,
             autocompoundFull,
+            autoCompoundPrice,
             ac,
             lastAction,
         }
