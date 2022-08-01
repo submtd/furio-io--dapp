@@ -27,7 +27,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Sold</p>
-                            <p class="card-text"><strong>{{ sold }}</strong> out of {{ maxForSale }}</p>
+                            <p class="card-text"><strong>{{ sold }} out of {{ maxForSale }}</strong></p>
                         </div>
                     </div>
                 </div>
