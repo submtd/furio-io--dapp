@@ -15,9 +15,9 @@
                     <h5>Buy $FURB</h5>
                     <div class="form-group">
                         <label for="buy-quantity">Quantity</label>
-                        <input v-model="buyQuantity" :max="available" min="0" type="number" class="form-control" id="buy-quantity"/>
+                        <input v-model="quantity" :max="available" min="0" type="number" class="form-control" id="buy-quantity"/>
                     </div>
-                    <button @click="buy" class="btn btn-sm btn-info btn-block mb-2">Buy ({{ displayPrice * buyQuantity }} USDC)</button>
+                    <button @click="buy" class="btn btn-sm btn-info btn-block mb-2">Buy ({{ displayPrice * quantity }} USDC)</button>
                 </div>
             </div>
         </div>
@@ -168,14 +168,14 @@ export default {
                 //const gasPriceMultiplier = 1.2;
                 //const gasMultiplier = 1.2;
                 //const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
-                //const amount = BigInt(buyQuantity.value * 5 * 1000000000000000000);
+                //const amount = BigInt(quantity.value * 5 * 1000000000000000000);
                 //const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.downline_address).call();
                 //if(allowance < amount) {
                     //const approveGas = Math.round(await token.methods.approve(store.state.settings.downline_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                     //await token.methods.approve(store.state.settings.downline_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
                 //}
-                //const gas = Math.round(await downline.methods.buy(buyQuantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                //const result = await downline.methods.buy(buyQuantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                //const gas = Math.round(await downline.methods.buy(quantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                //const result = await downline.methods.buy(quantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 //alerts.info("Transaction successful! TXID: " + result.blockHash);
                 alerts.clear();
             } catch (error) {
