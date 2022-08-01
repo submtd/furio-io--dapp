@@ -7,19 +7,18 @@
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
-            <div v-show="type == 0">
-                <p>Presale has not started yet.</p>
-            </div>
-            <div v-show="type == 6">
-                <p>Presale has ended.</p>
-            </div>
             <div v-show="!loading">
-                <h5>Buy $FURB</h5>
-                <div class="form-group">
-                    <label for="buy-quantity">Quantity</label>
-                    <input v-model="buyQuantity" :max="available" min="0" type="number" class="form-control" id="buy-quantity"/>
+                <div v-show="!canBuy">
+                    <p>You are not able to purchase $FURB at this time.</p>
                 </div>
-                <button @click="buy" class="btn btn-sm btn-info btn-block mb-2">Buy</button>
+                <div v-show="canBuy">
+                    <h5>Buy $FURB</h5>
+                    <div class="form-group">
+                        <label for="buy-quantity">Quantity</label>
+                        <input v-model="buyQuantity" :max="available" min="0" type="number" class="form-control" id="buy-quantity"/>
+                    </div>
+                    <button @click="buy" class="btn btn-sm btn-info btn-block mb-2">Buy ({{ displayPrice * buyQuantity }} USDC)</button>
+                </div>
             </div>
         </div>
         <div class="col-lg-5">
@@ -27,8 +26,8 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-body text-center">
-                            <p class="card-title">Total Sold</p>
-                            <p class="card-text"><strong>{{ sold }}</strong></p>
+                            <p class="card-title">Sold</p>
+                            <p class="card-text"><strong>{{ sold }}</strong> out of {{ maxForSale }}</p>
                         </div>
                     </div>
                 </div>
@@ -36,7 +35,23 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Purchased</p>
-                            <p class="card-text"><strong>{{ purchased }}</strong></p>
+                            <p class="card-text"><strong>{{ purchased }} out of {{ maxPerWallet }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Minimum Reward Rate</p>
+                            <p class="card-text"><strong>{{ minRewardRate / 100 }}%</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Minimum Vault Balance</p>
+                            <p class="card-text"><strong>{{ displayCurrency.format(minVaultBalance) }}$FUR</strong></p>
                         </div>
                     </div>
                 </div>
@@ -58,10 +73,29 @@ export default {
         const displayCurrency = useDisplayCurrency();
         const loading = ref(false);
         const type = ref(0);
-        const start = ref(0);
         const sold = ref(0);
         const purchased = ref(0);
-        const vaultBalance = ref(0);
+        const maxForSale = ref(0);
+        const maxPerAddress = ref(0);
+        const minRewardRate = ref(0);
+        const minVaultBalance = ref(0);
+        const price = ref(0);
+        const canBuy = ref(false);
+        const quantity = ref(0);
+
+        const displayPrice = computed(() => {
+            return displayCurrency.format(price.value);
+        });
+
+        const available = computed(() => {
+            let totalAvailable = maxForSale.value - sold.value;
+            let addressAvailable = maxPerAddress.value - purchased.value;
+            if(totalAvailable > addressAvailable) {
+                return addressAvailable;
+            } else {
+                return totalAvailable;
+            }
+        });
 
         addEventListener("refresh", async () => {
             await update();
@@ -85,10 +119,40 @@ export default {
                 const presale = presaleContract();
                 const vault = vaultContract();
                 type.value = await presale.methods.presaleType().call();
-                start.value = await presale.methods.getStart().call();
-                sold.value = displayCurrency.format(await presale.methods.getSold().call());
-                purchased.value = displayCurrency.format(await presale.methods.getPurchased(store.state.wallet.address).call());
-                vaultBalance.value = await vault.methods.participantBalance(store.state.wallet.address).call();
+                if(type.value > 0) {
+                    sold.value = displayCurrency.format(await presale.methods.getSold().call());
+                    purchased.value = displayCurrency.format(await presale.methods.getPurchased(store.state.wallet.address).call());
+                }
+                if(type.value > 0 && type.value < 6) {
+                    canBuy.value = true;
+                    maxForSale.value = displayCurrency.format(await presale.methods.getMaxForSale(type.value).call());
+                    maxPerAddress.value = displayCurrency.format(await presale.methods.getMaxPerAddress(type.value).call());
+                    minRewardRate.value = await presale.methods.getMinRewardRate(type.value).call();
+                    minVaultBalance.value = displayCurrency.format(await presale.methods.getMinVaultBalance(type.value).call());
+                    price.value = await presale.methods.getPrice(type.value).call();
+                    if(sold.value >= maxForSale.value) {
+                        alerts.warning("Presale is sold out");
+                        canBuy.value = false;
+                    }
+                    if(purchased.value >= maxPerAddress.value) {
+                        alerts.warning("You have reached your maximum purchase limit");
+                        canBuy.value = false;
+                    }
+                    if(minRewardRate.value > 0) {
+                        const rewardRate = vault.methods.rewardRate(store.state.wallet.address).call();
+                        if(rewardRate < minRewardRate) {
+                            alerts.warning("You need to increase your reward rate to " + minRewardRate / 100 + "% to buy $FURB.");
+                            canBuy.value = false;
+                        }
+                    }
+                    if(minVaultBalance.value > 0) {
+                        const vaultBalance = vault.methods.participantBalance(store.state.wallet.address).call();
+                        if(vaultBalance < minVaultBalance) {
+                            alerts.warning("You need to increase your vault balance to " + displayCurrency.format(minVaultBalance) + " to buy $FURB.");
+                            canBuy.value = false;
+                        }
+                    }
+                }
             } catch (error) {
                 alerts.danger(error.message);
             }
@@ -123,12 +187,20 @@ export default {
 
         return {
             store,
+            displayCurrency,
             loading,
             type,
-            start,
             sold,
             purchased,
+            maxForSale,
+            maxPerAddress,
+            minRewardRate,
+            minVaultBalance,
+            displayPrice,
+            canBuy,
             buy,
+            quantity,
+            available,
         }
     }
 
