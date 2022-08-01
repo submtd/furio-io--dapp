@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import useAlerts from "../composables/useAlerts";
 import useDisplayCurrency from '../composables/useDisplayCurrency';
