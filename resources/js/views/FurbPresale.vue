@@ -1,0 +1,136 @@
+<template>
+    <h1>$FURB Presale</h1>
+    <div class="row flex-row-reverse gx-5">
+        <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
+            <div v-show="loading" class="text-center">
+                <div class="spinner-border m-5" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div v-show="type == 0">
+                <p>Presale has not started yet.</p>
+            </div>
+            <div v-show="type == 6">
+                <p>Presale has ended.</p>
+            </div>
+            <div v-show="!loading">
+                <h5>Buy $FURB</h5>
+                <div class="form-group">
+                    <label for="buy-quantity">Quantity</label>
+                    <input v-model="buyQuantity" :max="available" min="0" type="number" class="form-control" id="buy-quantity"/>
+                </div>
+                <button @click="buy" class="btn btn-sm btn-info btn-block mb-2">Buy</button>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Total Sold</p>
+                            <p class="card-text"><strong>{{ sold }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Purchased</p>
+                            <p class="card-text"><strong>{{ purchased }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import { ref, onMounted } from "vue";
+import { useStore } from "vuex";
+import useAlerts from "../composables/useAlerts";
+import useDisplayCurrency from '../composables/useDisplayCurrency';
+
+export default {
+    setup () {
+        const store = useStore();
+        const alerts = useAlerts();
+        const displayCurrency = useDisplayCurrency();
+        const loading = ref(false);
+        const type = ref(0);
+        const start = ref(0);
+        const sold = ref(0);
+        const purchased = ref(0);
+        const vaultBalance = ref(0);
+
+        addEventListener("refresh", async () => {
+            await update();
+        });
+
+        onMounted(async () => {
+            await update();
+        });
+
+        const presaleContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.furbpresale_abi), store.state.settings.furbpresale_address);
+        }
+
+        const vaultContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.vault_abi), store.state.settings.vault_address);
+        }
+
+        const update = async () => {
+            loading.value = true;
+            try {
+                const presale = presaleContract();
+                const vault = vaultContract();
+                type.value = await presale.methods.presaleType().call();
+                start.value = await presale.methods.getStart().call();
+                sold.value = displayCurrency.format(await presale.methods.getSold().call());
+                purchased.value = displayCurrency.format(await presale.methods.getPurchased(store.state.wallet.address).call());
+                vaultBalance.value = await vault.methods.participantBalance(store.state.wallet.address).call();
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            loading.value = false;
+        }
+
+        const buy = async () => {
+            alerts.warning("waiting on response from wallet");
+            loading.value = true;
+            try {
+                //const downline = downlineContract();
+                //const token = tokenContract();
+                //const gasPriceMultiplier = 1.2;
+                //const gasMultiplier = 1.2;
+                //const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                //const amount = BigInt(buyQuantity.value * 5 * 1000000000000000000);
+                //const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.downline_address).call();
+                //if(allowance < amount) {
+                    //const approveGas = Math.round(await token.methods.approve(store.state.settings.downline_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                    //await token.methods.approve(store.state.settings.downline_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
+                //}
+                //const gas = Math.round(await downline.methods.buy(buyQuantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                //const result = await downline.methods.buy(buyQuantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                //alerts.info("Transaction successful! TXID: " + result.blockHash);
+                alerts.clear();
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            dispatchEvent(new Event("refresh"));
+            loading.value = false;
+        }
+
+        return {
+            store,
+            loading,
+            type,
+            start,
+            sold,
+            purchased,
+            buy,
+        }
+    }
+
+}
+</script>
