@@ -35,7 +35,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Purchased</p>
-                            <p class="card-text"><strong>{{ purchased }} out of {{ maxPerAddress }}</strong></p>
+                            <p class="card-text"><strong>{{ purchased }} out of {{ displayCurrency.format(maxPerAddress) }}</strong></p>
                         </div>
                     </div>
                 </div>
