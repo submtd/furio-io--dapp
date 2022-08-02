@@ -113,6 +113,10 @@ export default {
             return new web3.eth.Contract(JSON.parse(store.state.settings.vault_abi), store.state.settings.vault_address);
         }
 
+        const paymentContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.payment_abi), store.state.settings.payment_address);
+        }
+
         const update = async () => {
             loading.value = true;
             try {
@@ -163,20 +167,20 @@ export default {
             alerts.warning("waiting on response from wallet");
             loading.value = true;
             try {
-                //const downline = downlineContract();
-                //const token = tokenContract();
-                //const gasPriceMultiplier = 1.2;
-                //const gasMultiplier = 1.2;
-                //const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
-                //const amount = BigInt(quantity.value * 5 * 1000000000000000000);
-                //const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.downline_address).call();
-                //if(allowance < amount) {
-                    //const approveGas = Math.round(await token.methods.approve(store.state.settings.downline_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                    //await token.methods.approve(store.state.settings.downline_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
-                //}
-                //const gas = Math.round(await downline.methods.buy(quantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                //const result = await downline.methods.buy(quantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
-                //alerts.info("Transaction successful! TXID: " + result.blockHash);
+                const presale = presaleContract();
+                const payment = paymentContract();
+                const gasPriceMultiplier = 1.2;
+                const gasMultiplier = 1.2;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const amount = BigInt(quantity.value * price.value);
+                const allowance = await payment.methods.allowance(store.state.wallet.address, store.state.settings.presale_address).call();
+                if(allowance < amount) {
+                    const approveGas = Math.round(await payment.methods.approve(store.state.settings.presale_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                    await payment.methods.approve(store.state.settings.presale_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
+                }
+                const gas = Math.round(await presale.methods.presale(quantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await presale.methods.presale(quantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
                 alerts.clear();
             } catch (error) {
                 alerts.danger(error.message);
