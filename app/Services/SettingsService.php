@@ -6,14 +6,13 @@ use App\Abis\AddressBook;
 use App\Abis\AutoCompound;
 use App\Abis\Claim;
 use App\Abis\Downline;
+use App\Abis\FurbPresale;
 use App\Abis\Payment;
 use App\Abis\Presale;
 use App\Abis\Swap;
 use App\Abis\Token;
 use App\Abis\Vault;
 use App\Abis\Vote;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 
 class SettingsService
 {
@@ -29,6 +28,7 @@ class SettingsService
         $settings['autocompound_abi'] = AutoCompound::toString();
         $settings['claim_abi'] = Claim::toString();
         $settings['downline_abi'] = Downline::toString();
+        $settings['furbpresale_abi'] = FurbPresale::toString();
         $settings['payment_abi'] = Payment::toString();
         $settings['presale_abi'] = Presale::toString();
         $settings['swap_abi'] = Swap::toString();

@@ -16,5 +16,8 @@ return [
     'token_address' => env('TOKEN_ADDRESS', '0x6be4206809aB796059d30013f70c0e73326151F0'),
     'vault_address' => env('VAULT_ADDRESS', '0xeE01c3AabB75ACd37E65BCD43e600c83CC56536D'),
     'vote_address' => env('VOTE_ADDRESS', '0x5f8Fa12dbe4461c70B402aB9A733DdBc50A66019'),
+    'furbpresale_address' => env('FURBPRESALE_ADDRESS'),
+    'furbtoken_address' => env('FURBTOKEN_ADDRESS'),
+    'furbstake_address' => env('FURBSTAKE_ADDRESS'),
     'payment_decimals' => 18,
 ];

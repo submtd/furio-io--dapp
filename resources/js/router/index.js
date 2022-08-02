@@ -10,6 +10,7 @@ import Swap from "../views/Swap.vue";
 import Vault from "../views/Vault.vue";
 import Participant from "../views/Participant.vue";
 import Downline from "../views/Downline.vue";
+import FurbPresale from "../views/FurbPresale.vue";
 import Vote from "../views/Vote.vue";
 import NotFound from "../views/NotFound.vue";
 
@@ -48,6 +49,11 @@ const routes = [
         path: "/downline",
         name: "Downline",
         component: Downline,
+    },
+    {
+        path: "/furbpresale",
+        name: "FurbPresale",
+        component: FurbPresale,
     },
     {
         path: "/profile",
