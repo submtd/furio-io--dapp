@@ -173,6 +173,7 @@ export default {
                 const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const amount = BigInt(quantity.value * price.value);
+                alert(amount);
                 const allowance = await payment.methods.allowance(store.state.wallet.address, store.state.settings.furbpresale_address).call();
                 if(allowance < amount) {
                     const approveGas = Math.round(await payment.methods.approve(store.state.settings.furbpresale_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
