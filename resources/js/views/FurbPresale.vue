@@ -179,8 +179,9 @@ export default {
                     const approveGas = Math.round(await payment.methods.approve(store.state.settings.furbpresale_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                     await payment.methods.approve(store.state.settings.furbpresale_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
                 }
-                const gas = Math.round(await presale.methods.presale(BigInt(quantity.value * "1000000000000000000")).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                const result = await presale.methods.presale(BigInt(quantity.value * "1000000000000000000")).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                const qty = BigInt(quantity.value * "1000000000000000000");
+                const gas = Math.round(await presale.methods.presale(qty).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await presale.methods.presale(qty).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
                 alerts.clear();
             } catch (error) {
