@@ -174,10 +174,10 @@ export default {
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const amount = BigInt(quantity.value * price.value);
                 alert(amount);
-                const allowance = await payment.methods.allowance(store.state.wallet.address, store.state.settings.presale_address).call();
+                const allowance = await payment.methods.allowance(store.state.wallet.address, store.state.settings.furbpresale_address).call();
                 if(allowance < amount) {
-                    const approveGas = Math.round(await payment.methods.approve(store.state.settings.presale_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                    await payment.methods.approve(store.state.settings.presale_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
+                    const approveGas = Math.round(await payment.methods.approve(store.state.settings.furbpresale_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                    await payment.methods.approve(store.state.settings.furbpresale_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
                 }
                 const gas = Math.round(await presale.methods.presale(quantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await presale.methods.presale(quantity.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
