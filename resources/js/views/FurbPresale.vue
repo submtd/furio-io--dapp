@@ -130,7 +130,7 @@ export default {
                 if(type.value > 0 && type.value < 6) {
                     canBuy.value = true;
                     maxForSale.value = displayCurrency.format(await presale.methods.getMaxForSale(type.value).call());
-                    maxPerAddress.value = displayCurrency.format(await presale.methods.getMaxPerAddress(type.value).call());
+                    maxPerAddress.value = await presale.methods.getMaxPerAddress(type.value).call();
                     minRewardRate.value = await presale.methods.getMinRewardRate(type.value).call();
                     minVaultBalance.value = displayCurrency.format(await presale.methods.getMinVaultBalance(type.value).call());
                     price.value = await presale.methods.getPrice(type.value).call();
