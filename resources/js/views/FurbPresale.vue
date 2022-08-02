@@ -138,7 +138,7 @@ export default {
                         alerts.warning("Presale is sold out");
                         canBuy.value = false;
                     }
-                    if(purchased.value >= maxPerAddress.value) {
+                    if(maxPerAddress > 0 && purchased.value >= maxPerAddress.value) {
                         alerts.warning("You have reached your maximum purchase limit");
                         canBuy.value = false;
                     }
