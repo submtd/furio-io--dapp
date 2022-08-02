@@ -51,7 +51,7 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Minimum Vault Balance</p>
-                            <p class="card-text"><strong>{{ displayCurrency.format(minVaultBalance) }} $FUR</strong></p>
+                            <p class="card-text"><strong>{{ minVaultBalance }} $FUR</strong></p>
                         </div>
                     </div>
                 </div>
