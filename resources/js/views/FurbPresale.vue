@@ -150,7 +150,7 @@ export default {
                         }
                     }
                     if(minVaultBalance.value > 0) {
-                        const vaultBalance = vault.methods.participantBalance(store.state.wallet.address).call();
+                        const vaultBalance = displayCurrency.format(vault.methods.participantBalance(store.state.wallet.address).call());
                         if(vaultBalance < minVaultBalance) {
                             alerts.warning("You need to increase your vault balance to " + displayCurrency.format(minVaultBalance) + " to buy $FURB.");
                             canBuy.value = false;
