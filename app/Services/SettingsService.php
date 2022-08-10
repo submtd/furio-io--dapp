@@ -7,6 +7,7 @@ use App\Abis\AutoCompound;
 use App\Abis\Claim;
 use App\Abis\Downline;
 use App\Abis\FurbPresale;
+use App\Abis\LPStaking;
 use App\Abis\Payment;
 use App\Abis\Presale;
 use App\Abis\Swap;
@@ -29,6 +30,7 @@ class SettingsService
         $settings['claim_abi'] = Claim::toString();
         $settings['downline_abi'] = Downline::toString();
         $settings['furbpresale_abi'] = FurbPresale::toString();
+        $settings['lpstaking_abi'] = LPStaking::toString();
         $settings['payment_abi'] = Payment::toString();
         $settings['presale_abi'] = Presale::toString();
         $settings['swap_abi'] = Swap::toString();

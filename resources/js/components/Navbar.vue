@@ -18,6 +18,9 @@
                             <router-link :to="{ name: 'Vault' }" class="nav-link" active-class="active">Furvault</router-link>
                         </li>
                         <li class="nav-item">
+                            <router-link :to="{ name: 'LPStaking' }" class="nav-link" active-class="active">Furpool</router-link>
+                        </li>
+                        <li class="nav-item">
                             <router-link :to="{ name: 'Claim' }" class="nav-link" active-class="active">Claim</router-link>
                         </li>
                         <li class="nav-item">
@@ -25,9 +28,6 @@
                         </li>
                         <li class="nav-item">
                             <router-link :to="{ name: 'Downline' }" class="nav-link" active-class="active">Downline NFTs</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'FurbPresale' }" class="nav-link" active-class="active">$FURB Presale</router-link>
                         </li>
                     </ul>
                     <div class="d-flex">
