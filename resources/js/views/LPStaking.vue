@@ -111,7 +111,7 @@ export default {
                 totalStakers.value = await contract.methods.stakerNum().call();
                 totalStaked.value = await contract.methods.totalStakingAmount().call();
             } catch (error) {
-                //alerts.danger(error.message);
+                alerts.danger(error.message);
             }
             balances.refresh();
             loading.value = false;
