@@ -131,7 +131,7 @@ export default {
                 const allowance = await payment.methods.allowance(store.state.wallet.address, store.state.settings.lpswap_address).call();
                 alert(allowance);
                 if(allowance < amount) {
-                    const approveGas = Math.round(await payment.methods.approve(store.state.settings.lswap_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                    const approveGas = Math.round(await payment.methods.approve(store.state.settings.lpswap_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                     await payment.methods.approve(store.state.settings.lpswap_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
                 }
                 const swapGas = Math.round(await swap.methods.buyLP(store.state.settings.payment_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
