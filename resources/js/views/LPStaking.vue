@@ -135,6 +135,7 @@ export default {
                 }
                 const swapGas = Math.round(await swap.methods.buyLP(store.state.settings.payment_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 await swap.methods.buyLP(store.state.settings.payment_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: swapGas });
+                alert("hello");
                 const factory = factoryContract();
                 const lpAddress = await factory.methods.getPair(store.state.settings.payment_address, store.state.settings.token_address).call();
                 const pair = new web3.eth.Contract(JSON.parse(store.state.settings.pair_abi), lpAddress);
