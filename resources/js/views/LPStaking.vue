@@ -129,6 +129,7 @@ export default {
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const amount = BigInt(quantity.value * "1000000000000000000");
                 const allowance = await payment.methods.allowance(store.state.wallet.address, store.state.settings.lpswap_address).call();
+                alert(allowance);
                 if(allowance < amount) {
                     const approveGas = Math.round(await payment.methods.approve(store.state.settings.lswap_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                     await payment.methods.approve(store.state.settings.lpswap_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
