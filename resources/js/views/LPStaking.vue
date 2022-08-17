@@ -86,10 +86,6 @@ export default {
             await update();
         });
 
-        const swapContract = () => {
-            return new web3.eth.Contract(JSON.parse(store.state.settings.lpswap_abi), store.state.settings.lpswap_address);
-        }
-
         const stakingContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.lpstaking_abi), store.state.settings.lpstaking_address);
         }
@@ -121,32 +117,19 @@ export default {
             alerts.warning("waiting on response from wallet");
             loading.value = true;
             try {
-                const swap = swapContract();
                 const staking = stakingContract();
                 const payment = paymentContract();
                 const gasPriceMultiplier = 1;
                 const gasMultiplier = 1.5;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const amount = BigInt(quantity.value * "1000000000000000000");
-                const allowance = await payment.methods.allowance(store.state.wallet.address, store.state.settings.lpswap_address).call();
+                const allowance = await payment.methods.allowance(store.state.wallet.address, store.state.settings.lpstaking_address).call();
                 if(allowance < amount) {
-                    const approveGas = Math.round(await payment.methods.approve(store.state.settings.lpswap_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                    await payment.methods.approve(store.state.settings.lpswap_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
+                    const approveGas = Math.round(await payment.methods.approve(store.state.settings.lpstaking_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                    await payment.methods.approve(store.state.settings.lpstaking_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
                 }
-                const swapGas = Math.round(await swap.methods.buyLP(store.state.settings.payment_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                await swap.methods.buyLP(store.state.settings.payment_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: swapGas });
-                alert("hello");
-                const factory = factoryContract();
-                const lpAddress = await factory.methods.getPair(store.state.settings.payment_address, store.state.settings.token_address).call();
-                const pair = new web3.eth.Contract(JSON.parse(store.state.settings.pair_abi), lpAddress);
-                const lpBalance = await pair.methods.balanceOf(store.state.wallet.address).call();
-                const lpAllowance = await pair.methods.allowance(store.state.wallet.address, store.state.settings.lpstaking_address).call();
-                if(lpAllowance < lpBalance) {
-                    const lpApproveGas = Math.round(await pair.methods.approve(store.state.settings.lpstaking_address, lpBalance).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                    await pair.methods.approve(store.state.settings.lpstaking_address, lpBalance).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: lpApproveGas });
-                }
-                const gas = Math.round(await staking.methods.stake(lpBalance, duration.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                const result = await staking.methods.stake(lpBalance, duration.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                const gas = Math.round(await staking.methods.stake(store.state.settings.payment_address, amount, duration.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await staking.methods.stake(store.state.settings.payment_address, amount, duration.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
                 dispatchEvent(new Event("refresh"));
                 await update();
