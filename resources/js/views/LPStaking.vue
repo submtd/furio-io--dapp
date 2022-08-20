@@ -13,8 +13,8 @@
                         <select v-model="duration" class="form-control" id="duration">
                             <option value="0">No limit</option>
                             <option value="1">30 days</option>
-                            <option value="3">60 days</option>
-                            <option value="4">90 days</option>
+                            <option value="2">60 days</option>
+                            <option value="3">90 days</option>
                         </select>
                     </div>
                 </div>
