@@ -48,7 +48,23 @@
                     <div class="card h-100">
                         <div class="card-body text-center">
                             <p class="card-title">Total Staked</p>
-                            <p class="card-text"><strong>{{ totalStaked }} USDC</strong></p>
+                            <p class="card-text"><strong>{{ displayCurrency.format(totalStaked) }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">LP Supply</p>
+                            <p class="card-text"><strong>{{ displayCurrency.format(lpSupply) }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-title">Available</p>
+                            <p class="card-text"><strong>{{ displayCurrency.format(available) }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -77,6 +93,7 @@ export default {
         const balance = ref(0);
         const totalStakers = ref(0);
         const totalStaked = ref(0);
+        const lpSupply = ref(0);
 
         addEventListener("refresh", async () => {
             await update();
@@ -102,10 +119,10 @@ export default {
             loading.value = true;
             try {
                 const contract = stakingContract();
-                available.value = await contract.methods.pendingReward(store.state.wallet.address).call();
-                balance.value = await contract.methods.balanceOf(store.state.wallet.address).call();
+                lpSupply.value = await contract.methods._LPSupply_.call();
                 totalStakers.value = await contract.methods.totalStakerNum().call();
                 totalStaked.value = await contract.methods.totalStakingAmount().call();
+                available.value = await contract.methods.pendingReward(store.state.wallet.address).call();
             } catch (error) {
                 //alerts.danger(error.message);
             }
@@ -186,6 +203,7 @@ export default {
             balance,
             totalStakers,
             totalStaked,
+            lpSupply,
             stake,
             claim,
             withdraw,
