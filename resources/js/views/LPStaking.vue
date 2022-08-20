@@ -119,7 +119,7 @@ export default {
             loading.value = true;
             try {
                 const contract = stakingContract();
-                lpSupply.value = await contract.methods._LPSupply_.call();
+                lpSupply.value = await contract.methods._LPSupply_().call();
                 totalStakers.value = await contract.methods.totalStakerNum().call();
                 totalStaked.value = await contract.methods.totalStakingAmount().call();
                 available.value = await contract.methods.pendingReward(store.state.wallet.address).call();
