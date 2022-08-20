@@ -20,11 +20,14 @@
                 </div>
                 <button @click="stake" class="btn btn-lg btn-info btn-block mb-2">Stake</button>
                 <div class="row mt-3">
-                    <div class="col-6">
-                        <button @click="claim" class="btn btn-lg btn-info btn-block">Claim {{ available }}</button>
+                    <div class="col-4">
+                        <button @click="claim" class="btn btn-lg btn-info btn-block">Claim</button>
                     </div>
-                    <div class="col-6">
-                        <button @click="withdraw" class="btn btn-lg btn-secondary btn-block">Withdraw {{ balance }}</button>
+                    <div class="col-4">
+                        <button @click="compound" class="btn btn-lg btn-success btn-block">Compound</button>
+                    </div>
+                    <div class="col-4">
+                        <button @click="unstake" class="btn btn-lg btn-secondary btn-block">Unstake</button>
                     </div>
                 </div>
             </div>
@@ -175,7 +178,26 @@ export default {
             loading.value = false;
         }
 
-        const withdraw = async () => {
+        const compound = async () => {
+            alerts.warning("waiting on response from wallet");
+            loading.value = true;
+            try {
+                const contract = stakingContract();
+                const gasPriceMultiplier = 1;
+                const gasMultiplier = 1.5;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const gas = Math.round(await contract.methods.compound().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await contract.methods.compound().send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            dispatchEvent(new Event("refresh"));
+            await update();
+            loading.value = false;
+        }
+
+        const unstake = async () => {
             alerts.warning("waiting on response from wallet");
             loading.value = true;
             try {
@@ -206,7 +228,8 @@ export default {
             lpSupply,
             stake,
             claim,
-            withdraw,
+            compound,
+            unstake,
         }
     }
 }
