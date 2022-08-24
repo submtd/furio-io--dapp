@@ -61,12 +61,16 @@
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <p class="text-center">28 day claims: <strong>{{ twentyEightDayClaims }}</strong></p>
+                    <div class="mb-3">
+                        <div class="card mb-3">
+                            <div class="card-body text-center">
+                                <p class="card-title">Your 28 Day Claims</p>
+                                <p class="card-text"><strong>{{ twentyEightDayClaims }}</strong></p>
+                            </div>
+                        </div>
                         <table class="table table-striped">
                             <thead>
-                                <tr><th>28 Day Claims</th><th>Status</th><th>Reward Rate</th>
-                                </tr>
+                                <tr><th>28 Day Claims</th><th>Status</th><th>Reward Rate</th></tr>
                             </thead>
                             <tbody>
                                 <tr class="table-success"><td>0</td><td>Positive</td><td>2.5%</td></tr>
