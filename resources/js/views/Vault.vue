@@ -61,14 +61,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <div class="card mb-3">
+                    <div class="mt-3">
+                        <div class="card">
                             <div class="card-body text-center">
                                 <p class="card-title">Your 28 Day Claims</p>
                                 <p class="card-text"><strong>{{ twentyEightDayClaims }}</strong></p>
                             </div>
                         </div>
-                        <table class="table table-striped">
+                        <table class="table table-striped mt-3">
                             <thead>
                                 <tr><th>28 Day Claims</th><th>Status</th><th>Reward Rate</th></tr>
                             </thead>
