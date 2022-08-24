@@ -1,73 +1,75 @@
 <template>
-    <h1>Furpool</h1>
-    <div class="row flex-row-reverse gx-5">
-        <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
-            <div v-show="!loading">
+    <div>
+        <h1>Furpool</h1>
+        <div class="row flex-row-reverse gx-5">
+            <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
+                <div v-show="!loading">
+                    <div class="row">
+                        <div class="form-group col-8">
+                            <label for="quantity">Amount</label>
+                            <input v-model="quantity" type="number" class="form-control" id="quantity"/>
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="duration">Duration</label>
+                            <select v-model="duration" class="form-control" id="duration">
+                                <option value="0">No limit</option>
+                                <option value="1">30 days</option>
+                                <option value="2">60 days</option>
+                                <option value="3">90 days</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button @click="stake" class="btn btn-lg btn-info btn-block mb-2">Stake</button>
+                    <div class="row mt-3">
+                        <div class="col-4">
+                            <button @click="claim" class="btn btn-lg btn-info btn-block">Claim</button>
+                        </div>
+                        <div class="col-4">
+                            <button @click="compound" class="btn btn-lg btn-success btn-block">Compound</button>
+                        </div>
+                        <div class="col-4">
+                            <button @click="unstake" class="btn btn-lg btn-secondary btn-block">Unstake</button>
+                        </div>
+                    </div>
+                </div>
+                <div v-show="loading" class="text-center">
+                    <div class="spinner-border m-5" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
                 <div class="row">
-                    <div class="form-group col-8">
-                        <label for="quantity">Amount</label>
-                        <input v-model="quantity" type="number" class="form-control" id="quantity"/>
-                    </div>
-                    <div class="form-group col-4">
-                        <label for="duration">Duration</label>
-                        <select v-model="duration" class="form-control" id="duration">
-                            <option value="0">No limit</option>
-                            <option value="1">30 days</option>
-                            <option value="2">60 days</option>
-                            <option value="3">90 days</option>
-                        </select>
-                    </div>
-                </div>
-                <button @click="stake" class="btn btn-lg btn-info btn-block mb-2">Stake</button>
-                <div class="row mt-3">
-                    <div class="col-4">
-                        <button @click="claim" class="btn btn-lg btn-info btn-block">Claim</button>
-                    </div>
-                    <div class="col-4">
-                        <button @click="compound" class="btn btn-lg btn-success btn-block">Compound</button>
-                    </div>
-                    <div class="col-4">
-                        <button @click="unstake" class="btn btn-lg btn-secondary btn-block">Unstake</button>
-                    </div>
-                </div>
-            </div>
-            <div v-show="loading" class="text-center">
-                <div class="spinner-border m-5" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-5">
-            <div class="row">
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <p class="card-title">Total Stakers</p>
-                            <p class="card-text"><strong>{{ totalStakers }}</strong></p>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <p class="card-title">Total Stakers</p>
+                                <p class="card-text"><strong>{{ totalStakers }}</strong></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <p class="card-title">Total Staked</p>
-                            <p class="card-text"><strong>{{ displayCurrency.format(totalStaked) }}</strong></p>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <p class="card-title">Total Staked</p>
+                                <p class="card-text"><strong>{{ displayCurrency.format(totalStaked) }}</strong></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <p class="card-title">LP Supply</p>
-                            <p class="card-text"><strong>{{ displayCurrency.format(lpSupply) }}</strong></p>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <p class="card-title">LP Supply</p>
+                                <p class="card-text"><strong>{{ displayCurrency.format(lpSupply) }}</strong></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <p class="card-title">Available</p>
-                            <p class="card-text"><strong>{{ displayCurrency.format(available) }}</strong></p>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <p class="card-title">Available</p>
+                                <p class="card-text"><strong>{{ displayCurrency.format(available) }}</strong></p>
+                            </div>
                         </div>
                     </div>
                 </div>

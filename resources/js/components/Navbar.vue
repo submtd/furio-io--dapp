@@ -21,9 +21,6 @@
                             <router-link :to="{ name: 'LPStaking' }" class="nav-link" active-class="active">Furpool</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link :to="{ name: 'Claim' }" class="nav-link" active-class="active">Claim</router-link>
-                        </li>
-                        <li class="nav-item">
                             <router-link :to="{ name: 'Team', params: { teamaddress: teamaddress }}" class="nav-link" active-class="active">Team</router-link>
                         </li>
                         <li class="nav-item">
