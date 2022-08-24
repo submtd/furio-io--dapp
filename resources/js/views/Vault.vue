@@ -64,8 +64,7 @@
                     <div class="mt-3">
                         <div class="card">
                             <div class="card-body text-center">
-                                <p class="card-title">Your 28 Day Claims</p>
-                                <p class="card-text"><strong>{{ twentyEightDayClaims }}</strong></p>
+                                <p class="card-text">Your 28 Day Claims: <strong>{{ twentyEightDayClaims }}</strong></p>
                                 <div class="text-right mt-3">
                                     <button @click="toggleRates" class="btn btn-link">show rates</button>
                                 </div>
