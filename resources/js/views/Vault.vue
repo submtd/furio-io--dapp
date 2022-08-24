@@ -66,43 +66,46 @@
                             <div class="card-body text-center">
                                 <p class="card-title">Your 28 Day Claims</p>
                                 <p class="card-text"><strong>{{ twentyEightDayClaims }}</strong></p>
+                                <div class="text-right mt-3">
+                                    <button @click="toggleRates" class="btn btn-link">show rates</button>
+                                </div>
+                                <table v-show="showRates" class="table table-striped mt-3">
+                                    <thead>
+                                        <tr><th>28 Day Claims</th><th>Status</th><th>Reward Rate</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="table-success"><td>0</td><td>Positive</td><td>2.5%</td></tr>
+                                        <tr class="table-success"><td>1</td><td>Positive</td><td>1.75%</td></tr>
+                                        <tr class="table-success"><td>2</td><td>Positive</td><td>1.75%</td></tr>
+                                        <tr class="table-success"><td>3</td><td>Positive</td><td>1.75%</td></tr>
+                                        <tr class="table-success"><td>4</td><td>Positive</td><td>1.75%</td></tr>
+                                        <tr class="table-success"><td>5</td><td>Positive</td><td>1.25%</td></tr>
+                                        <tr class="table-success"><td>6</td><td>Positive</td><td>1.25%</td></tr>
+                                        <tr class="table-success"><td>7</td><td>Positive</td><td>1.25%</td></tr>
+                                        <tr class="table-success"><td>8</td><td>Positive</td><td>1.25%</td></tr>
+                                        <tr class="table-success"><td>9</td><td>Positive</td><td>1%</td></tr>
+                                        <tr class="table-success"><td>10</td><td>Positive</td><td>1%</td></tr>
+                                        <tr class="table-success"><td>11</td><td>Positive</td><td>1%</td></tr>
+                                        <tr class="table-success"><td>12</td><td>Positive</td><td>1%</td></tr>
+                                        <tr class="table-warning"><td>13</td><td>Neutral</td><td>0.5%</td></tr>
+                                        <tr class="table-warning"><td>14</td><td>Neutral</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>15</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>16</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>17</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>18</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>19</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>20</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>21</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>22</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>23</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>24</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>25</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>26</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>27</td><td>Negative</td><td>0.5%</td></tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <table class="table table-striped mt-3">
-                            <thead>
-                                <tr><th>28 Day Claims</th><th>Status</th><th>Reward Rate</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr class="table-success"><td>0</td><td>Positive</td><td>2.5%</td></tr>
-                                <tr class="table-success"><td>1</td><td>Positive</td><td>1.75%</td></tr>
-                                <tr class="table-success"><td>2</td><td>Positive</td><td>1.75%</td></tr>
-                                <tr class="table-success"><td>3</td><td>Positive</td><td>1.75%</td></tr>
-                                <tr class="table-success"><td>4</td><td>Positive</td><td>1.75%</td></tr>
-                                <tr class="table-success"><td>5</td><td>Positive</td><td>1.25%</td></tr>
-                                <tr class="table-success"><td>6</td><td>Positive</td><td>1.25%</td></tr>
-                                <tr class="table-success"><td>7</td><td>Positive</td><td>1.25%</td></tr>
-                                <tr class="table-success"><td>8</td><td>Positive</td><td>1.25%</td></tr>
-                                <tr class="table-success"><td>9</td><td>Positive</td><td>1%</td></tr>
-                                <tr class="table-success"><td>10</td><td>Positive</td><td>1%</td></tr>
-                                <tr class="table-success"><td>11</td><td>Positive</td><td>1%</td></tr>
-                                <tr class="table-success"><td>12</td><td>Positive</td><td>1%</td></tr>
-                                <tr class="table-warning"><td>13</td><td>Neutral</td><td>0.5%</td></tr>
-                                <tr class="table-warning"><td>14</td><td>Neutral</td><td>0.5%</td></tr>
-                                <tr class="table-danger"><td>15</td><td>Negative</td><td>0.5%</td></tr>
-                                <tr class="table-danger"><td>16</td><td>Negative</td><td>0.5%</td></tr>
-                                <tr class="table-danger"><td>17</td><td>Negative</td><td>0.5%</td></tr>
-                                <tr class="table-danger"><td>18</td><td>Negative</td><td>0.5%</td></tr>
-                                <tr class="table-danger"><td>19</td><td>Negative</td><td>0.5%</td></tr>
-                                <tr class="table-danger"><td>20</td><td>Negative</td><td>0.5%</td></tr>
-                                <tr class="table-danger"><td>21</td><td>Negative</td><td>0.5%</td></tr>
-                                <tr class="table-danger"><td>22</td><td>Negative</td><td>0.5%</td></tr>
-                                <tr class="table-danger"><td>23</td><td>Negative</td><td>0.5%</td></tr>
-                                <tr class="table-danger"><td>24</td><td>Negative</td><td>0.5%</td></tr>
-                                <tr class="table-danger"><td>25</td><td>Negative</td><td>0.5%</td></tr>
-                                <tr class="table-danger"><td>26</td><td>Negative</td><td>0.5%</td></tr>
-                                <tr class="table-danger"><td>27</td><td>Negative</td><td>0.5%</td></tr>
-                            </tbody>
-                        </table>
                     </div>
                     <div class="text-right mt-3">
                         <button @click="toggleVaultStats" class="btn btn-link">Vault Statistics</button>
@@ -252,6 +255,7 @@ export default {
         const loading = ref(false);
         const statusDrop = ref(false);
         const twentyEightDayClaims = ref(0);
+        const showRates = ref(false);
 
         const stats = ref(null);
         const properties = ref(null);
@@ -528,6 +532,10 @@ export default {
             ac.value.show = !ac.value.show;
         }
 
+        const toggleRates = () => {
+            showRates.value = !showRates.value;
+        }
+
         const autoCompoundPrice = computed(() => {
             if(!ac.value) {
                 return 0;
@@ -600,6 +608,8 @@ export default {
             ac,
             lastAction,
             lastAutoCompound,
+            showRates,
+            toggleRates,
         }
     }
 }
