@@ -608,6 +608,7 @@ export default {
             ac,
             lastAction,
             lastAutoCompound,
+            twentyEightDayClaims,
             showRates,
             toggleRates,
         }
