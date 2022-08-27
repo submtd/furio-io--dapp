@@ -2,9 +2,9 @@
     <div>
         <h1>Furvault</h1>
         <div class="mb-5">
-            <p>Earn up to 2.5% daily rewards by depositing in to the Furvault.</p>
-            <p>New participants will start at the 6:1 ratio (1.75%) but will go to 1.0% if they break this pattern before the 28 day cycle is complete.</p>
-            <p>Your % rates are based on your claims in you vaults previous 28 day period (rolling).</p>
+            <p>Earn up to 2.5% daily rewards by depositing in to the Furvault.</br>
+            New participants will start at the 6:1 ratio (1.75%) but will go to 1.0% if they break this pattern before the 28 day cycle is complete.</br>
+            Your % rates are based on your claims in you vaults previous 28 day period (rolling).</p>
         </div>
         <div class="row flex-row-reverse gx-5">
             <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
