@@ -126,7 +126,7 @@ export default {
                 const contract = stakingContract();
                 totalStakers.value = await contract.methods.totalStakerNum().call();
                 totalStaked.value = await contract.methods.totalStakingAmountInUsdc().call();
-                staked.value = await contract.methods.stakingAmountInUsdc().call();
+                staked.value = await contract.methods.stakingAmountInUsdc(store.state.wallet.address).call();
                 available.value = await contract.methods.availableRewardsInUsdc(store.state.wallet.address).call();
             } catch (error) {
                 //alerts.danger(error.message);
