@@ -43,6 +43,7 @@
                     <div class="col-lg-6 mb-4">
                         <div class="card h-100">
                             <div class="card-body text-center">
+                                <img src="../../images/referral.svg" class="mx-auto d-block mb-3" alt="Stakers" width="75" height="75"/>
                                 <p class="card-title">Total Stakers</p>
                                 <p class="card-text"><strong>{{ totalStakers }}</strong></p>
                             </div>
@@ -51,6 +52,7 @@
                     <div class="col-lg-6 mb-4">
                         <div class="card h-100">
                             <div class="card-body text-center">
+                                <img src="../../images/usdc.svg" class="mx-auto d-block mb-3" alt="Staked" width="75" height="75"/>
                                 <p class="card-title">Total Staked</p>
                                 <p class="card-text"><strong>{{ displayCurrency.format(totalStaked) }} USDC</strong></p>
                             </div>
@@ -59,6 +61,7 @@
                     <div class="col-lg-6 mb-4">
                         <div class="card h-100">
                             <div class="card-body text-center">
+                                <img src="../../images/usdc.svg" class="mx-auto d-block mb-3" alt="Stake" width="75" height="75"/>
                                 <p class="card-title">Your Stake</p>
                                 <p class="card-text"><strong>{{ displayCurrency.format(staked) }} USDC</strong></p>
                             </div>
@@ -67,6 +70,7 @@
                     <div class="col-lg-6 mb-4">
                         <div class="card h-100">
                             <div class="card-body text-center">
+                                <img src="../../images/usdc.svg" class="mx-auto d-block mb-3" alt="Available" width="75" height="75"/>
                                 <p class="card-title">Available</p>
                                 <p class="card-text"><strong>{{ displayCurrency.format(available) }} USDC</strong></p>
                             </div>
