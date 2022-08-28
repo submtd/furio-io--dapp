@@ -1,6 +1,13 @@
 <template>
     <div>
         <h1>Furpool</h1>
+        <div class="mb-5">
+            <p>
+                Furpool offers incentives to add liquidity to the $FUR/USDC liquidity pool.<br/>
+                Through the taxation model, attractive returns on USDC investments are possible (up to 50% APY).<br/>
+                Stake and withdraw with USDC, the LP tokens are created and sold automatically.
+            </p>
+        </div>
         <div class="row flex-row-reverse gx-5">
             <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
                 <div v-show="!loading">
