@@ -52,15 +52,15 @@
                         <div class="card h-100">
                             <div class="card-body text-center">
                                 <p class="card-title">Total Staked</p>
-                                <p class="card-text"><strong>{{ displayCurrency.format(totalStaked) }}</strong></p>
+                                <p class="card-text"><strong>{{ displayCurrency.format(totalStaked) }} USDC</strong></p>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6 mb-4">
                         <div class="card h-100">
                             <div class="card-body text-center">
-                                <p class="card-title">LP Supply</p>
-                                <p class="card-text"><strong>{{ displayCurrency.format(lpSupply) }}</strong></p>
+                                <p class="card-title">Your Stake</p>
+                                <p class="card-text"><strong>{{ displayCurrency.format(staked) }} USDC</strong></p>
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                         <div class="card h-100">
                             <div class="card-body text-center">
                                 <p class="card-title">Available</p>
-                                <p class="card-text"><strong>{{ displayCurrency.format(available) }}</strong></p>
+                                <p class="card-text"><strong>{{ displayCurrency.format(available) }} USDC</strong></p>
                             </div>
                         </div>
                     </div>
@@ -98,7 +98,7 @@ export default {
         const balance = ref(0);
         const totalStakers = ref(0);
         const totalStaked = ref(0);
-        const lpSupply = ref(0);
+        const staked = ref(0);
 
         addEventListener("refresh", async () => {
             await update();
@@ -124,10 +124,10 @@ export default {
             loading.value = true;
             try {
                 const contract = stakingContract();
-                lpSupply.value = await contract.methods._LPSupply_().call();
                 totalStakers.value = await contract.methods.totalStakerNum().call();
-                totalStaked.value = await contract.methods.totalStakingAmount().call();
-                available.value = await contract.methods.pendingReward(store.state.wallet.address).call();
+                totalStaked.value = await contract.methods.totalStakingAmountInUsdc().call();
+                staked.value = await contract.methods.stakingAmountInUsdc(store.state.wallet.address).call();
+                available.value = await contract.methods.availableRewardsInUsdc(store.state.wallet.address).call();
             } catch (error) {
                 //alerts.danger(error.message);
             }
@@ -227,7 +227,7 @@ export default {
             balance,
             totalStakers,
             totalStaked,
-            lpSupply,
+            staked,
             stake,
             claim,
             compound,
