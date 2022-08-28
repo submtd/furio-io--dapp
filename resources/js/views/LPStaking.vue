@@ -4,7 +4,7 @@
         <div class="mb-5">
             <p>
                 Furpool offers incentives to add liquidity to the $FUR/USDC liquidity pool.<br/>
-                Through the taxation model, attractive returns on USDC investments are possible (up to 50% APY).<br/>
+                Through the taxation model, attractive returns on USDC investments are possible.<br/>
                 Stake and withdraw with USDC, the LP tokens are created and sold automatically.
             </p>
         </div>
