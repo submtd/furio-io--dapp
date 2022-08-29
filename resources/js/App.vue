@@ -4,7 +4,7 @@
     <Alerts/>
     <div class="container-fluid mt-5">
         <!-- BEGIN PAGE CONTENT -->
-        <div class="container-fluid">
+        <div class="container">
             <div class="mb-5 py-5">
                 <router-view/>
             </div>

@@ -16,9 +16,8 @@
                         <li class="nav-item ml-4">
                             <router-link :to="{ name: 'Vault' }" class="nav-link nav-udl" active-class="active">Furvault<hr/></router-link>
                         </li>
-
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'LPStaking' }" class="nav-link" active-class="active">Furpool</router-link>
+                        <li class="nav-item ml-4">
+                            <router-link :to="{ name: 'LPStaking' }" class="nav-link nav-udl" active-class="active">Furpool</router-link>
                         </li>
                         <li class="nav-item ml-4">
                             <router-link :to="{ name: 'Team', params: { teamaddress: teamaddress }}" class="nav-link nav-udl" active-class="active">Team<hr/></router-link>
@@ -73,11 +72,11 @@ export default {
         });
 
         // let addr = store.state.wallet.address;
-        // const addrString = addr.slice(0,5) + "....." + addr.slice(addr.length-6, addr.length-1); 
+        // const addrString = addr.slice(0,5) + "....." + addr.slice(addr.length-6, addr.length-1);
         const address = computed(() => {
             let addr = store.state.wallet.address;
             if(addr == null) return "0x0000000";
-            const addrString = addr.slice(0,5) + "....." + addr.slice(addr.length-4, addr.length); 
+            const addrString = addr.slice(0,5) + "....." + addr.slice(addr.length-4, addr.length);
             return addrString;
         });
 
