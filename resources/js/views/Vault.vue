@@ -22,9 +22,10 @@
                         Last action: <strong>{{ lastAction }}</strong>
                     </div>
                     <div v-show="bonusAvailable" class="mb-3">
-                        <div class="card text-white bg-primary">
+                        <div class="card text-white bg-info">
                             <div class="card-body">
                                 <h5 class="card-title text-center">You have a bonus claim available!</h5>
+                                <button @click="claimBonus" class="btn btn-lg btn-primary btn-block mb-2">Claim Bonus</button>
                             </div>
                         </div>
                     </div>
