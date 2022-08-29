@@ -1,9 +1,10 @@
 <template>
+    <Balance/>
     <Navbar/>
     <Alerts/>
-    <div class="container mt-5">
+    <div class="container-fluid mt-5">
         <!-- BEGIN PAGE CONTENT -->
-        <div class="container">
+        <div class="container-fluid">
             <div class="mb-5 py-5">
                 <router-view/>
             </div>
@@ -25,13 +26,15 @@ import Footer from "./components/Footer.vue";
 import Navbar from "./components/Navbar.vue";
 import useReferral from "./composables/useReferral";
 import useSettings from "./composables/useSettings";
+import Balance from "./components/Balance.vue";
 
 export default {
     components: {
-        Alerts,
-        Footer,
-        Navbar,
-    },
+    Alerts,
+    Footer,
+    Navbar,
+    Balance
+},
     setup() {
         const store = useStore();
         store.commit("loading", true);

@@ -249,8 +249,12 @@ import en from 'javascript-time-ago/locale/en';
 import useAlerts from '../composables/useAlerts';
 import useBalances from '../composables/useBalances';
 import useDisplayCurrency from '../composables/useDisplayCurrency';
+import LoginModal from '../components/LoginModal.vue';
 
 export default {
+    components : {
+        LoginModal
+    },
     setup () {
         TimeAgo.addDefaultLocale(en);
         const timeAgo = new TimeAgo('en-US');
@@ -269,7 +273,6 @@ export default {
         const twentyEightDayClaims = ref(0);
         const showRates = ref(false);
         const bonusAvailable = ref(false);
-
         const stats = ref(null);
         const properties = ref(null);
         const participant = ref(null);
@@ -613,6 +616,7 @@ export default {
         }
 
         return {
+            store,
             quantity,
             depositedDisplay,
             claimedDisplay,

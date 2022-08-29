@@ -15,6 +15,9 @@
                     Connect with WalletConnect
                 </a>
             </div>
+            <div class="col text-center">
+                <button @click="wallet.connectWeb3">connect</button>
+            </div>
         </div>
     </div>
 </template>
@@ -27,7 +30,7 @@ import useWallet from "../composables/useWallet";
 export default {
     setup () {
         const store = useStore();
-        const settings = useSettings();
+        //const settings = useSettings();
         const wallet = useWallet();
 
         onMounted(async () => {

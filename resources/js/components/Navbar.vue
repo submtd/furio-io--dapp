@@ -1,7 +1,6 @@
 <template>
-    <div v-show="store.state.wallet.loggedIn">
-        <nav class="navbar navbar-dark navbar-expand-xl pt-4">
-            <div class="container">
+        <nav class="navbar navbar-dark navbar-expand-xl pt-4 px-5">
+            <div class="container-fluid p-0">
                 <router-link :to="{ name: 'Home' }" class="navbar-brand">
                     <img class="d-none d-lg-block" src="../../images/furio-logo.svg" alt="Furio Logo" height="60"/>
                     <img class="d-lg-none" src="../../images/furio-icon.svg" alt="Furio Icon" height="60"/>
@@ -9,43 +8,45 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbar">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'Home' }" class="nav-link" active-class="active">Furswap</router-link>
+                <div class="collapse navbar-collapse d-flex justify-content-end" id="navbar">
+                    <ul class="navbar-nav ml-auto mr-5">
+                        <li class="nav-item ml-4">
+                            <router-link :to="{ name: 'Home' }" class="nav-link nav-udl" active-class="active">Furswap<hr/></router-link>
                         </li>
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'Vault' }" class="nav-link" active-class="active">Furvault</router-link>
+                        <li class="nav-item ml-4">
+                            <router-link :to="{ name: 'Vault' }" class="nav-link nav-udl" active-class="active">Furvault<hr/></router-link>
                         </li>
+
                         <li class="nav-item">
                             <router-link :to="{ name: 'LPStaking' }" class="nav-link" active-class="active">Furpool</router-link>
                         </li>
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'Team', params: { teamaddress: teamaddress }}" class="nav-link" active-class="active">Team</router-link>
+                        <li class="nav-item ml-4">
+                            <router-link :to="{ name: 'Team', params: { teamaddress: teamaddress }}" class="nav-link nav-udl" active-class="active">Team<hr/></router-link>
                         </li>
-                        <li class="nav-item">
-                            <router-link :to="{ name: 'Downline' }" class="nav-link" active-class="active">Downline NFTs</router-link>
+                        <li class="nav-item ml-4">
+                            <router-link :to="{ name: 'Downline' }" class="nav-link nav-udl" active-class="active">Downline NFTs<hr/></router-link>
                         </li>
                     </ul>
                     <div class="d-flex">
                         <ul class="navbar-nav flex-column text-right">
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <button @click="profileLink" class="btn btn-link nav-link">{{ name }}</button>
-                            </li>
+                            </li> -->
                             <li class="nav-item">
-                                <button @click="wallet.disconnect" class="btn btn-sm btn-secondary">Disconnect</button>
+                                <div v-show="!store.state.wallet.loggedIn">
+                                    <button type="button" class="btn btn-primary btn-conf"  data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
+                                </div>
+                                <div v-show="store.state.wallet.loggedIn">
+                                    <button type="button" class="btn btn-primary btn-conf" data-toggle="modal" data-target="#logoutmodal">{{address}}</button>
+                                </div>
+                                <LoginModal/>
+                                <LogoutModal/>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </nav>
-        <div class="container text-right mb-5">
-            $FUR Balance: <strong>{{ store.state.balances.token }}</strong><br/>
-            USDC Balance: <strong>{{ store.state.balances.payment }}</strong><br/>
-            Vault Balance: <strong>{{ store.state.balances.vault }}</strong><br/>
-        </div>
-    </div>
 </template>
 
 <script>
@@ -55,14 +56,29 @@ import { useRoute } from "vue-router";
 import router from "../router";
 import useWallet from "../composables/useWallet";
 import Web3 from "web3";
+import LoginModal from '../components/LoginModal.vue';
+import LogoutModal from "../components/LogoutModal.vue";
 
 export default {
+    components: {
+        LoginModal,
+        LogoutModal
+    },
     setup () {
         const store = useStore();
         const wallet = useWallet();
 
         const name = computed(() => {
             return store.state.wallet.name ?? store.state.wallet.shortAddress;
+        });
+
+        // let addr = store.state.wallet.address;
+        // const addrString = addr.slice(0,5) + "....." + addr.slice(addr.length-6, addr.length-1); 
+        const address = computed(() => {
+            let addr = store.state.wallet.address;
+            if(addr == null) return "0x0000000";
+            const addrString = addr.slice(0,5) + "....." + addr.slice(addr.length-4, addr.length); 
+            return addrString;
         });
 
         const teamaddress = computed(() => {
@@ -86,6 +102,7 @@ export default {
             wallet,
             name,
             teamaddress,
+            address,
             profileLink,
         }
     }
