@@ -22,9 +22,10 @@
                         Last action: <strong>{{ lastAction }}</strong>
                     </div>
                     <div v-show="bonusAvailable" class="mb-3">
-                        <div class="card text-white bg-warning">
+                        <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title text-center">You have a bonus claim available!</h5>
+                                <p>Bonus claims go straight into the Furpool liquidity staking protocol and are locked for 90 days. Each bonus claim will reset your 90 day lock period.</p>
                                 <button @click="claimBonus" class="btn btn-lg btn-success btn-block mb-2">Claim Bonus</button>
                             </div>
                         </div>
