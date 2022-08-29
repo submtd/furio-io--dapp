@@ -29,6 +29,10 @@ $nav-link-hover-color: $info;
 
 //@ Addition of various style
 
+html {
+    overflow-y: scroll;
+}
+
 .bal-gradient {
     font-size: 12px;
     font-style: normal;
