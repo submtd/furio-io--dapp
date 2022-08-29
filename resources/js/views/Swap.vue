@@ -53,7 +53,13 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-10">
-                        <button @click="swap" class="btn btn-lg btn-info btn-block">Swap</button>
+                        <div v-show="store.state.wallet.loggedIn">
+                            <button @click="swap" class="btn btn-lg btn-info btn-block">Swap</button>
+                        </div>
+                        <div v-show="!store.state.wallet.loggedIn">
+                            <button @click="swap" class="btn btn-lg btn-info btn-block" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
+                        </div>
+                        <LoginModal/>
                     </div>
                     <div class="col-2">
                         <button @click="swapToFrom" class="btn btn-lg btn-secondary btn-block"><i class="bi bi-arrow-down-up"></i></button>
@@ -92,8 +98,12 @@ import { useStore } from "vuex";
 import useAlerts from "../composables/useAlerts";
 import useBalances from "../composables/useBalances";
 import useDisplayCurrency from "../composables/useDisplayCurrency";
+import LoginModal from '../components/LoginModal.vue';
 
 export default {
+    components: {
+        LoginModal
+    },
     setup () {
         const store = useStore();
         const alerts = useAlerts();

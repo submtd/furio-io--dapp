@@ -1,178 +1,243 @@
 <template>
-    <h1>Furvault</h1>
-    <p class="mb-5">Earn up to 2.5% daily rewards by depositing in to the Furvault.</p>
-    <div class="row flex-row-reverse gx-5">
-        <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
-            <div v-show="!loading && !statusDrop && !maxed">
-                <div class="form-group">
-                    <label for="quantity">Deposit $FUR</label>
-                    <input v-model="quantity" type="number" class="form-control" id="quantity"/>
-                </div>
-                <div v-show="showReferrer" class="form-group">
-                    <label for="referrer">Referrer</label>
-                    <input v-model="referrer" class="form-control" id="referrer"/>
-                </div>
-                <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2">Deposit</button>
-                <div v-show="lastAction" class="mb-2 text-center">
-                    Last action: <strong>{{ lastAction }}</strong>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-6">
-                        <button @click="compound" class="btn btn-lg btn-info btn-block">Compound {{ availableDisplay }}</button>
-                    </div>
-                    <div class="col-6">
-                        <button @click="claim" class="btn btn-lg btn-secondary btn-block">Claim {{ availableDisplay }}</button>
-                    </div>
-                </div>
-                <div class="mt-3">
-                    <h6 class="text-center">Auto Compound</h6>
-                    <div v-show="!ac.isCompounding">
-                        <div class="form-group">
-                            <label for="auto-compound-periods">Auto Compound Periods</label>
-                            <input v-model="autoCompoundPeriods" class="form-control" min="0" :max="ac.properties.maxPeriods" type="number" id="auto-compound-periods"/>
-                        </div>
-                        <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound ({{ autoCompoundPrice }} BNB)</button>
-                    </div>
-                    <div v-show="ac.isCompounding" class="row">
-                        <div class="col-md-4">
-                            <div class="card h-100">
-                                <div class="card-body text-center">
-                                    <p class="card-title">Remaining</p>
-                                    <p class="card-text"><strong>{{ ac.remainingCompounds }}</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card h-100">
-                                <div class="card-body text-center">
-                                    <p class="card-title">Last</p>
-                                    <p class="card-text"><strong>{{ lastAutoCompound }}</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card h-100">
-                                <div class="card-body text-center">
-                                    <p class="card-title">Total</p>
-                                    <p class="card-text"><strong>{{ ac.totalCompounds }}</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-right mt-3">
-                    <button @click="toggleVaultStats" class="btn btn-link">Vault Statistics</button>
-                </div>
-                <div v-show="showVaultStats" class="mt-5">
-                    <hr/>
-                    <h5 class="text-center">Vault Statistics</h5>
-                    <table class="table table-striped">
-                        <tbody>
-                            <tr>
-                                <td>&nbsp;</td>
-                                <th scope="col">Count</th>
-                                <th scope="col">Value</th>
-                            </tr>
-                            <tr>
-                                <th scope="row">Participants</th>
-                                <td>{{ getStat("totalParticipants") }}</td>
-                                <td>&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Deposits</th>
-                                <td>{{ getStat("totalDeposits") }}</td>
-                                <td>{{ displayCurrency.format(getStat("totalDeposited")) }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Compounds</th>
-                                <td>{{ getStat("totalCompounds") }}</td>
-                                <td>{{ displayCurrency.format(getStat("totalCompounded")) }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Claims</th>
-                                <td>{{ getStat("totalClaims") }}</td>
-                                <td>{{ displayCurrency.format(getStat("totalClaimed")) }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Airdrops</th>
-                                <td>{{ getStat("totalAirdrops") }}</td>
-                                <td>{{ displayCurrency.format(getStat("totalAirdropped")) }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Referral Rewards</th>
-                                <td>{{ getStat("totalBonuses") }}</td>
-                                <td>{{ displayCurrency.format(getStat("totalBonused")) }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Taxes</th>
-                                <td>{{ getStat("totalTaxed") }}</td>
-                                <td>{{ displayCurrency.format(getStat("totalTaxes")) }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div v-show="!loading && !statusDrop && maxed">
-                <p><strong>Congratulations</strong> on maxing our your rewards! Why not send some of your earnings to another wallet and start again?</p>
-                <div v-show="complete" class="alert alert-primary">
-                    You have claimed your maximum amount of rewards!
-                </div>
-                <div v-show="!complete">
-                    <button @click="claim" class="btn btn-lg btn-info btn-block">Claim {{ availableDisplay }}</button>
-                </div>
-            </div>
-            <div v-show="!loading && statusDrop">
-                <p>Claiming now will lower your reward rate from <strong>{{ rewardRate }}%</strong> to <strong>{{ newRewardRate }}%</strong>. Are you <strong><em>sure</em></strong> you want to continue?</p>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <button @click="cancel" class="btn btn-lg btn-info btn-block mb-2">Cancel</button>
-                    </div>
-                    <div class="col-sm-6">
-                        <button @click="claim" class="btn btn-lg btn-danger btn-block mb-2">Continue</button>
-                    </div>
-                </div>
-            </div>
-            <div v-show="loading" class="text-center">
-                <div class="spinner-border m-5" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div>
+    <div>
+        <h1>Furvault</h1>
+        <div class="mb-5">
+            <p>Earn up to 2.5% daily rewards by depositing in to the Furvault.<br/>
+            New participants will start at the 6:1 ratio (1.75%) but will go to 1.0% if they break this pattern before the 28 day cycle is complete.<br/>
+            Your % rates are based on your claims in your vault's previous 28 day period (rolling).</p>
         </div>
-        <div class="col-lg-5">
-            <div class="row">
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="75" height="75"/>
-                            <p class="card-title">Balance</p>
-                            <p class="card-text"><strong>{{ depositedDisplay }} $FUR</strong></p>
+        <div class="row flex-row-reverse gx-5">
+            <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
+                <div v-show="!loading && !statusDrop && !maxed">
+                    <div class="form-group">
+                        <label for="quantity">Deposit $FUR</label>
+                        <input v-model="quantity" type="number" class="form-control" id="quantity"/>
+                    </div>
+                    <div v-show="showReferrer" class="form-group">
+                        <label for="referrer">Referrer</label>
+                        <input v-model="referrer" class="form-control" id="referrer"/>
+                    </div>
+                    
+                    <div v-show="store.state.wallet.loggedIn">
+                        <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2">Deposit</button>
+                    </div>
+
+                    <div v-show="!store.state.wallet.loggedIn">
+                        <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
+                    </div>
+                    <LoginModal/>
+                    <div v-show="lastAction" class="mb-2 text-center">
+                        Last action: <strong>{{ lastAction }}</strong>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <button @click="compound" class="btn btn-lg btn-info btn-block">Compound {{ availableDisplay }}</button>
+                        </div>
+                        <div class="col-6">
+                            <button @click="claim" class="btn btn-lg btn-secondary btn-block">Claim {{ availableDisplay }}</button>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h6 class="text-center">Auto Compound</h6>
+                        <div v-show="!ac.isCompounding">
+                            <div class="form-group">
+                                <label for="auto-compound-periods">Auto Compound Periods</label>
+                                <input v-model="autoCompoundPeriods" class="form-control" min="0" :max="ac.properties.maxPeriods" type="number" id="auto-compound-periods"/>
+                            </div>
+                            <div v-show="store.state.wallet.loggedIn">
+                                <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound ({{ autoCompoundPrice }} BNB)</button>
+                            </div>
+                            <div v-show="!store.state.wallet.loggedIn">
+                                <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Connect Wallet</button>
+                            </div>
+                            <LoginModal/>
+                        </div>
+                        <div v-show="ac.isCompounding" class="row">
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <p class="card-title">Remaining</p>
+                                        <p class="card-text"><strong>{{ ac.remainingCompounds }}</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <p class="card-title">Last</p>
+                                        <p class="card-text"><strong>{{ lastAutoCompound }}</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <p class="card-title">Total</p>
+                                        <p class="card-text"><strong>{{ ac.totalCompounds }}</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <p class="card-text">Your 28 Day Claims: <strong>{{ twentyEightDayClaims }}</strong></p>
+                                <div class="text-right mt-3">
+                                    <button @click="toggleRates" class="btn btn-link">show rates</button>
+                                </div>
+                                <table v-show="showRates" class="table table-striped mt-3">
+                                    <thead>
+                                        <tr><th>28 Day Claims</th><th>Status</th><th>Reward Rate</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="table-success"><td>0</td><td>Positive</td><td>2.5%</td></tr>
+                                        <tr class="table-success"><td>1</td><td>Positive</td><td>1.75%</td></tr>
+                                        <tr class="table-success"><td>2</td><td>Positive</td><td>1.75%</td></tr>
+                                        <tr class="table-success"><td>3</td><td>Positive</td><td>1.75%</td></tr>
+                                        <tr class="table-success"><td>4</td><td>Positive</td><td>1.75%</td></tr>
+                                        <tr class="table-success"><td>5</td><td>Positive</td><td>1.25%</td></tr>
+                                        <tr class="table-success"><td>6</td><td>Positive</td><td>1.25%</td></tr>
+                                        <tr class="table-success"><td>7</td><td>Positive</td><td>1.25%</td></tr>
+                                        <tr class="table-success"><td>8</td><td>Positive</td><td>1.25%</td></tr>
+                                        <tr class="table-success"><td>9</td><td>Positive</td><td>1%</td></tr>
+                                        <tr class="table-success"><td>10</td><td>Positive</td><td>1%</td></tr>
+                                        <tr class="table-success"><td>11</td><td>Positive</td><td>1%</td></tr>
+                                        <tr class="table-success"><td>12</td><td>Positive</td><td>1%</td></tr>
+                                        <tr class="table-warning"><td>13</td><td>Neutral</td><td>0.5%</td></tr>
+                                        <tr class="table-warning"><td>14</td><td>Neutral</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>15</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>16</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>17</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>18</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>19</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>20</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>21</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>22</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>23</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>24</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>25</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>26</td><td>Negative</td><td>0.5%</td></tr>
+                                        <tr class="table-danger"><td>27</td><td>Negative</td><td>0.5%</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right mt-3">
+                        <button @click="toggleVaultStats" class="btn btn-link">Vault Statistics</button>
+                    </div>
+                    <div v-show="showVaultStats" class="mt-5">
+                        <hr/>
+                        <h5 class="text-center">Vault Statistics</h5>
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <th scope="col">Count</th>
+                                    <th scope="col">Value</th>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Participants</th>
+                                    <td>{{ getStat("totalParticipants") }}</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Deposits</th>
+                                    <td>{{ getStat("totalDeposits") }}</td>
+                                    <td>{{ displayCurrency.format(getStat("totalDeposited")) }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Compounds</th>
+                                    <td>{{ getStat("totalCompounds") }}</td>
+                                    <td>{{ displayCurrency.format(getStat("totalCompounded")) }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Claims</th>
+                                    <td>{{ getStat("totalClaims") }}</td>
+                                    <td>{{ displayCurrency.format(getStat("totalClaimed")) }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Airdrops</th>
+                                    <td>{{ getStat("totalAirdrops") }}</td>
+                                    <td>{{ displayCurrency.format(getStat("totalAirdropped")) }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Referral Rewards</th>
+                                    <td>{{ getStat("totalBonuses") }}</td>
+                                    <td>{{ displayCurrency.format(getStat("totalBonused")) }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Taxes</th>
+                                    <td>{{ getStat("totalTaxed") }}</td>
+                                    <td>{{ displayCurrency.format(getStat("totalTaxes")) }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div v-show="!loading && !statusDrop && maxed">
+                    <p><strong>Congratulations</strong> on maxing our your rewards! Why not send some of your earnings to another wallet and start again?</p>
+                    <div v-show="complete" class="alert alert-primary">
+                        You have claimed your maximum amount of rewards!
+                    </div>
+                    <div v-show="!complete">
+                        <button @click="claim" class="btn btn-lg btn-info btn-block">Claim {{ availableDisplay }}</button>
+                    </div>
+                </div>
+                <div v-show="!loading && statusDrop">
+                    <p>Claiming now will lower your reward rate from <strong>{{ rewardRate }}%</strong> to <strong>{{ newRewardRate }}%</strong>. Are you <strong><em>sure</em></strong> you want to continue?</p>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <button @click="cancel" class="btn btn-lg btn-info btn-block mb-2">Cancel</button>
+                        </div>
+                        <div class="col-sm-6">
+                            <button @click="claim" class="btn btn-lg btn-danger btn-block mb-2">Continue</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="75" height="75"/>
-                            <p class="card-title">Claimed</p>
-                            <p class="card-text"><strong>{{ claimedDisplay }} $FUR</strong></p>
-                        </div>
+                <div v-show="loading" class="text-center">
+                    <div class="spinner-border m-5" role="status">
+                        <span class="sr-only">Loading...</span>
                     </div>
                 </div>
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <img src="../../images/reward-rate.svg" class="mx-auto d-block mb-3" alt="Reward Rate" width="75" height="75"/>
-                            <p class="card-title">Reward Rate</p>
-                            <p class="card-text"><strong>{{ rewardRate }}%</strong></p>
+            </div>
+            <div class="col-lg-5">
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="75" height="75"/>
+                                <p class="card-title">Balance</p>
+                                <p class="card-text"><strong>{{ depositedDisplay }} $FUR</strong></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <img src="../../images/referral.svg" class="mx-auto d-block mb-3" alt="Participant" width="75" height="75"/>
-                            <p class="card-title">Participant Status</p>
-                            <p class="card-text"><strong>{{ participantStatusDisplay }}</strong></p>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="75" height="75"/>
+                                <p class="card-title">Claimed</p>
+                                <p class="card-text"><strong>{{ claimedDisplay }} $FUR</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <img src="../../images/reward-rate.svg" class="mx-auto d-block mb-3" alt="Reward Rate" width="75" height="75"/>
+                                <p class="card-title">Reward Rate</p>
+                                <p class="card-text"><strong>{{ rewardRate }}%</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <img src="../../images/referral.svg" class="mx-auto d-block mb-3" alt="Participant" width="75" height="75"/>
+                                <p class="card-title">Participant Status</p>
+                                <p class="card-text"><strong>{{ participantStatusDisplay }}</strong></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -189,8 +254,12 @@ import en from 'javascript-time-ago/locale/en';
 import useAlerts from '../composables/useAlerts';
 import useBalances from '../composables/useBalances';
 import useDisplayCurrency from '../composables/useDisplayCurrency';
+import LoginModal from '../components/LoginModal.vue';
 
 export default {
+    components : {
+        LoginModal
+    },
     setup () {
         TimeAgo.addDefaultLocale(en);
         const timeAgo = new TimeAgo('en-US');
@@ -206,6 +275,8 @@ export default {
         const balance = ref(0);
         const loading = ref(false);
         const statusDrop = ref(false);
+        const twentyEightDayClaims = ref(0);
+        const showRates = ref(false);
 
         const stats = ref(null);
         const properties = ref(null);
@@ -355,6 +426,7 @@ export default {
                 if(participant.value.referrer != "0x0000000000000000000000000000000000000000") {
                     referrer.value = participant.value.referrer;
                 }
+                twentyEightDayClaims.value = await contract.methods.twentyEightDayClaims(store.state.wallet.address).call();
                 const token = tokenContract();
                 balance.value = await token.methods.balanceOf(store.state.wallet.address).call();
                 const autocompound = autocompoundContract();
@@ -481,6 +553,10 @@ export default {
             ac.value.show = !ac.value.show;
         }
 
+        const toggleRates = () => {
+            showRates.value = !showRates.value;
+        }
+
         const autoCompoundPrice = computed(() => {
             if(!ac.value) {
                 return 0;
@@ -520,6 +596,7 @@ export default {
         }
 
         return {
+            store,
             quantity,
             depositedDisplay,
             claimedDisplay,
@@ -553,6 +630,9 @@ export default {
             ac,
             lastAction,
             lastAutoCompound,
+            twentyEightDayClaims,
+            showRates,
+            toggleRates,
         }
     }
 }

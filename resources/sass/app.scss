@@ -25,6 +25,57 @@ $offcanvas-border-color: $secondary;
 $nav-link-font-size: 1.25rem;
 $nav-link-hover-color: $info;
 
+
+
+//@ Addition of various style
+
+.bal-gradient {
+    font-size: 12px;
+    font-style: normal;
+    font-family: "Montserrat";
+    background-image: linear-gradient(90deg, #0f1f2e, #e57a3b);
+    border-bottom: 1px solid #e57a3b;
+    height: 50px;
+}
+
+hr {
+    padding: 0 !important;
+    margin: 0 !important;
+    border-bottom: 2px solid !important;
+    visibility: hidden;
+}
+
+.nav-udl:hover hr{
+    border-bottom: 2px solid #e57a3b !important;
+    visibility: visible;
+}
+
+.link {
+    color: #FFFFFF;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: none;
+    color: #e6e6e6;
+}
+
+.nav-udl {
+    color: #FFFFFF !important;
+}
+
+
+.btn-conf {
+    border-radius: 20px !important;
+    background-image: linear-gradient(90deg, #f8bf4c, #e77b3b);
+    color: #FFFFFF !important;
+    width: 200px;
+    height: 50px;
+}
+
+///---------------------------------------
+
 .footer .nav-link {
     color: $light;
 }

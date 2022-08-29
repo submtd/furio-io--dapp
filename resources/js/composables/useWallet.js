@@ -100,7 +100,7 @@ export default () => {
                 return walletconnect();
             }
             // Need to pick a provider
-            router.push("/connect");
+            router.push("/");
             return;
         }
         // Enable provider.
