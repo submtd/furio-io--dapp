@@ -25,7 +25,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title text-center">You have a bonus claim available!</h5>
-                                <p>Bonus claims go straight into the Furpool liquidity staking protocol and are locked for 90 days. Each bonus claim will reset your 90 day lock period.</p>
+                                <p>Bonus claims go straight into the Furpool liquidity staking protocol and are locked for 90 days. Each bonus claim will reset your 90 day lock period. Once funds are in the Furpool, Furpool terms and conditions apply.</p>
                                 <button @click="claimBonus" class="btn btn-lg btn-success btn-block mb-2">Claim Bonus</button>
                             </div>
                         </div>
