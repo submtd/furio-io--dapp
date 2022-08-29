@@ -17,17 +17,18 @@
                         <label for="referrer">Referrer</label>
                         <input v-model="referrer" class="form-control" id="referrer"/>
                     </div>
-                    
-                    <div v-show="store.state.wallet.loggedIn">
-                        <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2">Deposit</button>
-                    </div>
-
-                    <div v-show="!store.state.wallet.loggedIn">
-                        <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
-                    </div>
-                    <LoginModal/>
+                    <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2">Deposit</button>
                     <div v-show="lastAction" class="mb-2 text-center">
                         Last action: <strong>{{ lastAction }}</strong>
+                    </div>
+                    <div v-show="bonusAvailable" class="mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">You have a bonus claim available!</h5>
+                                <p>Bonus claims go straight into the Furpool liquidity staking protocol and are locked for 90 days. Each bonus claim will reset your 90 day lock period. Once funds are in the Furpool, Furpool terms and conditions apply.</p>
+                                <button @click="claimBonus" class="btn btn-lg btn-success btn-block mb-2">Claim Bonus</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-6">
@@ -44,13 +45,7 @@
                                 <label for="auto-compound-periods">Auto Compound Periods</label>
                                 <input v-model="autoCompoundPeriods" class="form-control" min="0" :max="ac.properties.maxPeriods" type="number" id="auto-compound-periods"/>
                             </div>
-                            <div v-show="store.state.wallet.loggedIn">
-                                <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound ({{ autoCompoundPrice }} BNB)</button>
-                            </div>
-                            <div v-show="!store.state.wallet.loggedIn">
-                                <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Connect Wallet</button>
-                            </div>
-                            <LoginModal/>
+                            <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound ({{ autoCompoundPrice }} BNB)</button>
                         </div>
                         <div v-show="ac.isCompounding" class="row">
                             <div class="col-md-4">
@@ -277,7 +272,7 @@ export default {
         const statusDrop = ref(false);
         const twentyEightDayClaims = ref(0);
         const showRates = ref(false);
-
+        const bonusAvailable = ref(false);
         const stats = ref(null);
         const properties = ref(null);
         const participant = ref(null);
@@ -427,6 +422,7 @@ export default {
                     referrer.value = participant.value.referrer;
                 }
                 twentyEightDayClaims.value = await contract.methods.twentyEightDayClaims(store.state.wallet.address).call();
+                bonusAvailable.value = await contract.methods.bonusAvailable(store.state.wallet.address).call();
                 const token = tokenContract();
                 balance.value = await token.methods.balanceOf(store.state.wallet.address).call();
                 const autocompound = autocompoundContract();
@@ -535,6 +531,30 @@ export default {
             loading.value = false;
         }
 
+        const claimBonus = async () => {
+            if(!bonusAvailable.value) {
+                alerts.danger("No bonus available");
+                return;
+            }
+            try {
+                const contract = vaultContract();
+                alerts.warning("waiting on response from wallet");
+                loading.value = true;
+                const gasPriceMultiplier = 1;
+                const gasMultiplier = 1.2;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const gas = Math.round(await contract.methods.claimBonus().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await contract.methods.claimBonus().send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            dispatchEvent(new Event("refresh"));
+            await update();
+            statusDrop.value = false;
+            loading.value = false;
+        }
+
         const cancel = () => {
             statusDrop.value = false;
         }
@@ -633,6 +653,8 @@ export default {
             twentyEightDayClaims,
             showRates,
             toggleRates,
+            bonusAvailable,
+            claimBonus,
         }
     }
 }

@@ -16,17 +16,15 @@
                         <li class="nav-item ml-4">
                             <router-link :to="{ name: 'Vault' }" class="nav-link nav-udl" active-class="active">Furvault<hr/></router-link>
                         </li>
-                        <li class="nav-item ml-4">
-                            <router-link :to="{ name: 'Claim' }" class="nav-link nav-udl" active-class="active">Claim<hr/></router-link>
+
+                        <li class="nav-item">
+                            <router-link :to="{ name: 'LPStaking' }" class="nav-link" active-class="active">Furpool</router-link>
                         </li>
                         <li class="nav-item ml-4">
                             <router-link :to="{ name: 'Team', params: { teamaddress: teamaddress }}" class="nav-link nav-udl" active-class="active">Team<hr/></router-link>
                         </li>
                         <li class="nav-item ml-4">
                             <router-link :to="{ name: 'Downline' }" class="nav-link nav-udl" active-class="active">Downline NFTs<hr/></router-link>
-                        </li>
-                        <li class="nav-item ml-4">
-                            <router-link :to="{ name: 'FurbPresale' }" class="nav-link nav-udl" active-class="active">$FURB Presale<hr/></router-link>
                         </li>
                     </ul>
                     <div class="d-flex">

@@ -12,6 +12,7 @@ import Participant from "../views/Participant.vue";
 import Downline from "../views/Downline.vue";
 import FurbPresale from "../views/FurbPresale.vue";
 import Vote from "../views/Vote.vue";
+import LPStaking from "../views/LPStaking.vue";
 import NotFound from "../views/NotFound.vue";
 
 const routes = [
@@ -79,6 +80,11 @@ const routes = [
         path: "/vote",
         name: "Vote",
         component: Vote,
+    },
+    {
+        path: "/staking",
+        name: "LPStaking",
+        component: LPStaking,
     },
     {
         path: "/:catchAll(.*)",
