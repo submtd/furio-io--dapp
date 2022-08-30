@@ -17,7 +17,7 @@
                             <router-link :to="{ name: 'Vault' }" class="nav-link nav-udl" active-class="active">Furvault<hr/></router-link>
                         </li>
                         <li class="nav-item ml-4">
-                            <router-link :to="{ name: 'LPStaking' }" class="nav-link nav-udl" active-class="active">Furpool</router-link>
+                            <router-link :to="{ name: 'LPStaking' }" class="nav-link nav-udl" active-class="active">Furpool<hr/></router-link>
                         </li>
                         <li class="nav-item ml-4">
                             <router-link :to="{ name: 'Team', params: { teamaddress: teamaddress }}" class="nav-link nav-udl" active-class="active">Team<hr/></router-link>
@@ -33,10 +33,10 @@
                             </li> -->
                             <li class="nav-item">
                                 <div v-show="!store.state.wallet.loggedIn">
-                                    <button type="button" class="btn btn-primary btn-conf"  data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
+                                    <button type="button" class="btn btn-primary btn-conf"  data-toggle="modal" data-target="#loginmodal"><i class="bi bi-lock pr-2"></i>Connect Wallet</button>
                                 </div>
                                 <div v-show="store.state.wallet.loggedIn">
-                                    <button type="button" class="btn btn-primary btn-conf" data-toggle="modal" data-target="#logoutmodal">{{address}}</button>
+                                    <button type="button" class="btn btn-primary btn-conf" data-toggle="modal" data-target="#logoutmodal"><i class="bi bi-unlock pr-2"></i>{{address}}</button>
                                 </div>
                                 <LoginModal/>
                                 <LogoutModal/>

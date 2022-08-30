@@ -70,6 +70,9 @@ hr {
 }
 
 
+
+//button
+
 .btn-conf {
     border-radius: 20px !important;
     background-image: linear-gradient(90deg, #f8bf4c, #e77b3b);
@@ -77,6 +80,64 @@ hr {
     width: 200px;
     height: 50px;
 }
+
+.btn-cblue{
+    color: #FFFFFF !important;
+    background-color: #3c66b0 !important;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.btn-cicon{
+    padding: 0 !important;
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.btn-cicon:focus{
+    box-shadow: none !important;
+}
+
+//ctext
+
+.ctext-addr{
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: Open Sans, sans-serif;
+    text-align: left;
+}
+
+.ctext-logout{
+    color: #3c66b0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 13px;
+    font-family: Open Sans, sans-serif;
+}
+
+//Tooltip
+
+.ctooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+  }
+  
+  .ctooltip .ctooltiptext {
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -.5rem;
+    right: -8rem;
+  }
 
 ///---------------------------------------
 
@@ -97,6 +158,48 @@ hr {
 .footer .social .nav-link i:hover {
     color: $primary;
 }
+
+//text
+
+.ctext-addr{
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: Open Sans, sans-serif;
+    text-align: left;
+}
+
+.ctext-logout{
+    color: #3c66b0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 13px;
+    font-family: Open Sans, sans-serif;
+}
+
+//Tooltip
+
+.ctooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+  }
+  
+  .ctooltip .ctooltiptext {
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -.5rem;
+    right: -8rem;
+  }
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
