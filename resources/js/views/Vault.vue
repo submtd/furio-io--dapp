@@ -17,7 +17,13 @@
                         <label for="referrer">Referrer</label>
                         <input v-model="referrer" class="form-control" id="referrer"/>
                     </div>
-                    <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2">Deposit</button>
+                    <div v-show="store.state.wallet.loggedIn">
+                        <button @click="deposit" class="btn btn-lg btn-info btn-block mb-2">Deposit</button>
+                    </div>
+                    <div v-show="!store.state.wallet.loggedIn">
+                        <button class="btn btn-lg btn-info btn-block" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
+                    </div>
+                    <LoginModal/>
                     <div v-show="lastAction" class="mb-2 text-center">
                         Last action: <strong>{{ lastAction }}</strong>
                     </div>
@@ -45,7 +51,13 @@
                                 <label for="auto-compound-periods">Auto Compound Periods</label>
                                 <input v-model="autoCompoundPeriods" class="form-control" min="0" :max="ac.properties.maxPeriods" type="number" id="auto-compound-periods"/>
                             </div>
-                            <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound ({{ autoCompoundPrice }} BNB)</button>
+                            <div v-show="store.state.wallet.loggedIn">
+                                <button @click="autoCompound" class="btn btn-lg btn-info btn-block">Auto Compound ({{ autoCompoundPrice }} BNB)</button>
+                            </div>
+                            <div v-show="!store.state.wallet.loggedIn">
+                                <button class="btn btn-lg btn-info btn-block" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
+                            </div>
+                            <LoginModal/>
                         </div>
                         <div v-show="ac.isCompounding" class="row">
                             <div class="col-md-4">

@@ -11,7 +11,7 @@
                 <img src="../../images/fur.svg"  alt="FUR" width="25" height="25"/>
                 <span class="bal-font pl-2 pr-4">Vault Balance: {{ store.state.balances.vault }}</span>
             </div>
-            <a href="#" class="link">Website</a>
+            <a href="https://furio.io" target="_blank" class="link">Website</a>
         </div>
     </div>
 </template>

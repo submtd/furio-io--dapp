@@ -20,7 +20,7 @@
                             <button @click="buy" class="btn btn-sm btn-info btn-block mb-2">Buy ({{ buyQuantity * 5 }} $FUR)</button>
                         </div>
                         <div v-show="!store.state.wallet.loggedIn">
-                            <button @click="buy" class="btn btn-sm btn-info btn-block mb-2" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
+                            <button class="btn btn-sm btn-info btn-block mb-2" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
                         </div>
                         <LoginModal/>
                     </div>
@@ -36,7 +36,7 @@
                         </div>
 
                         <div v-show="!store.state.wallet.loggedIn">
-                            <button @click="sell" class="btn btn-sm btn-info btn-block mb-2" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
+                            <button class="btn btn-sm btn-info btn-block mb-2" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
                         </div>
                         <LoginModal/>
                     </div>

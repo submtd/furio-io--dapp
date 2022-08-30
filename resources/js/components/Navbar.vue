@@ -1,9 +1,9 @@
 <template>
         <nav class="navbar navbar-dark navbar-expand-xl pt-4 px-5">
-            <div class="container-fluid p-0">
+            <div class="container p-0">
                 <router-link :to="{ name: 'Home' }" class="navbar-brand">
-                    <img class="d-none d-lg-block" src="../../images/furio-logo.svg" alt="Furio Logo" height="60"/>
-                    <img class="d-lg-none" src="../../images/furio-icon.svg" alt="Furio Icon" height="60"/>
+                    <img class="d-none d-md-block" src="../../images/furio-logo.svg" alt="Furio Logo" height="60"/>
+                    <img class="d-md-none" src="../../images/furio-icon.svg" alt="Furio Icon" height="60"/>
                 </router-link>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

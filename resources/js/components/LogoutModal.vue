@@ -12,7 +12,6 @@
                 <div class="modal-body d-flex flex-column justify-content-between px-4">
                    <div class="d-flex flex-row justify-content-between">
                         <p class="d-flex flex-column justify-content-center" :style="{margin: 0, color: 'green'}">Connected</p>
-                        <button class="btn btn-cblue">change</button>
                    </div>
                    <p class="ctext-addr">{{store.state.wallet.address}}</p>
                    <div class="d-flex">
