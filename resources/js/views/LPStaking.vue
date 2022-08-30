@@ -231,6 +231,7 @@ export default {
             loading.value = false;
         };
         return {
+            store,
             loading,
             displayCurrency,
             quantity,
