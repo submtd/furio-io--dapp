@@ -26,7 +26,13 @@
                             </select>
                         </div>
                     </div>
-                    <button @click="stake" class="btn btn-lg btn-info btn-block mb-2">Stake</button>
+                    <div v-show="store.state.wallet.loggedIn">
+                        <button @click="stake" class="btn btn-lg btn-info btn-block mb-2">Stake</button>
+                    </div>
+                    <div v-show="!store.state.wallet.loggedIn">
+                        <button class="btn btn-lg btn-info btn-block" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
+                    </div>
+                    <LoginModal/>
                     <div class="row mt-3">
                         <div class="col-4">
                             <button @click="claim" class="btn btn-lg btn-info btn-block">Claim</button>
@@ -95,9 +101,10 @@ import { useStore } from 'vuex';
 import useAlerts from '../composables/useAlerts';
 import useBalances from '../composables/useBalances';
 import useDisplayCurrency from '../composables/useDisplayCurrency';
+import LoginModal from '../components/LoginModal.vue';
 
 export default {
-    setup () {
+    setup() {
         const store = useStore();
         const alerts = useAlerts();
         const balances = useBalances();
@@ -110,27 +117,21 @@ export default {
         const totalStakers = ref(0);
         const totalStaked = ref(0);
         const staked = ref(0);
-
         addEventListener("refresh", async () => {
             await update();
         });
-
         onMounted(async () => {
             await update();
         });
-
         const stakingContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.lpstaking_abi), store.state.settings.lpstaking_address);
-        }
-
+        };
         const paymentContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.payment_abi), store.state.settings.payment_address);
-        }
-
+        };
         const factoryContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.factory_abi), store.state.settings.factory_address);
-        }
-
+        };
         const update = async () => {
             loading.value = true;
             try {
@@ -139,13 +140,13 @@ export default {
                 totalStaked.value = await contract.methods.totalStakingAmountInUsdc().call();
                 staked.value = await contract.methods.stakingAmountInUsdc(store.state.wallet.address).call();
                 available.value = await contract.methods.availableRewardsInUsdc(store.state.wallet.address).call();
-            } catch (error) {
+            }
+            catch (error) {
                 //alerts.danger(error.message);
             }
             balances.refresh();
             loading.value = false;
-        }
-
+        };
         const stake = async () => {
             alerts.warning("waiting on response from wallet");
             loading.value = true;
@@ -157,7 +158,7 @@ export default {
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const amount = BigInt(quantity.value * "1000000000000000000");
                 const allowance = await payment.methods.allowance(store.state.wallet.address, store.state.settings.lpstaking_address).call();
-                if(allowance < amount) {
+                if (allowance < amount) {
                     const approveGas = Math.round(await payment.methods.approve(store.state.settings.lpstaking_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                     await payment.methods.approve(store.state.settings.lpstaking_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
                 }
@@ -166,12 +167,12 @@ export default {
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
                 dispatchEvent(new Event("refresh"));
                 await update();
-            } catch (error) {
+            }
+            catch (error) {
                 alerts.danger(error.message);
             }
             loading.value = false;
-        }
-
+        };
         const claim = async () => {
             alerts.warning("waiting on response from wallet");
             loading.value = true;
@@ -183,14 +184,14 @@ export default {
                 const gas = Math.round(await contract.methods.claimRewards().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await contract.methods.claimRewards().send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
-            } catch (error) {
+            }
+            catch (error) {
                 alerts.danger(error.message);
             }
             dispatchEvent(new Event("refresh"));
             await update();
             loading.value = false;
-        }
-
+        };
         const compound = async () => {
             alerts.warning("waiting on response from wallet");
             loading.value = true;
@@ -202,14 +203,14 @@ export default {
                 const gas = Math.round(await contract.methods.compound().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await contract.methods.compound().send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
-            } catch (error) {
+            }
+            catch (error) {
                 alerts.danger(error.message);
             }
             dispatchEvent(new Event("refresh"));
             await update();
             loading.value = false;
-        }
-
+        };
         const unstake = async () => {
             alerts.warning("waiting on response from wallet");
             loading.value = true;
@@ -221,15 +222,16 @@ export default {
                 const gas = Math.round(await contract.methods.unstake().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await contract.methods.unstake().send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
-            } catch (error) {
+            }
+            catch (error) {
                 alerts.danger(error.message);
             }
             dispatchEvent(new Event("refresh"));
             await update();
             loading.value = false;
-        }
-
+        };
         return {
+            store,
             loading,
             displayCurrency,
             quantity,
@@ -243,7 +245,8 @@ export default {
             claim,
             compound,
             unstake,
-        }
-    }
+        };
+    },
+    components: { LoginModal }
 }
 </script>
