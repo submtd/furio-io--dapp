@@ -111,7 +111,7 @@ export default () => {
             await checkNetwork();
             await loadWallet();
             alerts.clear();
-            router.push("/");
+            //router.push("/");
         } catch (error) {
             alerts.danger(error.message);
             return disconnect();
@@ -140,7 +140,7 @@ export default () => {
             web3.currentProvider.close();
         } catch(error) {}
         await axios.get("/api/v1/logout");
-        location.href = "/connect";
+        location.href = "/";
         //router.push("/connect");
     }
 
