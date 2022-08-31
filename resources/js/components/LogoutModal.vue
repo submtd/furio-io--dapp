@@ -1,7 +1,7 @@
 <template>
     <div class="modal fade" id="logoutmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" :style="{width: '430px', height: '280px'}">
+            <div class="modal-content logoutmodal-c" :style="{width: '430px', height: '280px'}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Your Wallet</h5>
                     <hr/>
@@ -15,10 +15,10 @@
                    </div>
                    <p class="ctext-addr">{{store.state.wallet.address}}</p>
                    <div class="d-flex">
-                        <span class="ctext-logout font-weight-bold">Copy Address</span><button  @click="clipCopy" class="btn btn-cicon ctooltip"><i class="bi bi-subtract"></i><span v-show="flag" class="ctooltiptext">Copied</span></button>
-                        <span class="ctext-logout ml-3">View On BscScan</span><button  @click="goToExp" class="btn btn-cicon" data-dismiss="modal"><i class="bi bi-box-arrow-in-up-right"></i></button>
+                        <a @click="clipCopy" class="ctext-logout font-weight-bold">Copy Address <i class="bi bi-subtract ctext-addr-scan"></i></a>
+                        <a @click="goToExp" class="ctext-logout ml-3">View On BscScan <i class="bi bi-box-arrow-in-up-right ctext-addr-scan"></i></a>
                    </div>
-                   <button class='btn btn-cblue' @click="wallet.disconnect" data-dismiss="modal">Logout</button>
+                   <button class='btn btn-logout' @click="wallet.disconnect" data-dismiss="modal">Logout</button>
                 </div>
             </div>
         </div>

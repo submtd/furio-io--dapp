@@ -42,6 +42,10 @@ html {
     height: 50px;
 }
 
+.bal-font-mobile {
+    font-size: 11px;
+}
+
 hr {
     padding: 0 !important;
     margin: 0 !important;
@@ -52,6 +56,12 @@ hr {
 .nav-udl:hover hr{
     border-bottom: 2px solid #e57a3b !important;
     visibility: visible;
+}
+
+.nav-udl-mobile {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    padding-left: 35px !important;
 }
 
 .link {
@@ -73,17 +83,41 @@ hr {
 
 //button
 
+.btn-wallet-connect {
+    background-image: linear-gradient(90deg, #f8bf4c, #e77b3b);
+    width: 100px;
+    height: 100px;
+    border: 0px !important;
+    font-size: 12px !important;
+    border-radius: 15px !important;
+}
+
 .btn-conf {
-    border-radius: 20px !important;
+    border: 0px !important;
+    border-radius: 20px !important; 
     background-image: linear-gradient(90deg, #f8bf4c, #e77b3b);
     color: #FFFFFF !important;
     width: 200px;
     height: 50px;
 }
 
-.btn-cblue{
+.btn-conf-mobile {
+    border: 0px !important;
+    border-radius: 15px !important;
+    background-image: linear-gradient(90deg, #f8bf4c, #e77b3b);
     color: #FFFFFF !important;
-    background-color: #3c66b0 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    width: 150px;
+    height: 40px;
+    margin-left: 35px !important;
+}
+
+.btn-logout{
+    color: #FFFFFF !important;
+    background-image: linear-gradient(90deg, #f8bf4c, #e77b3b) !important;
+    border: 0px !important;
+    border-radius: 15px !important;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -108,13 +142,23 @@ hr {
 }
 
 .ctext-logout{
-    color: #3c66b0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    color: #e77b3b !important;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
     font-size: 13px;
     font-family: Open Sans, sans-serif;
 }
+
+.ctext-logout:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.ctext-addr-scan {
+    color: #e77b3b;
+}
+
 
 //Tooltip
 
@@ -137,6 +181,73 @@ hr {
     z-index: 1;
     top: -.5rem;
     right: -8rem;
+  }
+
+//modal
+
+.loginmodal-center {
+    justify-content: center !important;
+}
+
+.loginmodal-size {
+    border-radius: 20px !important;
+    border: 0px !important;
+    width: 350px !important;
+}
+
+.logoutmodal-c {
+    border: 0px !important;
+    border-radius: 20px !important;
+}
+
+//sidebar
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #181c2c;
+    overflow-x: hidden;
+    transition: 1s;
+    padding-top: 100px;
+  }
+  
+  .sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  .sidebar a:hover {
+    color: #f1f1f1;
+  }
+  
+  .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-weight: 300 !important;
+    font-size: 40px !important;
+  }
+  
+  .closebtn:hover {
+    text-decoration: none;
+  }
+
+  #main {
+    transition: margin-left .5s;
+    padding: 16px;
+  }
+
+  .cheight {
+    height: 100vh !important;
+    padding-top: 10vh !important;
+    padding-bottom: 10vh !important;
   }
 
 ///---------------------------------------
@@ -169,13 +280,10 @@ hr {
     text-align: left;
 }
 
-.ctext-logout{
-    color: #3c66b0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-size: 13px;
-    font-family: Open Sans, sans-serif;
+//media
+
+.bg-custom-mobile {
+    background-color: #0d1f30 !important;
 }
 
 //Tooltip
