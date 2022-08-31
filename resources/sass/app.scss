@@ -53,16 +53,34 @@ hr {
     visibility: hidden;
 }
 
-.nav-udl:hover hr{
+.nav-udl:focus hr{
     border-bottom: 2px solid #e57a3b !important;
     visibility: visible;
 }
 
 .nav-udl-mobile {
-    font-size: 15px !important;
-    font-weight: 700 !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
     padding-left: 35px !important;
+    width: fit-content !important;
 }
+
+.nav-udl-mobile:focus hr{
+    border-bottom: 2px solid #e57a3b !important;
+    visibility: visible;
+}
+
+.nav-udl-mobile-website {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    padding-left: 35px !important;
+    width: fit-content !important;
+}
+
+.nav-udl-mobile-website:hover {
+    text-decoration: none;
+}
+
 
 .link {
     color: #FFFFFF;
@@ -107,7 +125,7 @@ hr {
     background-image: linear-gradient(90deg, #f8bf4c, #e77b3b);
     color: #FFFFFF !important;
     font-size: 14px !important;
-    font-weight: 600 !important;
+    font-weight: 400 !important;
     width: 150px;
     height: 40px;
     margin-left: 35px !important;

@@ -16,39 +16,39 @@
                                 address
                         }}</button>
                 </div>
-                <router-link :to="{ name: 'Home' }" class="nav-link nav-udl nav-udl-mobile" active-class="active"
-                    @click="closeMenu">Furswap
+                <router-link :to="{ name: 'Home' }" class="nav-link nav-udl-mobile" active-class="active"
+                    @click="closeMenu" :style="{color: '#FFFFFF'}">Furswap
                     <hr />
                 </router-link>
-                <router-link :to="{ name: 'Vault' }" class="nav-link nav-udl nav-udl-mobile" active-class="active"
-                    @click="closeMenu">Furvault
+                <router-link :to="{ name: 'Vault' }" class="nav-link nav-udl-mobile" active-class="active"
+                    @click="closeMenu" :style="{color: '#FFFFFF'}">Furvault
                     <hr />
                 </router-link>
-                <router-link :to="{ name: 'LPStaking' }" class="nav-link nav-udl nav-udl-mobile" active-class="active"
-                    @click="closeMenu">Furpool
+                <router-link :to="{ name: 'LPStaking' }" class="nav-link nav-udl-mobile" active-class="active"
+                    @click="closeMenu" :style="{color: '#FFFFFF'}">Furpool
                     <hr />
                 </router-link>
                 <router-link :to="{ name: 'Team', params: { teamaddress: teamaddress } }"
-                    class="nav-link nav-udl nav-udl-mobile" active-class="active" @click="closeMenu">Team
+                    class="nav-link nav-udl-mobile" active-class="active" @click="closeMenu" :style="{color: '#FFFFFF'}">Team
                     <hr />
                 </router-link>
-                <router-link :to="{ name: 'Downline' }" class="nav-link nav-udl nav-udl-mobile" active-class="active"
-                    @click="closeMenu">Downline NFTs
+                <router-link :to="{ name: 'Downline' }" class="nav-link nav-udl-mobile pb-2" active-class="active"
+                    @click="closeMenu" :style="{color: '#FFFFFF'}">Downline NFTs
                     <hr />
                 </router-link>
-                <a href="https://furio.io" target="_blank" class="nav-udl-mobile" :style="{color: '#FFFFFF', paddingLeft: '35px'}">Website</a>
+                <a href="https://furio.io" target="_blank" class="nav-udl-mobile-website" :style="{color: '#FFFFFF', paddingLeft: '35px'}">Website</a>
                 
-                <div class="d-flex flex-row justify-content-start pl-5">
+                <div class="d-flex flex-row justify-content-start" :style="{paddingLeft: '35px'}">
                     <img src="../../images/fur.svg"  alt="FUR" width="18" height="18"/>
                     <span class="bal-font-mobile pl-2 pr-4">$FUR Balance: {{ store.state.balances.token ?? 0}}</span>
                 </div> 
             
-                <div class="d-flex flex-row justify-content-start pl-5">
+                <div class="d-flex flex-row justify-content-start" :style="{paddingLeft: '35px'}">
                     <img src="../../images/usdc.svg" alt="USDC" width="18" height="18"/>
                     <span class="bal-font-mobile pl-2 pr-4">USDC Balance: {{ store.state.balances.payment ?? 0 }}</span>
                 </div>
             
-                <div class="d-flex flex-row justify-content-start pl-5">
+                <div class="d-flex flex-row justify-content-start" :style="{paddingLeft: '35px'}">
                     <img src="../../images/fur.svg"  alt="FUR" width="18" height="18"/>
                     <span class="bal-font-mobile pl-2 pr-4">Vault Balance: {{ store.state.balances.vault ?? 0 }}</span>
                 </div>
