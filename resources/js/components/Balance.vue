@@ -10,7 +10,10 @@
                 <img src="../../images/fur.svg"  alt="FUR" width="25" height="25"/>
                 <span class="bal-font pl-2 pr-4">Vault Balance: {{ store.state.balances.vault ?? 0 }}</span>
             </div>
-            <a href="https://furio.io" target="_blank" class="link">Website</a>
+            <div>
+                <a href="https://furio.io/whitepaper" target="_blank" class="link pr-4">Whitepaper</a>
+                <a href="https://furio.io" target="_blank" class="link">Website</a>
+            </div>
         </div>
 </template>
 
