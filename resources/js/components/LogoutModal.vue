@@ -1,6 +1,6 @@
 <template>
     <div class="modal fade" id="logoutmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered logoutmodal-center">
             <div class="modal-content logoutmodal-c" :style="{width: '430px', height: '280px'}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Your Wallet</h5>

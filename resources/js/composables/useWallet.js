@@ -16,18 +16,18 @@ export default () => {
         // Watch for accountsChanged event.
         window.ethereum.on('accountsChanged', async function () {
             if(connected) {
-                await loadWallet();
+                //await loadWallet();
                 return;
             }
-            await connect();
+            //await connect();
         });
         // Watch for networkChanged event.
         window.ethereum.on('chainChanged', async function () {
             if(connected) {
-                await checkNetwork();
+                //await checkNetwork();
                 return;
             }
-            await connect();
+            //await connect();
         });
     }
 
@@ -43,6 +43,7 @@ export default () => {
 
     // Connect with metamask.
     const metamask = () => {
+        console.log("metamask");
         // If mobile or doesn't have mm installed, redirect.
         if (typeof window.ethereum == "undefined") {
             window.location.href = "https://metamask.app.link/dapp/" + location.hostname;
@@ -55,6 +56,7 @@ export default () => {
 
     // Connect with walletconnect.
     const walletconnect = () => {
+        console.log("wallet connect");
         const provider = new WalletConnectProvider({
             rpc: {
                 [parseInt(store.state.settings.network_id)]: store.state.settings.rpc_url,
@@ -88,6 +90,7 @@ export default () => {
     // Connect to wallet.
     const connect = async () => {
         //settings.update();
+        console.log("connect");
         if(connected) {
             // Already connected.
             return;
@@ -113,7 +116,8 @@ export default () => {
             alerts.clear();
             //router.push("/");
         } catch (error) {
-            alerts.danger(error.message);
+            console.log("error");
+            //alerts.danger(error.message);
             return disconnect();
         }
         //settings.update();
@@ -147,7 +151,7 @@ export default () => {
     // Load wallet.
     const loadWallet = async () => {
         if(!connected) {
-            await connect();
+            //await connect();
             return;
         }
         // Get address.
@@ -176,12 +180,11 @@ export default () => {
             response.data.data.attributes.shortAddress = response.data.data.attributes.address.substr(0, 4) + "..." + response.data.data.attributes.address.substr(-4);
             return response.data.data;
         } catch (error) {
-            alerts.danger(error.message);
+            console.log(error);
+            //alerts.danger(error.message);
             return disconnect();
         }
     }
-
-    connect();
 
     return {
         isConnected,
