@@ -152,9 +152,7 @@ export default {
             return store.state.wallet.address ?? "0x0000000000000000000000000000000000000000";
         });
 
-        if (!Web3.currentProvider) {
-            wallet.connect();
-        }
+        
 
         //if(!store.state.wallet.loggedIn && useRoute().name != 'Connect') {
         //router.push("/connect");

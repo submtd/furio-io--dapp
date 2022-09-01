@@ -61,8 +61,10 @@ hr {
 .nav-udl-mobile {
     font-size: 13px !important;
     font-weight: 400 !important;
-    padding-left: 35px !important;
+    padding-left: 45px !important;
     width: fit-content !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
 }
 
 .nav-udl-mobile:focus hr{
@@ -73,8 +75,9 @@ hr {
 .nav-udl-mobile-website {
     font-size: 13px !important;
     font-weight: 400 !important;
-    padding-left: 35px !important;
+    padding-left: 45px !important;
     width: fit-content !important;
+    padding-bottom: 30px !important;
 }
 
 .nav-udl-mobile-website:hover {
@@ -129,6 +132,7 @@ hr {
     width: 150px;
     height: 40px;
     margin-left: 35px !important;
+    margin-bottom: 30px !important;
 }
 
 .btn-logout{
@@ -213,6 +217,10 @@ hr {
     width: 350px !important;
 }
 
+.logoutmodal-center {
+    justify-content: center !important;
+}
+
 .logoutmodal-c {
     border: 0px !important;
     border-radius: 20px !important;
@@ -264,8 +272,8 @@ hr {
 
   .cheight {
     height: 100vh !important;
-    padding-top: 10vh !important;
-    padding-bottom: 10vh !important;
+    padding-top: 17vh !important;
+    padding-bottom: 17vh !important;
   }
 
 ///---------------------------------------
