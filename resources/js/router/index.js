@@ -74,7 +74,7 @@ const routes = [
     {
         path: "/connect",
         name: "Connect",
-        component: Connect,
+        component: Swap,
     },
     {
         path: "/vote",
