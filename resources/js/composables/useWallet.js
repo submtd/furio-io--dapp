@@ -16,7 +16,7 @@ export default () => {
         // Watch for accountsChanged event.
         window.ethereum.on('accountsChanged', async function () {
             if(connected) {
-                //await loadWallet();
+                await loadWallet();
                 return;
             }
             //await connect();
@@ -24,7 +24,7 @@ export default () => {
         // Watch for networkChanged event.
         window.ethereum.on('chainChanged', async function () {
             if(connected) {
-                //await checkNetwork();
+                await checkNetwork();
                 return;
             }
             //await connect();
