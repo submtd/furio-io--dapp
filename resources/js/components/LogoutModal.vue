@@ -10,14 +10,21 @@
                     </button>
                 </div>
                 <div class="modal-body d-flex flex-column justify-content-between px-4">
-                   <div class="d-flex flex-row justify-content-between">
-                        <p class="d-flex flex-column justify-content-center" :style="{margin: 0, color: 'green'}">Connected</p>
+                    <div>
+                        <div class="d-flex flex-row justify-content-between">
+                                <p class="d-flex flex-column justify-content-center" :style="{margin: 0, color: 'green'}">Connected</p>
+                        </div>
+                        <p class="ctext-addr">{{store.state.wallet.address}}</p>
+                        <div class="d-flex">
+                                <a @click="clipCopyAddr" class="ctext-logout font-weight-bold">Copy Address <i class="bi bi-subtract ctext-addr-scan"></i></a>
+                                <a @click="goToExp" class="ctext-logout ml-3">View On BscScan <i class="bi bi-box-arrow-in-up-right ctext-addr-scan"></i></a>
+                        </div>
                    </div>
-                   <p class="ctext-addr">{{store.state.wallet.address}}</p>
-                   <div class="d-flex">
-                        <a @click="clipCopy" class="ctext-logout font-weight-bold">Copy Address <i class="bi bi-subtract ctext-addr-scan"></i></a>
-                        <a @click="goToExp" class="ctext-logout ml-3">View On BscScan <i class="bi bi-box-arrow-in-up-right ctext-addr-scan"></i></a>
-                   </div>
+                   <div>
+                        <p :style="{margin: 0, fontWeight: '700', color: '#000000', fontSize: '14px'}">Referral Link:</p>
+                        <p :style="{margin: 0, fontSize: '11px', color: '#000000', fontFamily: 'sans-serif', fontWeight: '450'}">http://app.furio.io?ref=0x372B95Ac394F7dbdDc90f7a07551fb75509346A8</p>
+                        <a @click="clipCopyRefer" class="ctext-logout font-weight-bold">Copy Address <i class="bi bi-subtract ctext-addr-scan"></i></a>
+                    </div>
                    <button class='btn btn-logout' @click="wallet.disconnect" data-dismiss="modal">Logout</button>
                 </div>
             </div>
@@ -28,20 +35,30 @@
 <script>
     import useWallet from '../composables/useWallet';
     import {useStore} from 'vuex';
+    import {computed} from 'vue';
+
     export default {
-        data() {
-            return {
-                flag : false
-            }
-        },
+        
         setup() {
             const store = useStore();
             const wallet = useWallet();
-            
 
-            const clipCopy = () => {    
+            const refLink = computed(() => {
+                if(!store.state.wallet.loggedIn) {
+                    return null;
+                }
+                return location.protocol + "//" + location.host + "?ref=" + store.state.wallet.address;
+            });
+
+            const clipCopyAddr = () => {    
                 const addr = store.state.wallet.address;
                 navigator.clipboard.writeText(addr);
+                alert("Copied");
+            }
+
+            const clipCopyRefer = () => {    
+                let link = location.protocol + "//" + location.host + "?ref=" + store.state.wallet.address;
+                navigator.clipboard.writeText(link);
                 alert("Copied");
             }
 
@@ -54,7 +71,9 @@
             return {
                 store,
                 wallet,
-                clipCopy,
+                refLink,
+                clipCopyAddr,
+                clipCopyRefer,
                 goToExp
             }
 
