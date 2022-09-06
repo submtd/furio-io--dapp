@@ -126,6 +126,29 @@ hr {
     height: 50px;
 }
 
+.btn-buy-fur {
+    border: 0px !important;
+    border-radius: 13px !important; 
+    background-image: linear-gradient(0deg, #f8bf4c, #e77b3b);
+    color: #FFFFFF !important;
+    font-size: 12px !important;
+    width: 100px;
+    height: 40px;
+}
+
+.btn-add-fur {
+    width: 40px !important;
+    height: 40px !important;
+    border: 0 !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    background-color: #1c3353 !important;
+}
+
+.btn-add-fur:hover {
+    background-color: '#1c3300';
+}
+
 .btn-conf-mobile {
     border: 0px !important;
     border-radius: 15px !important;
@@ -280,6 +303,17 @@ hr {
     padding-bottom: 17vh !important;
   }
 
+//filter
+
+.logo-filter {
+    margin: 30px 40px 30px 40px !important;   
+    filter: invert(58%) sepia(100%) saturate(186%) hue-rotate(177deg) brightness(84%) contrast(100%) !important;
+}
+
+.logo-filter:hover {
+    filter: none !important;
+}
+
 ///---------------------------------------
 
 .footer .nav-link {
@@ -298,6 +332,21 @@ hr {
 }
 .footer .social .nav-link i:hover {
     color: $primary;
+}
+
+.footer-panel {
+    background-color: #102747 !important;
+    border-radius: 5px;
+}
+
+.footer-spacing {
+    padding-top: 20px !important;
+    padding-bottom: 50px !important;
+}
+
+.footer-custom-spacing {
+    margin-top: 50px !important;
+    margin-bottom: 50px !important;
 }
 
 //text
