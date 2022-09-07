@@ -16,17 +16,17 @@
         <div class="mb-5">
             <h3 class="mb-5 text-center">Furio Partners</h3>
             <div class="d-flex flex-row align-items-center justify-content-center flex-wrap">
-                <a href="https://coinmarketcap.com" target="_blank">
-                    <img src="../images/coinmarketcap.png" alt="CoinMarketCap" height='40px' class='logo-filter' />
+                <a href="https://coinmarketcap.com/currencies/furio/" target="_blank">
+                    <img src="../images/coinmarketcap.png" alt="CoinMarketCap" height='60px' class='logo-filter' />
                 </a>
-                <a href="https://coingecko.com/" target="_blank">
-                    <img src="../images/coingecko.png" alt="CoinGecko" height="40px" class='logo-filter'/>
+                <a href="https://www.coingecko.com/en/coins/furio" target="_blank">
+                    <img src="../images/coingecko.png" alt="CoinGecko" height="60px" class='logo-filter'/>
                 </a>
-                <a href="https://dappradar.com/" target="_blank">
-                    <img src="../images/dappradar.png" alt="DappRadar" height="40px" class='logo-filter'/>
+                <a href="https://dappradar.com/binance-smart-chain/high-risk/furio" target="_blank">
+                    <img src="../images/dappradar.png" alt="DappRadar" height="60px" class='logo-filter'/>
                 </a>
-                <a href="https://dapp.com" target="_blank">
-                    <img src="../images/dapp.png" alt="DappRadar" height="40px" class='logo-filter'/>
+                <a href="https://www.dapp.com/app/furio" target="_blank">
+                    <img src="../images/dapp.png" alt="DappRadar" height="60px" class='logo-filter'/>
                 </a>
             </div>
         </div>
@@ -47,17 +47,18 @@ import Balance from "./components/Balance.vue";
 
 export default {
     components: {
-    Alerts,
-    Footer,
-    Navbar,
-    Balance
-},
+        Alerts,
+        Footer,
+        Navbar,
+        Balance
+    },
     setup() {
         const store = useStore();
         store.commit("loading", true);
         useReferral();
         useSettings().update();
         store.commit("loading", false);
+        
     }
 }
 </script>
