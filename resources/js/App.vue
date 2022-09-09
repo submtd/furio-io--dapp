@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="container mt-5 py-5">
-            <h5 class="mb-3">Furio Rewards Responsibilty</h5>
+            <h6 class="mb-3">Furio Rewards Responsibilty</h6>
             <p>Participation within the Furio Ecosystem is entirely at your own discretion. Please conduct your own research and read all of the available information. Remember that crypto currencies and the performance of projects carry no guarantees and you should not take on unnecessary risks. Material published by Furio should not be considered as financial advice.</p>
         </div>
         <div class="mb-5 border-setting">
