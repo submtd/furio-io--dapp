@@ -16,18 +16,18 @@ export default () => {
         // Watch for accountsChanged event.
         window.ethereum.on('accountsChanged', async function () {
             if(connected) {
-                //await loadWallet();
+                await loadWallet();
                 return;
             }
-            //await connect();
+            await connect();
         });
         // Watch for networkChanged event.
         window.ethereum.on('chainChanged', async function () {
             if(connected) {
-                //await checkNetwork();
+                await checkNetwork();
                 return;
             }
-            //await connect();
+            await connect();
         });
     }
 
@@ -146,21 +146,24 @@ export default () => {
         await axios.get("/api/v1/logout");
         location.href = "/";
         //router.push("/connect");
+        console.log("disconnect funtion is called!")
     }
 
     // Load wallet.
     const loadWallet = async () => {
         if(!connected) {
-            //await connect();
+            await connect();
             return;
         }
         // Get address.
         let address = await web3.eth.getAccounts();
+        console.log("address: ", address);
         //let address = await web3.eth.requestAccounts();
         if(wallet && address[0] == wallet.attributes.address) {
             return;
         }
         wallet = await lookupAddress(address[0]);
+        console.log("wallet: ", wallet);
         const storedWallet = {
             address: wallet.attributes.address,
             shortAddress: wallet.attributes.shortAddress,
@@ -171,6 +174,7 @@ export default () => {
         store.commit("wallet", storedWallet);
         cookies.set("wallet", address[0]);
         dispatchEvent(new Event("refresh"));
+        console.log("loadWallet");
     }
 
     // Lookup address.
@@ -185,6 +189,34 @@ export default () => {
             return disconnect();
         }
     }
+    const addFurioToken = async() => {
+        const tokenAddress = '0x48378891d6E459ca9a56B88b406E8F4eAB2e39bF';
+        const tokenSymbol = '$FUR';
+        const tokenDecimals = 18;
+
+        if(!web3.currentProvider) {
+            alert("Please connect wallet!");
+            return ;
+        }
+
+        try {
+            const isAdded = await web3.currentProvider.request({
+                method: 'wallet_watchAsset',
+                params: {
+                type: 'ERC20',
+                options: {
+                    address: tokenAddress,
+                    symbol: tokenSymbol,
+                    decimals: tokenDecimals,
+                    // image: tokenImage, // if you have the image, it goes here
+                    },
+                },
+            });
+        } catch (error) {
+            console.log("Can't add the Furio token!")
+        }
+
+    }
 
     return {
         isConnected,
@@ -194,5 +226,6 @@ export default () => {
         connect,
         disconnect,
         lookupAddress,
+        addFurioToken
     }
 }

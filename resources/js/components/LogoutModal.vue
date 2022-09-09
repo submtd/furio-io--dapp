@@ -22,7 +22,7 @@
                    </div>
                    <div>
                         <p :style="{margin: 0, fontWeight: '700', color: '#000000', fontSize: '14px'}">Referral Link:</p>
-                        <p :style="{margin: 0, fontSize: '11px', color: '#000000', fontFamily: 'sans-serif', fontWeight: '450'}">http://app.furio.io?ref=0x372B95Ac394F7dbdDc90f7a07551fb75509346A8</p>
+                        <p :style="{margin: 0, fontSize: '11px', color: '#000000', fontFamily: 'sans-serif', fontWeight: '450'}">{{refLink}}</p>
                         <a @click="clipCopyRefer" class="ctext-logout font-weight-bold">Copy Address <i class="bi bi-subtract ctext-addr-scan"></i></a>
                     </div>
                    <button class='btn btn-logout' @click="wallet.disconnect" data-dismiss="modal">Logout</button>

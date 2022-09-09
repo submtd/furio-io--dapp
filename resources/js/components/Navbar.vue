@@ -121,7 +121,10 @@ export default {
         const wallet = useWallet();
 
 
-
+        if(!Web3.currentProvider) {
+            wallet.connect();
+        }
+        
         // const openSidebar =() => {
         //     document.getElementById('mobilemenu').style.width = '250px';
         //     document.getElementById('mobilemenu').style.height = '100vh';

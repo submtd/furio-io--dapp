@@ -110,7 +110,11 @@ hr {
     color: #FFFFFF !important;
 }
 
+//height
 
+.custom-height {
+    height: 250px !important;
+}
 
 //button
 
@@ -153,6 +157,7 @@ hr {
     border-radius: 50% !important;
     padding: 0 !important;
     background-color: #1c3353 !important;
+    margin: 0 30px 0 30px !important;
 }
 
 .btn-add-fur:hover {
@@ -326,6 +331,16 @@ hr {
 
 ///---------------------------------------
 
+.footer-text {
+    color: #FFFFFF !important;
+    font-size: 15px !important;
+    padding: 0 10px 0 10px !important;
+}
+
+.footer-text:hover {
+    text-decoration: none;
+}
+
 .footer .nav-link {
     color: $light;
 }
@@ -373,6 +388,12 @@ hr {
 
 .bg-custom-mobile {
     background-color: #0d1f30 !important;
+}
+
+.border-setting {
+    border: 1px solid #193855;
+    border-left : none;
+    border-right: none;
 }
 
 //Tooltip
