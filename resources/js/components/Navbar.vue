@@ -60,7 +60,7 @@
                             <button type="button" class="btn btn-primary btn-conf" data-toggle="modal"
                                 data-target="#logoutmodal"><i class="bi bi-unlock pr-2"></i>{{ address }}</button>
                         </div>
-                        
+
                     </li>
                 </ul>
             </div>
@@ -145,17 +145,19 @@ export default {
         //let addr = store.state.wallet.address;
         //const addrString = addr.slice(0,5) + "....." + addr.slice(addr.length-6, addr.length-1);
         const address = computed(() => {
-            let addr = store.state.wallet.address;
-            if (addr == null) return "0x0000000";
-            const addrString = addr.slice(0, 5) + "....." + addr.slice(addr.length - 4, addr.length);
-            return addrString;
+            if(store.state.wallet.name != null) {
+                return store.state.wallet.name;
+            } else if(store.state.wallet.shortAddress != null) {
+                return store.state.wallet.shortAddress;
+            }
+            return "0x00000000";
         });
 
         const teamaddress = computed(() => {
             return store.state.wallet.address ?? "0x0000000000000000000000000000000000000000";
         });
 
-        
+
 
         //if(!store.state.wallet.loggedIn && useRoute().name != 'Connect') {
         //router.push("/connect");
