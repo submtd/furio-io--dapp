@@ -225,9 +225,9 @@ export default {
             loading.value = true;
             try {
                 const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
-                const amount = BigInt(from.value * 1000000000000000000);
+                const amount = BigInt(from.value * "1000000000000000000");
                 let token;
-                let method;
+                alert(onCooldown.value);
                 if(fromCurrency.value == "$FUR") {
                     if(onCooldown.value) {
                         alerts.danger("You are currently on a sell cooldown period. Please try again later");
