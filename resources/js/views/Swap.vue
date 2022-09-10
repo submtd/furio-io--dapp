@@ -227,7 +227,6 @@ export default {
                 const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
                 const amount = BigInt(from.value * "1000000000000000000");
                 let token;
-                alert(onCooldown.value);
                 if(fromCurrency.value == "$FUR") {
                     if(onCooldown.value) {
                         alerts.danger("You are currently on a sell cooldown period. Please try again later");
@@ -235,15 +234,14 @@ export default {
                         return;
                     }
                     token = new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
-                    method = "sell";
                 }
                 if(fromCurrency.value == "USDC") {
                     token = new web3.eth.Contract(JSON.parse(store.state.settings.payment_abi), store.state.settings.payment_address);
-                    method = "buy";
                 }
                 const gasPriceMultiplier = 1;
                 const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                alert(gasPrice);
                 const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.swap_address).call();
                 if(allowance < amount) {
                     const approveGas = Math.round(await token.methods.approve(store.state.settings.swap_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
