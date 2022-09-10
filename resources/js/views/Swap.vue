@@ -241,9 +241,9 @@ export default {
                 const gasPriceMultiplier = 1;
                 const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
-                alert(gasPrice);
                 const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.swap_address).call();
                 if(allowance < amount) {
+                    alert("not enough allowance");
                     const approveGas = Math.round(await token.methods.approve(store.state.settings.swap_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                     await token.methods.approve(store.state.settings.swap_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
                 }
