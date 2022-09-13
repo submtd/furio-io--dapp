@@ -19,7 +19,7 @@ export default () => {
                 await loadWallet();
                 return;
             }
-            await connect();
+            // await connect();
         });
         // Watch for networkChanged event.
         window.ethereum.on('chainChanged', async function () {
@@ -82,6 +82,7 @@ export default () => {
                     }],
                 });
             } catch(error) {
+                console.error(error);
                 alerts.danger("Incorrect network. Please connect to " + store.state.settings.network_name);
             }
         }
@@ -116,16 +117,17 @@ export default () => {
             alerts.clear();
             //router.push("/");
         } catch (error) {
+            console.error(error);
             console.log("error");
             //alerts.danger(error.message);
             return disconnect();
         }
-        //settings.update();
+        settings.update();
     }
 
     // Disconnect.
     const disconnect = async () => {
-        connected = false;
+        connected = true;
         wallet = null;
         const storedWallet = {
             address: null,

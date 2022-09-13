@@ -12,6 +12,9 @@ export default () => {
             return address;
         } catch (error) {
             alerts.danger(error.message);
+            console.log("useAddressBook: ");
+            console.error(error);
+
         }
     }
 

@@ -3,7 +3,7 @@
     <div class="bg-light text-dark rounded p-5">
         <div v-show="!store.state.wallet.loggedIn">
             <p>Please connect your wallet</p>
-            <router-link :to="{ name: 'Connect' }" class="btn btn-lg text-light btn-primary" active-class="active">CONNECT</router-link>
+            <button class="btn btn-lg text-light btn-primary" data-toggle="modal" data-target="#loginmodal" active-class="active">CONNECT</button>
         </div>
         <div v-show="store.state.wallet.loggedIn">
             <dl class="row">
@@ -28,31 +28,30 @@
             </dl>
         </div>
     </div>
+    <LoginModal/>
 </template>
 
 <script>
 import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import useSettings from "../composables/useSettings";
+import LoginModal from "../components/LoginModal.vue";
 export default {
-    setup () {
+    setup() {
         const store = useStore();
         const settings = useSettings();
-
-        const claimLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.claim_address);
-        const downlineLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.downline_address);
-        const presaleLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.presale_address);
-        const swapLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.swap_address);
-        const tokenLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.token_address);
-        const paymentLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.payment_address);
-        const vaultLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.vault_address);
-        const voteLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.vote_address);
-        const autoCompoundLink = ref(store.state.settings.block_explorer_url + '/address/' + store.state.settings.autocompound_address);
-
+        const claimLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.claim_address);
+        const downlineLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.downline_address);
+        const presaleLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.presale_address);
+        const swapLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.swap_address);
+        const tokenLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.token_address);
+        const paymentLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.payment_address);
+        const vaultLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.vault_address);
+        const voteLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.vote_address);
+        const autoCompoundLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.autocompound_address);
         onMounted(async () => {
             //settings.update();
         });
-
         return {
             store,
             claimLink,
@@ -64,7 +63,8 @@ export default {
             vaultLink,
             voteLink,
             autoCompoundLink,
-        }
-    }
+        };
+    },
+    components: { LoginModal }
 }
 </script>

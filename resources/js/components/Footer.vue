@@ -41,16 +41,16 @@
                     <a href="https://www.furio.io/anti-dump-mechanics" target="_blank" class="footer-text">Anti Dump Mechanics</a>
                     <a href="https://www.furio.io/fast-programme/" target="_blank" class="footer-text">FAST Programme</a>
                     <a href="https://www.furio.io/furpool/" target="_blank" class="footer-text">Furpool</a>
-                    <a href="https://app.furio.io/addressbook" target="_blank" class="footer-text">Address Book</a>
+                    <a href="https://localhost:8000/addressbook" target="_blank" class="footer-text">Address Book</a>
                 </div>
             </div>
         </div>
         <div class="d-flex flex-column justify-content-between footer-custom-spacing custom-height">
-            <h5>Contact Us</h5>
-            <div class="d-flex flex-column justify">
+            <div>
+                <h5 :style="{marginBottom: '10px'}">Contact Us</h5>
                 <a href="mailto:info@furio.io" class="footer-text" :style="{padding: '0 !important', margin: '70px 0 70px 0 !important'}"><i class="bi bi-envelope-fill"></i> info@furio.io</a>
-                <a href="https://solidity.finance/audits/Furio/" target="_blank"><img src="../../images/solidity-banner.svg" alt="Solidity Banner" width="170px"/></a>
             </div>
+            <a href="https://solidity.finance/audits/Furio/" target="_blank"><img src="../../images/solidity-banner.svg" alt="Solidity Banner" width="170px"/></a>
         </div>
     </div>
     <LoginModal/>
