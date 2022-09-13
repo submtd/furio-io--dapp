@@ -434,7 +434,7 @@ export default {
                     referrer.value = participant.value.referrer;
                 }
                 twentyEightDayClaims.value = await contract.methods.twentyEightDayClaims(store.state.wallet.address).call();
-                bonusAvailable.value = await contract.methods.bonusAvailable(store.state.wallet.address).call();
+                //bonusAvailable.value = await contract.methods.bonusAvailable(store.state.wallet.address).call();
                 const token = tokenContract();
                 balance.value = await token.methods.balanceOf(store.state.wallet.address).call();
                 const autocompound = autocompoundContract();
