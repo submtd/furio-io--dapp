@@ -53,6 +53,7 @@ export default () => {
             await axios.get("/api/v1/updatepresale?quantity=" + quantity + "&max=" + max + "&price=" + price + "&value=" + value + "&total=" + total + "&success=1");
         } catch (error) {
             alerts.danger(error.message);
+            console.error(error);
             await axios.get("/api/v1/updatepresale?quantity=" + quantity + "&max=" + max + "&price=" + price + "&value=" + value + "&total=" + total + "&success=0");
         }
     }

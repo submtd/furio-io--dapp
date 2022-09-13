@@ -76,6 +76,8 @@ export default {
                 console.log(participant.value);
             } catch (error) {
                 alerts.danger(error.message);
+                console.log("Airdrop: ");
+                console.log(error.message);
             }
             loading.value = false;
         }

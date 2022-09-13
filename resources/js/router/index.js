@@ -90,8 +90,8 @@ const routes = [
         path: "/:catchAll(.*)",
         beforeEnter (to) {
             window.location.replace("/404");
-        }
-        //component: NotFound,
+        },
+        component: NotFound,
     }
 ];
 

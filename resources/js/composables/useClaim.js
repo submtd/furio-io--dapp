@@ -15,7 +15,10 @@ export default () => {
             const nfts = await contract.methods.owned(store.state.wallet.address).call();
             console.log(nfts);
         } catch (error) {
+            console.log("useClaim: ");
+            console.error(error);
             alerts.danger(error.message);
+            
         }
     }
     return {
