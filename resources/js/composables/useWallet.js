@@ -12,6 +12,8 @@ export default () => {
     let connected = false; // Connected?
     let wallet = null; // Current wallet.
 
+    console.log("Blockchain Network Version: ",window.ethereum.networkVersion);
+
     if(typeof window.ethereum != "undefined") {
         // Watch for accountsChanged event.
         window.ethereum.on('accountsChanged', async function () {
@@ -73,6 +75,7 @@ export default () => {
         if(typeof store.state.settings.network_id == "undefined") {
             return;
         }
+        console.log("Settings of Network ID and Name: ", store.state.settings.network_id);
         if(parseInt(await web3.eth.net.getId()) != parseInt(store.state.settings.network_id)) {
             try {
                 await web3.currentProvider.request({
