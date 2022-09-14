@@ -67,6 +67,7 @@ export default {
         store.commit("loading", true);
         useReferral();
         useSettings().update();
+        console.log("Settings Data: ", store.state.settings);
         store.commit("loading", false);
 
         return {
