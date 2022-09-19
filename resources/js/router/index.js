@@ -14,6 +14,7 @@ import FurbPresale from "../views/FurbPresale.vue";
 import Vote from "../views/Vote.vue";
 import LPStaking from "../views/LPStaking.vue";
 import NotFound from "../views/NotFound.vue";
+import BuyCrypto from "../views/BuyCrypto.vue";
 
 const routes = [
     {
@@ -85,6 +86,11 @@ const routes = [
         path: "/staking",
         name: "LPStaking",
         component: LPStaking,
+    },
+    {
+        path: "/buycrypto",
+        name: "BuyCrypto",
+        component: BuyCrypto,
     },
     {
         path: "/:catchAll(.*)",

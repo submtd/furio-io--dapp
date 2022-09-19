@@ -44,6 +44,7 @@
                             <button @click="unstake" class="btn btn-lg btn-secondary btn-block">Unstake</button>
                         </div>
                     </div>
+                    <p class="card-text mt-4"><strong>Time Left to Unstake: 29 days</strong></p>
                 </div>
                 <div v-show="loading" class="text-center">
                     <div class="spinner-border m-5" role="status">
@@ -91,6 +92,33 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-7">
+            </div>
+            <div class="col-lg-5">
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <img src="../../images/lp-furusd.svg" class="mx-auto d-block mb-3" alt="Available" height="75"/>
+                                <p class="card-title">LP Price</p>
+                                <p class="card-text"><strong>${{ displayCurrency.format(lp_price) }}</strong></p>
+                                <p>{{reserves}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <img src="../../images/lp-per.svg" class="mx-auto d-block mb-3" alt="Available" width="75" height="75"/>
+                                <p class="card-title">All Time APR: <strong>110%</strong></p>
+                                <p class="card-text">14 Day: <strong>100%</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 </template>
@@ -101,7 +129,8 @@ import { useStore } from 'vuex';
 import useAlerts from '../composables/useAlerts';
 import useBalances from '../composables/useBalances';
 import useDisplayCurrency from '../composables/useDisplayCurrency';
-import LoginModal from '../components/LoginModal.vue';
+import LoginModal from '../components/LoginModal.vue'; 
+import Web3 from 'web3';
 
 export default {
     setup() {
@@ -117,12 +146,19 @@ export default {
         const totalStakers = ref(0);
         const totalStaked = ref(0);
         const staked = ref(0);
+        const lp_price = ref(0);
+
+        console.log("lpstakingabi: ", store.state.settings.lpstaking_abi);
+
         addEventListener("refresh", async () => {
             await update();
         });
         onMounted(async () => {
             await update();
+            
         });
+
+        
         const stakingContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.lpstaking_abi), store.state.settings.lpstaking_address);
         };
@@ -132,14 +168,38 @@ export default {
         const factoryContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.factory_abi), store.state.settings.factory_address);
         };
+        const lpreserveContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.lpreserve_abi), "0xCe89e3cb83AA3b8bECfa1478009b79a6481F3BA0");
+        }
+
         const update = async () => {
             loading.value = true;
             try {
+                console.log("Here: ");
+                const lpReserve = lpreserveContract();
+                console.log("payment_address: ", store.state.settings.payment_address);
+                console.log("factory_address: ", store.state.settings.factory_address);
+                console.log("lpstaking_address: ", store.state.settings.lpstaking_address );
+                console.log("lpreserve_address: ", store.state.settings.lpreserve_address);
                 const contract = stakingContract();
+                console.log("lpReserve: ", lpReserve);
+                console.log("Staking: ", contract);
+
+                
+                // const totalSupply = await lpReserve.methods.totalSupply().call();
+                console.log("supply: ", tt);
+                
                 totalStakers.value = await contract.methods.totalStakerNum().call();
                 totalStaked.value = await contract.methods.totalStakingAmountInUsdc().call();
                 staked.value = await contract.methods.stakingAmountInUsdc(store.state.wallet.address).call();
                 available.value = await contract.methods.availableRewardsInUsdc(store.state.wallet.address).call();
+
+                const reserves = await lpReserve.methods.getReserves().call();
+                const totalSupply = await lpReserve.methods.totalSupply().call();
+
+                lp_price.value = (reserve[0] + reserve[1]) /totalSupply;
+
+
             }
             catch (error) {
                 //alerts.danger(error.message);
@@ -241,6 +301,7 @@ export default {
             totalStakers,
             totalStaked,
             staked,
+            lp_price,
             stake,
             claim,
             compound,

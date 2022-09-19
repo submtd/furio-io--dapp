@@ -11,6 +11,8 @@
                 <span class="bal-font pl-2 pr-4">Vault Balance: {{ store.state.balances.vault ?? 0 }}</span>
             </div>
             <div>
+                <router-link :to="{ name: 'BuyCrypto' }" class="link pr-4">Buy Crypto
+                </router-link>
                 <a href="https://furio.io/whitepaper" target="_blank" class="link pr-4">Whitepaper</a>
                 <a href="https://furio.io" target="_blank" class="link">Website</a>
             </div>
