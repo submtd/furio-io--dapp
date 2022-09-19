@@ -17,6 +17,7 @@ use App\Abis\Swap;
 use App\Abis\Token;
 use App\Abis\Vault;
 use App\Abis\Vote;
+use App\Abis\LPReserve;
 
 class SettingsService
 {
@@ -43,8 +44,10 @@ class SettingsService
         $settings['token_abi'] = Token::toString();
         $settings['vault_abi'] = Vault::toString();
         $settings['vote_abi'] = Vote::toString();
+        $settings['lpreserve_abi'] = LPReserve::toString();
         $settings['server_time'] = now()->timestamp;
         $settings['referrer'] = session()->get('ref');
+        
 
         return $settings;
     }

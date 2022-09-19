@@ -129,10 +129,13 @@ export default {
                 const vault = vaultContract();
                 totalSupply.value = await contract.methods.totalSupply().call();
                 maxSupply.value = await contract.methods.maxSupply().call();
-                owned.value = await contract.methods.balanceOf(store.state.wallet.address).call();
-                participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
-                buyQuantity.value = 15 - owned.value;
-                sellQuantity.value = owned.value;
+
+                if(store.state.wallet.loggedIn) {
+                    owned.value = await contract.methods.balanceOf(store.state.wallet.address).call();
+                    participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
+                    buyQuantity.value = 15 - owned.value;
+                    sellQuantity.value = owned.value;
+                }
             }
             catch (error) {
                 alerts.danger(error.message);
