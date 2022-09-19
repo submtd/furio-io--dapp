@@ -44,7 +44,7 @@
                             <button @click="unstake" class="btn btn-lg btn-secondary btn-block">Unstake</button>
                         </div>
                     </div>
-                    <p class="card-text mt-4"><strong>Time Left to Unstake: 29 days</strong></p>
+                    <p class="card-text mt-4"><strong>Time Left to Unstake: {{lock_day}} days</strong></p>
                 </div>
                 <div v-show="loading" class="text-center">
                     <div class="spinner-border m-5" role="status">
@@ -147,6 +147,7 @@ export default {
         const totalStaked = ref(0);
         const staked = ref(0);
         const lp_price = ref(0);
+        const lock_day = ref(0);
 
         console.log("lpstakingabi: ", store.state.settings.lpstaking_abi);
 
@@ -191,14 +192,18 @@ export default {
                 
                 totalStakers.value = await contract.methods.totalStakerNum().call();
                 totalStaked.value = await contract.methods.totalStakingAmountInUsdc().call();
-                staked.value = await contract.methods.stakingAmountInUsdc(store.state.wallet.address).call();
-                available.value = await contract.methods.availableRewardsInUsdc(store.state.wallet.address).call();
+                
 
                 const reserves = await lpReserve.methods.getReserves().call();
                 const totalSupply = await lpReserve.methods.totalSupply().call();
 
                 lp_price.value = (reserve[0] + reserve[1]) /totalSupply;
-
+                if(store.state.wallet.loggedIn) {
+                    staked.value = await contract.methods.stakingAmountInUsdc(store.state.wallet.address).call();
+                    available.value = await contract.methods.availableRewardsInUsdc(store.state.wallet.address).call();
+                    const lock_sec = await contract.methods.getRemainingLockedTime(store.state.wallet.address).call();
+                    lock_day.value = lock_sec/3600*24;
+                }
 
             }
             catch (error) {
@@ -302,6 +307,7 @@ export default {
             totalStaked,
             staked,
             lp_price,
+            lock_day,
             stake,
             claim,
             compound,
