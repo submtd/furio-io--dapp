@@ -229,55 +229,55 @@ export default {
         }
 
         const swap = async () => {
-            // alerts.warning("waiting on response from wallet");
-            // loading.value = true;
-            // try {
-            //     const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
-            //     const amount = BigInt(from.value * 1000000000000000000);
-            //     let token;
-            //     let method;
-            //     if(fromCurrency.value == "$FUR") {
-            //         if(onCooldown.value) {
-            //             alerts.danger("You are currently on a sell cooldown period. Please try again later");
-            //             loading.value = false;
-            //             return;
-            //         }
-            //         token = new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
-            //         method = "sell";
-            //     }
-            //     if(fromCurrency.value == "USDC") {
-            //         token = new web3.eth.Contract(JSON.parse(store.state.settings.payment_abi), store.state.settings.payment_address);
-            //         method = "buy";
-            //     }
-            //     const gasPriceMultiplier = 1;
-            //     const gasMultiplier = 1.2;
-            //     const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
-            //     const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.swap_address).call();
-            //     if(allowance < amount) {
-            //         const approveGas = Math.round(await token.methods.approve(store.state.settings.swap_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-            //         await token.methods.approve(store.state.settings.swap_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
-            //     }
-            //     let gas;
-            //     let result;
-            //     if(fromCurrency.value == "USDC" && vault.value == true) {
-            //         if(referrer.value) {
-            //             gas = Math.round(await swap.methods.depositBuy(amount, referrer.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-            //             result = await swap.methods.depositBuy(amount, referrer.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
-            //         } else {
-            //             gas = Math.round(await swap.methods.depositBuy(amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-            //             result = await swap.methods.depositBuy(amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
-            //         }
-            //     } else {
-            //         gas = Math.round(await swap.methods[method](amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-            //         result = await swap.methods[method](amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
-            //     }
-            //     alerts.info("Transaction successful! TXID: " + result.blockHash);
-            // } catch (error) {
-            //     alerts.danger(error.message);
-            // }
-            // dispatchEvent(new Event("refresh"));
-            // update();
-            // loading.value = false;
+            alerts.warning("waiting on response from wallet");
+            loading.value = true;
+            try {
+                const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
+                const amount = BigInt(from.value * 1000000000000000000);
+                let token;
+                let method;
+                if(fromCurrency.value == "$FUR") {
+                    if(onCooldown.value) {
+                        alerts.danger("You are currently on a sell cooldown period. Please try again later");
+                        loading.value = false;
+                        return;
+                    }
+                    token = new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
+                    method = "sell";
+                }
+                if(fromCurrency.value == "USDC") {
+                    token = new web3.eth.Contract(JSON.parse(store.state.settings.payment_abi), store.state.settings.payment_address);
+                    method = "buy";
+                }
+                const gasPriceMultiplier = 1;
+                const gasMultiplier = 1.2;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.swap_address).call();
+                if(allowance < amount) {
+                    const approveGas = Math.round(await token.methods.approve(store.state.settings.swap_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                    await token.methods.approve(store.state.settings.swap_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
+                }
+                let gas;
+                let result;
+                if(fromCurrency.value == "USDC" && vault.value == true) {
+                    if(referrer.value) {
+                        gas = Math.round(await swap.methods.depositBuy(amount, referrer.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                        result = await swap.methods.depositBuy(amount, referrer.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                    } else {
+                        gas = Math.round(await swap.methods.depositBuy(amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                        result = await swap.methods.depositBuy(amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                    }
+                } else {
+                    gas = Math.round(await swap.methods[method](amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                    result = await swap.methods[method](amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                }
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            dispatchEvent(new Event("refresh"));
+            update();
+            loading.value = false;
         }
 
         return {
