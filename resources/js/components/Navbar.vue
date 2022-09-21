@@ -77,8 +77,6 @@
             <img class="d-md-none" src="../../images/furio-logo.svg" alt="Furio Logo" height="40" />
         </div>
     </nav>
-    <LoginModal />
-    <LogoutModal />
     <MobileMenu :visible="menuVisible" :onClose="closeSidebar" />
 </template>
 
@@ -89,14 +87,11 @@ import { useRoute } from "vue-router";
 import router from "../router";
 import useWallet from "../composables/useWallet";
 import Web3 from "web3";
-import LoginModal from './LoginModal.vue';
-import LogoutModal from "./LogoutModal.vue";
 import MobileMenu from './MobileMenu.vue';
+import useCookies from "../composables/useCookies";
 
 export default {
     components: {
-        LoginModal,
-        LogoutModal,
         MobileMenu
     },
     data() {
@@ -119,8 +114,7 @@ export default {
     setup() {
         const store = useStore();
         const wallet = useWallet();
-
-
+        
         if(!Web3.currentProvider) {
             wallet.connect();
         }

@@ -4,9 +4,11 @@ import router from "../router";
 import useAlerts from "./useAlerts";
 import useCookies from "./useCookies";
 import axios from "axios";
+import useSettings from "./useSettings";
 
 export default () => {
     const store = useStore(); // Global storage.
+    const settings = useSettings();
     const alerts = useAlerts(); // Alerts.
     const cookies = useCookies(); // Cookies.
     let connected = false; // Connected?
@@ -53,6 +55,7 @@ export default () => {
         }
         cookies.set("provider", "metamask");
         web3.setProvider(window.ethereum);
+        console.log("Wallet Address:", store.state.wallet.address);
         return connect();
     }
 
@@ -66,6 +69,7 @@ export default () => {
         });
         cookies.set("provider", "walletconnect");
         web3.setProvider(provider);
+        
         return connect();
     }
 
@@ -118,7 +122,7 @@ export default () => {
             await checkNetwork();
             await loadWallet();
             alerts.clear();
-            //router.push("/");
+            router.push("/");
         } catch (error) {
             console.error(error);
             console.log("error");
@@ -139,6 +143,7 @@ export default () => {
             loggedIn: false,
             name: null,
         };
+        console.log("called2")
         store.commit("wallet", storedWallet);
         cookies.remove("provider");
         cookies.remove("wallet");
@@ -176,6 +181,7 @@ export default () => {
             loggedIn: true,
             name: wallet.attributes.name,
         };
+        console.log("called1")
         store.commit("wallet", storedWallet);
         cookies.set("wallet", address[0]);
         dispatchEvent(new Event("refresh"));
@@ -220,7 +226,6 @@ export default () => {
         } catch (error) {
             console.log("Can't add the Furio token!")
         }
-
     }
 
     return {

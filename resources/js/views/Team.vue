@@ -242,9 +242,11 @@ import useAlerts from "../composables/useAlerts";
 import useDisplayCurrency from '../composables/useDisplayCurrency';
 import useWallet from "../composables/useWallet";
 import useSettings from "../composables/useSettings";
+import Web3 from "web3";
 
 export default {
     setup () {
+        var web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:8546');
         const store = useStore();
         const alerts = useAlerts();
         const route = useRoute();
@@ -445,9 +447,11 @@ export default {
         }
 
         const update = async () => {
+            if(!store.state.wallet.loggedIn) return ;
             loading.value = true;
             try {
-                //await settings.update();
+                await settings.update();
+                console.log("Team wallet address: ",store.state.wallet.address);
                 alerts.clear();
                 address.value = await wallet.lookupAddress(route.params.teamaddress ?? store.state.wallet.address);
                 twitter.value = address.value.attributes.twitter;

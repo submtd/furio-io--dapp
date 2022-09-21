@@ -23,7 +23,6 @@
                     <div v-show="!store.state.wallet.loggedIn">
                         <button class="btn btn-lg btn-info btn-block" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
                     </div>
-                    <LoginModal/>
                     <div v-show="lastAction" class="mb-2 text-center">
                         Last action: <strong>{{ lastAction }}</strong>
                     </div>
@@ -57,7 +56,6 @@
                             <div v-show="!store.state.wallet.loggedIn">
                                 <button class="btn btn-lg btn-info btn-block" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
                             </div>
-                            <LoginModal/>
                         </div>
                         <div v-show="ac.isCompounding" class="row">
                             <div class="col-md-4">
@@ -261,14 +259,12 @@ import en from 'javascript-time-ago/locale/en';
 import useAlerts from '../composables/useAlerts';
 import useBalances from '../composables/useBalances';
 import useDisplayCurrency from '../composables/useDisplayCurrency';
-import LoginModal from '../components/LoginModal.vue';
+import Web3 from 'web3';
 
 export default {
-    components : {
-        LoginModal
-    },
     setup () {
         TimeAgo.addDefaultLocale(en);
+        var web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:8546');
         const timeAgo = new TimeAgo('en-US');
         const store = useStore();
         const alerts = useAlerts();
@@ -413,10 +409,12 @@ export default {
         });
 
         addEventListener("refresh", async () => {
+            if(!store.state.wallet.loggedIn) return ;
             await update();
         });
 
         onMounted(async () => {
+            if(!store.state.wallet.loggedIn) return ;
             await update();
         });
 
