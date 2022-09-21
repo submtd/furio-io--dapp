@@ -88,6 +88,7 @@ import router from "../router";
 import useWallet from "../composables/useWallet";
 import Web3 from "web3";
 import MobileMenu from './MobileMenu.vue';
+import useCookies from "../composables/useCookies";
 
 export default {
     components: {
@@ -113,11 +114,10 @@ export default {
     setup() {
         const store = useStore();
         const wallet = useWallet();
-
-
-        // if(!Web3.currentProvider) {
-        //     wallet.connect();
-        // }
+        
+        if(!Web3.currentProvider) {
+            wallet.connect();
+        }
         
         // const openSidebar =() => {
         //     document.getElementById('mobilemenu').style.width = '250px';
