@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'network_id' => env('NETWORK_ID',  ),
-    'network_name' => env('NETWORK_NAME', 'Rinkeby Testnet'),
-    'rpc_url' => env('RPC_URL', 'https://rinkeby.infura.io/v3/b8e7a65f07574f89a1424b075a31f605'),
-    'block_explorer_url' => env('BLOCK_EXPLORER_URL', 'https://rinkeby.etherscan.io'),
+    'network_id' => env('NETWORK_ID', '97'),
+    'network_name' => env('NETWORK_NAME', 'Binance Smart Chain Testnet'),
+    'rpc_url' => env('RPC_URL', 'https://data-seed-prebsc-1-s1.binance.org:8545/'),
+    'block_explorer_url' => env('BLOCK_EXPLORER_URL', 'https://testnet.bscscan.com/'),
     'addressbook_address' => env('ADDRESSBOOK_ADDRESS', '0x31FDa67A5a272403e96a916a7985271e659bcD2E'),
     'autocompound_address' => env('AUTOCOMPOUND_ADDRESS', '0xa7E6031fcC4bb42B38E61De0D0bE241BA95173a8'),
     'claim_address' => env('CLAIM_ADDRESS', '0x0b59Bc8cbE986a0fa8C47631371b3B24316d0924'),

@@ -22,7 +22,6 @@
                         <div v-show="!store.state.wallet.loggedIn">
                             <button class="btn btn-sm btn-info btn-block mb-2" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
                         </div>
-                        <LoginModal/>
                     </div>
                     <div class="col-md-6">
                         <h5>Sell Downline NFTs</h5>
@@ -38,7 +37,6 @@
                         <div v-show="!store.state.wallet.loggedIn">
                             <button class="btn btn-sm btn-info btn-block mb-2" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
                         </div>
-                        <LoginModal/>
                     </div>
                 </div>
             </div>
@@ -74,15 +72,13 @@ import { useStore } from "vuex";
 import useBalances from "../composables/useBalances";
 import useAlerts from "../composables/useAlerts";
 import useDisplayCurrency from '../composables/useDisplayCurrency';
-import LoginModal from "../components/LoginModal.vue";
+import Web3 from "web3";
 
 export default {
-    components: {
-        LoginModal
-    },
     setup() {
+        var web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:8546');
         const store = useStore();
-        const alerts = useAlerts();
+        const alerts = useAlerts();        
         const balances = useBalances();
         const displayCurrency = useDisplayCurrency();
         const loading = ref(false);
@@ -210,7 +206,6 @@ export default {
             displayCurrency,
             getProperty,
         };
-    },
-    components: { LoginModal, LoginModal }
+    }
 }
 </script>

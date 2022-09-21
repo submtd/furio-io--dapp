@@ -6,7 +6,7 @@
                     <img src="../../images/furio-icon.svg" alt="Furio Logo" class="img-furio-size">
                     <div class="d-flex flex-column pl-3">
                         <p :style="{margin: '0 !important', fontSize: '16px'}">$FUR</p>
-                        <p :style="{margin: '0 !important', fontWeight: '550', fontSize: '20px', textAlign: 'center'}">{{coinprice}}</p>
+                        <p :style="{margin: '0 !important', fontWeight: '550', fontSize: '20px', textAlign: 'center'}">{{store.state.settings.furio}}</p>
                     </div>
                 </div>
                 
@@ -53,7 +53,6 @@
             <a href="https://solidity.finance/audits/Furio/" target="_blank"><img src="../../images/solidity-banner.svg" alt="Solidity Banner" width="170px"/></a>
         </div>
     </div>
-    <LoginModal/>
 </template>
 
 <script>
@@ -62,7 +61,6 @@ import { useStore } from "vuex";
 import axios from 'axios';
 import useAlerts from "../composables/useAlerts";
 import useWallet from "../composables/useWallet";
-import LoginModal from "./LoginModal.vue";
 export default {
     data() {
         return {
@@ -107,7 +105,6 @@ export default {
             copyRefLink,
             moveToSwap,
         };
-    },
-    components: { LoginModal }
+    }
 }
 </script>

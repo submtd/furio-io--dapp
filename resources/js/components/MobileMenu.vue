@@ -37,6 +37,10 @@
                     <hr />
                 </router-link>
                 <a href="https://furio.io" target="_blank" class="nav-udl-mobile-website" :style="{color: '#FFFFFF'}">Website</a>
+                <router-link :to="{ name: 'BuyCrypto' }" class="nav-link nav-udl-mobile" active-class="active"
+                    @click="closeMenu" :style="{color: '#FFFFFF', paddingBottom: '30px !important'}">Buy Crypto
+                    <hr />
+                </router-link>
                 
                 <div class="d-flex flex-row justify-content-start" :style="{paddingLeft: '45px'}">
                     <img src="../../images/fur.svg"  alt="FUR" width="18" height="18"/>
@@ -57,8 +61,6 @@
         <div class="background-overlay"
             :style="{ width: '100vw', height: '100vh', background: '#00000085', position: 'fixed', top: 0, left: 0, zIndex: 10, display: visible ? 'block' : 'none' }"
             @click="closeMenu"></div>
-        <LoginModal />
-        <LogoutModal />
     </div>
 </template>
 
@@ -69,14 +71,8 @@ import { useRoute } from "vue-router";
 import router from "../router";
 import useWallet from "../composables/useWallet";
 import Web3 from "web3";
-import LoginModal from './LoginModal.vue';
-import LogoutModal from "./LogoutModal.vue";
 
 export default {
-    components: {
-        LoginModal,
-        LogoutModal,
-    },
     props: ['visible', 'onClose'],
     data() {
         return {

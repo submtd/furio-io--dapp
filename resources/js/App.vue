@@ -32,7 +32,9 @@
         <!-- END PAGE CONTENT -->
     </div>
     
-    <Footer/>
+    <Footer />
+    <LoginModal />
+    <LogoutModal />
 </template>
 
 <script>
@@ -45,13 +47,17 @@ import useReferral from "./composables/useReferral";
 import useSettings from "./composables/useSettings";
 import useWallet from "./composables/useWallet";
 import Balance from "./components/Balance.vue";
+import LoginModal from './components/LoginModal.vue';
+import LogoutModal from './components/LogoutModal.vue';
 
 export default {
     components: {
         Alerts,
         Footer,
         Navbar,
-        Balance
+        Balance,
+        LoginModal,
+        LogoutModal
     },
     Mounted() {
         console.log("Refesh Page");

@@ -15,8 +15,8 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-//import useSettings from "./composables/useSettings";
-//useSettings();
+import useSettings from "./composables/useSettings";
+useSettings();
 createApp({
     components: {
         App,

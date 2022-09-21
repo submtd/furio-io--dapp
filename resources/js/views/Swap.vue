@@ -59,7 +59,6 @@
                         <div v-show="!store.state.wallet.loggedIn">
                             <button @click="swap" class="btn btn-lg btn-info btn-block" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
                         </div>
-                        <LoginModal/>
                     </div>
                     <div class="col-2">
                         <button @click="swapToFrom" class="btn btn-lg btn-secondary btn-block"><i class="bi bi-arrow-down-up"></i></button>
@@ -98,14 +97,14 @@ import { useStore } from "vuex";
 import useAlerts from "../composables/useAlerts";
 import useBalances from "../composables/useBalances";
 import useDisplayCurrency from "../composables/useDisplayCurrency";
-import LoginModal from '../components/LoginModal.vue';
+import useSettings from "../composables/useSettings";
+import Web3 from "web3";
 
 export default {
-    components: {
-        LoginModal
-    },
     setup () {
+        var web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:8546');
         const store = useStore();
+        const settings = useSettings();
         const alerts = useAlerts();
         const balances = useBalances();
         const displayCurrency = useDisplayCurrency();
@@ -142,6 +141,7 @@ export default {
         });
 
         onMounted(async () => {
+            await settings.update();
             if(!store.state.wallet.loggedIn)
             update();
         });
@@ -152,15 +152,18 @@ export default {
 
 
         const update = async () => {
+            
+
             try {
+                
                 const vault = new web3.eth.Contract(JSON.parse(store.state.settings.vault_abi), store.state.settings.vault_address);
                 const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
                 const token = new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
                 price.value = displayCurrency.format(await swap.methods.sellOutput("1000000000000000000").call());
                 
                 if(store.state.wallet.loggedIn) {
-                    onCooldown.value = await token.methods.onCooldown(store.state.wallet.address).call();
-                    participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
+                    // onCooldown.value = await token.methods.onCooldown(store.state.wallet.address).call();
+                    // participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
                 }
                 
                 balances.refresh();
@@ -226,55 +229,55 @@ export default {
         }
 
         const swap = async () => {
-            alerts.warning("waiting on response from wallet");
-            loading.value = true;
-            try {
-                const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
-                const amount = BigInt(from.value * 1000000000000000000);
-                let token;
-                let method;
-                if(fromCurrency.value == "$FUR") {
-                    if(onCooldown.value) {
-                        alerts.danger("You are currently on a sell cooldown period. Please try again later");
-                        loading.value = false;
-                        return;
-                    }
-                    token = new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
-                    method = "sell";
-                }
-                if(fromCurrency.value == "USDC") {
-                    token = new web3.eth.Contract(JSON.parse(store.state.settings.payment_abi), store.state.settings.payment_address);
-                    method = "buy";
-                }
-                const gasPriceMultiplier = 1;
-                const gasMultiplier = 1.2;
-                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
-                const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.swap_address).call();
-                if(allowance < amount) {
-                    const approveGas = Math.round(await token.methods.approve(store.state.settings.swap_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                    await token.methods.approve(store.state.settings.swap_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
-                }
-                let gas;
-                let result;
-                if(fromCurrency.value == "USDC" && vault.value == true) {
-                    if(referrer.value) {
-                        gas = Math.round(await swap.methods.depositBuy(amount, referrer.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                        result = await swap.methods.depositBuy(amount, referrer.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
-                    } else {
-                        gas = Math.round(await swap.methods.depositBuy(amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                        result = await swap.methods.depositBuy(amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
-                    }
-                } else {
-                    gas = Math.round(await swap.methods[method](amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                    result = await swap.methods[method](amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
-                }
-                alerts.info("Transaction successful! TXID: " + result.blockHash);
-            } catch (error) {
-                alerts.danger(error.message);
-            }
-            dispatchEvent(new Event("refresh"));
-            update();
-            loading.value = false;
+            // alerts.warning("waiting on response from wallet");
+            // loading.value = true;
+            // try {
+            //     const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
+            //     const amount = BigInt(from.value * 1000000000000000000);
+            //     let token;
+            //     let method;
+            //     if(fromCurrency.value == "$FUR") {
+            //         if(onCooldown.value) {
+            //             alerts.danger("You are currently on a sell cooldown period. Please try again later");
+            //             loading.value = false;
+            //             return;
+            //         }
+            //         token = new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
+            //         method = "sell";
+            //     }
+            //     if(fromCurrency.value == "USDC") {
+            //         token = new web3.eth.Contract(JSON.parse(store.state.settings.payment_abi), store.state.settings.payment_address);
+            //         method = "buy";
+            //     }
+            //     const gasPriceMultiplier = 1;
+            //     const gasMultiplier = 1.2;
+            //     const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+            //     const allowance = await token.methods.allowance(store.state.wallet.address, store.state.settings.swap_address).call();
+            //     if(allowance < amount) {
+            //         const approveGas = Math.round(await token.methods.approve(store.state.settings.swap_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+            //         await token.methods.approve(store.state.settings.swap_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
+            //     }
+            //     let gas;
+            //     let result;
+            //     if(fromCurrency.value == "USDC" && vault.value == true) {
+            //         if(referrer.value) {
+            //             gas = Math.round(await swap.methods.depositBuy(amount, referrer.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+            //             result = await swap.methods.depositBuy(amount, referrer.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+            //         } else {
+            //             gas = Math.round(await swap.methods.depositBuy(amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+            //             result = await swap.methods.depositBuy(amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+            //         }
+            //     } else {
+            //         gas = Math.round(await swap.methods[method](amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+            //         result = await swap.methods[method](amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+            //     }
+            //     alerts.info("Transaction successful! TXID: " + result.blockHash);
+            // } catch (error) {
+            //     alerts.danger(error.message);
+            // }
+            // dispatchEvent(new Event("refresh"));
+            // update();
+            // loading.value = false;
         }
 
         return {

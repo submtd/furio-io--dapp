@@ -28,18 +28,18 @@
             </dl>
         </div>
     </div>
-    <LoginModal/>
+    
 </template>
 
 <script>
 import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import useSettings from "../composables/useSettings";
-import LoginModal from "../components/LoginModal.vue";
 export default {
     setup() {
         const store = useStore();
         const settings = useSettings();
+        console.log("settings: ", store.state.settings['block_explorer_url']);
         const claimLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.claim_address);
         const downlineLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.downline_address);
         const presaleLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.presale_address);
@@ -50,7 +50,8 @@ export default {
         const voteLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.vote_address);
         const autoCompoundLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.autocompound_address);
         onMounted(async () => {
-            //settings.update();
+            //await settings.update();
+            console.log(store.state)
         });
         return {
             store,
@@ -64,7 +65,6 @@ export default {
             voteLink,
             autoCompoundLink,
         };
-    },
-    components: { LoginModal }
+    }
 }
 </script>

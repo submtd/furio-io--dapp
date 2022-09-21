@@ -17,11 +17,7 @@ import NotFound from "../views/NotFound.vue";
 import BuyCrypto from "../views/BuyCrypto.vue";
 
 const routes = [
-    {
-        path: "/",
-        name: "Home",
-        component: Swap,
-    },
+    
     {
         path: "/claim",
         name: "Claim",
@@ -71,6 +67,12 @@ const routes = [
         path: "/addressbook",
         name: "AddressBook",
         component: AddressBook,
+    },
+
+    {
+        path: "/",
+        name: "Home",
+        component: Swap,
     },
     {
         path: "/connect",

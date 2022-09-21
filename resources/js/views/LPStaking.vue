@@ -32,7 +32,6 @@
                     <div v-show="!store.state.wallet.loggedIn">
                         <button class="btn btn-lg btn-info btn-block" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
                     </div>
-                    <LoginModal/>
                     <div class="row mt-3">
                         <div class="col-4">
                             <button @click="claim" class="btn btn-lg btn-info btn-block">Claim</button>
@@ -44,7 +43,7 @@
                             <button @click="unstake" class="btn btn-lg btn-secondary btn-block">Unstake</button>
                         </div>
                     </div>
-                    <p class="card-text mt-4"><strong>Time Left to Unstake: {{lock_day}} days</strong></p>
+                    <p v-show="store.state.wallet.loggedIn" class="card-text mt-4"><strong>Time Left to Unstake: {{lock_day}} days</strong></p>
                 </div>
                 <div v-show="loading" class="text-center">
                     <div class="spinner-border m-5" role="status">
@@ -129,11 +128,11 @@ import { useStore } from 'vuex';
 import useAlerts from '../composables/useAlerts';
 import useBalances from '../composables/useBalances';
 import useDisplayCurrency from '../composables/useDisplayCurrency';
-import LoginModal from '../components/LoginModal.vue'; 
 import Web3 from 'web3';
 
 export default {
     setup() {
+        var web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:8546');
         const store = useStore();
         const alerts = useAlerts();
         const balances = useBalances();
@@ -170,7 +169,7 @@ export default {
             return new web3.eth.Contract(JSON.parse(store.state.settings.factory_abi), store.state.settings.factory_address);
         };
         const lpreserveContract = () => {
-            return new web3.eth.Contract(JSON.parse(store.state.settings.lpreserve_abi), "0xCe89e3cb83AA3b8bECfa1478009b79a6481F3BA0");
+            return new web3.eth.Contract(JSON.parse(store.state.settings.lpreserve_abi), store.state.settings.lpreserve_address);
         }
 
         const update = async () => {
@@ -178,11 +177,17 @@ export default {
             try {
                 console.log("Here: ");
                 const lpReserve = lpreserveContract();
+                const contract = stakingContract();
+                const furio_price = store.state.settings.furio;
+                const usdc_price = store.state.settings.usdc;
+
                 console.log("payment_address: ", store.state.settings.payment_address);
                 console.log("factory_address: ", store.state.settings.factory_address);
                 console.log("lpstaking_address: ", store.state.settings.lpstaking_address );
                 console.log("lpreserve_address: ", store.state.settings.lpreserve_address);
-                const contract = stakingContract();
+                console.log("settings furio price: ", store.state.settings.furio);
+                console.log("settings usdc price: ", store.state.settings.usdc);
+                
                 console.log("lpReserve: ", lpReserve);
                 console.log("Staking: ", contract);
 
@@ -194,14 +199,17 @@ export default {
                 totalStaked.value = await contract.methods.totalStakingAmountInUsdc().call();
                 
 
+                //Get LP Price
                 const reserves = await lpReserve.methods.getReserves().call();
                 const totalSupply = await lpReserve.methods.totalSupply().call();
 
-                lp_price.value = (reserve[0] + reserve[1]) /totalSupply;
+                lp_price.value = (reserves[0]*furio_price + reserves[1]*usdc_price) /totalSupply;
+
                 if(store.state.wallet.loggedIn) {
                     staked.value = await contract.methods.stakingAmountInUsdc(store.state.wallet.address).call();
                     available.value = await contract.methods.availableRewardsInUsdc(store.state.wallet.address).call();
                     const lock_sec = await contract.methods.getRemainingLockedTime(store.state.wallet.address).call();
+                    const apr = available/stacked*100*365
                     lock_day.value = lock_sec/3600*24;
                 }
 
@@ -313,7 +321,6 @@ export default {
             compound,
             unstake,
         };
-    },
-    components: { LoginModal }
+    }
 }
 </script>
