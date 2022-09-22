@@ -12,6 +12,7 @@ return [
     'factory_address' => env('FACTORY_ADDRESS', '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73'),
     'lpstaking_address' => env('LPSTAKING_ADDRESS', '0xA200088d58AAaC6d8936fa6c8eeF36f542284F3E'),
     'lpswap_address' => env('LPSWAP_ADDRESS', '0x2B97289B64521f0fbC3f29B6bF537bbb724e0515'),
+    'pair_address' => env('PAIR_ADDRESS', ''),
     'payment_address' => env('PAYMENT_ADDRESS', '0x53eA3c91a56eB73F740fcb51296EFCc6Bbf1B3E2'),
     'presale_address' => env('PRESALE_ADDRESS', '0xdD129e3C00cEFd4C57aC98112D9D122316F7f0a4'),
     'safe_address' => env('SAFE_ADDRESS', '0x372A1129833Facf797b9e7304B5ab7DB7620903a'),
