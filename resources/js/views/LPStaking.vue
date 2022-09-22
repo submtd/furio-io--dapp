@@ -194,9 +194,12 @@ export default {
                 //Get LP Price
                 const reserves = await pair.methods.getReserves().call();
                 console.log("Reserves: ", reserves);
+                console.log("Reserves Detail:", reserves.Result[0]);
+                console.log("Reserves Detail:", reserves.Result[1]);
                 const totalSupply = await pair.methods.totalSupply().call();
+                console.log("totalSupply: ", totalSupply);
 
-                lp_price.value = (reserves[0]*furio_price + reserves[1]*usdc_price) /totalSupply;
+                lp_price.value = (reserves.Result[0]*furio_price + reserves.Result[1]*usdc_price) /totalSupply;
 
                 if(store.state.wallet.loggedIn) {
                     staked.value = await contract.methods.stakingAmountInUsdc(store.state.wallet.address).call();
