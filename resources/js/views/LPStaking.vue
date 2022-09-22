@@ -194,8 +194,6 @@ export default {
                 //Get LP Price
                 const reserves = await pair.methods.getReserves().call();
                 console.log("Reserves: ", reserves);
-                console.log("Reserves Detail:", reserves.Result[0]);
-                console.log("Reserves Detail:", reserves.Result[1]);
                 const totalSupply = await pair.methods.totalSupply().call();
                 console.log("totalSupply: ", totalSupply);
 
