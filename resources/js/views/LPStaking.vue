@@ -100,7 +100,7 @@
                             <div class="card-body text-center">
                                 <img src="../../images/lp-furusd.svg" class="mx-auto d-block mb-3" alt="Available" height="75"/>
                                 <p class="card-title">LP Price</p>
-                                <p class="card-text"><strong>${{ displayCurrency.format(lp_price) }}</strong></p>
+                                <p class="card-text"><strong>${{ lp_price.toFixed(2) }}</strong></p>
                             </div>
                         </div>
                     </div>
@@ -194,9 +194,15 @@ export default {
                 //Get LP Price
                 const reserves = await pair.methods.getReserves().call();
                 console.log("Reserves: ", reserves);
+                console.log("Reserves Detail:", reserves.Result[0]);
+                console.log("Reserves Detail:", reserves.Result[1]);
                 const totalSupply = await pair.methods.totalSupply().call();
+                console.log("totalSupply: ", totalSupply);
 
                 lp_price.value = (reserves[0]*furio_price + reserves[1]*usdc_price) /totalSupply;
+                console.log("LP price: ", (reserves[0]*furio_price + reserves[1]*usdc_price) /totalSupply);
+                console.log("LP price: ", (reserves[0]*furio_price + reserves[1]*usdc_price));
+                console.log("LP price: ", reserves[0]*furio_price);
 
                 if(store.state.wallet.loggedIn) {
                     staked.value = await contract.methods.stakingAmountInUsdc(store.state.wallet.address).call();
