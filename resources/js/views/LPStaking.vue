@@ -203,6 +203,7 @@ export default {
                 const reserves = await lpReserve.methods.getReserves().call();
                 const totalSupply = await lpReserve.methods.totalSupply().call();
 
+                console.log("Reserves: ", reserves);
                 lp_price.value = (reserves[0]*furio_price + reserves[1]*usdc_price) /totalSupply;
 
                 if(store.state.wallet.loggedIn) {
@@ -235,8 +236,8 @@ export default {
                     const approveGas = Math.round(await payment.methods.approve(store.state.settings.lpstaking_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                     await payment.methods.approve(store.state.settings.lpstaking_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
                 }
-                const gas = Math.round(await staking.methods.stake(store.state.settings.payment_address, amount, duration.value).estimateGas({ from: store.state.wallet.address, value: "0", gasPrice: gasPrice }) * gasMultiplier);
-                const result = await staking.methods.stake(store.state.settings.payment_address, amount, duration.value).send({ from: store.state.wallet.address, value: "0", gasPrice: gasPrice, gas: gas });
+                const gas = Math.round(await staking.methods.stake(store.state.settings.payment_address, amount, duration.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await staking.methods.stake(store.state.settings.payment_address, amount, duration.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
                 dispatchEvent(new Event("refresh"));
                 await update();
