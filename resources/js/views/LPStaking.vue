@@ -129,11 +129,13 @@ import useAlerts from '../composables/useAlerts';
 import useBalances from '../composables/useBalances';
 import useDisplayCurrency from '../composables/useDisplayCurrency';
 import Web3 from 'web3';
+import useSettings from '../composables/useSettings';
 
 export default {
     setup() {
         var web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:8546');
         const store = useStore();
+        const settings = useSettings();
         const alerts = useAlerts();
         const balances = useBalances();
         const displayCurrency = useDisplayCurrency();
