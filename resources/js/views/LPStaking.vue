@@ -154,6 +154,7 @@ export default {
             await update();
         });
         onMounted(async () => {
+            await settings.update();
             await update();
             
         });
