@@ -100,7 +100,7 @@
                             <div class="card-body text-center">
                                 <img src="../../images/lp-furusd.svg" class="mx-auto d-block mb-3" alt="Available" height="75"/>
                                 <p class="card-title">LP Price</p>
-                                <p class="card-text"><strong>${{ lp_price }}</strong></p>
+                                <p class="card-text"><strong>${{ lp_price.toFixed(2) }}</strong></p>
                             </div>
                         </div>
                     </div>
