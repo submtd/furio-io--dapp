@@ -101,7 +101,6 @@
                                 <img src="../../images/lp-furusd.svg" class="mx-auto d-block mb-3" alt="Available" height="75"/>
                                 <p class="card-title">LP Price</p>
                                 <p class="card-text"><strong>${{ displayCurrency.format(lp_price) }}</strong></p>
-                                <p>{{reserves}}</p>
                             </div>
                         </div>
                     </div>
@@ -183,20 +182,10 @@ export default {
                 const contract = stakingContract();
                 const furio_price = store.state.settings.furio;
                 const usdc_price = store.state.settings.usdc;
-
-                console.log("payment_address: ", store.state.settings.payment_address);
-                console.log("factory_address: ", store.state.settings.factory_address);
-                console.log("lpstaking_address: ", store.state.settings.lpstaking_address );
-                console.log("lpreserve_address: ", store.state.settings.lpreserve_address);
-                console.log("settings furio price: ", store.state.settings.furio);
-                console.log("settings usdc price: ", store.state.settings.usdc);
                 
-                console.log("lpReserve: ", lpReserve);
-                console.log("Staking: ", contract);
+                console.log("Pair Contract:", pair);
 
-                
                 // const totalSupply = await lpReserve.methods.totalSupply().call();
-                console.log("supply: ", tt);
                 
                 totalStakers.value = await contract.methods.totalStakerNum().call();
                 totalStaked.value = await contract.methods.totalStakingAmountInUsdc().call();
@@ -204,9 +193,9 @@ export default {
 
                 //Get LP Price
                 const reserves = await pair.methods.getReserves().call();
+                console.log("Reserves: ", reserves);
                 const totalSupply = await pair.methods.totalSupply().call();
 
-                console.log("Reserves: ", reserves);
                 lp_price.value = (reserves[0]*furio_price + reserves[1]*usdc_price) /totalSupply;
 
                 if(store.state.wallet.loggedIn) {
