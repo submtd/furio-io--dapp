@@ -159,8 +159,8 @@ export default {
                 price.value = displayCurrency.format(await swap.methods.sellOutput("1000000000000000000").call());
 
                 if(store.state.wallet.loggedIn) {
-                    // onCooldown.value = await token.methods.onCooldown(store.state.wallet.address).call();
-                    // participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
+                    onCooldown.value = await token.methods.onCooldown(store.state.wallet.address).call();
+                    participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
                 }
 
                 balances.refresh();

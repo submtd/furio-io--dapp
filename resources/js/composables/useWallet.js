@@ -31,7 +31,7 @@ export default () => {
                 await checkNetwork();
                 return;
             }
-            await connect();
+            //await connect();
         });
     }
 
