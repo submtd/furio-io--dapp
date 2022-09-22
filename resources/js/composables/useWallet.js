@@ -23,7 +23,7 @@ export default () => {
                 await loadWallet();
                 return;
             }
-            // await connect();
+            await connect();
         });
         // Watch for networkChanged event.
         window.ethereum.on('chainChanged', async function () {
