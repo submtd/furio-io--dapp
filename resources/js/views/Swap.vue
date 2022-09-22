@@ -159,7 +159,7 @@ export default {
                 price.value = displayCurrency.format(await swap.methods.sellOutput("1000000000000000000").call());
 
                 if(store.state.wallet.loggedIn) {
-                    onCooldown.value = await token.methods.onCooldown(store.state.wallet.address).call();
+                    onCooldown.value = await swap.methods.onCooldown(store.state.wallet.address).call();
                     participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
                 }
 
@@ -207,6 +207,7 @@ export default {
                     return;
                 }
                 if(fromCurrency.value == "$FUR") {
+                    if(participant.value.balance )
                     if(amount > participant.value.balance * .25 && !participant.value.maxed) {
                         amount = BigInt(from.value * 400000000000000000);
                         warning.value = "WARNING: The sell amount is greater than 25% of your vault balance and will receive a pump and dump tax of 60%!";
