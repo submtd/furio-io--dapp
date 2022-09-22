@@ -168,15 +168,15 @@ export default {
         const factoryContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.factory_abi), store.state.settings.factory_address);
         };
-        const lpreserveContract = () => {
-            return new web3.eth.Contract(JSON.parse(store.state.settings.lpreserve_abi), store.state.settings.lpreserve_address);
+        const pairContract = () => {
+            return new web3.eth.Contract(JSON.parse(store.state.settings.pair_abi), store.state.settings.pair_address);
         }
 
         const update = async () => {
             loading.value = true;
             try {
                 console.log("Here: ");
-                const lpReserve = lpreserveContract();
+                const pair = pairContract();
                 const contract = stakingContract();
                 const furio_price = store.state.settings.furio;
                 const usdc_price = store.state.settings.usdc;
@@ -200,8 +200,8 @@ export default {
                 
 
                 //Get LP Price
-                const reserves = await lpReserve.methods.getReserves().call();
-                const totalSupply = await lpReserve.methods.totalSupply().call();
+                const reserves = await pair.methods.getReserves().call();
+                const totalSupply = await pair.methods.totalSupply().call();
 
                 console.log("Reserves: ", reserves);
                 lp_price.value = (reserves[0]*furio_price + reserves[1]*usdc_price) /totalSupply;
