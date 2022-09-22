@@ -157,12 +157,12 @@ export default {
                 const swap = new web3.eth.Contract(JSON.parse(store.state.settings.swap_abi), store.state.settings.swap_address);
                 const token = new web3.eth.Contract(JSON.parse(store.state.settings.token_abi), store.state.settings.token_address);
                 price.value = displayCurrency.format(await swap.methods.sellOutput("1000000000000000000").call());
-                
+
                 if(store.state.wallet.loggedIn) {
                     // onCooldown.value = await token.methods.onCooldown(store.state.wallet.address).call();
                     // participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
                 }
-                
+
                 balances.refresh();
             } catch (error) {
                 console.log("Swap: ");
@@ -218,7 +218,7 @@ export default {
                     output.value = displayCurrency.format(await swap.methods.sellOutput(amount).call());
                 }
                 if(fromCurrency.value == "USDC") {
-                    output.value = displayCurrency.format(await swap.methods.buyOutput("0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d", amount).call());
+                    output.value = displayCurrency.format(await swap.methods.buyOutput(store.state.settings.payment_address, amount).call());
                 }
             } catch (error) {
                 alerts.danger(error.message);
