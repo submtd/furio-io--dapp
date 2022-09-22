@@ -142,7 +142,7 @@ export default {
 
         onMounted(async () => {
             await settings.update();
-            if(!store.state.wallet.loggedIn)
+            if(!store.state.wallet.loggedIn) return;
             update();
         });
 
@@ -259,11 +259,11 @@ export default {
                 let result;
                 if(fromCurrency.value == "USDC" && vault.value == true) {
                     if(referrer.value) {
-                        gas = Math.round(await swap.methods.depositBuy(amount, referrer.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                        result = await swap.methods.depositBuy(amount, referrer.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                        gas = Math.round(await swap.methods.depositBuy(store.state.settings.payment_address, amount, referrer.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                        result = await swap.methods.depositBuy(store.state.settings.payment_address, amount, referrer.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                     } else {
-                        gas = Math.round(await swap.methods.depositBuy(amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                        result = await swap.methods.depositBuy(amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                        gas = Math.round(await swap.methods.depositBuy(store.state.settings.payment_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                        result = await swap.methods.depositBuy(store.state.settings.payment_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                     }
                 } else {
                     gas = Math.round(await swap.methods[method](amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
