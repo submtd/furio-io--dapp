@@ -1,7 +1,7 @@
 <template>
     <h1>Trade Crypto</h1>
     <p class="mb-5">Buy your USDC and BNB to use in the Furio ecosystem here.<br/>
-                    Purchasing through our integrated partner allows you to buy Binanace Smart Chain<br/>
+                    Purchasing through our integrated partner allows you to buy Binance Smart Chain<br/>
                     tokens directly that will be sent to your crypto wallet after successful completion.</p>
     <div class="text-dark d-flex flex-row justify-content-center flex-wrap align-items-center">
         <div class="m-3 bg-white d-none d-sm-block" :style="{maxWidth: '500px', height: '450px', borderRadius: '30px', padding: '25px 25px 25px 25px'}">
