@@ -66,6 +66,15 @@ export default () => {
             rpc: {
                 [parseInt(store.state.settings.network_id)]: store.state.settings.rpc_url,
             },
+            chainId: 56,
+            network: 'binance',
+            qrcode: true,
+            qrcodeModalOptions: {
+                mobileLinks: [
+                    "metamask",
+                    "trust"
+                ]
+            }
         });
         cookies.set("provider", "walletconnect");
         web3.setProvider(provider);
