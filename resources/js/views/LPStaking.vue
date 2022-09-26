@@ -198,7 +198,9 @@ export default {
                     available.value = await contract.methods.availableRewardsInUsdc(store.state.wallet.address).call();
                     const lock_sec = await contract.methods.getRemainingLockedTime(store.state.wallet.address).call();
                     //const apr = available/stacked*100*365
-                    lock_day.value = lock_sec/86400;
+                    console.log("locked second from contract: ", lock_sec);
+                    lock_day.value = lock_sec/86400.0;
+                    console.log("Locked days: ", lock_day);
                 }
 
             }
