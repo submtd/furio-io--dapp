@@ -93,7 +93,6 @@ export default {
             });
             if(max.value) {
                 available.value = await presale.getAvailable(max.value, price.value, value.value, total.value);
-                console.log(available.value);
                 quantity.value = available.value;
             }
         }

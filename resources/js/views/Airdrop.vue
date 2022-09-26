@@ -73,10 +73,8 @@ export default {
                 const vault = vaultContract();
                 participant.value = await vault.methods.getParticipant(store.state.wallet.address).call();
                 referrals.value = await vault.methods.getReferrals(store.state.wallet.address).call();
-                console.log(participant.value);
             } catch (error) {
                 alerts.danger(error.message);
-                console.log("Airdrop: ");
                 console.log(error.message);
             }
             loading.value = false;

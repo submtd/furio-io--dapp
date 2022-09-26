@@ -451,7 +451,6 @@ export default {
             loading.value = true;
             try {
                 await settings.update();
-                console.log("Team wallet address: ",store.state.wallet.address);
                 alerts.clear();
                 address.value = await wallet.lookupAddress(route.params.teamaddress ?? store.state.wallet.address);
                 twitter.value = address.value.attributes.twitter;
@@ -473,7 +472,6 @@ export default {
                 sellQuantity.value = owned.value;
                 rewardRate.value = await vault.methods.rewardRate(address.value.attributes.address).call() / 100;
                 participantStatus.value = await vault.methods.participantStatus(address.value.attributes.address).call();
-                console.log(participant.value);
             } catch (error) {
                 alerts.danger(error.message);
             }

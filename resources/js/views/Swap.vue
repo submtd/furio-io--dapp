@@ -165,7 +165,6 @@ export default {
 
                 balances.refresh();
             } catch (error) {
-                console.log("Swap: ");
                 console.error(error);
                 alerts.danger(error.message);
             }

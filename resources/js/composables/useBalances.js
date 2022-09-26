@@ -30,7 +30,6 @@ export default () => {
             store.commit("balances", balances);
         } catch (error) {
             //alerts.danger(error.message);
-            console.log("useBalances: ");
             console.error(error);
         }
     }
