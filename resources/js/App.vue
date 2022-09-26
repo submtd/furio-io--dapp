@@ -59,13 +59,6 @@ export default {
         LoginModal,
         LogoutModal
     },
-    Mounted() {
-        console.log("Refesh Page");
-        console.log("wallet flag: ", this.store.state.wallet.loggedIn);
-    },
-    created() {
-        console.log("wallet flag", this.store.state.wallet.loggedIn);
-    },
     setup() {
         const store = useStore();
         const wallet = useWallet();
@@ -73,8 +66,6 @@ export default {
         store.commit("loading", true);
         useReferral();
         useSettings().update();
-        console.log("Settings Data: ", store.state.settings);
-        store.commit("loading", false);
 
         return {
             store,

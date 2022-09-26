@@ -149,8 +149,6 @@ export default {
         const lp_price = ref(0);
         const lock_day = ref(0);
 
-        console.log("lpstakingabi: ", store.state.settings.lpstaking_abi);
-
         addEventListener("refresh", async () => {
             await update();
         });
@@ -177,13 +175,11 @@ export default {
         const update = async () => {
             loading.value = true;
             try {
-                console.log("Here: ");
                 const pair = pairContract();
                 const contract = stakingContract();
                 const furio_price = store.state.settings.furio;
                 const usdc_price = store.state.settings.usdc;
                 
-                console.log("Pair Contract:", pair);
 
                 // const totalSupply = await lpReserve.methods.totalSupply().call();
                 
@@ -193,21 +189,18 @@ export default {
 
                 //Get LP Price
                 const reserves = await pair.methods.getReserves().call();
-                console.log("Reserves: ", reserves);
                 const totalSupply = await pair.methods.totalSupply().call();
-                console.log("totalSupply: ", totalSupply);
 
                 lp_price.value = (reserves[0]*furio_price + reserves[1]*usdc_price) /totalSupply;
-                console.log("LP price: ", (reserves[0]*furio_price + reserves[1]*usdc_price) /totalSupply);
-                console.log("LP price: ", (reserves[0]*furio_price + reserves[1]*usdc_price));
-                console.log("LP price: ", reserves[0]*furio_price);
 
                 if(store.state.wallet.loggedIn) {
                     staked.value = await contract.methods.stakingAmountInUsdc(store.state.wallet.address).call();
                     available.value = await contract.methods.availableRewardsInUsdc(store.state.wallet.address).call();
                     const lock_sec = await contract.methods.getRemainingLockedTime(store.state.wallet.address).call();
-                    const apr = available/stacked*100*365
-                    lock_day.value = lock_sec/3600*24;
+                    //const apr = available/stacked*100*365
+                    console.log("locked second from contract: ", lock_sec);
+                    lock_day.value = lock_sec/86400.0;
+                    console.log("Locked days: ", lock_day);
                 }
 
             }

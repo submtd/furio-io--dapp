@@ -14,12 +14,10 @@ export default () => {
         // get time offset
         settings.time_offset = settings.server_time - (Date.now() / 1000);
         await axios.get("https://api.coingecko.com/api/v3/simple/price?ids=furio&vs_currencies=usd&include_market_cap=false&include_24hr_vol=false&include_24hr_change=false&include_last_updated_at=false").then(function (res) {
-            console.log("furio price", res.data.furio.usd);
             settings.furio = res.data.furio.usd;
         });
         
         await axios.get("https://api.coingecko.com/api/v3/simple/price?ids=usd-coin&vs_currencies=usd&include_market_cap=false&include_24hr_vol=false&include_24hr_change=false&include_last_updated_at=false").then(function (res) {
-            console.log("usdc price", res.data['usd-coin']['usd']);
             settings.usdc = res.data['usd-coin']['usd'];
         });
 

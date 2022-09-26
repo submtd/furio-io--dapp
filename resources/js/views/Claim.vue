@@ -143,7 +143,6 @@ export default {
                 }
             } catch (error) {
                 alerts.danger(error.message);
-                console.log("Claim.vue: ");
                 console.error(error);
             }
         });
@@ -163,7 +162,6 @@ export default {
                 available.value = await claim.methods.getOwnerValue(store.state.wallet.address).call();
             } catch (error) {
                 alerts.danger(error.message);
-                console.log("Claim.vue :");
                 console.error(error);
             }
             balances.refresh();
@@ -205,7 +203,6 @@ export default {
                 }
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
             } catch (error) {
-                console.log("Claim.vue: ");
                 console.error(error);
                 alerts.danger(error.message);
             }

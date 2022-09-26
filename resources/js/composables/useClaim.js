@@ -13,10 +13,7 @@ export default () => {
         try {
             const contract = web3.eth.Contract(JSON.parse(store.state.settings.claim_abi), store.state.settings.claim_address);
             const nfts = await contract.methods.owned(store.state.wallet.address).call();
-            console.log(nfts);
         } catch (error) {
-            console.log("useClaim: ");
-            console.error(error);
             alerts.danger(error.message);
             
         }

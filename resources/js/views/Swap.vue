@@ -165,7 +165,6 @@ export default {
 
                 balances.refresh();
             } catch (error) {
-                console.log("Swap: ");
                 console.error(error);
                 alerts.danger(error.message);
             }
@@ -265,13 +264,15 @@ export default {
                         gas = Math.round(await swap.methods.depositBuy(store.state.settings.payment_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                         result = await swap.methods.depositBuy(store.state.settings.payment_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                     }
-                } else if(fromCurrency.value == "USDC") {
-                    gas = Math.round(await swap.methods.buy(store.state.settings.payment_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                    result = await swap.methods.buy(store.state.settings.payment_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
-                }
-                else {
-                    gas = Math.round(await swap.methods.sell(amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
-                    result = await swap.methods.sell(amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                } else {
+                    if(method == "buy"){
+                        gas = Math.round(await swap.methods[method](store.state.settings.payment_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                        result = await swap.methods[method](store.state.settings.payment_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                    }
+                    else {
+                        gas = Math.round(await swap.methods[method](amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                        result = await swap.methods[method](amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                    }
                 }
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
             } catch (error) {

@@ -39,7 +39,6 @@ export default {
     setup() {
         const store = useStore();
         const settings = useSettings();
-        console.log("settings: ", store.state.settings['block_explorer_url']);
         const claimLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.claim_address);
         const downlineLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.downline_address);
         const presaleLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.presale_address);
@@ -51,7 +50,6 @@ export default {
         const autoCompoundLink = ref(store.state.settings.block_explorer_url + "/address/" + store.state.settings.autocompound_address);
         onMounted(async () => {
             //await settings.update();
-            console.log(store.state)
         });
         return {
             store,

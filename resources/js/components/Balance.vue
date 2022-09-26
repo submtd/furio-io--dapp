@@ -26,7 +26,6 @@ import { useStore } from 'vuex';
 export default {
     setup() {
         const store = useStore();
-        console.log("wallet: ", store.state.wallet.loggedIn)
         return {
             store
         }
