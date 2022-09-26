@@ -44,6 +44,27 @@
                         </div>
                     </div>
                     <p v-show="store.state.wallet.loggedIn" class="card-text mt-4"><strong>Time Left to Unstake: {{lock_day.toFixed(2)}} days</strong></p>
+                    <div class="row mt-4">
+                        <div class="col-lg-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <img src="../../images/lp-furusd.svg" class="mx-auto d-block mb-3" alt="Available" height="75"/>
+                                    <p class="card-title">LP Price</p>
+                                    <p class="card-text"><strong>${{ lp_price.toFixed(2) }}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <img src="../../images/lp-per.svg" class="mx-auto d-block mb-3" alt="Available" width="75" height="75"/>
+                                    <p class="card-title">All Time APR: <strong>110%</strong></p>
+                                    <p class="card-text">14 Day: <strong>100%</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div v-show="loading" class="text-center">
                     <div class="spinner-border m-5" role="status">
@@ -94,29 +115,8 @@
             <div class="col-lg-7">
             </div>
             <div class="col-lg-5">
-                <div class="row">
-                    <div class="col-lg-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <img src="../../images/lp-furusd.svg" class="mx-auto d-block mb-3" alt="Available" height="75"/>
-                                <p class="card-title">LP Price</p>
-                                <p class="card-text"><strong>${{ lp_price.toFixed(2) }}</strong></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center">
-                                <img src="../../images/lp-per.svg" class="mx-auto d-block mb-3" alt="Available" width="75" height="75"/>
-                                <p class="card-title">All Time APR: <strong>110%</strong></p>
-                                <p class="card-text">14 Day: <strong>100%</strong></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-            
+
         </div>
     </div>
 </template>
@@ -155,10 +155,10 @@ export default {
         onMounted(async () => {
             await settings.update();
             await update();
-            
+
         });
 
-        
+
         const stakingContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.lpstaking_abi), store.state.settings.lpstaking_address);
         };
@@ -179,13 +179,13 @@ export default {
                 const contract = stakingContract();
                 const furio_price = store.state.settings.furio;
                 const usdc_price = store.state.settings.usdc;
-                
+
 
                 // const totalSupply = await lpReserve.methods.totalSupply().call();
-                
+
                 totalStakers.value = await contract.methods.totalStakerNum().call();
                 totalStaked.value = await contract.methods.totalStakingAmountInUsdc().call();
-                
+
 
                 //Get LP Price
                 const reserves = await pair.methods.getReserves().call();
