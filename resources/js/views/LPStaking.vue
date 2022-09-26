@@ -45,7 +45,7 @@
                     </div>
                     <p v-show="store.state.wallet.loggedIn" class="card-text mt-4"><strong>Time Left to Unstake: {{lock_day.toFixed(2)}} days</strong></p>
                     <div class="row mt-4">
-                        <div class="col-lg-6 mb-4">
+                        <div class="col-lg-6">
                             <div class="card h-100">
                                 <div class="card-body text-center">
                                     <img src="../../images/lp-furusd.svg" class="mx-auto d-block mb-3" alt="Available" height="75"/>
@@ -55,7 +55,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6 mb-4">
+                        <div class="col-lg-6">
                             <div class="card h-100">
                                 <div class="card-body text-center">
                                     <img src="../../images/lp-per.svg" class="mx-auto d-block mb-3" alt="Available" width="75" height="75"/>
