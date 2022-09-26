@@ -9,7 +9,7 @@
                         <p :style="{margin: '0 !important', fontWeight: '550', fontSize: '20px', textAlign: 'center'}">{{store.state.settings.furio}}</p>
                     </div>
                 </div>
-                
+
                 <button class="btn btn-add-fur" @click="wallet.addFurioToken"><img src="../../images/main-metamask.svg" alt="Add $FUR to Metamask" class="img-metamask-size"></button>
                 <button class="btn btn-buy-fur" @click="moveToSwap">Buy $FUR</button>
             </div>
@@ -41,7 +41,7 @@
                     <a href="https://www.furio.io/anti-dump-mechanics" target="_blank" class="footer-text">Anti Dump Mechanics</a>
                     <a href="https://www.furio.io/fast-programme/" target="_blank" class="footer-text">FAST Programme</a>
                     <a href="https://www.furio.io/furpool/" target="_blank" class="footer-text">Furpool</a>
-                    <a href="https://localhost:8000/addressbook" target="_blank" class="footer-text">Address Book</a>
+                    <router-link :to="{ name: 'AddressBook' }" class="footer-text">Address Book</router-link>
                 </div>
             </div>
         </div>
