@@ -43,7 +43,7 @@
                             <button @click="unstake" class="btn btn-lg btn-secondary btn-block">Unstake</button>
                         </div>
                     </div>
-                    <p v-show="store.state.wallet.loggedIn" class="card-text mt-4"><strong>Time Left to Unstake: {{lock_day}} days</strong></p>
+                    <p v-show="store.state.wallet.loggedIn" class="card-text mt-4"><strong>Time Left to Unstake: {{lock_day.toFixed(2)}} days</strong></p>
                 </div>
                 <div v-show="loading" class="text-center">
                     <div class="spinner-border m-5" role="status">
