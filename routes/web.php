@@ -17,6 +17,7 @@ Route::group([
     Route::get('api/v1/logout', 'Logout');
     Route::post('api/v1/getpromo', 'GetPromo');
     Route::post('api/v1/updatetoken', 'UpdateToken');
+    Route::post('api/v1/updatepoolapr', 'UpdatePoolApr');
     Route::post('api/v1/vault', 'UpdateVault');
     Route::get('404', static function () {
         return response('not found', 404);

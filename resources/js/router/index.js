@@ -15,9 +15,10 @@ import Vote from "../views/Vote.vue";
 import LPStaking from "../views/LPStaking.vue";
 import NotFound from "../views/NotFound.vue";
 import BuyCrypto from "../views/BuyCrypto.vue";
+import PoolApr from "../views/PoolApr.vue";
 
 const routes = [
-    
+
     {
         path: "/claim",
         name: "Claim",
@@ -68,7 +69,11 @@ const routes = [
         name: "AddressBook",
         component: AddressBook,
     },
-
+    {
+        path: "/updatepoolapr",
+        name: "PoolApr",
+        component: PoolApr,
+    },
     {
         path: "/",
         name: "Home",

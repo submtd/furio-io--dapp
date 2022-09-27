@@ -18,6 +18,7 @@ use App\Abis\Token;
 use App\Abis\Vault;
 use App\Abis\Vote;
 use App\Abis\LPReserve;
+use App\Models\PoolApr;
 
 class SettingsService
 {
@@ -47,7 +48,16 @@ class SettingsService
         $settings['lpreserve_abi'] = LPReserve::toString();
         $settings['server_time'] = now()->timestamp;
         $settings['referrer'] = session()->get('ref');
-        
+
+        if (!$poolApr = PoolApr::first()) {
+            $poolApr = PoolApr::create([
+                'alltime' => 0,
+                'fourteenday' => 0,
+            ]);
+        }
+        $settings['pool_alltime_apr'] = $poolApr->alltime;
+        $settings['pool_fourteenday_apr'] = $poolApr->fourteenday;
+
 
         return $settings;
     }
