@@ -112,10 +112,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-7">
-            </div>
-            <div class="col-lg-5">
-            </div>
 
         </div>
     </div>
