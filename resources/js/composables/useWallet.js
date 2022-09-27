@@ -73,7 +73,7 @@ export default () => {
         });
         cookies.set("provider", "walletconnect");
         web3.setProvider(provider);
-        
+
         return connect();
     }
 
@@ -177,6 +177,7 @@ export default () => {
             nonce: wallet.attributes.nonce,
             loggedIn: true,
             name: wallet.attributes.name,
+            admin: wallet.attributes.admin,
         };
         store.commit("wallet", storedWallet);
         cookies.set("wallet", address[0]);
