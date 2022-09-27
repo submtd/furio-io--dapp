@@ -113,7 +113,7 @@
                 </div>
             </div>
         </div>
-        <div class="text-right">
+        <div v-show="store.state.wallet.admin" class="text-right">
             <router-link :to="{ name: 'PoolApr' }" class="footer-text"><small>update</small></router-link>
         </div>
     </div>
