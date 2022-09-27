@@ -51,8 +51,8 @@ class SettingsService
 
         if (!$poolApr = PoolApr::first()) {
             $poolApr = PoolApr::create([
-                'alltime' => 0,
-                'fourteenday' => 0,
+                'alltime' => 100,
+                'fourteenday' => 100,
             ]);
         }
         $settings['pool_alltime_apr'] = $poolApr->alltime;

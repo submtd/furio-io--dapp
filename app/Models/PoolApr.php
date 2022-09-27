@@ -10,7 +10,7 @@ class PoolApr extends Model
      * @var array
      */
     protected $fillable = [
-        'total',
+        'alltime',
         'fourteenday',
     ];
 }
