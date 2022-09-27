@@ -112,7 +112,9 @@
                     </div>
                 </div>
             </div>
-
+        </div>
+        <div class="text-right">
+            <router-link :to="{ name: 'PoolApr' }" class="footer-text"><small>update</small></router-link>
         </div>
     </div>
 </template>
