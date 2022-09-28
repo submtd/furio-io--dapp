@@ -59,7 +59,7 @@
                             <div class="card h-100">
                                 <div class="card-body text-center">
                                     <img src="../../images/lp-per.svg" class="mx-auto d-block mb-3" alt="Available" width="75" height="75"/>
-                                    <p class="card-title">All Time APY: <strong>{{ store.state.settings.pool_alltime_apr }}%</strong></p>
+                                    <p class="card-title">All Time APR: <strong>{{ store.state.settings.pool_alltime_apr }}%</strong></p>
                                     <p class="card-text">14 Day: <strong>{{ store.state.settings.pool_fourteenday_apr }}%</strong></p>
                                 </div>
                             </div>
