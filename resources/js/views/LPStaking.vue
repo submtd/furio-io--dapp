@@ -201,9 +201,7 @@ export default {
                     console.log("Locked days: ", lock_day);
                     const staker = contract.methods.stakers(store.state.wallet.address).call();
                     duration.value = staker.stakingPeriod;
-                    if(staked.value == 0) {
-                        duration.value = 0;
-                    }
+                    if(typeof staker.stakingPeriod == "undefined") duration.value = 0;
                 }
 
             }
