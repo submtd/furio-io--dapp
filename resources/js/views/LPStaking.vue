@@ -26,8 +26,8 @@
                             </select>
                         </div>
                         <div v-show="staked > 0" class="form-group col">
-                            <label><br/></label>
-                            <button @click="upgrade" class="btn btn-success btn-xs">Upgrade Period</button>
+                            <label for="upgrade">&nbsp;</label>
+                            <button id="upgrade" @click="upgrade" class="btn btn-success btn-xs">Upgrade Period</button>
                         </div>
                     </div>
                     <div v-show="store.state.wallet.loggedIn">
