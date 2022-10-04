@@ -12,11 +12,11 @@
             <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
                 <div v-show="!loading">
                     <div class="row">
-                        <div class="form-group col-8">
+                        <div class="form-group col">
                             <label for="quantity">Amount</label>
                             <input v-model="quantity" type="number" class="form-control" id="quantity"/>
                         </div>
-                        <div class="form-group col-4">
+                        <div class="form-group col">
                             <label for="duration">Duration</label>
                             <select v-model="duration" class="form-control" id="duration">
                                 <option v-show="lock_day.toFixed(0) == 0" value="0">No limit</option>
@@ -24,6 +24,9 @@
                                 <option v-show="lock_day.toFixed(0) < 60" value="2">60 days</option>
                                 <option v-show="lock_day.toFixed(0) < 90" value="3">90 days</option>
                             </select>
+                        </div>
+                        <div v-show="staked > 0" class="col">
+                            <button @click="upgrade" class="btn btn-primary btn-xs">Upgrade Period</button>
                         </div>
                     </div>
                     <div v-show="store.state.wallet.loggedIn">
@@ -285,6 +288,25 @@ export default {
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
                 const gas = Math.round(await contract.methods.unstake().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 const result = await contract.methods.unstake().send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
+            }
+            catch (error) {
+                alerts.danger(error.message);
+            }
+            dispatchEvent(new Event("refresh"));
+            await update();
+            loading.value = false;
+        };
+        const upgrade = async () => {
+            alerts.warning("waiting on response from wallet");
+            loading.value = true;
+            try {
+                const contract = stakingContract();
+                const gasPriceMultiplier = 1;
+                const gasMultiplier = 1.5;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const gas = Math.round(await contract.methods.resetStakingPeriod(duration.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await contract.methods.resetStakingPeriod(duration.value).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
                 alerts.info("Transaction successful! TXID: " + result.blockHash);
             }
             catch (error) {
