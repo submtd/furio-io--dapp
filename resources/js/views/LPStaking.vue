@@ -19,10 +19,10 @@
                         <div class="form-group col-4">
                             <label for="duration">Duration</label>
                             <select v-model="duration" class="form-control" id="duration">
-                                <option value="0">No limit</option>
-                                <option value="1">30 days</option>
-                                <option value="2">60 days</option>
-                                <option value="3">90 days</option>
+                                <option v-show="lock_day.toFixed(0) == 0" value="0">No limit</option>
+                                <option v-show="lock_day.toFixed(0) < 30" value="1">30 days</option>
+                                <option v-show="lock_day.toFixed(0) < 60" value="2">60 days</option>
+                                <option v-show="lock_day.toFixed(0) < 90" value="3">90 days</option>
                             </select>
                         </div>
                     </div>
