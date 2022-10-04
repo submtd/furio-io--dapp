@@ -25,8 +25,9 @@
                                 <option v-show="lock_day.toFixed(0) < 90" value="3">90 days</option>
                             </select>
                         </div>
-                        <div v-show="staked > 0" class="col">
-                            <button @click="upgrade" class="btn btn-primary btn-xs">Upgrade Period</button>
+                        <div v-show="staked > 0" class="form-group col">
+                            <label>&nbsp;</label>
+                            <button @click="upgrade" class="btn btn-success btn-xs">Upgrade Period</button>
                         </div>
                     </div>
                     <div v-show="store.state.wallet.loggedIn">
