@@ -103,7 +103,6 @@
                                 <p class="card-title">Your Stake</p>
                                 <p class="card-text">
                                     <strong>{{ displayCurrency.format(staked) }} USDC</strong><br/>
-                                    <strong>boost: {{ displayCurrency.format(boostedAmount) }}</strong>
                                 </p>
                             </div>
                         </div>
