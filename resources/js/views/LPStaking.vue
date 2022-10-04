@@ -101,7 +101,10 @@
                             <div class="card-body text-center">
                                 <img src="../../images/usdc.svg" class="mx-auto d-block mb-3" alt="Stake" width="75" height="75"/>
                                 <p class="card-title">Your Stake</p>
-                                <p class="card-text"><strong>{{ displayCurrency.format(staked) }} USDC</strong></p>
+                                <p class="card-text">
+                                    <strong>{{ displayCurrency.format(staked) }} USDC</strong>
+                                    <strong>boosted: {{ displayCurrency.format(boostedAmount) }} USDC</strong>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -150,6 +153,7 @@ export default {
         const staked = ref(0);
         const lp_price = ref(0);
         const lock_day = ref(0);
+        const boostedAmount = ref(0);
 
         addEventListener("refresh", async () => {
             await update();
@@ -197,6 +201,7 @@ export default {
 
                 if(store.state.wallet.loggedIn) {
                     staked.value = await contract.methods.stakingAmountInUsdc(store.state.wallet.address).call();
+                    boostedAmount.value = await contract.methods.boostedAmountInUsdc(store.state.wallet.address).call();
                     available.value = await contract.methods.availableRewardsInUsdc(store.state.wallet.address).call();
                     const lock_sec = await contract.methods.getRemainingLockedTime(store.state.wallet.address).call();
                     //const apr = available/stacked*100*365
@@ -335,6 +340,7 @@ export default {
             compound,
             unstake,
             upgrade,
+            boostedAmount,
         };
     }
 }
