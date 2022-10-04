@@ -33,13 +33,13 @@
                         <button class="btn btn-lg btn-info btn-block" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
                     </div>
                     <div class="row mt-3">
-                        <div class="col">
+                        <div v-show="available" class="col">
                             <button @click="claim" class="btn btn-lg btn-info btn-block">Claim</button>
                         </div>
-                        <div class="col">
+                        <div v-show="available" class="col">
                             <button @click="compound" class="btn btn-lg btn-success btn-block">Compound</button>
                         </div>
-                        <div class="col">
+                        <div v-show="lock_day.toFixed(0) == 0" class="col">
                             <button @click="unstake" class="btn btn-lg btn-secondary btn-block">Unstake</button>
                         </div>
                     </div>
