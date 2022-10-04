@@ -102,7 +102,7 @@
                                 <img src="../../images/usdc.svg" class="mx-auto d-block mb-3" alt="Stake" width="75" height="75"/>
                                 <p class="card-title">Your Stake</p>
                                 <p class="card-text">
-                                    <strong>{{ displayCurrency.format(staked) }} USDC</strong>
+                                    <strong>{{ displayCurrency.format(staked) }} USDC</strong><br/>
                                     <strong>boosted: {{ displayCurrency.format(boostedAmount) }} USDC</strong>
                                 </p>
                             </div>
