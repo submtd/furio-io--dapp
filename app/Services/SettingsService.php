@@ -61,7 +61,7 @@ class SettingsService
         $settings['pool_fourteenday_apr'] = $poolApr->fourteenday;
 
         $settings['furio'] = Cache::remember('fur_price', 300, function () use ($settings) {
-            return Http::get('https://api.pancakeswap.info/api/v2/tokens/'.$settings['token_address'])->json()->data->price;
+            return Http::get('https://api.pancakeswap.info/api/v2/tokens/'.$settings['token_address'])->json()['data']['price'];
         });
 
 
