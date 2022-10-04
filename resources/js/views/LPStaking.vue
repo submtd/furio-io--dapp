@@ -334,6 +334,7 @@ export default {
             claim,
             compound,
             unstake,
+            upgrade,
         };
     }
 }
