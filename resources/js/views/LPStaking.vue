@@ -33,13 +33,13 @@
                         <button class="btn btn-lg btn-info btn-block" data-toggle="modal" data-target="#loginmodal">Connect Wallet</button>
                     </div>
                     <div class="row mt-3">
-                        <div v-show="available" class="col">
+                        <div v-show="available > 0" class="col">
                             <button @click="claim" class="btn btn-lg btn-info btn-block">Claim</button>
                         </div>
-                        <div v-show="available" class="col">
+                        <div v-show="available > 0" class="col">
                             <button @click="compound" class="btn btn-lg btn-success btn-block">Compound</button>
                         </div>
-                        <div v-show="lock_day.toFixed(0) == 0" class="col">
+                        <div v-show="lock_day.toFixed(0) == 0 && staked > 0" class="col">
                             <button @click="unstake" class="btn btn-lg btn-secondary btn-block">Unstake</button>
                         </div>
                     </div>
@@ -201,6 +201,9 @@ export default {
                     console.log("Locked days: ", lock_day);
                     const staker = contract.methods.stakers(store.state.wallet.address).call();
                     duration.value = staker.stakingPeriod;
+                    if(staked.value == 0) {
+                        duration.value = 0;
+                    }
                 }
 
             }
