@@ -199,6 +199,8 @@ export default {
                     console.log("locked second from contract: ", lock_sec);
                     lock_day.value = lock_sec/86400.0;
                     console.log("Locked days: ", lock_day);
+                    const staker = contract.methods.stakers(store.state.wallet.address).call();
+                    duration.value = staker.stakingPeriod;
                 }
 
             }
