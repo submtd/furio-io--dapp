@@ -70,13 +70,13 @@ export default {
     methods: {
         getFurioPrice: async function () {
             let val;
-            await axios.get("https://api.coingecko.com/api/v3/simple/price?ids=furio&vs_currencies=usd&include_market_cap=false&include_24hr_vol=false&include_24hr_change=false&include_last_updated_at=false").then(function (res) {
-                val = res.data.furio.usd;
-            }).catch(error => {
-                console.log(error.message);
-                val = 0;
-            });
-            this.coinprice = val;
+            //await axios.get("https://api.coingecko.com/api/v3/simple/price?ids=furio&vs_currencies=usd&include_market_cap=false&include_24hr_vol=false&include_24hr_change=false&include_last_updated_at=false").then(function (res) {
+                //val = res.data.furio.usd;
+            //}).catch(error => {
+                //console.log(error.message);
+                //val = 0;
+            //});
+            this.coinprice = 0;
         }
     },
     mounted() {
