@@ -19,6 +19,7 @@ use App\Abis\Vault;
 use App\Abis\Vote;
 use App\Abis\LPReserve;
 use App\Models\PoolApr;
+use Exception;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
@@ -61,7 +62,11 @@ class SettingsService
         $settings['pool_fourteenday_apr'] = $poolApr->fourteenday;
 
         $settings['furio'] = Cache::remember('fur_price', 300, function () use ($settings) {
-            return Http::get('https://api.pancakeswap.info/api/v2/tokens/'.$settings['token_address'])->json()['data']['price'];
+            try {
+                return round(Http::get('https://api.pancakeswap.info/api/v2/tokens/'.$settings['token_address'])->json()['data']['price'], 2);
+            } catch (Exception $e) {
+                return 0;
+            }
         });
 
 
