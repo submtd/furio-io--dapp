@@ -26,7 +26,7 @@
                             </select>
                         </div>
                         <div v-show="staked > 0" class="form-group col">
-                            <label>&nbsp;</label>
+                            <label><br/></label>
                             <button @click="upgrade" class="btn btn-success btn-xs">Upgrade Period</button>
                         </div>
                     </div>
