@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useStore } from "vuex";
+import useDisplayCurrency from "./useDisplayCurrency";
 //import useAddressBook from "./useAddressBook";
 export default () => {
     //const addressBook = useAddressBook();
     const store = useStore();
+    const displayCurrency = useDisplayCurrency();
 
     const update = async () => {
         const response = await axios.get("/api/v1/settings");
@@ -19,8 +21,10 @@ export default () => {
         //await axios.get("https://api.coingecko.com/api/v3/simple/price?ids=usd-coin&vs_currencies=usd&include_market_cap=false&include_24hr_vol=false&include_24hr_change=false&include_last_updated_at=false").then(function (res) {
             //settings.usdc = res.data['usd-coin']['usd'];
         //});
+        const swap = new web3.eth.Contract(JSON.parse(settings.swap_abi), settings.swap_address);
+        settings.furio = displayCurrency.format(await swap.methods.sellOutput("1000000000000000000").call());
         settings.furio = 0;
-        settings.usdc = 0;
+        settings.usdc = 1;
 
         // get addresses
         //if(store.state.wallet.loggedIn && typeof store.state.settings.vault_address == "undefined") {
