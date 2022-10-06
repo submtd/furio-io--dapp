@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import AddressBook from "../views/AddressBook.vue";
 import Claim from "../views/Claim.vue";
-import Connect from "../views/Connect.vue";
+import FurBot from "../views/FurBot.vue";
 import Team from "../views/Team.vue";
 import Profile from "../views/Profile.vue";
 import Promo from "../views/Promo.vue";
@@ -23,6 +23,11 @@ const routes = [
         path: "/claim",
         name: "Claim",
         component: Claim,
+    },
+    {
+        path: "/furbot",
+        name: "FurBot",
+        component: FurBot,
     },
     {
         path: "/swap",

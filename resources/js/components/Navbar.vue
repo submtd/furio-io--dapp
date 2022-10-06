@@ -35,6 +35,11 @@
                         </router-link>
                     </li>
                     <li class="nav-item px-1 mr-1">
+                        <router-link :to="{ name: 'FurBot' }" class="nav-link nav-udl" active-class="active">Furbot
+                            <hr />
+                        </router-link>
+                    </li>
+                    <li class="nav-item px-1 mr-1">
                         <router-link :to="{ name: 'Team', params: { teamaddress: teamaddress } }"
                             class="nav-link nav-udl" active-class="active">Team
                             <hr />
@@ -114,11 +119,11 @@ export default {
     setup() {
         const store = useStore();
         const wallet = useWallet();
-        
+
         if(!Web3.currentProvider) {
             wallet.connect();
         }
-        
+
         // const openSidebar =() => {
         //     document.getElementById('mobilemenu').style.width = '250px';
         //     document.getElementById('mobilemenu').style.height = '100vh';
