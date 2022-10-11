@@ -67,6 +67,7 @@ export default {
         const activeSaleEnd = ref(0);
         const activeSaleRestricted = ref(true);
         const nextSale = ref(0);
+        const nextSalePrice = ref(0);
         const nextSaleStart = ref(0);
         const nextSaleEnd = ref(0);
         const nextSaleRestricted = ref(true);
