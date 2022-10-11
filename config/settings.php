@@ -24,5 +24,6 @@ return [
     'furbpresale_address' => env('FURBPRESALE_ADDRESS', '0x4F7d150418e2e3adAeD78C7e9776FE352643E0b5'),
     'furbtoken_address' => env('FURBTOKEN_ADDRESS', '0x383a183C0c38B7DBdB57b0955306CA8Ed212d212'),
     'furbstake_address' => env('FURBSTAKE_ADDRESS', '0x479736434773BB65fe4254f68FaDc7fca21c0224'),
+    'furbot_address' => env('FURBOT_ADDRESS'),
     'payment_decimals' => 18,
 ];

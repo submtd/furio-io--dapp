@@ -7,6 +7,7 @@ use App\Abis\AutoCompound;
 use App\Abis\Claim;
 use App\Abis\Downline;
 use App\Abis\Factory;
+use App\Abis\FurBot;
 use App\Abis\FurbPresale;
 use App\Abis\LPStaking;
 use App\Abis\LPSwap;
@@ -39,6 +40,7 @@ class SettingsService
         $settings['downline_abi'] = Downline::toString();
         $settings['factory_abi'] = Factory::toString();
         $settings['furbpresale_abi'] = FurbPresale::toString();
+        $settings['furbot_abi'] = FurBot::toString();
         $settings['lpstaking_abi'] = LPStaking::toString();
         $settings['lpswap_abi'] = LPSwap::toString();
         $settings['pair_abi'] = Pair::toString();
