@@ -108,6 +108,7 @@ export default {
 
         return {
             store,
+            loading,
             nftsOwned,
             quantity,
             price,
