@@ -108,7 +108,6 @@ export default {
 
         return {
             store,
-            availableDividends,
             nftsOwned,
             quantity,
             price,
