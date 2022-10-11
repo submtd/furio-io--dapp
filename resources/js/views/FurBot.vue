@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Furbot</h1>
-        <p class="mb-5">Furbot description goes here.</p>
+        <p class="mb-5">Buy your FURBOT NFT's here.<br/>Each NFT costs $200 and is unlimited per wallet.</p>
         <div class="row flex-row-reverse gx-5">
             <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
                 <div v-show="loading" class="text-center">
