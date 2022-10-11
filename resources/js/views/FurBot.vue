@@ -9,13 +9,16 @@
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
-                <div v-show="!loading">
+                <div v-show="!loading && activeSale != 0">
                     <h5>Buy $FURBOT</h5>
                     <div class="form-group">
                         <label for="buy-quantity">Quantity</label>
                         <input v-model="quantity" type="number" class="form-control" id="buy-quantity"/>
                     </div>
-                    <button @click="buy" class="btn btn-sm btn-info btn-block mb-2">Buy ({{ price * quantity }} USDC)</button>
+                    <button @click="buy" class="btn btn-sm btn-info btn-block mb-2">Buy ({{ displayCurrency.format(activeSalePrice * quantity) }} USDC)</button>
+                </div>
+                <div v-show="!loading && activeSale == 0">
+                    <p>There are no active sales at this time.</p>
                 </div>
             </div>
             <div class="col-lg-5">
@@ -25,7 +28,7 @@
                             <div class="card-body text-center">
                                 <img src="../../images/usdc.svg" class="mx-auto d-block mb-3" alt="USDC" width="75" height="75"/>
                                 <p class="card-title">Cost Per NFT</p>
-                                <p class="card-text"><strong>{{ price }} USDC</strong></p>
+                                <p class="card-text"><strong>{{ displayCurrency.format(activeSalePrice) }} USDC</strong></p>
                             </div>
                         </div>
                     </div>
@@ -48,15 +51,25 @@
 import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import useAlerts from "../composables/useAlerts";
+import useDisplayCurrency from "../composables/useDisplayCurrency";
 
 export default {
     setup () {
         const store = useStore();
         const alerts = useAlerts();
+        const displayCurrency = useDisplayCurrency();
         const loading = ref(true);
         const nftsOwned = ref(0);
         const quantity = ref(0);
-        const price = ref(200);
+        const activeSale = ref(0);
+        const activeSalePrice = ref(0);
+        const activeSaleStart = ref(0);
+        const activeSaleEnd = ref(0);
+        const activeSaleRestricted = ref(true);
+        const nextSale = ref(0);
+        const nextSaleStart = ref(0);
+        const nextSaleEnd = ref(0);
+        const nextSaleRestricted = ref(true);
 
         addEventListener("refresh", async () => {
             await update();
@@ -79,6 +92,16 @@ export default {
             try {
                 const contract = furbotContract();
                 nftsOwned.value = await contract.methods.balanceOf(store.state.wallet.address).call();
+                activeSale.value = await contract.methods.getActiveSale().call();
+                activeSalePrice.value = await contract.methods.getActiveSalePrice().call();
+                activeSaleStart.value = await contract.methods.getActiveSaleStart().call();
+                activeSaleEnd.value = await contract.methods.getActiveSaleEnd().call();
+                activeSaleRestricted.value = await contract.methods.getActiveSaleRestricted().call();
+                nextSale.value = await contract.methods.getNextSale().call();
+                nextSalePrice.value = await contract.methods.getNextSalePrice().call();
+                nextSaleStart.value = await contract.methods.getNextSaleStart().call();
+                nextSaleEnd.value = await contract.methods.getNextSaleEnd().call();
+                nextSaleRestricted.value = await contract.methods.getNextSaleRestricted().call();
             } catch (error) {
                 alerts.danger(error.message);
             }
@@ -88,12 +111,17 @@ export default {
         const buy = async () => {
             loading.value = true;
             try {
+                if(activeSale == 0) {
+                    alerts.danger("No active sale.");
+                    loading.value = false;
+                    return;
+                }
                 const furbot = furbotContract();
                 const payment = paymentContract();
                 const gasPriceMultiplier = 1.2;
                 const gasMultiplier = 1.2;
                 const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
-                const amount = BigInt(quantity.value * price.value * "1000000000000000000");
+                const amount = BigInt(quantity.value * activeSalePrice.value * "1000000000000000000");
                 const approveGas = Math.round(await payment.methods.approve(store.state.settings.furbot_address, amount).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
                 await payment.methods.approve(store.state.settings.furbot_address, amount).send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: approveGas });
                 const buyGas = Math.round(await furbot.methods.buy(quantity.value).estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
@@ -108,11 +136,21 @@ export default {
 
         return {
             store,
+            displayCurrency,
             loading,
             nftsOwned,
             quantity,
-            price,
             buy,
+            activeSale,
+            activeSalePrice,
+            activeSaleStart,
+            activeSaleEnd,
+            activeSaleRestricted,
+            nextSale,
+            nextSalePrice,
+            nextSaleStart,
+            nextSaleEnd,
+            nextSaleRestricted,
         }
     }
 }
