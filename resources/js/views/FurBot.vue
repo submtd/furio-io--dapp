@@ -41,6 +41,22 @@
                             </div>
                         </div>
                     </div>
+                    <div v-show="nextSale != 0" class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <p class="card-title">Next Sale Start</p>
+                                <p class="card-text"><strong>{{ nextSaleInSeconds }}</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-show="nextSale != 0" class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <p class="card-title">Next Sale Price</p>
+                                <p class="card-text"><strong>{{ displayCurrency.format(nextSalePrice) }}</strong></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -48,7 +64,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import useAlerts from "../composables/useAlerts";
 import useDisplayCurrency from "../composables/useDisplayCurrency";
@@ -61,6 +77,7 @@ export default {
         const loading = ref(true);
         const nftsOwned = ref(0);
         const quantity = ref(0);
+        const blockTime = ref(0);
         const activeSale = ref(0);
         const activeSalePrice = ref(0);
         const activeSaleStart = ref(0);
@@ -80,6 +97,10 @@ export default {
             update();
         });
 
+        const nextSaleInSeconds = computed(() => {
+            return nextSaleStart.value - blockTime.value;
+        });
+
         const furbotContract = () => {
             return new web3.eth.Contract(JSON.parse(store.state.settings.furbot_abi), store.state.settings.furbot_address);
         }
@@ -93,6 +114,7 @@ export default {
             try {
                 const contract = furbotContract();
                 nftsOwned.value = await contract.methods.balanceOf(store.state.wallet.address).call();
+                blockTime.value = await contract.methods.getBlockTime().call();
                 activeSale.value = await contract.methods.getActiveSale().call();
                 activeSalePrice.value = await contract.methods.getActiveSalePrice().call();
                 activeSaleStart.value = await contract.methods.getActiveSaleStart().call();
@@ -152,6 +174,7 @@ export default {
             nextSaleStart,
             nextSaleEnd,
             nextSaleRestricted,
+            nextSaleInSeconds,
         }
     }
 }
