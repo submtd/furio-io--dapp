@@ -45,7 +45,7 @@
                         <div class="card h-100">
                             <div class="card-body text-center">
                                 <p class="card-title">Next Sale Start</p>
-                                <p class="card-text"><strong>{{ nextSaleInSeconds }}</strong></p>
+                                <p class="card-text"><strong>{{ nextSaleInSeconds }} seconds</strong></p>
                             </div>
                         </div>
                     </div>
