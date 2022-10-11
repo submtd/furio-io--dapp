@@ -2,7 +2,7 @@
     <div>
         <div id="mobilemenu"
             :style="{ width: '250px', height: '100%', position: 'absolute', background: '#181c2c', transition: 'left 500ms', zIndex: 20, top: 0, left: visible ? '0px' : '-250px' }">
-            
+
             <div class="d-flex flex-column flex-wrap align-items-left justify-content-between cheight">
                 <a href="javascript:void(0)" class="closebtn" @click="closeMenu">&times;</a>
                 <div v-show="!store.state.wallet.loggedIn">
@@ -28,6 +28,10 @@
                     @click="closeMenu" :style="{color: '#FFFFFF'}">Furpool
                     <hr />
                 </router-link>
+                <router-link :to="{ name: 'FurBot' }" class="nav-link nav-udl-mobile" active-class="active"
+                    @click="closeMenu" :style="{color: '#FFFFFF'}">Furbot
+                    <hr />
+                </router-link>
                 <router-link :to="{ name: 'Team', params: { teamaddress: teamaddress } }"
                     class="nav-link nav-udl-mobile" active-class="active" @click="closeMenu" :style="{color: '#FFFFFF'}">Team
                     <hr />
@@ -41,17 +45,17 @@
                     @click="closeMenu" :style="{color: '#FFFFFF', paddingBottom: '30px !important'}">Buy Crypto
                     <hr />
                 </router-link>
-                
+
                 <div class="d-flex flex-row justify-content-start" :style="{paddingLeft: '45px'}">
                     <img src="../../images/fur.svg"  alt="FUR" width="18" height="18"/>
                     <span class="bal-font-mobile pl-2 pr-4">$FUR Balance: {{ store.state.balances.token ?? 0}}</span>
-                </div> 
-            
+                </div>
+
                 <div class="d-flex flex-row justify-content-start" :style="{paddingLeft: '45px'}">
                     <img src="../../images/usdc.svg" alt="USDC" width="18" height="18"/>
                     <span class="bal-font-mobile pl-2 pr-4">USDC Balance: {{ store.state.balances.payment ?? 0 }}</span>
                 </div>
-            
+
                 <div class="d-flex flex-row justify-content-start" :style="{paddingLeft: '45px'}">
                     <img src="../../images/fur.svg"  alt="FUR" width="18" height="18"/>
                     <span class="bal-font-mobile pl-2 pr-4">Vault Balance: {{ store.state.balances.vault ?? 0 }}</span>
@@ -129,7 +133,7 @@ export default {
             return store.state.wallet.address ?? "0x0000000000000000000000000000000000000000";
         });
 
-        
+
 
         //if(!store.state.wallet.loggedIn && useRoute().name != 'Connect') {
         //router.push("/connect");
