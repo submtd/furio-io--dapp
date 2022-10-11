@@ -1,7 +1,9 @@
 <template>
     <div>
         <h1>Furbot</h1>
-        <p class="mb-5">Buy your FURBOT NFT's here.<br/>Each NFT costs $200 and is unlimited per wallet.</p>
+        <p class="mb-5">Buy Your Furbot Pool 1 NFTs.<br/>
+                        Each NFT costs $200USDC<br/>
+                        Maximum 5,000 available, unlimited purchase amount per wallet.</p>
         <div class="row flex-row-reverse gx-5">
             <div class="col-lg-7 bg-light text-dark rounded p-5 mb-4">
                 <div v-show="loading" class="text-center">
