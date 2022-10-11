@@ -40,7 +40,7 @@
                             <div class="card-body text-center">
                                 <img src="../../images/fur.svg" class="mx-auto d-block mb-3" alt="FUR" width="75" height="75"/>
                                 <p class="card-title">NFTs Owned</p>
-                                <p class="card-text"><strong>{{ nftsOwned }}</strong></p>
+                                <p class="card-text"><strong>{{ nftsOwned }} out of {{ totalSupply }}</strong></p>
                             </div>
                         </div>
                     </div>
@@ -91,6 +91,7 @@ export default {
         const nextSaleStart = ref(0);
         const nextSaleEnd = ref(0);
         const nextSaleRestricted = ref(true);
+        const totalSupply = ref(0);
 
         addEventListener("refresh", async () => {
             await update();
@@ -128,6 +129,7 @@ export default {
                 nextSaleStart.value = await contract.methods.getNextSaleStart().call();
                 nextSaleEnd.value = await contract.methods.getNextSaleEnd().call();
                 nextSaleRestricted.value = await contract.methods.getNextSaleRestricted().call();
+                totalSupply.value = await contract.methods.totalSupply().call();
             } catch (error) {
                 alerts.danger(error.message);
             }
@@ -178,6 +180,7 @@ export default {
             nextSaleEnd,
             nextSaleRestricted,
             nextSaleInSeconds,
+            totalSupply,
         }
     }
 }
