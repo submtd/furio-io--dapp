@@ -13,6 +13,7 @@
                 </div>
                 <div v-show="!loading && activeSale != 0">
                     <h5>Buy $FURBOT</h5>
+                    <p v-show="activeSaleRestricted" class="mb-3"><strong>This sale is restricted to wallets in the 2.5% club</strong></p>
                     <div class="form-group">
                         <label for="buy-quantity">Quantity</label>
                         <input v-model="quantity" type="number" class="form-control" id="buy-quantity"/>
