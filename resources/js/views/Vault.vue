@@ -82,6 +82,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="text-right mt-3">
+                                <button @click="endAutoCompound" class="btn btn-link"><small>Stop Auto Compounding</small></button>
+                            </div>
                         </div>
                     </div>
                     <div class="mt-3">
@@ -621,6 +624,24 @@ export default {
             loading.value = false;
         }
 
+        const endAutoCompound = async () => {
+            alert("This will end your auto compound subscription. You will not be refunded for any remaining periods. Make sure this is what you want to do!");
+            try {
+                loading.value = true;
+                const autocompound = autocompoundContract();
+                const gasPriceMultiplier = 1;
+                const gasMultiplier = 1.2;
+                const gasPrice = Math.round(await web3.eth.getGasPrice() * gasPriceMultiplier);
+                const gas = Math.round(await autocompound.methods.end().estimateGas({ from: store.state.wallet.address, gasPrice: gasPrice }) * gasMultiplier);
+                const result = await autocompound.methods.end().send({ from: store.state.wallet.address, gasPrice: gasPrice, gas: gas });
+                alerts.info("Transaction successful! TXID: " + result.blockHash);
+                await update();
+            } catch (error) {
+                alerts.danger(error.message);
+            }
+            loading.value = false;
+        }
+
         const toggleVaultStats = () => {
             showVaultStats.value = !showVaultStats.value;
         }
@@ -656,6 +677,7 @@ export default {
             toggleAutoCompound,
             autoCompoundPeriods,
             autoCompound,
+            endAutoCompound,
             autoCompoundPrice,
             ac,
             lastAction,
