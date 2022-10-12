@@ -82,9 +82,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-right mt-3">
-                                <button @click="endAutoCompound" class="btn btn-link"><small>Stop Auto Compounding</small></button>
-                            </div>
+                        </div>
+                        <div v-show="ac.isCompounding" class="text-right mt-3">
+                            <button @click="endAutoCompound" class="btn btn-link"><small>Stop Auto Compounding</small></button>
                         </div>
                     </div>
                     <div class="mt-3">
